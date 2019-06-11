@@ -17,12 +17,20 @@ utils — 存放utils文件，可require引入
 运行并发布uni-app
 
 npm run dev:%PLATFORM%
+
 npm run build:%PLATFORM%
+
 %PLATFORM% 可取值如下：
 
+
 值	平台
+
 h5	H5
+
 mp-alipay	支付宝小程序
+
 mp-baidu	百度小程序
+
 mp-weixin	微信小程序
+
 mp-toutiao	头条小程序
