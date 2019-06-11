@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "商城",
+  "usingComponents": {
+    "share": "../../components/share/share"
+  }
+}

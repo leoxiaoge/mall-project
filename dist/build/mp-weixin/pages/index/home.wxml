@@ -1,0 +1,1 @@
+<view><view class="uni-padding-wrap"><view class="page-section swiper"><view class="page-section-spacing"><swiper class="swiper" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"><swiper-item><view class="swiper-item">A</view></swiper-item></swiper></view></view></view></view>

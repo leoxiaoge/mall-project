@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/index/home",
+    "pages/index/automatic",
+    "pages/index/artificial",
+    "pages/index/ucenter"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/shop",
+      "pages": [
+        "reward/reward"
+      ]
+    },
+    {
+      "root": "pages/automatic",
+      "pages": [
+        "store/store"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "app",
+    "navigationBarBackgroundColor": "#fe7f00",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#fe7f00",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/home",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home@selected.png",
+        "text": "所有商品"
+      },
+      {
+        "pagePath": "pages/index/automatic",
+        "iconPath": "static/automatic.png",
+        "selectedIconPath": "static/automatic@selected.png",
+        "text": "自助举牌"
+      },
+      {
+        "pagePath": "pages/index/artificial",
+        "iconPath": "static/artificial.png",
+        "selectedIconPath": "static/artificial@selected.png",
+        "text": "人工举牌"
+      },
+      {
+        "pagePath": "pages/index/ucenter",
+        "iconPath": "static/my.png",
+        "selectedIconPath": "static/my@selected.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "分包加载",
+  "usingComponents": {
+    "share": "../../components/share/share"
+  }
+}
