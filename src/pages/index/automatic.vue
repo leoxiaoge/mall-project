@@ -29,8 +29,8 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: '魔术师',
-				path: '/pages/index/index'
+				title: '腾拍商城',
+				path: '/pages/index/home'
 			}
 		},
 		methods: {
