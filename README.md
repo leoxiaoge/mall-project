@@ -1,36 +1,29 @@
-# mall-project
-mall = 微信小程序用户前端 + Vue移动端
-项目说明：
+# auction-mall
 
-微信小程序：实现一个多端移动端项目
+## Project setup
+```
+yarn install
+```
 
-目录结构：
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-images — 存放项目图片
+### Compiles and minifies for production
+```
+yarn run build
+```
 
-pages — 存放项目页面相关文件
+### Run your tests
+```
+yarn run test
+```
 
-style — 存放独立wxss样式文件，可import引入
+### Lints and fixes files
+```
+yarn run lint
+```
 
-utils — 存放utils文件，可require引入
-
-运行并发布
-
-npm run dev:%PLATFORM%
-
-npm run build:%PLATFORM%
-
-%PLATFORM%    可取值如下：
-
-
-值	           平台
-
-h5	          H5
-
-mp-alipay     支付宝小程序
-
-mp-baidu    	百度小程序
-
-mp-weixin	    微信小程序
-
-mp-toutiao	  头条小程序
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

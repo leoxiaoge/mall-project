@@ -1,0 +1,97 @@
+{
+	"pages": [
+		{
+		  "path": "pages/index/home",
+		  "style": {
+			"navigationBarTitleText": "腾拍商城",
+			"enablePullDownRefresh": true
+		  }
+		},
+		{
+			"path": "pages/index/automatic",
+			"style": {
+				"navigationBarTitleText": "人工举牌"
+			}
+		},
+		{
+			"path": "pages/index/artificial",
+			"style": {
+				"navigationBarTitleText": "自动举牌"
+			}
+		},
+		{
+			"path": "pages/index/ucenter",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [{
+			"root": "pages/shop",
+			"pages": [
+				{
+					"path": "reward/reward",
+					"style": {
+						"navigationBarTitleText": "分包加载",
+						"usingComponents": {
+							"share": "../../components/share/share"
+						}
+					}
+				}
+			]
+		},
+		{
+		  "root": "pages/automatic",
+		  "pages": [{
+			"path": "store/store",
+			"style": {
+			  "navigationBarTitleText": "商城",
+			  "usingComponents": {
+				"share": "../../components/share/share"
+			  }
+			}
+		  }]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "app",
+		"navigationBarBackgroundColor": "#fe7f00",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#fe7f00",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+		  "pagePath": "pages/index/home",
+		  "iconPath": "static/home.png",
+		  "selectedIconPath": "static/home@selected.png",
+		  "text": "所有商品"
+		}, {
+			"pagePath": "pages/index/automatic",
+			"iconPath": "static/automatic.png",
+			"selectedIconPath": "static/automatic@selected.png",
+			"text": "自助举牌"
+		}, {
+			"pagePath": "pages/index/artificial",
+			"iconPath": "static/artificial.png",
+			"selectedIconPath": "static/artificial@selected.png",
+			"text": "人工举牌"
+		}, {
+			"pagePath": "pages/index/ucenter",
+			"iconPath": "static/my.png",
+			"selectedIconPath": "static/my@selected.png",
+			"text": "我的"
+		}]
+	},
+	"networkTimeout": {
+	  "request": 10000,
+	  "connectSocket": 10000,
+	  "uploadFile": 10000,
+	  "downloadFile": 10000
+	},
+	"debug": false
+}
