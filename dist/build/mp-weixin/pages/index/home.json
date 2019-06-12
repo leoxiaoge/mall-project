@@ -1,5 +1,8 @@
 {
   "navigationBarTitleText": "腾拍商城",
   "enablePullDownRefresh": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-grid": "/components/uni-grid/uni-grid",
+    "product-list": "/components/product-list/product-list"
+  }
 }

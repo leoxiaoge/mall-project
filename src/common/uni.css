@@ -51,18 +51,19 @@ form {
 
 /* page */
 .uni-page-head{
-	padding:35upx; 
+	padding: 4upx; 
 	text-align: center;
 }
 .uni-page-head-title {
 	display: inline-block;
 	padding: 0 40upx;
 	font-size: 30upx;
+	font-weight: 600;
 	height: 88upx;
 	line-height: 88upx;
-	color: #BEBEBE;
+	color: #3E3E3E;
 	box-sizing: border-box;
-	border-bottom: 2upx solid #D8D8D8;
+	/* border-bottom: 2upx solid #D8D8D8; */
 }
 .uni-page-body {
 	width: 100%;
@@ -893,10 +894,10 @@ radio-group label, checkbox-group label{
 .uni-comment-replay-btn{background:#FFF; font-size:24upx; line-height:28upx; padding:5rpx 20upx; border-radius:30upx; color:#333 !important; margin:0 10upx;}
 
 /* swiper msg */
-.uni-swiper-msg{width:100%; padding:12rpx 0; flex-wrap:nowrap; display:flex;}
-.uni-swiper-msg-icon{width:50upx; margin-right:20upx;}
+.uni-swiper-msg{padding:12upx 20upx; flex-wrap:nowrap; display:flex;align-items: center;background-color: #fff;border-top: 2upx solid #F4F5F6}
+.uni-swiper-msg-icon{width:120upx; margin-right:20upx;}
 .uni-swiper-msg-icon image{width:100%; flex-shrink:0;}
-.uni-swiper-msg swiper{width:100%; height:50upx;}
+.uni-swiper-msg swiper{width:100%; height:100upx;}
 .uni-swiper-msg swiper-item{line-height:50upx;}
 
 /* product */
@@ -904,17 +905,21 @@ radio-group label, checkbox-group label{
     display: flex;
     width: 100%;
     flex-wrap: wrap;
-    flex-direction: row;
+	flex-direction: row;
 }
 
 .uni-product {
+	width: calc(50% - 24px);
     padding: 20upx;
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	background-color: #fff;
+	margin: 2upx;
 }
 
 .image-view {
-    height: 330upx;
+    /* height: 330upx; */
     width: 330upx;
 	margin:12upx 0;
 }

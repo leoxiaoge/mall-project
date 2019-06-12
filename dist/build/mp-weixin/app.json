@@ -7,7 +7,7 @@
   ],
   "subPackages": [
     {
-      "root": "pages/shop",
+      "root": "pages/mall",
       "pages": [
         "reward/reward"
       ]
@@ -57,5 +57,7 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {
+    "page-head": "/components/page-head"
+  }
 }

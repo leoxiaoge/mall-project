@@ -28,7 +28,7 @@
 		}
 	],
 	"subPackages": [{
-			"root": "pages/shop",
+			"root": "pages/mall",
 			"pages": [
 				{
 					"path": "reward/reward",
