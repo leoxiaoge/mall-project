@@ -909,7 +909,7 @@ radio-group label, checkbox-group label{
 }
 
 .uni-product {
-	width: calc(50% - 24px);
+	/* width: calc(50% - 24px); */
     padding: 20upx;
 	display: flex;
 	justify-content: space-between;

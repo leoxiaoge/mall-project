@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
     <!-- 轮播 -->
 		<view class="uni-padding-wrap">
 			<view class="page-section swiper">
@@ -30,7 +30,7 @@
 					{{item}}
 				</swiper-item>
 			</swiper>
-      <view class="notice-more">更多</view>
+      <view class="notice-more" @click="noticeList">更多</view>
 	  </view>
     <!-- 正在竞拍 -->
     <product-list-being :options="datalist" />
@@ -43,6 +43,7 @@
 import uniGrid from '@/components/uni-grid/uni-grid.vue'
 import productList from '@/components/product-list/product-list.vue'
 import productListBeing from '@/components/product-list-being/product-list-being.vue'
+import { navigateTo } from '../../common/utils/util';
 export default {
   components: {
     uniGrid,
@@ -170,8 +171,11 @@ export default {
 			uni.request({
 				url: "/rest.ashx",
 				success: res => {}
-			});
-		}
+			})
+    },
+    noticeList() {
+      navigateTo('../mall/notice/notice')
+    }
 	}
 };
 </script>

@@ -17,9 +17,9 @@ const formatNumber = (n: number) => {
 
 const processing = (api: any, data: any) => {
   const sessionkey = uni.getStorageSync('weSession_key')
-  let Appkey = "4819088",
-    AppSecert = "294d3679961f14fac3f86dd08e78d44a",
-    url = "http://api.handnear.com/rest.ashx"
+  let Appkey = "3957399",
+    AppSecert = "2d2c443086630f6c2c804d11983729c8",
+    url = "https://api.tengpaisc.com/Rest.ashx"
   let paramkey = Object.keys(data),
     paramdata = "",
     sign = ""
@@ -67,7 +67,7 @@ export const request = (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
-          console.log(res.data)
+          // console.log(res.data)
           resolve(res.data)
         } else {
           reject(res.errMsg)

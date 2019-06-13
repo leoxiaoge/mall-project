@@ -1151,7 +1151,7 @@ radio-group label, checkbox-group label{
 .uni-swiper-msg{padding:12rpx 20rpx; -webkit-flex-wrap:nowrap; -ms-flex-wrap:nowrap; flex-wrap:nowrap; display:-webkit-box; display:-webkit-flex; display:-ms-flexbox; display:flex;-webkit-box-align: center;-webkit-align-items: center;-ms-flex-align: center;align-items: center;background-color: #fff;border-top: 2rpx solid #F4F5F6}
 .uni-swiper-msg-icon{width:120rpx; margin-right:20rpx;}
 .uni-swiper-msg-icon image{width:100%; -webkit-flex-shrink:0; -ms-flex-negative:0; flex-shrink:0;}
-.uni-swiper-msg swiper{width:100%; height:50rpx;}
+.uni-swiper-msg swiper{width:100%; height:100rpx;}
 .uni-swiper-msg swiper-item{line-height:50rpx;}
 	/* product */
 .uni-product-list {
@@ -1168,14 +1168,18 @@ radio-group label, checkbox-group label{
 	-webkit-flex-direction: row;
 	    -ms-flex-direction: row;
 	        flex-direction: row;
-	margin-bottom: 80rpx;
 }
 .uni-product {
+	/* width: calc(50% - 24px); */
     padding: 20rpx;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
 	-webkit-flex-direction: column;
@@ -1185,7 +1189,7 @@ radio-group label, checkbox-group label{
 	margin: 2rpx;
 }
 .image-view {
-    height: 330rpx;
+    /* height: 330upx; */
     width: 330rpx;
 	margin:12rpx 0;
 }

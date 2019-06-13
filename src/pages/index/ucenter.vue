@@ -20,7 +20,7 @@
 <script lang="ts">
 	import Vue from 'vue'
 	import { request, navigateTo } from '@/common/utils/util'
-	import { GoodsList } from '@/common/config/api'
+	import { ProductCategoryListGet } from '@/common/config/api'
 	export default Vue.extend({
 		data() {
 			return {
@@ -31,7 +31,7 @@
 			let data = {
 				id : '0'
 			}
-			request(GoodsList, data).then(function(res) {
+			request(ProductCategoryListGet, data).then(function(res) {
 				console.log(res)
 			})
 		},

@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<scroll-view scroll-x class="list">

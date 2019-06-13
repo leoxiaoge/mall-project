@@ -1,0 +1,16 @@
+
+.list {
+    white-space:nowrap;
+}
+.item {
+    display: inline-block;
+    width: 240rpx;
+    margin-left: 30rpx;
+    overflow: hidden;
+}
+.img {
+    width: 160rpx;
+    height: 120rpx;
+    margin-bottom: 30rpx;
+}
+

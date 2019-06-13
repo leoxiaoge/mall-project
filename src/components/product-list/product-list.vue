@@ -1,5 +1,5 @@
 <template>
-	<view class="page">
+	<view class="uni-common-pb">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">

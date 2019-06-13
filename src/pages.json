@@ -10,13 +10,13 @@
 		{
 			"path": "pages/index/automatic",
 			"style": {
-				"navigationBarTitleText": "人工举牌"
+				"navigationBarTitleText": "自动举牌"
 			}
 		},
 		{
 			"path": "pages/index/artificial",
 			"style": {
-				"navigationBarTitleText": "自动举牌"
+				"navigationBarTitleText": "人工举牌"
 			}
 		},
 		{
@@ -31,14 +31,41 @@
 			"root": "pages/mall",
 			"pages": [
 				{
-					"path": "reward/reward",
+					"path": "areward/areward",
 					"style": {
-						"navigationBarTitleText": "分包加载",
-						"usingComponents": {
-							"share": "../../components/share/share"
-						}
+						"navigationBarTitleText": "模版"
 					}
-				}
+        },
+        {
+          "path": "experience/experience",
+					"style": {
+						"navigationBarTitleText": "体验区"
+					}
+        },
+        {
+          "path": "show/show",
+					"style": {
+						"navigationBarTitleText": "晒单"
+					}
+        },
+        {
+          "path": "exchange/exchange",
+					"style": {
+						"navigationBarTitleText": "兑现"
+					}
+        },
+        {
+          "path": "guide/guide",
+					"style": {
+						"navigationBarTitleText": "兑现"
+					}
+				},
+				{
+          "path": "notice/notice",
+					"style": {
+						"navigationBarTitleText": "兑现"
+					}
+        }
 			]
 		},
 		{

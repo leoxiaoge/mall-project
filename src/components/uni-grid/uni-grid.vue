@@ -1,7 +1,7 @@
 <template>
 	<view :class="{'uni-grid-no-border':!showBorder,'uni-grid-no-out-border':showBorder && !showOutBorder}" class="uni-grid">
 		<view v-for="(items,i) in gridGroup" :key="i" class="uni-grid__flex">
-			<view v-for="(item,index) in items" :hover-start-time="20" :hover-stay-time="70" :key="index" :class="[index == columnNum ? 'uni-grid-item-last' : '','uni-grid-item-' + type]" :style="{visibility:item.seize ? 'hidden' : 'inherit'}" class="uni-grid-item" hover-class="uni-grid-item-hover" @click="onClick(i,index)">
+			<view v-for="(item,index) in items" :hover-start-time="20" :hover-stay-time="70" :key="index" :class="[index == columnNum ? 'uni-grid-item-last' : '','uni-grid-item-' + type]" :style="{visibility:item.seize ? 'hidden' : 'inherit'}" class="uni-grid-item" hover-class="uni-grid-item-hover" @click="onClick(items,index)">
 				<view v-if="!item.seize" class="uni-grid-item__content">
 					<image :src="item.image" class="uni-grid-item-image" />
 					<text class="uni-grid-item-text">{{ item.text }}</text>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+    import { request, navigateTo } from '@/common/utils/util'
 	export default {
 		name: 'UniGrid',
 		props: {
@@ -70,10 +71,10 @@
 			this.columnNumber = this.gridGroup[0].length
 		},
 		methods: {
-			onClick(index, num) {
-				this.$emit('click', {
-					index: index * this.columnNumber + num
-				})
+			onClick(items, index) {
+				let navigateTodata = items[index].navigateTo
+				let navigate = '../mall/' + navigateTodata + '/' + navigateTodata
+				navigateTo(navigate)
 			}
 		}
 	}
