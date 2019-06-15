@@ -17,6 +17,7 @@
 <style>
   /*每个页面公共css */
 	@import './common/uni.css';
+	@import './common/app.css';
 	page {
 		background-color: #F4F4F4;
 		height: 100%;

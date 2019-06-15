@@ -1,0 +1,1 @@
+<view class="content"><block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view><view><view><text>恭喜<text>{{item.name}}</text>以<text>{{item.price}}</text>元拍得</text></view><view><text>{{item.title}}</text><text>{{"("+item.state+")"}}</text></view></view><view>{{''+item.date+''}}</view></view></block></view>

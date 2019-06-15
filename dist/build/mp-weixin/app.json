@@ -9,13 +9,34 @@
     {
       "root": "pages/mall",
       "pages": [
-        "reward/reward"
+        "areward/areward",
+        "experience/experience",
+        "show/show",
+        "exchange/exchange",
+        "guide/guide",
+        "notice/notice"
       ]
     },
     {
       "root": "pages/automatic",
       "pages": [
         "store/store"
+      ]
+    },
+    {
+      "root": "pages/artificial",
+      "pages": [
+        "store/store"
+      ]
+    },
+    {
+      "root": "pages/ucenter",
+      "pages": [
+        "myAuction/myAuction",
+        "myOrder/myOrder",
+        "shippingAddress/shippingAddress",
+        "sharePromotion/sharePromotion",
+        "helpAndFeedback/helpAndFeedback"
       ]
     }
   ],
@@ -59,6 +80,5 @@
   },
   "usingComponents": {
     "page-head": "/components/page-head"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

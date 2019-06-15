@@ -1,0 +1,41 @@
+
+.uni-product-prompt {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center
+}
+.uni-product-price {
+	text-align: center;
+}
+.uni-product-away {
+	margin-right: 2rpx;
+}
+.uni-product-time {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	padding-right: 2rpx;
+}
+.uni-product-button button{
+	margin: 0;
+	padding: 0 14rpx;
+	font-size: 20rpx;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 100rpx;
+}
+

@@ -45,7 +45,7 @@
         {
           "path": "show/show",
 					"style": {
-						"navigationBarTitleText": "晒单"
+						"navigationBarTitleText": "分享晒单"
 					}
         },
         {
@@ -71,14 +71,51 @@
 		{
 		  "root": "pages/automatic",
 		  "pages": [{
-			"path": "store/store",
-			"style": {
-			  "navigationBarTitleText": "商城",
-			  "usingComponents": {
-				"share": "../../components/share/share"
-			  }
-			}
+		  	"path": "store/store",
+		  	"style": {
+		  	  "navigationBarTitleText": "商城"
+  			}
 		  }]
+		},
+		{
+		  "root": "pages/artificial",
+		  "pages": [{
+		  	"path": "store/store"
+		  }]
+		},
+		{
+		  "root": "pages/ucenter",
+		  "pages": [{
+			  "path": "orderList/orderList",
+		  	"style": {
+		  	  "navigationBarTitleText": "订单中心"
+	  		}
+	 	  },{
+			  "path": "myAuction/myAuction",
+		  	"style": {
+		  	  "navigationBarTitleText": "我的竞拍"
+	  		}
+	 	  },{
+			  "path": "myOrder/myOrder",
+		  	"style": {
+		  	  "navigationBarTitleText": "我的晒单"
+	  		}
+	 	  },{
+			  "path": "shippingAddress/shippingAddress",
+		  	"style": {
+		  	  "navigationBarTitleText": "收货地址"
+	  		}
+	 	  },{
+			  "path": "sharePromotion/sharePromotion",
+		  	"style": {
+		  	  "navigationBarTitleText": "赚取佣金"
+	  		}
+	 	  },{
+			  "path": "helpAndFeedback/helpAndFeedback",
+		  	"style": {
+		  	  "navigationBarTitleText": "帮助与反馈"
+	  		}
+	 	  }]
 		}
 	],
 	"globalStyle": {

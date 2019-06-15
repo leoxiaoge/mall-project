@@ -52,7 +52,6 @@
 		border-radius: 3rpx;
 }
 .UCenter-bg {
-		height: 280rpx;
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: -ms-flexbox;

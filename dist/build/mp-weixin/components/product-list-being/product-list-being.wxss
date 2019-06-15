@@ -1,16 +1,31 @@
 
+.uni-product-title {
+    word-break: break-all;
+    display: -webkit-box;
+    overflow: hidden;
+    line-height:1.5;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1
+}
+.teng-image-view {
+    margin: 12rpx 0;
+}
 .list {
     white-space:nowrap;
+    background-color: #fff
 }
 .item {
     display: inline-block;
     width: 240rpx;
     margin-left: 30rpx;
     overflow: hidden;
+    text-align: center
 }
 .img {
     width: 160rpx;
     height: 120rpx;
-    margin-bottom: 30rpx;
+    margin: 10rpx 0
 }
 

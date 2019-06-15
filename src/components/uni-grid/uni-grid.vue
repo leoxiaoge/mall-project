@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import { request, navigateTo } from '@/common/utils/util'
+  import { request, navigateTo } from '@/common/utils/util'
 	export default {
 		name: 'UniGrid',
 		props: {
@@ -37,6 +37,10 @@
 			showBorder: { // 是否显示border，如果为false，showOutBorder无效
 				type: Boolean,
 				default: true
+			},
+			isOrder: { // 是否为订单
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
@@ -72,8 +76,16 @@
 		},
 		methods: {
 			onClick(items, index) {
-				let navigateTodata = items[index].navigateTo
-				let navigate = '../mall/' + navigateTodata + '/' + navigateTodata
+				let navigatePath = items[index].navigateTo
+				console.log(this.options)
+				console.log(this.isOrder)
+				let id = items[index].status
+				if (this.isOrder) {
+					var navigate = `../ucenter/${navigatePath}/${navigatePath}?id=` + id
+				} else {
+					var navigate = `../mall/${navigatePath}/${navigatePath}`
+				}
+				console.log(navigate)
 				navigateTo(navigate)
 			}
 		}
@@ -87,7 +99,7 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		background-color: #fff;
+		/* background-color: #fff; */
 	}
 
 	.uni-grid__flex {

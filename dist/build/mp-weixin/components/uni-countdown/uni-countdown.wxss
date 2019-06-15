@@ -1,0 +1,65 @@
+
+@charset "UTF-8";
+.uni-countdown {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-flex-wrap: nowrap;
+	    -ms-flex-wrap: nowrap;
+	        flex-wrap: nowrap;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	color: #fe7f00;
+	margin-top: 10rpx;
+	padding: 4rpx 20rpx;
+	border-radius: 100rpx;
+	border: 2rpx solid #e8e8e8
+}
+.uni-countdown-else {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-flex-wrap: nowrap;
+	    -ms-flex-wrap: nowrap;
+	        flex-wrap: nowrap;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	color: #393939;
+	border-radius: 100rpx;
+}
+.uni-countdown__splitor {
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	line-height: 44rpx;
+	padding: 0 5rpx;
+	font-size: 28rpx
+}
+.uni-countdown__number {
+	line-height: 44rpx;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	height: 44rpx;
+	font-size: 30rpx;
+	color: #fe7f00
+}
+.uni-countdown__number-else {
+	line-height: 44rpx;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	height: 44rpx;
+	font-size: 30rpx;
+	color: #393939
+}
+
