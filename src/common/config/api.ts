@@ -38,3 +38,5 @@ export const HomeProductListGet = 'API.Product.HomeProductListGet' // 首页获�
 
 // 运营相关 - Operate => 运营相关接口
 export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表
+export const PayMoneyListGet = 'API.Operate.PayMoneyListGet' // 获取充值金额列表
+export const PayMoneySubmit = 'API.Operate.PayMoneySubmit' // 充值提交接口

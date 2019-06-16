@@ -2,6 +2,28 @@
 .teng-help {
 		padding: 10rpx 30rpx 0 30rpx;
 }
+.teng-help-list-text {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: start;
+		-webkit-align-items: flex-start;
+		    -ms-flex-align: start;
+		        align-items: flex-start;
+		padding: 10rpx 30rpx;
+}
+.teng-help-list-text image{
+		width: 36rpx;
+		height: 36rpx;
+		margin: 10rpx 0;
+}
+.teng-help-list-text text {
+		width: 100%;
+		font-size: 28rpx;
+		color: #868686;
+		margin-left: 20rpx;
+}
 .teng-feedback {
 		position: fixed;
 		bottom: 0;

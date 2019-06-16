@@ -447,7 +447,7 @@ radio-group label, checkbox-group label{
 	-webkit-transform: scaleY(.5);
 	-ms-transform: scaleY(.5);
 	    transform: scaleY(.5);
-	background-color: #c8c7cc;
+	background-color: #fff;
 }
 .uni-list::before {
 	position: absolute;
@@ -460,7 +460,7 @@ radio-group label, checkbox-group label{
 	-webkit-transform: scaleY(.5);
 	-ms-transform: scaleY(.5);
 	    transform: scaleY(.5);
-	background-color: #c8c7cc;
+	background-color: #fff;
 }
 .uni-list-cell {
 	position: relative;
@@ -1122,7 +1122,7 @@ radio-group label, checkbox-group label{
 	color: #555;
 }
 .uni-tab-bar .active {
-	color: #007AFF;
+	color: #fe7f00;
 }
 .uni-tab-bar .swiper-box {
 	-webkit-box-flex: 1;
@@ -1656,7 +1656,7 @@ page {
   --black: #333;
   --white: #fff;
   --gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
-  --gradualOrange: linear-gradient(45deg, #ff9700, #ed1c24);
+  --gradualOrange: linear-gradient(45deg, #fe7f00, #fe083e);
   --gradualGreen: linear-gradient(45deg, #39b54a, #8dc63f);
   --gradualPurple: linear-gradient(45deg, #9000ff, #5e00ff);
   --gradualPink: linear-gradient(45deg, #ec008c, #6739b6);
@@ -5208,11 +5208,55 @@ scroll-view.cu-steps .cu-item {
 .text-shadow {
   text-shadow: 2rpx 4rpx 6rpx rgba(0, 0, 0, 0.4);
 }
+.teng-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.teng-flex-between {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center
+}
+.teng-flex-end {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.teng-original {
+  color: #fe7f00;
+}
 page {
 		background-color: #F4F4F4;
 		height: 100%;
 		font-size: 28rpx;
 		line-height: 1.8;
+}
+.container {
+		background-color: #fff;
 }
 .uni-header-logo {
 		padding: 30rpx;

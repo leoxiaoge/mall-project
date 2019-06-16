@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "订单中心",
+  "usingComponents": {
+    "media-list": "/components/tab-nvue/mediaList"
+  }
+}

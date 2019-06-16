@@ -93,9 +93,9 @@
 	        transform-origin: center center
 }
 .uni-collapse-cell__title-arrow.uni-active {
-	-webkit-transform: rotate(-180deg);
-	    -ms-transform: rotate(-180deg);
-	        transform: rotate(-180deg)
+	-webkit-transform: rotate(90deg);
+	    -ms-transform: rotate(90deg);
+	        transform: rotate(90deg)
 }
 .uni-collapse-cell__title-inner {
 	-webkit-box-flex: 1;

@@ -10,6 +10,7 @@
 						:autoplay="autoplay"
 						:interval="interval"
 						:duration="duration"
+            :circular="circular"
 					>
 						<swiper-item v-for="(item, index) in swiper" :key="index">
               <image :src="item.AdPicUrl" mode="aspectFill" />
@@ -63,6 +64,7 @@
         autoplay: true,
         interval: 2000,
         duration: 500,
+        circular: true,
         
         productList: [],
         
@@ -244,7 +246,7 @@
   }
 
   .notice-more {
-    width: 80upx;
+    width: 120upx;
     color: #6a6a6a;
     border-left: 4upx solid #f4f4f4;
     padding-left: 20upx;

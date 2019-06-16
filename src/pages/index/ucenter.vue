@@ -21,7 +21,7 @@
 				<text class="teng-number">1669</text>
 			</view>
 			<view class="teng-right teng-recharge">
-				<button class="btn">去充值</button>
+				<button class="btn" @click="recharge">去充值</button>
 			</view>
 		</view>
 		<view class="teng-order">
@@ -38,7 +38,7 @@
 				<uni-grid :options="lists" :is-order="true" :show-border="false" :show-out-border="false" :column-num="4" />
 			</view>
 		</view>
-		<view class="">
+		<view class="teng-listItem">
 			<uni-list v-for="(item, i) in listItem" :key="i">
 				<uni-list-item :title="item.title" :thumb="item.icon" :navigatePath="item.navigateTo" />
 			</uni-list>
@@ -123,6 +123,10 @@
 			VIPCard() {
 				console.log('11')
 				navigateTo('../store/store/store')
+			},
+			// 去充值
+			recharge() {
+				navigateTo('../ucenter/recharge/recharge')
 			}
 		}
 	});
@@ -194,6 +198,8 @@
 		align-items: center;
 		color: #fff;
 		font-weight: 500;
+		padding-top: 30upx;
+		padding-bottom: 60upx;
 		text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 		background: -webkit-linear-gradient(-180deg, #fe7f00, #fe7f00);
 		background: linear-gradient(-180deg, #fe7f00, #fe7f00);

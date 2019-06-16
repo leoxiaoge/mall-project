@@ -1,16 +1,16 @@
 <template>
 	<view class="content">
-    <view class="" v-for="(item, index) in list" :key="index">
-      <view class="">
-        <view class="">
-          <text class="">恭喜<text class="">{{item.name}}</text>以<text class="">{{item.price}}</text>元拍得</text>
+    <view class="teng-notice-list" v-for="(item, index) in list" :key="index">
+      <view class="teng-notice-head">
+        <view class="teng-notice-name">
+          <text class="teng-notice-content">恭喜<text class="eng-notice-original">{{item.name}}</text>以<text class="eng-notice-original">¥{{item.price}}</text>元拍得</text>
         </view>
-        <view class="">
-          <text class="">{{item.title}}</text>
-          <text class="">({{item.state}})</text>
+        <view class="teng-notice">
+          <text class="teng-notice-title">{{item.title}}</text>
+          <text class="teng-notice-status">({{item.status}})</text>
         </view>
       </view>
-      <view class="">
+      <view class="teng-notice-time">
         {{item.date}}
       </view>
     </view>
@@ -28,13 +28,13 @@
           name: '张三',
           price: '0.66',
           title: '美的空调',
-          state: '自动举牌',
+          status: '自动举牌',
           date: '2019-06-13 23:12:53'
         },{
           name: '李四',
           price: '0.88',
           title: '相机',
-          state: '人工举牌',
+          status: '人工举牌',
           date: '2019-06-12 23:12:53'
         }]
 			}
@@ -55,17 +55,33 @@
 </script>
 
 <style>
-	.content {
-		text-align: center;
-		height: 400upx;
-	}
-  .logo{
-    height: 200upx;
-    width: 200upx;
-    margin-top: 200upx;
+  page  {
+    background-color: #fff
   }
-	.title {
-		font-size: 36upx;
-		color: #8f8f94;
-	}
+  
+  .teng-notice-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 30upx;
+    padding: 20upx 0;
+    border-bottom: 2upx solid #f4f4f4
+  }
+
+  .eng-notice-original {
+    color: #fe7f00
+  }
+
+  .teng-notice-title {
+    font-weight: 600;
+  }
+
+  .teng-notice-status {
+    margin-left: 20upx;
+  }
+
+  .teng-notice-time {
+    font-size: 18upx;
+    color: #616161
+  }
 </style>

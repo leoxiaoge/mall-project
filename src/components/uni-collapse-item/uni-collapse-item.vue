@@ -8,7 +8,7 @@
 				<view class="uni-collapse-cell__title-text">{{ title }}</view>
 			</view>
 			<view :class="{'uni-active':isOpen,'uni-collapse-cell--animation':showAnimation===true}" class="uni-collapse-cell__title-arrow">
-				<uni-icon color="#bbb" size="20" type="arrowdown" />
+				<uni-icon color="#bbb" size="20" type="arrowright" />
 			</view>
 		</view>
 		<view :class="{'uni-collapse-cell--animation':showAnimation===true}" :style="{height:isOpen ? height : '0px'}" class="uni-collapse-cell__content">
@@ -190,7 +190,7 @@
 	}
 
 	.uni-collapse-cell__title-arrow.uni-active {
-		transform: rotate(-180deg)
+		transform: rotate(90deg)
 	}
 
 	.uni-collapse-cell__title-inner {

@@ -25,6 +25,10 @@
 		line-height: 1.8;
 	}
 
+	.container {
+		background-color: #fff;
+	}
+
 	.uni-header-logo {
 		padding: 30upx;
 		text-align: center;

@@ -2,10 +2,16 @@
 	<view class="content">
     <uni-collapse :accordion="true">
 			<uni-collapse-item :show-animation="true" :title="items.CategoryName" v-for="(items, index) in list" :key="index">
-				<!-- <uni-list v-for="(item, i) in items.HelpDetailList" :key="i">
-				  <uni-list-item :title="item.Question" thumb="/static/icon/icon_question.png" />
-					<uni-list-item :title="item.Answe" thumb="/static/icon/icon_answe.png" />
-				</uni-list> -->
+				<view class="teng-help-list" v-for="(item, i) in items.HelpDetailList" :key="i">
+					<view class="teng-question teng-help-list-text">
+						<image :src="iconQuestion" />
+						<text>{{item.Question}}</text>
+					</view>
+					<view class="teng-answe teng-help-list-text">
+						<image :src="iconAnswe" />
+						<text>{{item.Answe}}</text>
+					</view>
+				</view>
 			</uni-collapse-item>
 		</uni-collapse>
 		<view class="teng-feedback">
@@ -28,7 +34,9 @@
 		},
 		data() {
 			return {
-        list: []
+				list: [],
+				iconQuestion: '/static/icon/icon_question.png',
+				iconAnswe: '/static/icon/icon_answe.png'
 			}
 		},
 		onLoad(options) {
@@ -49,7 +57,23 @@
 <style>
   .teng-help {
 		padding: 10upx 30upx 0 30upx;
-  }
+	}
+	.teng-help-list-text {
+		display: flex;
+		align-items: flex-start;
+		padding: 10upx 30upx;
+	}
+	.teng-help-list-text image{
+		width: 36upx;
+		height: 36upx;
+		margin: 10upx 0;
+	}
+	.teng-help-list-text text {
+		width: 100%;
+		font-size: 28upx;
+		color: #868686;
+		margin-left: 20upx;
+	}
 	.teng-feedback {
 		position: fixed;
 		bottom: 0;

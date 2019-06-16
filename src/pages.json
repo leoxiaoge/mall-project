@@ -22,8 +22,7 @@
 		{
 			"path": "pages/index/ucenter",
 			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "我的"
 			}
 		}
 	],
@@ -57,13 +56,19 @@
         {
           "path": "guide/guide",
 					"style": {
-						"navigationBarTitleText": "兑现"
+						"navigationBarTitleText": "新手指南"
 					}
 				},
 				{
           "path": "notice/notice",
 					"style": {
-						"navigationBarTitleText": "兑现"
+						"navigationBarTitleText": "最新成交"
+					}
+				},
+				{
+          "path": "activeBilList/activeBilList",
+					"style": {
+						"navigationBarTitleText": "出价记录"
 					}
         }
 			]
@@ -89,6 +94,11 @@
 			  "path": "orderList/orderList",
 		  	"style": {
 		  	  "navigationBarTitleText": "订单中心"
+	  		}
+	 	  },{
+			  "path": "recharge/recharge",
+		  	"style": {
+		  	  "navigationBarTitleText": "充值"
 	  		}
 	 	  },{
 			  "path": "myAuction/myAuction",

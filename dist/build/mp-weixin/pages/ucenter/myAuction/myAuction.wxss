@@ -1,15 +1,14 @@
 
-.content {
-		text-align: center;
-		height: 400rpx;
+.uni-tab-bar-loading {
+	text-align: center;
+	font-size: 28rpx;
+	color: #999;
 }
-.logo{
-    height: 200rpx;
-    width: 200rpx;
-    margin-top: 200rpx;
+.uni-swiper-tab {
+	width: 100%;
+	background-color: #fff;
 }
-.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+.swiper-tab-list {
+	width: 33.33%;
 }
 

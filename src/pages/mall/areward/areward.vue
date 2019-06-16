@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="container">
     <image class="logo" src="../../../static/logo.png"></image>
    	<view>
       <text class="title">{{title}}</text>
@@ -14,7 +14,7 @@
 	export default Vue.extend({
 		data() {
 			return {
-				title: '自助服务'
+				title: '服务'
 			}
 		},
 		onLoad(options) {

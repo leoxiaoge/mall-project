@@ -1,51 +1,171 @@
 <template>
-	<view class="content">
-    <image class="logo" src="../../../static/logo.png"></image>
-   	<view>
-      <text class="title">{{title}}</text>
-    </view>
-  </view>
+	<view class="uni-tab-bar">
+		<scroll-view id="tab-bar" class="uni-swiper-tab" scroll-x :scroll-left="scrollLeft">
+			<view v-for="(tab,index) in tabBars" :key="tab.id" class="swiper-tab-list" :class="tabIndex==index ? 'active' : ''"
+			 :id="tab.id" :data-current="index" @click="tapTab">{{tab.name}}</view>
+		</scroll-view>
+		<swiper :current="tabIndex" class="swiper-box" :duration="300" @change="changeTab">
+			<swiper-item>
+				<scroll-view class="list" scroll-y @scrolltolower="loadMore(index1)">
+					<block v-for="(newsitem,index2) in orderList" :key="index2">
+						<media-list :options="newsitem" @close="close(index1,index2)" @click="goDetail(newsitem)"></media-list>
+					</block>
+					<view class="uni-tab-bar-loading">
+						{{loadingText}}
+					</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
+	</view>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
-	import { ProductPaiListGet } from '@/common/config/api'
+	import { OrderListGet } from '@/common/config/api'
+	import mediaList from '@/components/tab-nvue/mediaList.vue'
+	const tpl = [{
+		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+		image_list: [
+			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg'
+		],
+		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
+		OrderStatusName: '去支付',
+		OrderStatus: '自动举牌',
+		OrderID: '12345688974343',
+		price: '3000',
+		num: '1',
+		ActionButtons: '确认收货'
+	},{
+		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
+		OrderStatusName: '去支付',
+		OrderStatus: '自动举牌',
+		OrderID: '12345688974343',
+		price: '2000',
+		num: '1'
+	},{
+		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
+		OrderStatusName: '去支付',
+		OrderStatus: '自动举牌',
+		OrderID: '12345688974343',
+		price: '4000'
+	},{
+		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
+		OrderStatusName: '去支付',
+		OrderStatus: '自动举牌',
+		OrderID: '12345688974343',
+		price: '6000'
+	},{
+		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
+		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
+		OrderStatusName: '去支付',
+		OrderStatus: '自动举牌',
+		OrderID: '12345688974343',
+		price: '6000'
+	}]
 	export default Vue.extend({
+		components: {
+			mediaList
+		},
 		data() {
 			return {
-				title: '自助服务'
+				scrollLeft: 0,
+				isClickChange: false,
+				tabIndex: 0,
+				orderList: [],
+				tabBars: [{
+					name: '全部',
+					id: '0'
+				}, {
+					name: '待付款',
+					id: '1'
+				}, {
+					name: '待发货',
+					id: '2'
+				}, {
+					name: '待收货',
+					id: '3'
+				}, {
+					name: '待晒单',
+					id: '4'
+				}],
+				loadingText: '加载更多！'
 			}
 		},
-		onLoad(options) {
+		onLoad(options: any) {
+			console.log(options)
 			this.getData()
-      console.log('onLoad', options)
+			let id = options.id
+			this.tabIndex = id
 		},
 		methods: {
 			getData() {
 				let data = {
-					
+					OrderStatus: 1
         }
-		  	request(ProductPaiListGet, data).then((res: any) => {
+		  	request(OrderListGet, data).then((res: any) => {
           console.log(res)
-        })
+				})
+				let tpldata: any = tpl
+				this.orderList = tpldata
+			},
+			goDetail(e: any) {
+				uni.navigateTo({
+					url: '/pages/template/tabbar/detail/detail?title=' + e.title
+				});
+			},
+			loadMore(e: any) {
+				setTimeout(() => {
+					
+				}, 1200);
+			},
+			async changeTab(e: any) {
+				console.log(e)
+			},
+			getElSize(id: any) { //得到元素的size
+				return new Promise((res, rej) => {
+					uni.createSelectorQuery().select("#" + id).fields({
+						size: true,
+						scrollOffset: true
+					}, (data) => {
+						res(data);
+					}).exec();
+				})
+			},
+			async tapTab(e: any) { //点击tab-bar
+				console.log(e)
+				this.tabIndex = e.target.dataset.current
+				let tpldata: any = tpl
+				this.orderList = tpldata
+				console.log(tpldata)
+			},
+			randomfn() {
+				let ary = [];
+				for (let i = 0, length = this.tabBars.length; i < length; i++) {
+					let aryItem = {
+						loadingText: '加载更多...',
+						data: []
+					};
+					ary.push(aryItem);
+				}
+				return ary;
 			}
 		}
 	})
 </script>
 
 <style>
-	.content {
+	.uni-tab-bar-loading {
 		text-align: center;
-		height: 400upx;
+		font-size: 28upx;
+		color: #999;
 	}
-  .logo{
-    height: 200upx;
-    width: 200upx;
-    margin-top: 200upx;
-  }
-	.title {
-		font-size: 36upx;
-		color: #8f8f94;
+	.uni-swiper-tab {
+		background-color: #fff;
 	}
 </style>

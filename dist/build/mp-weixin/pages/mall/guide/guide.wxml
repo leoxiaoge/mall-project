@@ -1,1 +1,1 @@
-<view class="content"><image class="logo" src="../../../static/logo.png"></image><view><text class="title">{{title}}</text></view></view>
+<view class="content"><view class="uni-padding-wrap"><u-parse vue-id="1" content="{{article}}" data-event-opts="{{[['^preview',[['preview']]],['^navigate',[['navigate']]]]}}" bind:preview="__e" bind:navigate="__e" bind:__l="__l"></u-parse></view></view>

@@ -1,4 +1,6 @@
 {
-  "navigationBarTitleText": "兑现",
-  "usingComponents": {}
+  "navigationBarTitleText": "新手指南",
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse"
+  }
 }

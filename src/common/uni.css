@@ -344,7 +344,7 @@ radio-group label, checkbox-group label{
 /* 列表 */
 .uni-list {
 	background-color: #FFFFFF;
-	/* position: relative; */
+	position: relative;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -359,7 +359,7 @@ radio-group label, checkbox-group label{
 	content: '';
 	-webkit-transform: scaleY(.5);
 	transform: scaleY(.5);
-	background-color: #c8c7cc;
+	background-color: #fff;
 }
 .uni-list::before {
 	position: absolute;
@@ -371,7 +371,7 @@ radio-group label, checkbox-group label{
 	content: '';
 	-webkit-transform: scaleY(.5);
 	transform: scaleY(.5);
-	background-color: #c8c7cc;
+	background-color: #fff;
 }
 .uni-list-cell {
 	position: relative;
@@ -867,7 +867,7 @@ radio-group label, checkbox-group label{
 }
 
 .uni-tab-bar .active {
-	color: #007AFF;
+	color: #fe7f00;
 }
 
 .uni-tab-bar .swiper-box {

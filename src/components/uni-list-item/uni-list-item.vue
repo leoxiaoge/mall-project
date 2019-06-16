@@ -126,7 +126,7 @@
 	}
 
 	.uni-list-item--hover {
-		background-color: #f1f1f1
+		background-color: #fff
 	}
 
 	.uni-list-item__container {

@@ -1,0 +1,10 @@
+
+.uni-tab-bar-loading {
+	text-align: center;
+	font-size: 28rpx;
+	color: #999;
+}
+.uni-swiper-tab {
+	background-color: #fff;
+}
+

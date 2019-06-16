@@ -25,7 +25,7 @@
 	-webkit-transform: scaleY(.5);
 	-ms-transform: scaleY(.5);
 	    transform: scaleY(.5);
-	background-color: #c8c7cc
+	background-color: #fff
 }
 .uni-list:before {
 	position: absolute;
@@ -38,6 +38,6 @@
 	-webkit-transform: scaleY(.5);
 	-ms-transform: scaleY(.5);
 	    transform: scaleY(.5);
-	background-color: #c8c7cc
+	background-color: #fff
 }
 

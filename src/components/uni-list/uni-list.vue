@@ -9,7 +9,7 @@
 	}
 </script>
 <style>
-	/* @charset "UTF-8";
+	@charset "UTF-8";
 
 	.uni-list {
 		background-color: #fff;
@@ -29,7 +29,7 @@
 		content: '';
 		-webkit-transform: scaleY(.5);
 		transform: scaleY(.5);
-		background-color: #c8c7cc
+		background-color: #fff
 	}
 
 	.uni-list:before {
@@ -42,6 +42,6 @@
 		content: '';
 		-webkit-transform: scaleY(.5);
 		transform: scaleY(.5);
-		background-color: #c8c7cc
-	} */
+		background-color: #fff
+	}
 </style>

@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "我的竞拍",
-  "usingComponents": {}
+  "usingComponents": {
+    "media-list": "/components/tab-nvue/mediaList"
+  }
 }

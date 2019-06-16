@@ -58,6 +58,9 @@ const processing = (api: any, data: any) => {
 export const request = (api: any, data: any) => {
   return new Promise((resolve, reject) => {
     let handle = processing(api, data)
+    uni.showLoading({
+      title: '加载中'
+    })
     uni.request({
       url: handle.url,
       data: handle.postdata,
@@ -68,6 +71,7 @@ export const request = (api: any, data: any) => {
       success: (res: any) => {
         if (res.statusCode == 200) {
           // console.log(res.data)
+          uni.hideLoading()
           resolve(res.data)
         } else {
           reject(res.errMsg)
