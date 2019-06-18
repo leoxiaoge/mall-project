@@ -53,4 +53,25 @@
 		font-size: 38upx;
 		color: #808080;
 	}
+
+	.i-flex {
+		display: flex;
+		align-items: center;
+	}
+
+	.i-flex-between {
+		display: flex;
+		justify-content: space-between;
+		align-items: center
+	}
+
+	.i-flex-end {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.i-original {
+		color: #fe7f00;
+	}
 </style>

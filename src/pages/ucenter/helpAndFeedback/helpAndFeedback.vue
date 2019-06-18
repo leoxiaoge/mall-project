@@ -1,7 +1,25 @@
 <template>
 	<view class="content">
+		<view class="teng-contact">
+			<view class="teng-contact-list" v-for="(item, index) in contactList" :key="index">
+				<view class="teng-contact-view">
+					<view class="teng-contact-view-image">
+						<image :src="item.ContactIcon" />
+					</view>
+					<view class="teng-contact-text">
+						<view class="teng-contact-name">{{item.ContactName}}:{{item.ContactText}}</view>
+						<view class="teng-contact-time">服务时间：{{item.ContactWorkTime}}</view>
+					</view>
+				</view>
+				<view class="teng-contact">
+					<text class="teng-contact-copy" v-if="item.IsSupportCopy === 1 && item.ContactType == 0" @click="setClipboard(item.ContactText)">复制号码</text>
+					<text class="teng-contact-copy" v-if="item.IsSupportCopy === 1 && item.ContactType == 1" @click="setClipboard(item.ContactText)">复制号码</text>
+					<text class="teng-contact-copy" v-if="item.IsSupportCopy === 1 && item.ContactType == 2" @click="setClipboard(item.ContactText)">复制号码</text>
+				</view>
+			</view>
+		</view>
     <uni-collapse :accordion="true">
-			<uni-collapse-item :show-animation="true" :title="items.CategoryName" v-for="(items, index) in list" :key="index">
+			<uni-collapse-item :show-animation="true" :title="items.CategoryName" v-for="(items, index) in helpList" :key="index">
 				<view class="teng-help-list" v-for="(item, i) in items.HelpDetailList" :key="i">
 					<view class="teng-question teng-help-list-text">
 						<image :src="iconQuestion" />
@@ -23,7 +41,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
-  import { HelpListGet } from '@/common/config/api'
+  import { HelpContactListGet, HelpListGet } from '@/common/config/api'
   import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 
@@ -34,27 +52,75 @@
 		},
 		data() {
 			return {
-				list: [],
+				contactList: [],
+				helpList: [],
 				iconQuestion: '/static/icon/icon_question.png',
 				iconAnswe: '/static/icon/icon_answe.png'
 			}
 		},
 		onLoad(options) {
-			this.getData()
+			this.getHelpContactList()
+			this.getHelpList()
       console.log('onLoad', options)
 		},
 		methods: {
-			getData() {
+			getHelpContactList() {
+				let data = {}
+		  	request(HelpContactListGet, data).then((res: any) => {
+					console.log(res)
+          this.contactList = res.ContactList
+        })
+			},
+			getHelpList() {
 				let data = {}
 		  	request(HelpListGet, data).then((res: any) => {
-          this.list = res.HelpList
+          this.helpList = res.HelpList
         })
+			},
+			setClipboard(data: any) {
+				console.log(data)
+				uni.setClipboardData({
+					data: data,
+					success: () => {
+						console.log('success');
+					}
+				});
 			}
 		}
 	})
 </script>
 
 <style>
+
+  .teng-contact {
+		background-color: #fff;
+		padding: 0 30upx;
+	}
+  .teng-contact-list {
+		display: flex;
+		justify-content: space-between;
+		padding: 20upx 0;
+	}
+	.teng-contact-view {
+		display: flex;
+		align-items: center;
+	}
+	.teng-contact-view-image {
+		width: 84upx;
+		height: 100%;
+	}
+	.teng-contact-view image {
+		height: 100%;
+		padding: 10upx 0;
+	}
+	.teng-contact-text {
+		margin-left: 16upx;
+		font-size: 32upx;
+		color: #616161;
+	}
+	.teng-contact-copy {
+		color: #fe7f00;
+	}
   .teng-help {
 		padding: 10upx 30upx 0 30upx;
 	}

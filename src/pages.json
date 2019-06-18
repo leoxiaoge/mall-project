@@ -125,6 +125,11 @@
 		  	"style": {
 		  	  "navigationBarTitleText": "帮助与反馈"
 	  		}
+	 	  },{
+			  "path": "addressUpdate/addressUpdate",
+		  	"style": {
+		  	  "navigationBarTitleText": "我的地址"
+	  		}
 	 	  }]
 		}
 	],
