@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "最新成交",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-no": "/components/u-no/u-no"
+  }
 }

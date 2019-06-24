@@ -1,6 +1,14 @@
 <template>
 	<view class="content">
-    <view class="UCenter-bg">
+		<view class="UCenter-bg" v-if="userInfo">
+			<view class="i-no-userInfo-head">
+				<text>欢迎来到腾拍商城</text>
+			</view>
+			<view class="i-login">
+				<button class="btn i-login-button" @click="loginPath">马上登录</button>
+			</view>
+		</view>
+    <view class="UCenter-bg" v-else>
 			<view class="userInfo-head">
 				<!-- #ifdef MP-WEIXIN -->
 				<open-data type="userAvatarUrl"></open-data>
@@ -49,7 +57,7 @@
 <script lang="ts">
 	import Vue from 'vue'
 	import { request, navigateTo } from '@/common/utils/util'
-	import { ProductCategoryListGet } from '@/common/config/api'
+	import { UserLogin } from '@/common/config/api'
 	import uniGrid from '@/components/uni-grid/uni-grid.vue'
 	import uniList from '@/components/uni-list/uni-list.vue'
 	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
@@ -63,7 +71,7 @@
 		},
 		data() {
 			return {
-				title: '我的',
+				userInfo: '',
 				lists: [{
           image: '/static/icon/icon_pending_address.png',
 					text: '待填地址',
@@ -99,7 +107,7 @@
 				},{
 					icon: '/static/icon/icon_address.png',
 					title: '收货地址',
-					navigateTo: 'shippingAddress'
+					navigateTo: 'addressShipping'
 				},{
 					icon: '/static/icon/icon_share.png',
 					title: '分享得豪礼',
@@ -112,17 +120,32 @@
 			}
 		},
 		onLoad() {
+			this.useInfo()
 			let data = {
-				id : '0'
+				Mobile : '13723750893',
+				LoginCode: '0000'
 			}
-			request(ProductCategoryListGet, data).then(function(res) {
+			request(UserLogin, data).then(function(res: any) {
 				console.log(res)
+				let SessionKey = res.SessionKey
+				let UserInfo = res.UserInfo
+				uni.setStorageSync('SessionKey', SessionKey)
+				uni.setStorageSync('UserInfo', UserInfo)
+				console.log(SessionKey)
 			})
 		},
 		methods: {
+			useInfo() {
+				this.userInfo = uni.getStorageSync('UserInfo')
+				console.log(this.userInfo)
+			},
 			VIPCard() {
 				console.log('11')
 				navigateTo('../store/store/store')
+			},
+			// 马上登录
+			loginPath() {
+				navigateTo('../ucenter/login/login')
 			},
 			// 去充值
 			recharge() {
@@ -199,7 +222,7 @@
 		color: #fff;
 		font-weight: 500;
 		padding-top: 30upx;
-		padding-bottom: 60upx;
+		padding-bottom: 100upx;
 		text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 		background: -webkit-linear-gradient(-180deg, #fe7f00, #fe7f00);
 		background: linear-gradient(-180deg, #fe7f00, #fe7f00);
@@ -222,6 +245,29 @@
 		z-index: 99;
 		mix-blend-mode: screen;
 		height: 100rpx
+	}
+
+	.i-no-userInfo-head {
+		margin-top: 30upx;
+	}
+
+	.i-no-userInfo-head text{
+		font-size: 40upx;
+		color: #fff;
+	}
+
+	.i-login {
+		margin-top: 20upx;
+	}
+
+	.i-login-button {
+		width: 200upx;
+		font-size: 28upx;
+		line-height: 2.4;
+		color: #fe7f00;
+		background-color: #fff;
+		border-radius: 100upx;
+		border: none;
 	}
 
 	.teng-gold {

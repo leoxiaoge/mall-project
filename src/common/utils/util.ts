@@ -16,7 +16,7 @@ const formatNumber = (n: number) => {
 }
 
 const processing = (api: any, data: any) => {
-  const sessionkey = uni.getStorageSync('weSession_key')
+  const sessionkey = uni.getStorageSync('SessionKey')
   let Appkey = "3957399",
     AppSecert = "2d2c443086630f6c2c804d11983729c8",
     url = "https://api.tengpaisc.com/Rest.ashx"
@@ -72,7 +72,11 @@ export const request = (api: any, data: any) => {
         if (res.statusCode == 200) {
           // console.log(res.data)
           uni.hideLoading()
-          resolve(res.data)
+          if (!res.data.IsError) {
+            resolve(res.data)
+          } else {
+            showToast(res.data.ErrMsg)
+          }
         } else {
           reject(res.errMsg)
         }

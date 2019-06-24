@@ -40,12 +40,14 @@
   }
 
   .u-no image {
-    width: 60%;
+    width: 20%;
     height: 100%;
   }
 
   .i-title {
     font-size: 28upx;
+    line-height: 1.8;
     color: #999999;
+    margin: 40upx 0;
   }
 </style>

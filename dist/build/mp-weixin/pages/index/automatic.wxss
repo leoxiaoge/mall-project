@@ -13,7 +13,7 @@
 		width: 100%;
 }
 .nav-left {
-		width: 30%;
+		width: 25%;
 		border-right: solid 1px #ededed;
 }
 .nav-left-item {
@@ -35,7 +35,7 @@
     background-color: #f3f4f3;
 }
 .nav-right {
-		width: 70%;
+		width: 75%;
 }
 .nav-right-item {
 		display: -webkit-box;
@@ -51,7 +51,6 @@
 		    -ms-flex-align: center;
 		        align-items: center;
 		height: 220rpx;
-		text-align: center;
 		padding: 11rpx;
 		font-size: 28rpx;
 		border-bottom: 2rpx solid #f4f4f4;
@@ -85,7 +84,8 @@
     -webkit-line-clamp: 1;
 }
 .teng-content {
-		margin-left: 8rpx;
+		width: 100%;
+		margin-left: 10rpx;
 }
 .teng-title {
 		font-size: 28rpx;
@@ -107,8 +107,11 @@
 		        align-items: center
 }
 .teng-type-text {
+		width: 96rpx;
 		font-size: 24rpx;
 		line-height: 1.6;
+		text-align: center;
+		margin-right: 10rpx;
 		padding: 0 10rpx;
 		color: #fe7f00;
 		border: 2rpx solid #fe7f00;

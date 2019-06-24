@@ -1,32 +1,38 @@
 <template>
-	<view class="uni-common-pb">
+	<view class="uni-common">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
-				<view class="image-view">
-					<image class="uni-product-image" :src="item.image"></image>
-				</view>
-				<view class="uni-product-title">{{item.title}}</view>
-				<view class="uni-product-price">
-					<text class="uni-product-text">上期成交：</text>
-					<text class="uni-product-price-original">￥{{item.favourPrice}}</text>
+				<view class="i-product-content" @click="productDetailsTo(item.ID)">
+	        <view class="image-view">
+						<image class="uni-product-image" :src="item.ProductPics | url"></image>
+					</view>
+					<view class="uni-product-title">{{item.ProductTitle}}</view>
+					<view class="uni-product-price">
+						<text class="uni-product-text">上期成交：</text>
+						<text class="uni-product-price-original">￥{{item.ProductPrice}}</text>
+					</view>
 				</view>
 				<view class="uni-product-prompt">
 					<view class="uni-product-time">
 						<!-- 倒计时 -->
 						<text class="uni-product-away">离开拍</text>
-						<uni-countdown :hour="12" :minute="12" :second="12" />
+						<uni-countdown :hour="item.Active.hour" :minute="item.Active.minute" :second="item.Active.minute" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn">马上参与</button>
+						<button class="btn" @click="productDetailsTo(item.ID)">马上参与</button>
 					</view>
 				</view>
 			</view>
 		</view>
+		<!-- #ifdef H5 -->
+		<view class="i-common-pb"></view>
+		<!-- #endif -->
 	</view>
 </template>
 
 <script>
+  import { request, navigateTo } from '@/common/utils/util'
   import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
   export default {
 		components: {
@@ -46,17 +52,44 @@
 			}
 		},
     data() {
-      return {}
+      return {
+				
+			}
     },
     computed: {
 			product() {
-        console.log(this.options)
-        let list = this.options
+				console.log(this.options)
+				let list = this.options
+				list.map(item => {
+					let date1 = item.Active.ActiveEndTime;  //开始时间
+          let date2 = new Date();    //结束时间
+          let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
+          let subMinutes = Math.floor( date3/(60*1000) ) //获取总共的分钟差
+          //计算出相差天数
+          let days = Math.floor(date3/(24*3600*1000))
+          //计算出小时数
+          let leave1 = date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+          let hours = Math.floor(leave1/(3600*1000))
+          //计算相差分钟数
+          let leave2 = leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+          let minutes = Math.floor(leave2/(60*1000))
+          //计算相差秒数
+          let leave3 = leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+					let seconds = Math.round(leave3/1000)
+					item.Active.day = days
+					item.Active.hour = hours
+					item.Active.minute = minutes
+					item.Active.second = seconds
+          console.log(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
+				})
+				console.log(list)
 				return list
       }
     },
     methods: {
-      
+      productDetailsTo(id) {
+				navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id)
+			}
     }
 };
 </script>
@@ -65,7 +98,8 @@
 	.uni-product-prompt {
 		display: flex;
 		justify-content: space-between;
-		align-items: center
+		align-items: center;
+		padding-top: 14upx;
 	}
 
 	.uni-product-price {
@@ -82,6 +116,10 @@
 		padding-right: 2upx;
 	}
 
+	.i-product-content {
+		border-bottom: 2upx dashed #f4f4f4;
+	}
+
 	.uni-product-button button{
 		margin: 0;
 		padding: 0 14upx;
@@ -89,5 +127,9 @@
 		color: #fff;
 		background-color: #fe7f00;
 		border-radius: 100upx;
+	}
+
+	.i-common-pb {
+		height: 80upx;
 	}
 </style>

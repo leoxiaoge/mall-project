@@ -2,6 +2,7 @@
   "navigationBarTitleText": "帮助与反馈",
   "usingComponents": {
     "uni-collapse": "/components/uni-collapse/uni-collapse",
-    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item"
+    "uni-collapse-item": "/components/uni-collapse-item/uni-collapse-item",
+    "uni-popup": "/components/uni-popup/uni-popup"
   }
 }

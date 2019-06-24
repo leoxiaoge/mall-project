@@ -19,14 +19,16 @@
 <script lang="ts">
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
-	import { PayMoneyListGet } from '@/common/config/api'
+	import { PayMoneyListGet, PayMoneySubmit } from '@/common/config/api'
 	export default Vue.extend({
 		data() {
 			return {
         payList: [],
         payIndex: 0,
-        MoneyID: '',
-        payMoney: ''
+        MoneyID: '', // 支付金额对应的ID
+        payMoney: '',
+        PayTypeID: 1, // 支付方式ID 微信小程序支付传1
+        OpenID: '', // OpenID
 			}
 		},
 		onLoad(options) {
@@ -54,7 +56,17 @@
       },
       // 支付API
       payment() {
-        
+        let MoneyID = this.MoneyID
+        let PayTypeID = this.PayTypeID
+        let OpenID = this.OpenID
+        let data = {
+          MoneyID: MoneyID,
+          PayTypeID: PayTypeID,
+          OpenID: OpenID
+        }
+		  	request(PayMoneySubmit, data).then((res: any) => {
+          console.log(res)
+        })
       }
 		}
 	})

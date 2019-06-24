@@ -1,0 +1,41 @@
+
+.i-label {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: space-around;
+	    -ms-flex-pack: distribute;
+	        justify-content: space-around;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	color: #b25a01;
+	background-color: rgba(254, 127, 0, 0.3);
+	height: 70rpx;
+}
+.i-point {
+	width: 10rpx;
+	height: 10rpx;
+	background-color: rgba(254, 127, 0, 0.2);
+	border-radius: 50%;
+}
+.i-label-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.i-label-item-text {
+	margin: 0 10rpx;
+}
+

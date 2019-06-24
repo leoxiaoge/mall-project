@@ -116,7 +116,7 @@
 	}
 
 	.nav-left {
-		width: 30%;
+		width: 25%;
 		border-right: solid 1px #ededed;
 	}
 
@@ -131,7 +131,7 @@
 	}
 
 	.nav-right {
-		width: 70%;
+		width: 75%;
 	}
 
 	.nav-right-item {

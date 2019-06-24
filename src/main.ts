@@ -6,4 +6,10 @@ Vue.config.productionTip = false
 
 Vue.component('page-head', pageHead)
 
+Vue.filter('url', (value: any) => {
+  if (!value) return ''
+  value = 'https://api.tengpaisc.com/' + value
+  return value
+})
+
 new App().$mount()

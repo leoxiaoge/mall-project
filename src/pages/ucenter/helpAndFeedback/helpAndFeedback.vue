@@ -33,7 +33,10 @@
 			</uni-collapse-item>
 		</uni-collapse>
 		<view class="teng-feedback">
-			<button class="button">建议反馈</button>
+			<button class="button" type="button" @click="togglePopup('bottom')">建议反馈</button>
+		</view>
+		<view class="example">
+			<uni-popup :show="type" position="bottom" mode="fixed" msg="建议反馈" @hidePopup="togglePopup('')" />
 		</view>
   </view>
 </template>
@@ -44,18 +47,21 @@
   import { HelpContactListGet, HelpListGet } from '@/common/config/api'
   import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 
 	export default Vue.extend({
     components: {
 			uniCollapse,
-			uniCollapseItem
+			uniCollapseItem,
+			uniPopup
 		},
 		data() {
 			return {
 				contactList: [],
 				helpList: [],
 				iconQuestion: '/static/icon/icon_question.png',
-				iconAnswe: '/static/icon/icon_answe.png'
+				iconAnswe: '/static/icon/icon_answe.png',
+				type: false
 			}
 		},
 		onLoad(options) {
@@ -85,6 +91,9 @@
 						console.log('success');
 					}
 				});
+			},
+			togglePopup(type: any) {
+				this.type = !this.type;
 			}
 		}
 	})

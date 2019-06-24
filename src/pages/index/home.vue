@@ -1,16 +1,17 @@
 <template>
 	<view class="content">
     <!-- 轮播 -->
-		<view class="uni-padding-wrap">
+		<view class="i-padding-wrap">
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
 					<swiper
-						class="swiper"
+						class="swiper-box"
 						:indicator-dots="indicatorDots"
 						:autoplay="autoplay"
 						:interval="interval"
 						:duration="duration"
             :circular="circular"
+            :indicator-active-color="indicatorActiveColor"
 					>
 						<swiper-item v-for="(item, index) in swiper" :key="index">
               <image :src="item.AdPicUrl" mode="aspectFill" />
@@ -26,29 +27,32 @@
         <uni-grid :options="list" :show-border="false" :show-out-border="false" :column-num="4" />
       </view>
     </view>
-    <!-- <view class="" @click="test">test</view> -->
     <!-- 滚动公告 -->
     <view class="uni-swiper-msg">
 			<view class="uni-swiper-msg-icon">
 				<image src="/static/icon/icon_notice.png" mode="widthFix"></image>
 			</view>
-			<swiper vertical="true" autoplay="true" circular="true" interval="3000">
-				<swiper-item v-for="(item, index) in msg" :key="index">
-					{{item}}
-				</swiper-item>
+			<swiper class="uni-swiper-wrapper" vertical="true" autoplay="true" circular="true" interval="3000" display-multiple-items="2">
+        <block v-for="(item, index) in LastTranActiveList" :key="index">
+          <swiper-item>
+            <view class="i-item-msg">
+              <text class="teng-notice-content">恭喜<text class="i-notice-original">{{item.ProductName}}</text>以<text class="i-notice-original">¥{{item.OrderMoney}}</text>元拍得</text>
+            </view>
+          </swiper-item>
+        </block>
 			</swiper>
       <view class="notice-more" @click="noticeList">更多</view>
 	  </view>
     <!-- 正在竞拍 -->
-    <product-list-being :options="datalist" />
+    <product-list-being :options="productList" />
     <!-- 即将开拍 -->
-    <product-list :options="data" />
+    <product-list :options="productListIng" />
 	</view>
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import { request, navigateTo } from '@/common/utils/util'
-  import { AdsListGet, HomeProductListGet } from '@/common/config/api'
+  import { request, navigateTo, formatTime } from '@/common/utils/util'
+  import { AdsListGet, LastTransactionListGet, HomeProductListGet } from '@/common/config/api'
   import uniGrid from '@/components/uni-grid/uni-grid.vue'
   import productList from '@/components/product-list/product-list.vue'
   import productListBeing from '@/components/product-list-being/product-list-being.vue'
@@ -65,11 +69,16 @@
         interval: 2000,
         duration: 500,
         circular: true,
+        indicatorActiveColor: '#fe7f00',
         
-        productList: [],
-        
+        productList: [], // 正在竞拍列表
+        productListIng: [], // 即将开拍列表
+        productListData: [], // 正在竞拍新列表
         swiperGridHeight: '0px',
         swiperGridWidth: '100%',
+        swiper:[],
+        LastTranActiveList: [], // 最新成交列表
+
         list: [{
           image: '/static/icon_experience.png',
           text: '体验区',
@@ -90,100 +99,16 @@
           text: '新手指南',
           navigateTo: 'guide'
         }],
-
-        swiper:[{
-          images: '/static/icon_show.png'
-        },{
-          images: '/static/icon_show.png'
-        },{
-          images: '/static/icon_show.png'
-        }],
-        msg : [
-          '恭喜 小明同学 以 ￥0.86 拍得美的空调...',
-          '恭喜 xtihi 以 ￥4.8 拍得大疆无人机...',
-          '恭喜 小明同学 以 ￥0.86 拍得美的空调...',
-          '恭喜 xtihi 以 ￥4.8 拍得大疆无人机...',
-          '恭喜 小明同学 以 ￥0.86 拍得美的空调...'
-        ],
-        datalist: [
-          {
-            image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-            title: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-            originalPrice: 9999,
-            favourPrice: 8888,
-            tip: '自营'
-          },
-          {
-            image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-            title: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-            originalPrice: 9999,
-            favourPrice: 8888,
-            tip: '自营'
-          },
-          {
-            image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-            title: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-            originalPrice: 9999,
-            favourPrice: 8888,
-            tip: '自营'
-          },
-          {
-            image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-            title: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-            originalPrice: 9999,
-            favourPrice: 8888,
-            tip: '自营'
-          }
-        ],
-        data: [
-          {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-                      title: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-                      originalPrice: 9999,
-                      favourPrice: 8888,
-                      tip: '自营'
-                  },
-                  {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product2.jpg',
-                      title: 'Apple iPad 平板电脑 2018年新款9.7英寸',
-                      originalPrice: 3499,
-                      favourPrice: 3399,
-                      tip: '优惠'
-                  },
-                  {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-                      title: 'Apple MacBook Pro 13.3英寸笔记本电脑（2017款Core i5处理器/8GB内存/256GB硬盘 MupxT2CH/A）',
-                      originalPrice: 12999,
-                      favourPrice: 10688,
-                      tip: '秒杀'
-                  },
-                  {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product4.jpg',
-                      title: 'Kindle Paperwhite电纸书阅读器 电子书墨水屏 6英寸wifi 黑色',
-                      originalPrice: 999,
-                      favourPrice: 958,
-                      tip: '秒杀'
-                  },
-                  {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product5.jpg',
-                      title: '微软（Microsoft）新Surface Pro 二合一平板电脑笔记本 12.3英寸（i5 8G内存 256G存储）',
-                      originalPrice: 8888,
-                      favourPrice: 8288,
-                      tip: '优惠'
-                  },
-                  {
-                      image: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product6.jpg',
-                      title: 'Apple Watch Series 3智能手表（GPS款 42毫米 深空灰色铝金属表壳 黑色运动型表带 MQL12CH/A）',
-                      originalPrice: 2899,
-                      favourPrice: 2799,
-                      tip: '自营'
-                  }
-        ]
-      };
+        newTime: ''
+      }
     },
     onLoad() {
+      // this.newTime = formatTime(new Date());
+      // console.log(new Date())
       this.getAdsList()
+      this.getLastTransactionList()
       this.getHomeProductList()
+      this.getHomeProductListIng()
     },
     methods: {
       getAdsList() {
@@ -195,7 +120,16 @@
           this.swiper = res.AdsList[0].AdsViewList
         })
       },
+      // 获取最新成交列表
+      getLastTransactionList() {
+        let data = {}
+        request(LastTransactionListGet, data).then((res: any) => {
+          console.log(res)
+          this.LastTranActiveList = res.LastTranActiveList
+        })
+      },
       // 首页获取正在竞拍与即将开拍的商品列表
+      // 查询类型 : home1=首页的正在竞拍列表, home2=首页的即将开拍列表
       getHomeProductList() {
         let data = {
           PageID: 1,
@@ -203,8 +137,30 @@
           SearchType: 'home1'
         }
         request(HomeProductListGet, data).then((res: any) => {
-          console.log(res)
+          console.log(res.ProductList)
           this.productList = res.ProductList
+        })
+      },
+      getHomeProductListIng() {
+        let data = {
+          PageID: 1,
+          PageSize: 10,
+          SearchType: 'home2'
+        }
+        request(HomeProductListGet, data).then((res: any) => {
+          console.log(res)
+          this.productListIng = res.ProductList
+        })
+      },
+      getPastTransactionsList() {
+        let data = {
+          PageID: 1,
+          PageSize: 10,
+          SearchType: 'home2'
+        }
+        request(HomeProductListGet, data).then((res: any) => {
+          console.log(res)
+          this.productListIng = res.ProductList
         })
       },
       getLocation: function() {
@@ -215,34 +171,46 @@
       },
       noticeList() {
         navigateTo('../mall/notice/notice')
-      },
-      test() {
-        navigateTo('../ucenter/helpAndFeedback/helpAndFeedback')
       }
     }
 	})
 </script>
 
 <style>
-  .teng-option {
-    height: 210upx;
+
+  .uni-swiper-dots-horizontal {
+    position: absolute;
+    font-size: 0;
+    margin-bottom: 40upx;
+    transform-origin:20% 40%;
   }
+
+  .teng-option {
+    background-color: #fff;
+  }
+
   .teng-options {
     position: relative;
-    top: -20upx;
+    top: -14upx;
     background-color: #fff;
-    padding-top: 100upx;
+    padding-top: 40upx;
     border-radius: 50%
   }
 
   .teng-options-grid {
-    position: relative;
-    top: -80upx;
     background-color: #fff;
   }
 
   .uni-swiper-msg {
     border-top: 2upx solid #f4f4f4;
+  }
+
+  .uni-swiper-wrapper {
+    border-left: 2upx solid #f4f4f4;
+  }
+
+  .i-notice-original {
+    color: #fe7f00
   }
 
   .notice-more {
@@ -251,5 +219,15 @@
     border-left: 4upx solid #f4f4f4;
     padding-left: 20upx;
     z-index: 10;
+  }
+
+  .i-item-msg {
+    word-break: break-all;
+    display: -webkit-box;
+    overflow: hidden;
+    line-height:1.5;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1
   }
 </style>

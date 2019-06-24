@@ -75,7 +75,7 @@
 		color: #fff;
 		font-weight: 500;
 		padding-top: 30rpx;
-		padding-bottom: 60rpx;
+		padding-bottom: 100rpx;
 		text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 		background: -webkit-gradient(linear, left top, left bottom, from(#fe7f00), to(#fe7f00));
 		background: -o-linear-gradient(top, #fe7f00, #fe7f00);
@@ -96,6 +96,25 @@
 		z-index: 99;
 		mix-blend-mode: screen;
 		height: 100rpx
+}
+.i-no-userInfo-head {
+		margin-top: 30rpx;
+}
+.i-no-userInfo-head text{
+		font-size: 40rpx;
+		color: #fff;
+}
+.i-login {
+		margin-top: 20rpx;
+}
+.i-login-button {
+		width: 200rpx;
+		font-size: 28rpx;
+		line-height: 2.4;
+		color: #fe7f00;
+		background-color: #fff;
+		border-radius: 100rpx;
+		border: none;
 }
 .teng-gold {
 		padding: 20rpx 30rpx;

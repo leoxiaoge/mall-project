@@ -2,7 +2,7 @@
 page  {
   background-color: #fff
 }
-.teng-notice-list {
+.i-notice-list {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -19,16 +19,16 @@ page  {
   padding: 20rpx 0;
   border-bottom: 2rpx solid #f4f4f4
 }
-.eng-notice-original {
+.i-notice-original {
   color: #fe7f00
 }
 .teng-notice-title {
   font-weight: 600;
 }
-.teng-notice-status {
+.i-notice-status {
   margin-left: 20rpx;
 }
-.teng-notice-time {
+.i-notice-time {
   font-size: 18rpx;
   color: #616161
 }

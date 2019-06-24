@@ -74,4 +74,9 @@
 	.i-original {
 		color: #fe7f00;
 	}
+
+	image {
+		width: 100%;
+		height: 100%;
+	}
 </style>

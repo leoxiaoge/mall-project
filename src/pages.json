@@ -70,7 +70,17 @@
 					"style": {
 						"navigationBarTitleText": "出价记录"
 					}
-        }
+				},{
+          "path": "productDetailsPage/productDetailsPage",
+					"style": {
+						"navigationBarTitleText": "竞拍详情"
+					}
+				},{
+					"path": "productDetailsUparse/productDetailsUparse",
+					"style": {
+						"navigationBarTitleText": "竞拍详情"
+					}
+				}
 			]
 		},
 		{
@@ -91,6 +101,11 @@
 		{
 		  "root": "pages/ucenter",
 		  "pages": [{
+			  "path": "login/login",
+		  	"style": {
+		  	  "navigationBarTitleText": "登录"
+	  		}
+	 	  },{
 			  "path": "orderList/orderList",
 		  	"style": {
 		  	  "navigationBarTitleText": "订单中心"
@@ -111,7 +126,7 @@
 		  	  "navigationBarTitleText": "我的晒单"
 	  		}
 	 	  },{
-			  "path": "shippingAddress/shippingAddress",
+			  "path": "addressShipping/addressShipping",
 		  	"style": {
 		  	  "navigationBarTitleText": "收货地址"
 	  		}

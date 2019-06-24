@@ -1,21 +1,33 @@
 
+.uni-swiper-dots-horizontal {
+  position: absolute;
+  font-size: 0;
+  margin-bottom: 40rpx;
+  -webkit-transform-origin:20% 40%;
+      -ms-transform-origin:20% 40%;
+          transform-origin:20% 40%;
+}
 .teng-option {
-  height: 210rpx;
+  background-color: #fff;
 }
 .teng-options {
   position: relative;
-  top: -20rpx;
+  top: -14rpx;
   background-color: #fff;
-  padding-top: 100rpx;
+  padding-top: 40rpx;
   border-radius: 50%
 }
 .teng-options-grid {
-  position: relative;
-  top: -80rpx;
   background-color: #fff;
 }
 .uni-swiper-msg {
   border-top: 2rpx solid #f4f4f4;
+}
+.uni-swiper-wrapper {
+  border-left: 2rpx solid #f4f4f4;
+}
+.i-notice-original {
+  color: #fe7f00
 }
 .notice-more {
   width: 120rpx;
@@ -23,6 +35,16 @@
   border-left: 4rpx solid #f4f4f4;
   padding-left: 20rpx;
   z-index: 10;
+}
+.i-item-msg {
+  word-break: break-all;
+  display: -webkit-box;
+  overflow: hidden;
+  line-height:1.5;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1
 }
 
 page::after{position:fixed;content:'';left:-1000px;top:-1000px;-webkit-animation:shadow-preload .1s;-webkit-animation-delay:3s;animation:shadow-preload .1s;animation-delay:3s}@-webkit-keyframes shadow-preload{0%{background-image:url(https://cdn.dcloud.net.cn/img/shadow-grey.png)}100%{background-image:url(https://cdn.dcloud.net.cn/img/shadow-grey.png)}}@keyframes shadow-preload{0%{background-image:url(https://cdn.dcloud.net.cn/img/shadow-grey.png)}100%{background-image:url(https://cdn.dcloud.net.cn/img/shadow-grey.png)}}

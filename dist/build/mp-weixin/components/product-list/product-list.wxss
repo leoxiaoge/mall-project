@@ -11,7 +11,8 @@
 	-webkit-box-align: center;
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
-	        align-items: center
+	        align-items: center;
+	padding-top: 14rpx;
 }
 .uni-product-price {
 	text-align: center;
@@ -30,6 +31,9 @@
 	        align-items: center;
 	padding-right: 2rpx;
 }
+.i-product-content {
+	border-bottom: 2rpx dashed #f4f4f4;
+}
 .uni-product-button button{
 	margin: 0;
 	padding: 0 14rpx;
@@ -37,5 +41,8 @@
 	color: #fff;
 	background-color: #fe7f00;
 	border-radius: 100rpx;
+}
+.i-common-pb {
+	height: 80rpx;
 }
 

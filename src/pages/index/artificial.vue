@@ -2,25 +2,25 @@
 	<view class="container">
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
-				<view class="nav-left-item" @click="categoryClickMain(item,index)" :key="index" v-for="(item,index) in categoryList" :class="categoryActive==index?'active':''">
+				<view class="nav-left-item" @click="categoryClickMain(index)" :key="index" v-for="(item,index) in categoryList" :class="categoryActive==index?'active':''">
 					{{item.CategoryName}}
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
 					<view class="teng-item-images">
-			  		<image class="nav-right-item-image" :src="item.logo" />
+			  		<image class="nav-right-item-image" :src="item.ProductPics|url" />
 						<image class="teng-order-show-status" :src="statusIcon" />
 					</view>
 					<view class="teng-content">
-				   	<view class="teng-title">{{item.name}}</view>
+				   	<view class="teng-title">{{item.ProductTitle}}</view>
 						<view class="teng-type">
 							<text class="teng-type-text">手动举牌</text>
 						</view>
 						<view class="teng-footer">
 							<view class="teng-pirce">
 								<text class="teng-pirce-text">上期成交：</text>
-								<text class="teng-price-number">¥{{item.price}}</text>
+								<text class="teng-price-number">¥{{item.ProductPrice}}</text>
 							</view>
 							<view class="teng-jion-btn">
 								<button class="btn teng-btn">参加竞拍</button>
@@ -37,23 +37,6 @@
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
 	import { ProductCategoryListGet, ProductPaiListGet } from '@/common/config/api'
-
-	let categoryList: any = [{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	},{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	},{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	}]
 	export default Vue.extend({
 		data() {
 			return {
@@ -84,21 +67,22 @@
 			  request(ProductCategoryListGet, data).then((res: any) => {
           this.categoryList = res.CategoryList
 				})
-				this.subCategoryList = categoryList
+				this.categoryClickMain(0)
 			},
-			categoryClickMain(categroy: any, index: any): void {
-        let i: any = this.categoryList[index]
-        console.log(i)
+			// 商品列表
+			categoryClickMain(index: any): void {
+        let item: any = this.categoryList[index]
+        console.log(item)
         this.categoryActive = index;
-        let CategoryID = i.ID
+        let CategoryID = item.ID
         let data = {
-          PageID: '1',
-          PageSize: '10',
-          CategoryID: i.ID,
-          ActiveType: '1'
+          PageID: 1,
+          PageSize: 10,
+          CategoryID: CategoryID,
+          ActiveType: 0
         }
 			  request(ProductPaiListGet, data).then((res: any) => {
-          // this.subCategoryList = res.ProductList
+          this.subCategoryList = res.ProductList
 				})
 			},
 		}
@@ -116,7 +100,7 @@
 	}
 
 	.nav-left {
-		width: 30%;
+		width: 25%;
 		border-right: solid 1px #ededed;
 	}
 
@@ -131,7 +115,7 @@
 	}
 
 	.nav-right {
-		width: 70%;
+		width: 75%;
 	}
 
 	.nav-right-item {
@@ -178,6 +162,7 @@
 	}
 
 	.teng-content {
+		width: 100%;
 		margin-left: 8upx;
 	}
 

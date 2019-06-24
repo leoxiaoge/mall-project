@@ -15,7 +15,9 @@
         "exchange/exchange",
         "guide/guide",
         "notice/notice",
-        "activeBilList/activeBilList"
+        "activeBilList/activeBilList",
+        "productDetailsPage/productDetailsPage",
+        "productDetailsUparse/productDetailsUparse"
       ]
     },
     {
@@ -33,13 +35,15 @@
     {
       "root": "pages/ucenter",
       "pages": [
+        "login/login",
         "orderList/orderList",
         "recharge/recharge",
         "myAuction/myAuction",
         "myOrder/myOrder",
-        "shippingAddress/shippingAddress",
+        "addressShipping/addressShipping",
         "sharePromotion/sharePromotion",
-        "helpAndFeedback/helpAndFeedback"
+        "helpAndFeedback/helpAndFeedback",
+        "addressUpdate/addressUpdate"
       ]
     }
   ],
