@@ -2,28 +2,30 @@
 	<view class="container">
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
-				<view class="nav-left-item" @click="categoryClickMain(item,index)" :key="index" v-for="(item,index) in categoryList" :class="categoryActive==index?'active':''">
+				<view class="nav-left-item" @click="categoryClickMain(index)" :key="index" v-for="(item,index) in categoryList" :class="categoryActive==index?'active':''">
 					{{item.CategoryName}}
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
 					<view class="teng-item-images">
-			  		<image class="nav-right-item-image" :src="item.logo" />
+			  		<image class="nav-right-item-image" :src="item.ProductPics|url" />
 						<image class="teng-order-show-status" :src="statusIcon" />
 					</view>
 					<view class="teng-content">
-				   	<view class="teng-title">{{item.name}}</view>
+				   	<view class="teng-title">{{item.ProductTitle}}</view>
 						<view class="teng-type">
-							<text class="teng-type-text">手动举牌</text>
+							<text class="teng-type-text" v-if="item.HistoryActive">{{item.HistoryActive}}</text>
+							<text class="teng-type-text" v-if="item.HistorySales">{{item.HistorySales}}</text>
+							<text class="teng-type-text" v-if="item.HistoryTimes">{{item.HistoryTimes}}</text>
 						</view>
 						<view class="teng-footer">
 							<view class="teng-pirce">
 								<text class="teng-pirce-text">上期成交：</text>
-								<text class="teng-price-number">¥{{item.price}}</text>
+								<text class="teng-price-number">¥{{item.ProductPrice}}</text>
 							</view>
 							<view class="teng-jion-btn">
-								<button class="btn teng-btn">参加竞拍</button>
+								<button class="btn teng-btn">{{item.ProductPrimeCost}}</button>
 							</view>
 						</view>
 					</view>
@@ -37,23 +39,6 @@
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
 	import { ProductCategoryListGet, ProductPaiListGet } from '@/common/config/api'
-
-	let categoryList: any = [{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	},{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	},{
-		logo: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-		name: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		status: '1',
-		price: '0.86'
-	}]
 	export default Vue.extend({
 		data() {
 			return {
@@ -84,21 +69,28 @@
 			  request(ProductCategoryListGet, data).then((res: any) => {
           this.categoryList = res.CategoryList
 				})
-				this.subCategoryList = categoryList
+				this.categoryClickMain(0)
 			},
-			categoryClickMain(categroy: any, index: any): void {
-        let i: any = this.categoryList[index]
-        console.log(i)
+			// 商品列表
+			categoryClickMain(index: any): void {
+        let item: any = this.categoryList[index]
+        console.log(item)
         this.categoryActive = index;
-        let CategoryID = i.ID
+        let CategoryID = item.ID
         let data = {
-          PageID: '1',
-          PageSize: '10',
-          CategoryID: i.ID,
-          ActiveType: '1'
+          PageID: 1,
+          PageSize: 10,
+          CategoryID: CategoryID
         }
 			  request(ProductPaiListGet, data).then((res: any) => {
-          // this.subCategoryList = res.ProductList
+					let subCategoryList = res.ProductList
+					subCategoryList.map((item: any) => {
+						item.HistoryActive = item.HistoryActive === 0 ? '手动举牌' : '自动举牌'
+						item.HistorySales = item.HistorySales === 0 ? '十元区' : ''
+						item.HistoryTimes = item.HistoryTimes === 0 ? '' : '定时开始'
+						item.ProductPrimeCost = item.ProductPrimeCost === 0 ? '参加竞拍' : '参加下一期'
+					})
+					this.subCategoryList = subCategoryList
 				})
 			},
 		}
@@ -139,7 +131,6 @@
 		justify-content: flex-start;
 		align-items: center;
 		height: 220upx;
-		text-align: center;
 		padding: 11upx;
 		font-size: 28upx;
 		border-bottom: 2upx solid #f4f4f4;
@@ -178,7 +169,8 @@
 	}
 
 	.teng-content {
-		margin-left: 8upx;
+		width: 100%;
+		margin-left: 10upx;
 	}
 
 	.teng-title {
@@ -194,8 +186,11 @@
 	}
 
 	.teng-type-text {
+		width: 96upx;
 		font-size: 24upx;
 		line-height: 1.6;
+		text-align: center;
+		margin-right: 10upx;
 		padding: 0 10upx;
 		color: #fe7f00;
 		border: 2upx solid #fe7f00;

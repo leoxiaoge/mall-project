@@ -35,7 +35,7 @@
 		<view class="teng-order">
 			<view class="teng-order-head teng-flex-between">
 				<view class="teng-my-order">
-					<text>我的订单</text>
+					<text class="teng-my-order-text">我的订单</text>
 				</view>
 				<view class="teng-all-orders">
 					<text class="teng-all-orders-text">全部订单</text>
@@ -308,8 +308,13 @@
 		border-top: 2upx solid #e6e6e6
 	}
 
+	.teng-my-order-text {
+		font-size: 32upx;
+	}
+
 	.teng-order-list {
 		background-color: #fff;
-		border-bottom: 2upx solid #e6e6e6
+		border-bottom: 2upx solid #e6e6e6;
+		padding: 0 20upx;
 	}
 </style>

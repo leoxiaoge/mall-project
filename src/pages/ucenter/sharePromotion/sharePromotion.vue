@@ -79,6 +79,8 @@
 	}
 
 	.teng-share-code {
+		width: 460upx;
+		height: 460upx;
 		text-align: center;
 		margin: 10upx 20upx 40upx 20upx;
 	}

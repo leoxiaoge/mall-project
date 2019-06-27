@@ -38,4 +38,13 @@
 .i-label-item-text {
 	margin: 0 10rpx;
 }
+.i-product-head {
+	padding: 20rpx 30rpx;
+}
+.i-product-title {
+	font-size: 32rpx;
+	color: #4d4d4d;
+	line-height: 1.2;
+	font-weight: 600;
+}
 

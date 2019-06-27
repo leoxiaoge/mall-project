@@ -42,7 +42,4 @@
 	background-color: #fe7f00;
 	border-radius: 100rpx;
 }
-.i-common-pb {
-	height: 80rpx;
-}
 

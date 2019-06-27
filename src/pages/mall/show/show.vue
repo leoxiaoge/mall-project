@@ -1,109 +1,112 @@
 <template>
 	<view class="content">
-    <view class="teng-show-order-list" v-for="(item, index) in list" :key="index">
+    <view class="teng-show-order-list" v-for="(item, index) in orderList" :key="index">
 			<view class="teng-show-userinfo">
 				 <view class="teng-show-user">
-			  	<image class="logo" :src="item.img" />
+			  	<image class="logo" :src="item.UserFace" />
 			  </view>
 				<view class="teng-show-title">
-					<view class="teng-show-name">{{item.name}}</view>
-					<view class="teng-show-time">{{item.date}}</view>
+					<view class="teng-show-name">{{item.UserNick}}</view>
+					<view class="teng-show-time">{{item.Updated}}</view>
 				</view>
 			</view>
-			<view class="teng-show-order" v-for="(i, idx) in item.shop" :key="idx">
+			<view class="teng-show-order">
 				<view class="teng-show-order-images">
-					<image :src="i.img" />
+					<image :src="item.ProductPicList[0]" />
 				</view>
 				<view class="teng-show-order-content">
-					<view class="teng-show-order-content-title">{{i.title}}</view>
-					<view class="teng-show-order-content-date">成交时间：{{i.date}}</view>
+					<view class="teng-show-order-content-title">{{item.ProductName}}</view>
+					<view class="teng-show-order-content-date">成交时间：{{item.Created}}</view>
 					<view class="teng-show-order-content-price">
 						<text>成交价：</text>
-						<text class="teng-show-order-content-price-text teng-original">{{i.price}}</text>
+						<text class="teng-show-order-content-price-text teng-original">{{item.OrderMoneys}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="teng-show-content">
-				<view class="teng-show-content-text">{{item.content}}</view>
+				<view class="teng-show-content-text">{{item.OrderComment.Comment}}</view>
 			</view>
 			<view class="teng-show-content-images">
-				<view class="teng-show-content-image" v-for="(y, ydx) in item.comtentImg" :key="ydx">
-					<image :src="y.img" />
+				<view class="teng-show-content-image" v-for="(i, idx) in item.OrderComment.CommentPicList" :key="idx">
+					<image :src="i" :data-src="i" :data-urls="item.OrderComment.CommentPicList" @tap="previewImage" />
 				</view>
 			</view>
 		</view>
+		<uni-load-more :status="status" :content-text="contentText" />
   </view>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
-	import { ProductPaiListGet } from '@/common/config/api'
+	import { OrderDryingListGet } from '@/common/config/api'
+	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 	export default Vue.extend({
+		components: {
+			uniLoadMore
+		},
 		data() {
 			return {
-				list: [{
-					img: '../../../static/logo.png',
-					name : '小明同学',
-					date: '2019-06-12 23:12:53',
-					shop: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-						title: 'title',
-						date: '2019-06-12 23:12:53',
-						price: '12.6'
-					}],
-					content: '好东西非常好',
-					comtentImg: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg'
-					},{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg'
-					}]
-				},{
-					img: '../../../static/logo.png',
-					name : '小明同学',
-					data: '2019-06-12 23:12:53',
-					shop: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-						title: 'title',
-						data: '2019-06-12 23:12:53',
-						price: '12.6'
-					}],
-					content: '好东西非常好',
-					comtentImg: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product6.jpg'
-					},{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product6.jpg'
-					}]
-				},{
-					img: '../../../static/logo.png',
-					name : '小明同学',
-					data: '2019-06-12 23:12:53',
-					shop: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product3.jpg',
-						title: 'title',
-						data: '2019-06-12 23:12:53',
-						price: '12.6'
-					}],
-					content: '好东西非常好',
-					comtentImg: [{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product6.jpg'
-					},{
-						img: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product6.jpg'
-					}]
-				}]
+				PageID: 1,
+				PageSize: 10,
+				orderList: [],
+				reload: false,
+				status: '',
+				Totals: 0,
+				contentText: {
+					contentdefault: '',
+					contentdown: '上拉加载更多',
+					contentrefresh: '加载中',
+					contentnomore: '没有更多数据了'
+				}
 			}
 		},
 		onLoad(options) {
       console.log('onLoad', options)
-      let data = {
-
-      }
-			request(ProductPaiListGet, data).then((res: any) => {
-        console.log(res)
-      })
+      this.getOrderDryingList()
+		},
+		onPullDownRefresh() {
+			this.reload = true
+			this.PageID = 1
+			this.getOrderDryingList()
+		},
+		onReachBottom() {
+			let orderList: any = this.orderList
+			if (orderList.length < this.Totals) {
+				//说明已有数据，目前处于上拉加载
+				this.PageID++
+				this.status = 'loading'
+				this.reload = false
+				this.status = 'more'
+        this.getOrderDryingList()
+			} else if (orderList.length === this.Totals) {
+				this.status = 'nomore'
+			}
 		},
 		methods: {
-
+			getOrderDryingList() {
+				let PageID = this.PageID
+				let PageSize = this.PageSize
+				let data = {
+          PageID: PageID,
+					PageSize: PageSize
+				}
+				request(OrderDryingListGet, data).then((res: any) => {
+					this.orderList = this.reload ? res.OrderList : this.orderList.concat(res.OrderList)
+					this.Totals  = res.Totals
+					uni.stopPullDownRefresh()
+					console.log(this.orderList)
+				})
+			},
+			previewImage(e: any) {
+				let current: any = e.target.dataset.src
+				console.log(current)
+				let urls: any = e.target.dataset.urls
+				console.log(urls)
+				uni.previewImage({
+					urls: urls
+				})
+			}
 		}
 	})
 </script>
@@ -175,7 +178,7 @@
 	}
 
 	.teng-show-order-content-price-text {
-		font-size: 36upx;
+		font-size: 32upx;
 	}
 
 	.teng-show-content {
@@ -183,7 +186,7 @@
 	}
 
 	.teng-show-content-text {
-		font-size: 32upx;
+		font-size: 30upx;
 		color: #525252
 	}
 

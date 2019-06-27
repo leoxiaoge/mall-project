@@ -25,9 +25,6 @@
 				</view>
 			</view>
 		</view>
-		<!-- #ifdef H5 -->
-		<view class="i-common-pb"></view>
-		<!-- #endif -->
 	</view>
 </template>
 
@@ -127,9 +124,5 @@
 		color: #fff;
 		background-color: #fe7f00;
 		border-radius: 100upx;
-	}
-
-	.i-common-pb {
-		height: 80upx;
 	}
 </style>

@@ -44,7 +44,8 @@
         {
           "path": "show/show",
 					"style": {
-						"navigationBarTitleText": "分享晒单"
+						"navigationBarTitleText": "分享晒单",
+						"enablePullDownRefresh": true
 					}
         },
         {
@@ -123,7 +124,8 @@
 	 	  },{
 			  "path": "myOrder/myOrder",
 		  	"style": {
-		  	  "navigationBarTitleText": "我的晒单"
+					"navigationBarTitleText": "我的晒单",
+					"enablePullDownRefresh": true
 	  		}
 	 	  },{
 			  "path": "addressShipping/addressShipping",

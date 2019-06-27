@@ -1,15 +1,41 @@
 
-.content {
-		text-align: center;
-		height: 400rpx;
+.i-comment-item {
+	margin: 0 30rpx;
+	padding: 10rpx 0;
+	border-bottom: 2rpx solid #f4f4f4;
 }
-.logo{
-    height: 200rpx;
-    width: 200rpx;
-    margin-top: 200rpx;
+.i-comment-date {
+	font-size: 28rpx;
+	color: #616161;
 }
-.title {
-		font-size: 36rpx;
-		color: #8f8f94;
+.i-comment-title {
+	font-size: 32rpx;
+	color: #333232;
+}
+.i-comment-comment {
+	font-size: 28rpx;
+	color: #333232;
+}
+.i-comment-pic {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.i-comment-pic-item {
+	width: calc(33.33% - 2px);
+	margin: 20rpx;
+	padding: 20rpx;
+}
+.i-comment-pic-item ._img {
+	width: 162rpx;
+	height: 162rpx;
 }
 

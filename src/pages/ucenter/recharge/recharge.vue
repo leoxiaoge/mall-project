@@ -83,16 +83,17 @@
     align-items: center;
     flex-wrap: wrap;
     background-color: #fff;
-    padding: 20upx 30upx;
+    padding: 20upx 10upx;
   }
 
   .teng-recharge-item {
-    width: 33.33%;
+    width: calc(33.33% - 30upx);;
     color: #333;
     background-color: #fff;
     border-radius: 20upx;
     text-align: center;
-    padding: 40upx 20upx;
+    padding: 40upx 0;
+    border: 2upx solid #f4f4f4;
   }
 
   .teng-recharge-item-active {
@@ -127,6 +128,7 @@
   }
 
   .teng-recharge-total-price {
+    font-size: 32upx;
     padding: 0 30upx;
   }
 

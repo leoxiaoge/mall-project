@@ -29,6 +29,11 @@
     <view class="i-login-button-view">
       <button class="btn i-login-button" @click="userLogin">登录</button>
     </view>
+    <!-- #ifdef MP-WEIXIN -->		
+    <view class="mp-weixin">
+      <button class="i-login-weixin" open-type="getUserInfo" @getuserinfo="getuserinfo"></button>
+    </view>
+    <!-- #endif -->
   </view>
 </template>
 
@@ -123,9 +128,16 @@
         }
 		  	request(UserLogin, data).then((res: any) => {
           console.log(res)
+          let SessionKey = res.SessionKey
+          let UserInfo = res.UserInfo
+          uni.setStorageSync('SessionKey', SessionKey)
+          uni.setStorageSync('UserInfo', UserInfo)
           showToast('登录成功！')
         })
       },
+      getuserinfo(e: any) {
+        console.log(e)
+      }
 		}
 	})
 </script>
@@ -222,5 +234,13 @@
     background-color: #fe7f00;
     border-radius: 100upx;
     margin-top: 40upx;
+  }
+
+  .i-login-weixin {
+    background: url(/static/icon/icon_wechat.png) center no-repeat;
+    background-size: 100%;
+    width: 88upx;
+    height: 88upx;
+    margin-top: 160upx;
   }
 </style>

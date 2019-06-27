@@ -91,21 +91,8 @@
 			</view>
 			<view class="i-product-"></view>
 		</view>
-		<view class="i-product-">
-			<view class="i-product-">
-				<view class="i-product-">剩余次数</view>
-				<view class="i-product-">
-
-				</view>
-			</view>
-			<view class="i-product-">
-				<view class="i-product-">
-					<button class="btn">举牌</button>
-				</view>
-				<view class="i-product-">
-					<button class="btn">托管</button>
-				</view>
-			</view>
+		<view class="i-product-placard">
+			<i-placard :type="id" :num="num"></i-placard>
 		</view>
   </view>
 </template>
@@ -114,7 +101,11 @@
   import Vue from 'vue'
   import { request, navigateTo } from '@/common/utils/util'
 	import { ProductGet } from '@/common/config/api'
+	import iPlacard from '@/components/i-placard/i-placard.vue'
 	export default Vue.extend({
+		components: {
+			iPlacard
+		},
 		data() {
 			return {
 				indicatorDots: true,
@@ -128,6 +119,7 @@
 				title: '服务',
 				id: '',
 				product: '',
+				num: '9999', // 剩余次数
 
 				tab: ['零风险', '正品承诺', '极速发货', '公平公正']
 			}
@@ -186,5 +178,16 @@
 
 	.i-label-item-text {
 		margin: 0 10upx;
+	}
+
+	.i-product-head {
+		padding: 20upx 30upx;
+	}
+
+	.i-product-title {
+		font-size: 32upx;
+		color: #4d4d4d;
+		line-height: 1.2;
+		font-weight: 600;
 	}
 </style>

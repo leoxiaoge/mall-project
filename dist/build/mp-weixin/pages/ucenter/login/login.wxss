@@ -79,4 +79,11 @@ uni-button[disabled]:not([type]), uni-button[disabled][type=default] {
     border-radius: 100rpx;
     margin-top: 40rpx;
 }
+.i-login-weixin {
+    background: url(/static/icon/icon_wechat.png) center no-repeat;
+    background-size: 100%;
+    width: 88rpx;
+    height: 88rpx;
+    margin-top: 160rpx;
+}
 

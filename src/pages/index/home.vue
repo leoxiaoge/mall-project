@@ -193,7 +193,7 @@
     position: relative;
     top: -14upx;
     background-color: #fff;
-    padding-top: 40upx;
+    padding-top: 28upx;
     border-radius: 50%
   }
 

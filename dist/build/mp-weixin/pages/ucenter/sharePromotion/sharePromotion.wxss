@@ -8,6 +8,8 @@
 		padding: 40rpx 60rpx;
 }
 .teng-share-code {
+		width: 460rpx;
+		height: 460rpx;
 		text-align: center;
 		margin: 10rpx 20rpx 40rpx 20rpx;
 }

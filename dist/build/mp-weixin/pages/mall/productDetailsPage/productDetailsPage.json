@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "竞拍详情",
-  "usingComponents": {}
+  "usingComponents": {
+    "i-placard": "/components/i-placard/i-placard"
+  }
 }

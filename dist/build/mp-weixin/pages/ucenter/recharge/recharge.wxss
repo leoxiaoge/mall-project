@@ -18,15 +18,16 @@ page {
         -ms-flex-wrap: wrap;
             flex-wrap: wrap;
     background-color: #fff;
-    padding: 20rpx 30rpx;
+    padding: 20rpx 10rpx;
 }
 .teng-recharge-item {
-    width: 33.33%;
+    width: calc(33.33% - 30rpx);
     color: #333;
     background-color: #fff;
     border-radius: 20rpx;
     text-align: center;
-    padding: 40rpx 20rpx;
+    padding: 40rpx 0;
+    border: 2rpx solid #f4f4f4;
 }
 .teng-recharge-item-active {
     color: #fff;
@@ -54,6 +55,7 @@ page {
     background-color: #f4f4f4;
 }
 .teng-recharge-total-price {
+    font-size: 32rpx;
     padding: 0 30rpx;
 }
 .teng-recharge-total-price-number {
