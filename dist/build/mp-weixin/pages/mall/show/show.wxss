@@ -71,13 +71,13 @@
 	        align-items: center
 }
 .teng-show-order-content-price-text {
-	font-size: 36rpx;
+	font-size: 32rpx;
 }
 .teng-show-content {
 	padding: 20rpx 0
 }
 .teng-show-content-text {
-	font-size: 32rpx;
+	font-size: 30rpx;
 	color: #525252
 }
 .teng-show-content-images {

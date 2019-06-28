@@ -6,7 +6,7 @@
 			<view class="i-comment-comment">{{item.OrderComment.Comment}}</view>
 			<view class="i-comment-pic">
 				<view class="i-comment-pic-item" v-for="(i, index) in item.ProductPicList" :key="index">
-					<img :src="i|url" />
+					<img :src="i|url" :data-src="i" :data-urls="item.ProductPicList" @tap="previewImage" />
 				</view>
 			</view>
 		</view>
@@ -77,6 +77,16 @@
 					this.orderList = this.reload ? res.OrderList : this.orderList.concat(res.OrderList)
 					this.Totals  = res.Totals
 					uni.stopPullDownRefresh()
+				})
+			},
+			previewImage(e: any) {
+				console.log(e)
+				let current: any = e.currentTarget.dataset.src
+				let urlString: any = e.currentTarget.dataset.urls
+				let urls: any = urlString.split(",")
+				uni.previewImage({
+					current: current,
+					urls: urls
 				})
 			}
 		}

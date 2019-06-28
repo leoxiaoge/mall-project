@@ -14,7 +14,7 @@
   position: relative;
   top: -14rpx;
   background-color: #fff;
-  padding-top: 40rpx;
+  padding-top: 28rpx;
   border-radius: 50%
 }
 .teng-options-grid {

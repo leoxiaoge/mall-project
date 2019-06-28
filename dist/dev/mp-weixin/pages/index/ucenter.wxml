@@ -1,1 +1,0 @@
-<view class="content"><view class="UCenter-bg"><view class="userInfo-head"><open-data type="userAvatarUrl"></open-data></view><view class="text-xl"><view class="userInfo-txt-name"><open-data type="userNickName"></open-data></view></view></view></view>

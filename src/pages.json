@@ -45,6 +45,7 @@
           "path": "show/show",
 					"style": {
 						"navigationBarTitleText": "分享晒单",
+						"onReachBottomDistance": 50,
 						"enablePullDownRefresh": true
 					}
         },

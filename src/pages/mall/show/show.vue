@@ -99,11 +99,11 @@
 				})
 			},
 			previewImage(e: any) {
-				let current: any = e.target.dataset.src
-				console.log(current)
-				let urls: any = e.target.dataset.urls
-				console.log(urls)
+				let current: any = e.currentTarget.dataset.src
+				let urlString: any = e.currentTarget.dataset.urls
+				let urls: any = urlString.split(",")
 				uni.previewImage({
+					current: current,
 					urls: urls
 				})
 			}

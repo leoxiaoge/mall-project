@@ -1,1 +1,0 @@
-<view><button type="primary" data-event-opts="{{[['tap',[['getLocation',['$event']]]]]}}" bindtap="__e">http请求</button></view>

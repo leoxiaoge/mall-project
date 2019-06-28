@@ -1,1 +1,0 @@
-<view class="content"><image class="logo" src="../../static/logo.png"></image><view><text data-event-opts="{{[['tap',[['openLink',['$event']]]]]}}" class="title" bindtap="__e">{{title}}</text></view><view></view><share vue-id="1" bind:__l="__l"></share></view>
