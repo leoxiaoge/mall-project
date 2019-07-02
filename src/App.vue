@@ -17,7 +17,7 @@
 <style>
   /*每个页面公共css */
 	@import './common/uni.css';
-
+	
 	page {
 		background-color: #F4F4F4;
 		font-size: 28rpx;
@@ -52,6 +52,7 @@
 		box-sizing: border-box;
 		background-color: #fff;
 		font-family: PingFangSC-Light, helvetica, 'Heiti SC';
+		position: relative;
 	}
 
 	view, image, text, navigator {

@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "分享晒单",
+  "onReachBottomDistance": 50,
   "enablePullDownRefresh": true,
   "usingComponents": {
     "uni-load-more": "/components/uni-load-more/uni-load-more"

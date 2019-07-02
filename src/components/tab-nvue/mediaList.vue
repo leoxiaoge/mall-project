@@ -1,16 +1,16 @@
 <template>
-	<view class="view">
+	<view class="container">
 		<view class="list-cell view" hover-class="uni-list-cell-hover" @click="bindClick">
 			<view class="teng-order-list view">
 				<view class="teng-order-body teng-flex">
 					<view class="teng-order-image">
-						<image class="teng-order-image-src" :src="options.CommentPics" />
+						<image class="teng-order-image-src" :src="options.ProductPicList[0]" />
 						<image class="teng-order-show-status" :src="status" v-if="showStatus"/>
 					</view>
 					<view class="teng-order-text">
 						<view class="teng-order-title teng-flex-between">
 							<view class="teng-order-name">{{options.ProductName}}</view>
-							<view class="teng-order-num">x{{options.num}}</view>
+							<view class="teng-order-num">x1</view>
 						</view>
 						<view class="teng-order-body teng-flex">
 							<view class="teng-order-placard-status">{{options.OrderStatus}}</view>
@@ -19,14 +19,16 @@
 						<view class="teng-order-footer teng-flex-between">
 							<view class="teng-order-price">
 								<text class="teng-order-msg">成交价：</text>
-								<text class="teng-order-original">{{options.price}}</text>
+								<text class="teng-order-original">{{options.OrderPrimeCost}}</text>
 							</view>
-							<view class="teng-order-status">待付款</view>
+							<view class="teng-order-status">{{options.OrderStatusName}}</view>
 						</view>
 					</view>
 				</view>
-				<view class="teng-order-button teng-flex-end">
-					<button class="btn">{{options.ActionButtons}}</button>
+				<view class="i-order-footer">
+					<view class="teng-order-button teng-flex-end" v-for="(i, idx) in options.ActionButtons" :key="idx">
+						<button class="btn">{{i.btn}}</button>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -64,6 +66,10 @@
 </script>
 
 <style>
+  page {
+		width: 100%;
+		height: 100%;
+	}
 	.view {
 		display: flex;
 		flex-direction: column;
@@ -151,6 +157,16 @@
 	.teng-order-status {
 		font-size: 28upx;
 		color: #666666
+	}
+
+	.i-order-footer {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.teng-order-button {
+		margin: 10upx 0 0 10rpx;
 	}
 
 	.teng-order-button button {

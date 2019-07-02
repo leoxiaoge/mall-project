@@ -4,7 +4,10 @@
 		  "path": "pages/index/home",
 		  "style": {
 			"navigationBarTitleText": "腾拍商城",
-			"enablePullDownRefresh": true
+			"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
 		  }
 		},
 		{
@@ -111,6 +114,14 @@
 			  "path": "orderList/orderList",
 		  	"style": {
 		  	  "navigationBarTitleText": "订单中心"
+				},
+				"app-plus": {
+					"bounce": "none"
+				}
+	 	  },{
+			  "path": "orderDetail/orderDetail",
+		  	"style": {
+		  	  "navigationBarTitleText": "订单详情"
 	  		}
 	 	  },{
 			  "path": "recharge/recharge",

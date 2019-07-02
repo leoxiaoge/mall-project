@@ -1669,6 +1669,7 @@ page {
 		        box-sizing: border-box;
 		background-color: #fff;
 		font-family: PingFangSC-Light, helvetica, 'Heiti SC';
+		position: relative;
 }
 view, image, text, navigator {
 		-webkit-box-sizing: border-box;

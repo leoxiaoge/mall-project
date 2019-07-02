@@ -37,6 +37,7 @@
       "pages": [
         "login/login",
         "orderList/orderList",
+        "orderDetail/orderDetail",
         "recharge/recharge",
         "myAuction/myAuction",
         "myOrder/myOrder",
@@ -87,6 +88,5 @@
   },
   "usingComponents": {
     "page-head": "/components/page-head"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

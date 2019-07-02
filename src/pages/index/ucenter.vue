@@ -37,13 +37,13 @@
 				<view class="teng-my-order">
 					<text class="teng-my-order-text">我的订单</text>
 				</view>
-				<view class="teng-all-orders">
+				<view class="teng-all-orders" @click="allOrderClick">
 					<text class="teng-all-orders-text">全部订单</text>
 					<uni-icon :size="20" color="#bbb" type="arrowright" />
 				</view>
 			</view>
 			<view class="teng-order-list">
-				<uni-grid :options="lists" :is-order="true" :show-border="false" :show-out-border="false" :column-num="4" />
+				<uni-grid ref="uniGrid" :options="lists" :is-order="true" :show-border="false" :show-out-border="false" :column-num="4" @click="orderClick" />
 			</view>
 		</view>
 		<view class="teng-listItem">
@@ -73,27 +73,31 @@
 			return {
 				userInfo: '',
 				lists: [{
+					id: '0',
           image: '/static/icon/icon_pending_address.png',
 					text: '待填地址',
-					status: '0',
+					status: '',
           navigateTo: 'orderList'
         },
         {
+					id: '1',
           image: '/static/icon/icon_pending_payment.png',
 					text: '待付款',
 					status: '1',
           navigateTo: 'orderList'
         },
         {
+					id: '2',
           image: '/static/icon/icon_pending_receipt.png',
 					text: '待收货',
-					status: '2',
+					status: '3',
           navigateTo: 'orderList'
         },
         {
+					id: '3',
           image: '/static/icon/icon_pending_order.png',
 					text: '待晒单',
-					status: '3',
+					status: '4',
           navigateTo: 'orderList'
         }],
 				listItem: [{
@@ -150,6 +154,24 @@
 			// 去充值
 			recharge() {
 				navigateTo('../ucenter/recharge/recharge')
+			},
+			// 全部订单
+			allOrderClick() {
+				navigateTo('../ucenter/orderList/orderList')
+			},
+			// status=> 
+			// 等待填写地址 = 0,
+			// 等待付款 = 1,
+			// 等待发货 = 2,
+			// 等待收货 = 3,
+			// 等待晒单 = 4,
+			// 成功完成 = 5,
+			// 订单取消 = 6
+			orderClick(item: any) {
+				console.log(item)
+				let status = item.status
+				var navigate = `../ucenter/${item.navigateTo}/${item.navigateTo}?status=` + status
+				navigateTo(navigate)
 			}
 		}
 	});

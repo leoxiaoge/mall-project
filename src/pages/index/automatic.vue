@@ -67,15 +67,17 @@
       getCategory(): void{
         let data = {}
 			  request(ProductCategoryListGet, data).then((res: any) => {
-          this.categoryList = res.CategoryList
+					this.categoryList = res.CategoryList
+					this.categoryClickMain(0)
 				})
-				this.categoryClickMain(0)
 			},
 			// 商品列表
 			categoryClickMain(index: any): void {
-        let item: any = this.categoryList[index]
+				console.log(index)
+				let item: any = this.categoryList[index]
+				console.log(this.categoryList)
         console.log(item)
-        this.categoryActive = index;
+        this.categoryActive = index
         let CategoryID = item.ID
         let data = {
           PageID: 1,
