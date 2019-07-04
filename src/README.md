@@ -46,6 +46,7 @@ Md5.hashStr(password);
 结果 ： 4297f44b13955235245b2497399d7a93
 
 #目录结构
+NG-ALAIN 是一个标准的 Angular CLI 构建的项目，并提供了涵盖中后台开发的各类功能和坑位，下面是整个项目的目录结构。
 
 ├── _mock                                       # Mock 数据规则
 ├── src
