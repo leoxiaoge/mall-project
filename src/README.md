@@ -1,6 +1,6 @@
 #前序准备
 
-本地环境需要安装 node、yarn 和 git。我们的技术栈基于 Typescript、vue、webpack、postcss 和 uni-app
+本地环境需要安装 node、yarn 和 git。我们的技术栈基于 Typescript、vue、webpack、postcss 和 weex
 
 #目录结构
 mall-project 是一个标准的 VUE CLI 构建的项目，并提供了涵盖中开发的各类功能和多端需求，下面是整个项目的目录结构。
