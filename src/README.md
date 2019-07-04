@@ -1,5 +1,8 @@
+#前序准备
 
-环境安装
+本地环境需要安装 node、yarn 和 git。我们的技术栈基于 Typescript、vue、webpack、postcss 和 uni-app
+
+#环境安装
 
 全局安装vue-cli
 
@@ -11,11 +14,13 @@ vue create -p dcloudio/uni-preset-vue my-project
 
 my-project为项目文件
 
-小程序项目
+#克隆代码
 
 git clone https://github.com/leoxiaoge/mall-project
 
 安装 推荐使用 yarn 或者 yarn start 或者 npm install
+
+注：使用CLI安装，是一个干净的脚手架；使用克隆代码会包含所有示例。
 
 安装 ts-md5
 
@@ -40,9 +45,36 @@ Md5.hashStr(password);
 
 结果 ： 4297f44b13955235245b2497399d7a93
 
+#目录结构
+
+├── _mock                                       # Mock 数据规则
+├── src
+│   ├── app
+│   │   ├── core                                # 核心模块
+│   │   │   ├── i18n
+│   │   │   ├── net
+│   │   │   │   └── default.interceptor.ts      # 默认HTTP拦截器
+│   │   │   ├── services
+│   │   │   │   └── startup.service.ts          # 初始化项目配置
+│   │   │   └── core.module.ts                  # 核心模块文件
+│   │   ├── layout                              # 通用布局
+│   │   ├── routes
+│   │   │   ├── **                              # 业务目录
+│   │   │   ├── routes.module.ts                # 业务路由模块
+│   │   │   └── routes-routing.module.ts        # 业务路由注册口
+│   │   ├── shared                              # 共享模块
+│   │   │   └── shared.module.ts                # 共享模块文件
+│   │   ├── app.component.ts                    # 根组件
+│   │   └── app.module.ts                       # 根模块
+│   │   └── delon.module.ts                     # @delon模块导入
+│   ├── assets                                  # 本地静态资源
+│   ├── environments                            # 环境变量配置
+│   ├── styles                                  # 样式目录
+└── └── style.less                              # 样式引导入口
+
 运行项目 推荐使用 yarn serve 或者 npm run dev:h5
 
-运行并发布
+#运行并发布
 
 npm run dev:%PLATFORM%
 
@@ -65,7 +97,7 @@ mp-toutiao	头条小程序
 
       微信小程序运行并发布： npm run build:mp-weixin
       
-备注： 
+#备注： 
 
 dev 模式编译出的各平台代码存放于根目录下的 /dist/dev/目录，打开各平台开发工具选择对应平台目录即可进行预览（h5 平台不会在此目录，存在于缓存中）；
 
