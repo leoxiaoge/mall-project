@@ -1,6 +1,6 @@
 #前序准备
 
-本地环境需要安装 node、yarn 和 git。我们的技术栈基于 Typescript、vue、webpack、postcss 和 weex
+本地环境需要安装 node、yarn 和 git。我们的技术栈基于 Typescript、Vue、Webpack、postcss 和 weex
 
 #目录结构
 
