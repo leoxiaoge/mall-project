@@ -14,6 +14,7 @@
 		<mescroll-uni top="100" @down="downCallback" @up="upCallback">
 			<block v-for="(item, index) in orderList" :key="index">
 				<media-list :options="item" @click="goDetail(item)"></media-list>
+				<view @click="goOrderDrying(item)">213</view>
 			</block>
 		</mescroll-uni>
 	</view>
@@ -70,6 +71,7 @@ export default Vue.extend({
 		console.log(options);
 		let status = options.status;
 		this.current = status;
+		this.OrderStatus = status;
 	},
 	methods: {
 		// 点击选项卡
@@ -140,6 +142,13 @@ export default Vue.extend({
 			console.log(e);
 			uni.navigateTo({
 				url: "../orderDetail/orderDetail?id=" + e.OrderID
+			});
+		},
+		// 晒单上传
+		goOrderDrying(e: any) {
+			console.log(e);
+			uni.navigateTo({
+				url: "../orderDryingUpload/orderDryingUpload?id=" + e.OrderID
 			});
 		}
 	}

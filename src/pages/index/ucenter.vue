@@ -26,7 +26,7 @@
 			<view class="teng-left teng-flex">
 				<text class="icon-gold"></text>
 				<text class="teng-ticket">我的入场券</text>
-				<text class="teng-number">1669</text>
+				<text class="teng-number">{{userInfo.Integrals}}</text>
 			</view>
 			<view class="teng-right teng-recharge">
 				<button class="btn" @click="recharge">去充值</button>
@@ -72,6 +72,7 @@
 		data() {
 			return {
 				userInfo: '',
+				Integrals: '',
 				lists: [{
 					id: '0',
           image: '/static/icon/icon_pending_address.png',
@@ -137,6 +138,9 @@
 				uni.setStorageSync('UserInfo', UserInfo)
 				console.log(SessionKey)
 			})
+		},
+		onShow() {
+
 		},
 		methods: {
 			useInfo() {

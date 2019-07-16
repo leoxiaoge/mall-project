@@ -89,6 +89,28 @@ export const request = (api: any, data: any) => {
   })
 }
 
+export const upload = (api: any, data: any, filePath: any) => {
+  return new Promise((resolve, reject) => {
+    let handle = processing(api, data)
+    console.log(api, data, filePath)
+    uni.uploadFile({
+      url:  handle.url,
+      filePath: filePath,
+      name: 'file',
+      formData: handle.postdata,
+      success (res: any){
+        const data = res.data
+        console.log(res)
+        resolve(res.data)
+      },
+      fail (err: any) {
+        reject(err)
+        showToast("网络出错!")
+      }
+    })
+  })
+}
+
 export const showErrorToast = (msg: any) => {
   uni.showToast({
     title: msg,

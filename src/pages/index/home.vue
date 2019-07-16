@@ -1,53 +1,55 @@
 <template>
 	<view>
     <mescroll-uni @down="downCallback" @up="upCallback">
-    <!-- 轮播 -->
-		<view class="i-padding-wrap">
-			<view class="page-section swiper">
-				<view class="page-section-spacing">
-					<swiper
-						class="swiper-box"
-						:indicator-dots="indicatorDots"
-						:autoplay="autoplay"
-						:interval="interval"
-						:duration="duration"
-            :circular="circular"
-            :indicator-active-color="indicatorActiveColor"
-					>
-						<swiper-item v-for="(item, index) in swiper" :key="index">
-              <image :src="item.AdPicUrl" mode="aspectFill" />
-						</swiper-item>
-					</swiper>
-				</view>
-			</view>
-		</view>
-    <!-- 分类导航 -->
-    <view class="teng-option">
-      <view class="teng-options"></view>
-      <view class="teng-options-grid">
-        <uni-grid :options="list" :show-border="false" :show-out-border="false" :column-num="4" @click="listClick" />
-      </view>
-    </view>
-    <!-- 滚动公告 -->
-    <view class="uni-swiper-msg">
-			<view class="uni-swiper-msg-icon">
-				<image src="/static/icon/icon_notice.png" mode="widthFix"></image>
-			</view>
-			<swiper class="uni-swiper-wrapper" vertical="true" autoplay="true" circular="true" interval="3000" display-multiple-items="2">
-        <block v-for="(item, index) in LastTranActiveList" :key="index">
-          <swiper-item>
-            <view class="i-item-msg">
-              <text class="teng-notice-content">恭喜<text class="i-notice-original">{{item.ProductName}}</text>以<text class="i-notice-original">¥{{item.OrderMoney}}</text>元拍得</text>
+      <view class="content">
+        <!-- 轮播 -->
+        <view class="i-padding-wrap">
+          <view class="page-section swiper">
+            <view class="page-section-spacing">
+              <swiper
+                class="swiper-box"
+                :indicator-dots="indicatorDots"
+                :autoplay="autoplay"
+                :interval="interval"
+                :duration="duration"
+                :circular="circular"
+                :indicator-active-color="indicatorActiveColor"
+              >
+                <swiper-item v-for="(item, index) in swiper" :key="index">
+                  <image :src="item.AdPicUrl" mode="aspectFill" />
+                </swiper-item>
+              </swiper>
             </view>
-          </swiper-item>
-        </block>
-			</swiper>
-      <view class="notice-more" @click="noticeList">更多</view>
-	  </view>
-    <!-- 正在竞拍 -->
-    <product-list-being :options="productList" />
-    <!-- 即将开拍 -->
-    <product-list :options="productListIng" />
+          </view>
+        </view>
+        <!-- 分类导航 -->
+        <view class="teng-option">
+          <view class="teng-options"></view>
+          <view class="teng-options-grid">
+            <uni-grid :options="list" :show-border="false" :show-out-border="false" :column-num="4" @click="listClick" />
+          </view>
+        </view>
+        <!-- 滚动公告 -->
+        <view class="uni-swiper-msg">
+          <view class="uni-swiper-msg-icon">
+            <image src="/static/icon/icon_notice.png" mode="widthFix"></image>
+          </view>
+          <swiper class="uni-swiper-wrapper" vertical="true" autoplay="true" circular="true" interval="3000" display-multiple-items="2">
+            <block v-for="(item, index) in LastTranActiveList" :key="index">
+              <swiper-item>
+                <view class="i-item-msg">
+                  <view class="teng-notice-content">恭喜<text class="i-notice-original">{{item.OrderUserNick}}</text>以<text class="i-notice-original">¥{{item.OrderMoney}}</text>元拍得{{item.ProductName}}</view>
+                </view>
+              </swiper-item>
+            </block>
+          </swiper>
+          <view class="notice-more" @click="noticeList">更多</view>
+        </view>
+        <!-- 正在竞拍 -->
+        <product-list-being :options="productList" />
+        <!-- 即将开拍 -->
+        <product-list :options="productListIng" />
+      </view>
     </mescroll-uni>
 	</view>
 </template>
@@ -264,6 +266,7 @@
 
   .uni-swiper-wrapper {
     border-left: 2upx solid #f4f4f4;
+    padding-left: 20upx;
   }
 
   .i-notice-original {

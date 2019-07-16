@@ -22,13 +22,13 @@ page {
     padding: 20rpx 0;
 }
 .i-login-mobile-image {
-    background: url(/static/icon/icon_login_mobile.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_mobile.png) center no-repeat;
     background-size: 100%;
     width: 36rpx;
     height: 52rpx;
 }
 .i-login-code-image {
-    background: url(/static/icon/icon_login_code.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_code.png) center no-repeat;
     background-size: 100%;
     width: 36rpx;
     height: 52rpx;
@@ -78,12 +78,5 @@ uni-button[disabled]:not([type]), uni-button[disabled][type=default] {
     background-color: #fe7f00;
     border-radius: 100rpx;
     margin-top: 40rpx;
-}
-.i-login-weixin {
-    background: url(/static/icon/icon_wechat.png) center no-repeat;
-    background-size: 100%;
-    width: 88rpx;
-    height: 88rpx;
-    margin-top: 160rpx;
 }
 

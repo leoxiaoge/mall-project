@@ -3,14 +3,13 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<scroll-view scroll-x class="list">
-        <view class="item" v-for="(item,index) in product" :key="index">
+        <view class="product-item" v-for="(item,index) in product" :key="index">
           <view class="" @click="productDetailsTo(item.ID)">
             <view class="teng-image-view">
-              <image class="uni-product-image img" :src="item.ProductPics | url"></image>
+              <image class="uni-product-image img" :src="item.ProductPicList[0]"></image>
             </view>
-            <view class="uni-product-title">{{item.ProductName}}</view>
-            <view class="uni-product-price">
-              <text class="uni-product-price">￥{{item.ProductPrice}}</text>
+            <view class="product-price">
+              <view class="product-price-text">￥{{item.ProductPrice}}</view>
             </view>
           </view>
           <view class="uni-product-time">
@@ -85,17 +84,10 @@
 </script>
 
 <style>
-  .uni-product-title {
-    word-break: break-all;
-    display: -webkit-box;
-    overflow: hidden;
-    line-height:1.5;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1
-  }
 
   .teng-image-view {
+    width: 160upx;
+    height: 120upx;
     margin: 12upx 0;
   }
 
@@ -104,17 +96,23 @@
     background-color: #fff
   }
 
-  .item {
+  .product-item {
     display: inline-block;
-    width: 240upx;
     margin-left: 30upx;
     overflow: hidden;
-    text-align: center
+  }
+
+  .product-price {
+    text-align: center;
+  }
+
+  .product-price-text {
+    line-height: 1.8;
   }
 
   .img {
-    width: 160upx;
-    height: 120upx;
+    width: 100%;
+    height: 100%;
     margin: 10upx 0
   }
 </style>

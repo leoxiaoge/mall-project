@@ -132,7 +132,6 @@
 		flex-wrap: nowrap;
 		justify-content: center;
 		color: #fe7f00;
-		margin-top: 10upx;
 		padding: 4upx 20upx;
 		border-radius: 100upx;
 		border: 2upx solid #e8e8e8
@@ -147,6 +146,7 @@
 	}
 
 	.uni-countdown__splitor {
+		color: #fe7f00;
 		justify-content: center;
 		line-height: 44upx;
 		padding: 0 5upx;

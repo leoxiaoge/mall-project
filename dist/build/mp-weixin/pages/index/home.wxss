@@ -25,6 +25,7 @@
 }
 .uni-swiper-wrapper {
   border-left: 2rpx solid #f4f4f4;
+  padding-left: 20rpx;
 }
 .i-notice-original {
   color: #fe7f00

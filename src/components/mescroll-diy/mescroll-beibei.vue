@@ -274,12 +274,16 @@
 <style>
 	@import "../mescroll-uni/mescroll-uni.css";
 	
+	.downwarp-content{
+		background-color: #fff;
+	}
 	/*下拉刷新--标语*/
 	.mescroll-downwarp .downwarp-slogan{
 		display: block;
-		width: 420upx;
+		width: 100%;
 		height: 168upx;
 		margin: auto;
+		background-color: #fff;
 	}
 	/*下拉刷新--向下进度动画*/
 	.mescroll-downwarp .downwarp-progress{

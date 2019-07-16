@@ -27,6 +27,7 @@ export const OrderDryingListGet = 'API.Order.OrderDryingListGet' // 获取用户
 export const LastTransactionListGet = 'API.Order.LastTransactionListGet' // 获取最新成交列表
 export const OrderExchangeSubmit = 'API.Order.OrderExchangeSubmit' // 积分兑换商品提交订单
 export const OrderPay = 'API.Order.OrderPay' // 订单支付接口
+export const OrderDryingUpload = 'API.Order.OrderDryingUpload' // 晒单上传图片
 
 // 产品活动相关 - Product => 商品与活动相关接口
 export const ProductCategoryListGet = 'API.Product.ProductCategoryListGet' // 获取商品类目列表
@@ -36,6 +37,7 @@ export const ProductGet = 'API.Product.ProductGet' // 获取商品详情
 export const ActiveBillListGet = 'API.Product.ActiveBillListGet' // 获取出价记录列表
 export const PastTransactionsListGet = 'API.Product.PastTransactionsListGet' // 往期成交列表
 export const HomeProductListGet = 'API.Product.HomeProductListGet' // 首页获取正在竞拍与即将开拍的商品列表
+export const MyActiveList = 'API.Product.MyActiveList' // 我参与的竞拍活动列表
 
 // 运营相关 - Operate => 运营相关接口
 export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表

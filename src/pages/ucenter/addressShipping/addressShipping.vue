@@ -186,14 +186,14 @@
 	}
 
 	.i-edit-address-icon {
-		background: url(/static/icon/icon_edit_address.png) center no-repeat;
+		background: url(https://api.tengpaisc.com/Resources/images/icon_edit_address.png) center no-repeat;
 		background-size: 100%;
 		width: 48upx;
 		height: 48upx;
 	}
 
 	.i-delete-address-icon {
-		background: url(/static/icon/icon_delete_address.png) center no-repeat;
+		background: url(https://api.tengpaisc.com/Resources/images/icon_delete_address.png) center no-repeat;
 		background-size: 100%;
 		width: 48upx;
 		height: 48upx;

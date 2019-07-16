@@ -5,7 +5,7 @@
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.ID)">
 	        <view class="image-view">
-						<image class="uni-product-image" :src="item.ProductPics | url"></image>
+						<image class="uni-product-image" :src="item.ProductPicList[0]"></image>
 					</view>
 					<view class="uni-product-title">{{item.ProductTitle}}</view>
 					<view class="uni-product-price">

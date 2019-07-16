@@ -39,13 +39,13 @@ page {
 		margin: 0 10rpx;
 }
 .i-edit-address-icon {
-		background: url(/static/icon/icon_edit_address.png) center no-repeat;
+		background: url(https://api.tengpaisc.com/Resources/images/icon_edit_address.png) center no-repeat;
 		background-size: 100%;
 		width: 48rpx;
 		height: 48rpx;
 }
 .i-delete-address-icon {
-		background: url(/static/icon/icon_delete_address.png) center no-repeat;
+		background: url(https://api.tengpaisc.com/Resources/images/icon_delete_address.png) center no-repeat;
 		background-size: 100%;
 		width: 48rpx;
 		height: 48rpx;

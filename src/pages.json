@@ -159,7 +159,12 @@
 		  	"style": {
 		  	  "navigationBarTitleText": "我的地址"
 	  		}
-	 	  }]
+	 	  },{
+				"path": "orderDryingUpload/orderDryingUpload",
+		  	"style": {
+		  	  "navigationBarTitleText": "晒单评价"
+	  		}
+			}]
 		}
 	],
 	"globalStyle": {

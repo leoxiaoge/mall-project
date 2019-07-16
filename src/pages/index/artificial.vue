@@ -9,7 +9,7 @@
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
 					<view class="teng-item-images">
-			  		<image class="nav-right-item-image" :src="item.ProductPics|url" />
+			  		<image class="nav-right-item-image" :src="item.ProductPicList[0]" />
 						<image class="teng-order-show-status" :src="statusIcon" />
 					</view>
 					<view class="teng-content">

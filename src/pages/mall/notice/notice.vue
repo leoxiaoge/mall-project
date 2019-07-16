@@ -3,10 +3,10 @@
     <view class="i-notice-list" v-for="(item, index) in LastTranActiveList" :key="index">
       <view class="i-notice-head">
         <view class="i-notice-name">
-          <text class="i-notice-content">恭喜<text class="i-notice-original">{{item.ProductName}}</text>以<text class="i-notice-original">¥{{item.OrderMoney}}</text>元拍得</text>
+          <text class="i-notice-content">恭喜<text class="i-notice-original">{{item.OrderUserNick}}</text>以<text class="i-notice-original">¥{{item.OrderMoney}}</text>元拍得</text>
         </view>
         <view class="i-notice">
-          <text class="i-notice-title">{{item.ProductTitle}}</text>
+          <text class="i-notice-title">{{item.ProductName}}</text>
           <text class="i-notice-status">({{item.ActiveTypeName}})</text>
         </view>
       </view>
@@ -49,6 +49,8 @@
           let LastTranActiveList = res.LastTranActiveList
           if (LastTranActiveList.length <= 0) {
             this.isNo = true
+          } else {
+            this.LastTranActiveList = LastTranActiveList
           }
         })
       }
@@ -71,7 +73,13 @@
   }
 
   .i-notice-original {
-    color: #fe7f00
+    color: #fe7f00;
+    font-weight: 600;
+  }
+
+  .i-notice-title {
+    color: #6a6a6a;
+    font-weight: 600;
   }
 
   .teng-notice-title {

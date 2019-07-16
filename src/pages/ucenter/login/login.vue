@@ -29,22 +29,21 @@
     <view class="i-login-button-view">
       <button class="btn i-login-button" @click="userLogin">登录</button>
     </view>
-    <!-- #ifdef MP-WEIXIN -->		
-    <view class="mp-weixin">
-      <button class="i-login-weixin" open-type="getUserInfo" @getuserinfo="getuserinfo"></button>
-    </view>
-    <!-- #endif -->
   </view>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { mapState, mapMutations } from 'vuex'
   import { request, navigateTo, showToast } from '@/common/utils/util'
-  import { UserLogin, GetLoginCode } from '@/common/config/api'
+  import { UserLogin, GetLoginCode, GetWXOpenID } from '@/common/config/api'
   import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	export default Vue.extend({
     components: {
 			uniIcon
+    },
+    computed: {
+			...mapState(['hasLogin'])
 		},
 		data() {
 			return {
@@ -60,13 +59,37 @@
 			}
 		},
 		onLoad(options) {
-      console.log(options)
+      console.log(this.$store.state)
+      uni.getProvider({
+        service: 'oauth',
+        success: (res: any) =>{
+            console.log(res.provider)
+            if (~res.provider.indexOf('weixin')) {
+                uni.login({
+                    provider: 'weixin',
+                    success: (loginRes: any) => {
+                      console.log(JSON.stringify(loginRes));
+                      let JSCode = loginRes.code
+                      let data = {
+                        JSCode: JSCode
+                      }
+                      request(GetWXOpenID, data).then((res: any) => {
+                        console.log(res)
+                        let OpenID = res.OpenID
+                        uni.setStorageSync('OpenID', OpenID)
+                      })
+                    }
+                });
+            }
+        }
+    });
     },
     onUnload() {
       let interval: any = this.interval
       clearInterval(interval)
     },
 		methods: {
+      ...mapMutations(['login']),
       mobileInput(e: any) {
         console.log(e)
         this.Mobile = e.detail.value
@@ -173,14 +196,14 @@
   }
 
   .i-login-mobile-image {
-    background: url(/static/icon/icon_login_mobile.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_mobile.png) center no-repeat;
     background-size: 100%;
     width: 36upx;
     height: 52upx;
   }
 
   .i-login-code-image {
-    background: url(/static/icon/icon_login_code.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_code.png) center no-repeat;
     background-size: 100%;
     width: 36upx;
     height: 52upx;
@@ -234,13 +257,5 @@
     background-color: #fe7f00;
     border-radius: 100upx;
     margin-top: 40upx;
-  }
-
-  .i-login-weixin {
-    background: url(/static/icon/icon_wechat.png) center no-repeat;
-    background-size: 100%;
-    width: 88upx;
-    height: 88upx;
-    margin-top: 160upx;
   }
 </style>

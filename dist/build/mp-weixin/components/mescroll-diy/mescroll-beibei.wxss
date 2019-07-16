@@ -209,13 +209,17 @@ page {
 		opacity: 0;
 }
 }
+.downwarp-content{
+	background-color: #fff;
+}
 
 /*下拉刷新--标语*/
 .mescroll-downwarp .downwarp-slogan{
 	display: block;
-	width: 420rpx;
+	width: 100%;
 	height: 168rpx;
 	margin: auto;
+	background-color: #fff;
 }
 
 /*下拉刷新--向下进度动画*/
