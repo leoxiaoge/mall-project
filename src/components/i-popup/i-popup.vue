@@ -56,7 +56,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			inputValue: 0,
+			inputValue: 1,
 			min: 0,
 			max: 100,
 			disabled: false,
@@ -75,7 +75,7 @@ export default Vue.extend({
 		}
 	},
 	created() {
-		this.inputValue = +this.value;
+		// this.inputValue = +this.value;
 	},
 	methods: {
 		calcValue(type: any) {
@@ -121,7 +121,7 @@ export default Vue.extend({
 			this.$emit("hidePopup");
 		},
 		closeMask() {
-			this.$emit("hidePopup");
+			this.$emit("click");
 		},
 		moveHandle() {}
 	}

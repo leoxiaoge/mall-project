@@ -207,7 +207,7 @@
 			<button class="btn join-btn" v-show="!show" @click="hidePopup">立即参与</button>
 			<button class="btn join-btn" @click="hidePopup">参与下一期</button>
 			<block>
-				<i-popup :show="show" :num="num" @change="change" @hidePopup="hidePopup" />
+				<i-popup :show="show" :num="num" @change="change" @click="billTap('报名')" />
 			</block>
 			<view class="i-product-placad">
 				<view class="i-placard-remaining-num">
@@ -268,7 +268,7 @@ export default Vue.extend({
 			title: "服务",
 			id: "",
 			product: "",
-			num: "9999", // 剩余次数
+			num: "1", // 剩余次数
 
 			tabIndex: 0, // 默认往期成交
 			pastList: [], // 往期成交列表
@@ -345,9 +345,11 @@ export default Vue.extend({
 		},
 		change(val: any) {
 			console.log(val);
+			this.num = val;
 		},
 		hidePopup() {
 			this.show = !this.show;
+
 		},
 		// 获取用户晒单列表
 		getOrderDryingList() {
@@ -570,6 +572,7 @@ export default Vue.extend({
 		async billTap(type: any) {
 			let action = type;
 			let ActiveID = this.ActiveID;
+			let num = this.num
 			let Price = this.Price;
 			let GUID: any = await this.GUID();
 			let msgTime = formatTime(new Date());
@@ -577,7 +580,7 @@ export default Vue.extend({
 				case "报名":
 					var SignupMsg = {
 						ActiveID: ActiveID,
-						Shares: 1,
+						Shares: num,
 						msgID: GUID,
 						msgType: 1,
 						msgTime: msgTime
