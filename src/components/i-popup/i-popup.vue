@@ -123,7 +123,9 @@ export default Vue.extend({
 		closeMask() {
 			this.$emit("click");
 		},
-		moveHandle() {}
+		moveHandle() {
+			this.$emit("hidePopup");
+		}
 	}
 });
 </script>

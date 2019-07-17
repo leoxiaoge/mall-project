@@ -207,7 +207,7 @@
 			<button class="btn join-btn" v-show="!show" @click="hidePopup">立即参与</button>
 			<button class="btn join-btn" @click="hidePopup">参与下一期</button>
 			<block>
-				<i-popup :show="show" :num="num" @change="change" @click="billTap('报名')" />
+				<i-popup :show="show" :num="num" @change="change" @hidePopup="hidePopup" @click="billTap('报名')" />
 			</block>
 			<view class="i-product-placad">
 				<view class="i-placard-remaining-num">
