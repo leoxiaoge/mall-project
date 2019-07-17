@@ -44,7 +44,8 @@
         "addressShipping/addressShipping",
         "sharePromotion/sharePromotion",
         "helpAndFeedback/helpAndFeedback",
-        "addressUpdate/addressUpdate"
+        "addressUpdate/addressUpdate",
+        "orderDryingUpload/orderDryingUpload"
       ]
     }
   ],
@@ -88,5 +89,6 @@
   },
   "usingComponents": {
     "page-head": "/components/page-head"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

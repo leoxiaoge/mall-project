@@ -32,20 +32,22 @@
 			<view class="i-product-title">{{product.ProductTitle}}</view>
 			<view class="i-product-name">{{product.ProductName}}</view>
 		</view>
-		<view class="i-product-last-transaction">
-			<view class="i-product-status">手动举牌</view>
-			<view class="i-product-last-transaction-content">
-				<view class="i-product-last-transaction-text">上期成交：</view>
-				<view class="i-product-last-transaction-price">¥0.86</view>
+		<block v-if="msgType === 2">
+			<view class="i-product-last-transaction">
+				<view class="i-product-status">手动举牌</view>
+				<view class="i-product-last-transaction-content">
+					<view class="i-product-last-transaction-text">上期成交：</view>
+					<view class="i-product-last-transaction-price">¥0.86</view>
+				</view>
 			</view>
-		</view>
+		</block>
 		<view class="i-product-distance-shooting">
 			<view class="i-product-distance-shooting-text">距离开拍</view>
 			<view class="i-product-line"></view>
-			<view class="i-product-distance-shooting-time">00:07:26</view>
+			<view class="i-product-distance-shooting-time">{{times}}</view>
 		</view>
 		<view class="i-product-distance-shooting">
-			<view class="i-product-distance-shooting-time">00:07:26</view>
+			<view class="i-product-distance-shooting-time">{{times}}</view>
 		</view>
 		<view class="i-product-distance-shooting-end">
 			<view class="i-product-distance-shooting-time-end">竞拍结束</view>
@@ -57,7 +59,7 @@
 				<text>拍币/赠币</text>
 			</view>
 			<view class="i-product-line"></view>
-			<view class="i-product-distance-shooting-time">00:07:26</view>
+			<view class="i-product-distance-shooting-time">{{times}}</view>
 		</view>
 		<view class="i-product-current-bid">
 			<view class="i-product-current-bid-head">当前出价</view>
@@ -76,7 +78,7 @@
 			<view
 				class="i-bill"
 				:class="(item.IsWin === 0?'':'i-active')"
-				v-for="(item, index) in BillLists"
+				v-for="(item, index) in lastbills"
 				:key="index"
 			>
 				<view class="i-bill-image i-flex">
@@ -214,10 +216,10 @@
 				</view>
 				<view class="i-placard-button-view">
 					<view class="i-placard-button">
-						<button class="btn" :disabled="disabled" @click="bill">举牌</button>
+						<button class="btn" :disabled="disabled" @click="billTap('举牌')">举牌</button>
 					</view>
 					<view class="i-placard-button i-placard-active">
-						<button class="btn" :disabled="disabled">托管</button>
+						<button class="btn" :disabled="disabled" @click="billTap('托管')">托管</button>
 					</view>
 				</view>
 			</view>
@@ -227,7 +229,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, formatTime } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	formatTime,
+	showToast,
+	showModal
+} from "@/common/utils/util";
 import {
 	ProductGet,
 	PastTransactionsListGet,
@@ -273,10 +281,27 @@ export default Vue.extend({
 			src: "/static/icon_experience.png",
 			leading: "/static/icon/icon_leading.png",
 
+			ActiveID: "",
+			Price: "",
+			msgID: "",
+			msgType: "",
+
+			seq: "", // 更新我的剩余举牌次数
+			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
+			UserID: "", // 登录成功，提示用户
+			tapbtn: "", // 托管
+			BillStat: "", // 总举牌次数
+			newprice: "", // 领先价格
+			newbill: "", // 领先人
+			lastbills: [], // 出局列表
+			times: "", // 倒计时
+			seqTime: new Date("2019/7/20 10:29:35")
 		};
 	},
 	onLoad(options: any) {
 		this.id = options.id;
+		this.ActiveID = options.id;
+		this.UserID = uni.getStorageSync("SessionKey").ID;
 		this.getProduct();
 		this.getPastTransactionsList();
 		this.getOrderDryingList();
@@ -290,9 +315,10 @@ export default Vue.extend({
 				ProductID: ProductID
 			};
 			request(ProductGet, data).then((res: any) => {
-				console.log(res);
+				console.log("获取产品详情", res);
 				this.product = res.Product;
 				this.swiper = res.Product.ProductPicList;
+				this.Price = res.Product.ProductPrice;
 			});
 		},
 		// 选项卡
@@ -341,86 +367,289 @@ export default Vue.extend({
 			let id = this.id;
 			navigateTo("../productDetailsUparse/productDetailsUparse?id=" + id);
 		},
-		// websocket连接
-		async websocket() {
-			let msgLogin = await this.reqLogin();
-			let msgSubscribe = await this.msgSubscribe();
+		websocket() {
 			uni.connectSocket({
 				url: "wss://websocket.tengpaisc.com:8888/"
 			});
 			uni.onSocketOpen((res: any) => {
-				console.log("WebSocket连接已打开！", "握手成功！");
+				console.log("WebSocket连接已打开！");
 				socketOpen = true;
 				for (let i = 0; i < socketMsgQueue.length; i++) {
-					sendSocketMessage(socketMsgQueue[i]);
+					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];
-				sendSocketMessage(msgLogin);
-				sendSocketMessage(msgSubscribe);
+				this.reqLogin();
+				this.msgSubscribe();
 			});
 			uni.onSocketError(res => {
 				console.log("WebSocket连接打开失败，请检查！");
 			});
-			function sendSocketMessage(msg: any) {
-				console.log("发送数据", socketOpen, msg);
-				if (socketOpen) {
-					uni.sendSocketMessage({
-						data: msg
-					});
-				} else {
-					socketMsgQueue.push(msg);
-				}
+			this.onSocketMessage();
+		},
+		sendSocketMessage(msg: any) {
+			let data: string = JSON.stringify(msg);
+			console.log("发送数据", socketOpen, msg);
+			if (socketOpen) {
+				uni.sendSocketMessage({
+					data: data
+				});
+			} else {
+				socketMsgQueue.push(msg);
 			}
+		},
+		onSocketMessage() {
 			return new Promise((sesolve, reject) => {
 				uni.onSocketMessage((res: any) => {
 					console.log("收到服务器内容：" + res.data);
-					let data = JSON.parse(res.data);
-					console.log(data);
-					sesolve(data)
+					let msg = JSON.parse(res.data);
+					console.log(msg);
+					this.proccessMsg();
+					sesolve(msg);
 				});
 			});
 		},
 		// 向服务器发送登录请求
 		async reqLogin() {
 			let GUID: any = await this.GUID();
-			return new Promise((sesolve, reject) => {
-				const Appkey = "3957399";
-				const SessionKey = uni.getStorageSync("SessionKey");
-				let ActiveID = 1;
-				let UserID = 0;
-				let ConnectionState = false;
-				let msgTime = formatTime(new Date());
-				console.log(GUID);
-				let reqLogin: any = {
-					ActiveID: ActiveID,
-					AppKey: Appkey,
-					SessionKey: SessionKey,
-					msgID: GUID,
-					msgType: 3,
-					msgTime: msgTime
-				};
-				let msgLogin = JSON.stringify(reqLogin);
-				sesolve(msgLogin);
-			});
+			const Appkey = "3957399";
+			const SessionKey = uni.getStorageSync("SessionKey");
+			let ActiveID = this.ActiveID;
+			let UserID = this.UserID;
+			let ConnectionState = false;
+			let msgTime = formatTime(new Date());
+			console.log(GUID);
+			let reqLogin: any = {
+				ActiveID: ActiveID,
+				AppKey: Appkey,
+				SessionKey: SessionKey,
+				msgID: GUID,
+				msgType: 3,
+				msgTime: msgTime
+			};
+			this.sendSocketMessage(reqLogin);
 		},
 		// 发送对该活动的消息订阅
 		async msgSubscribe() {
 			let GUID: any = await this.GUID();
+			let ActiveID = this.ActiveID;
+			let url = "/Actives/" + ActiveID + "/";
+			let msgTime = formatTime(new Date());
+			let reqSubscribe = {
+				Subscribe: url,
+				msgID: GUID,
+				msgType: 0,
+				msgTime: msgTime
+			};
+			this.sendSocketMessage(reqSubscribe);
+		},
+		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
+		async proccessMsg() {
+			let msg: any = await this.onSocketMessage();
+			let timerState: any = await this.timerState();
+			let msgType = msg.msgType;
+			this.msgType = msgType;
+			try {
+				switch (msgType) {
+					case 0:
+						// 订阅响应消息
+						if (msg.IsError) {
+							showToast("订阅失败：" + msg.ErrMsg);
+						} else {
+							showToast(msg.ErrMsg);
+						}
+						break;
+					case 1:
+						// 报名响应消息
+						if (msg.IsError) {
+							showToast("报名失败：" + msg.ErrMsg);
+						} else {
+							showToast(msg.ErrMsg);
+						}
+						// 更新我的剩余举牌次数
+						this.seq =
+							"剩余举牌次数：" +
+							msg.SeqBills +
+							"次，已报名份数：" +
+							msg.Signups +
+							"份，还可报名：" +
+							msg.SeqSignups +
+							"份";
+						break;
+					case 2:
+						// 举牌响应消息（包含我的举牌次数、剩余可用次数）
+						if (msg.IsError) {
+							showToast(msg.ErrMsg);
+						} else {
+							this.MyBills =
+								"我的举牌次数：" +
+								msg.MyBills +
+								"次，剩余可用次数：" +
+								msg.SeqBills +
+								"次";
+							showToast(msg.ErrMsg);
+						}
+						break;
+					case 3:
+						// 登录响应消息
+						if (msg.IsError) {
+							showToast("登录失败：" + msg.ErrMsg);
+						} else {
+							// 登录成功，提示用户
+							this.UserID = msg.UserID;
+							showToast(msg.ErrMsg);
+						}
+						break;
+					case 4:
+						// 托管响应
+						if (msg.IsError) {
+							showToast("托管失败!" + msg.ErrMsg);
+						} else {
+							this.tapbtn = "取消托管";
+						}
+						break;
+					case 5:
+						// 取消托管响应消息
+						if (msg.IsError) {
+							showToast("取消托管失败!");
+						} else {
+							this.tapbtn = "取消托管";
+						}
+						break;
+					case 8:
+						// 价格更新通知
+						showToast("价格已更新......！");
+						// 更新全部举牌次数、我的举牌次数、和最新价格
+						this.BillStat = "总举牌次数：" + msg.AllBills + "次";
+						// 更新最后出价人信息
+						if (msg.Bills.length > 0) {
+							this.newprice = "￥" + msg.Bills[0].Price;
+							this.newbill = "领先人：" + msg.Bills[0].City;
+							// 计算剩余时长
+							let dt = new Date();
+							let tm = dt.getTime() + msg.SeqMiniSecounds;
+							this.seqTime.setTime(tm);
+						}
+						// 更新最近出局人信息
+						if (msg.Bills.length > 1) {
+							this.lastbills = msg.Bills;
+						}
+						// 判断是否需要启动计时器，如果只有一个出价，肯定就是需要启动的，因为计时器未启动
+						if (msg.Bills.length === 1) {
+							this.timerState();
+						}
+						break;
+					case 9:
+						//计算剩余时间，并重置剩余时间
+						let dt = new Date();
+						let dt_time = dt.getTime();
+						this.seqTime.setTime(dt_time + msg.SeqMiniSecounds);
+						console.log(this.seqTime);
+						break;
+					case 10:
+						// 活动正式开始，但是目前尚未有人出价，所以收到此消息，先停止计时器，并显示为 “等待先手”
+						clearInterval(timerState);
+						this.times = "等待首牌";
+						this.newprice = "￥" + msg.currPrice;
+						break;
+					case 11:
+						// 活动结束通知
+						clearInterval(timerState);
+						this.times = "已成交";
+						// 判断是否当前用户，如果是当前用户，则需要弹出收货地址和订单信息处理界面
+						if (this.UserID === msg.WinsBill.UserID) {
+							showModal("恭喜，您已中拍！点击确定去填写订单信息吧！");
+						}
+						break;
+				}
+				console.log(msgType);
+			} catch (e) {
+				console.error("处理消息出错：");
+				console.error(e);
+			}
+		},
+		async billTap(type: any) {
+			let action = type;
+			let ActiveID = this.ActiveID;
+			let Price = this.Price;
+			let GUID: any = await this.GUID();
+			let msgTime = formatTime(new Date());
+			switch (action) {
+				case "报名":
+					var SignupMsg = {
+						ActiveID: ActiveID,
+						Shares: 1,
+						msgID: GUID,
+						msgType: 1,
+						msgTime: msgTime
+					};
+					this.sendSocketMessage(SignupMsg);
+					break;
+				case "举牌":
+					var billMsg = {
+						ActiveID: ActiveID,
+						Price: Price,
+						msgID: GUID,
+						msgType: 2,
+						msgTime: msgTime
+					};
+					this.sendSocketMessage(billMsg);
+					break;
+				case "托管":
+					var tapMsg = {
+						ActiveID: ActiveID,
+						msgID: GUID,
+						msgType: 4,
+						msgTime: msgTime
+					};
+					this.sendSocketMessage(tapMsg);
+					break;
+				case "取消托管":
+					var cancelTapMsg = {
+						ActiveID: ActiveID,
+						msgID: GUID,
+						msgType: 5,
+						msgTime: msgTime
+					};
+					this.sendSocketMessage(cancelTapMsg);
+					break;
+			}
+		},
+		// 下面处理倒计时的显示，实际上时间是由服务器webSocket返回的
+		seqDisplay() {
+			let seqTime: any = this.seqTime;
+			let date: any = new Date();
+			let between: number = seqTime - date;
+			let sec: number = Math.floor(between / 1000);
+			let hours: any = Math.floor(Math.floor(sec / 60) / 60) % 24;
+			let minutes: any = Math.floor(sec / 60) % 60;
+			let seconds: any = sec % 60;
+			let minisec: number = Math.floor(between / 100) % 10;
+			if (seconds <= 0) {
+				this.times = "";
+			} else {
+				if (hours < 10) {
+					hours = "0" + hours;
+				}
+				if (minutes < 10) {
+					minutes = "0" + minutes;
+				}
+				if (seconds < 10) {
+					seconds = "0" + seconds;
+				}
+				let times = hours + ":" + minutes + ":" + seconds + "." + minisec;
+				this.times = times;
+			}
+		},
+		// 倒计时
+		timerState() {
 			return new Promise((sesolve, reject) => {
-				let ActiveID = 1;
-				let url = "/Actives/" + ActiveID + "/";
-				let msgTime = formatTime(new Date());
-				let reqSubscribe = {
-					Subscribe: url,
-					msgID: GUID,
-					msgType: 0,
-					msgTime: msgTime
-				};
-				let msgSubscribe = JSON.stringify(reqSubscribe);
-				sesolve(msgSubscribe);
+				let timerState = setInterval(() => {
+					this.seqDisplay();
+				}, 100);
+				sesolve(timerState);
 			});
 		},
-		//下面是生成随机GUID的函数
+		// 下面是生成随机GUID的函数
 		GUID() {
 			return new Promise((sesolve, reject) => {
 				let guid = "";
@@ -431,17 +660,6 @@ export default Vue.extend({
 				}
 				sesolve(guid);
 			});
-		},
-		// 举牌消息，通常是用户点击UI上的举牌按钮后，会触发此事件
-		bill() {
-			let msgTime = formatTime(new Date());
-			let billMsg = {
-				ActiveID: this.ActiveID,
-				Price: this.Price,
-				msgID: this.msgID,
-				msgType: 2,
-				msgTime: msgTime
-			}
 		}
 	}
 });
