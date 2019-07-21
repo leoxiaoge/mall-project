@@ -17,12 +17,18 @@ page {
 .active {
 	color: #fe7f00;
 }
+.product-item {
+	display: inline-block;
+	overflow: hidden;
+	line-height: 98rpx;
+}
 .i-tab-bar-loading {
 	text-align: center;
 	font-size: 28rpx;
 	color: #999;
 }
 .i-swiper-tab {
+	white-space: nowrap;
 	height: 98rpx;
 	line-height: 98rpx;
 	background-color: #fff;

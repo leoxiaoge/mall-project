@@ -2,19 +2,18 @@
 	<view>
 		<scroll-view id="tab-bar" class="i-swiper-tab" scroll-x>
 			<view
-				v-for="(tab, index) in tabBars"
+				v-for="(item, index) in tabBars"
 				:key="index"
-				class="swiper-tab-list"
-				:class="current==tab.status ? 'active' : ''"
-				:data-id="tab.id"
-				:data-current="tab.status"
+				class="swiper-tab-list product-item"
+				:class="current===item.status ? 'active' : ''"
+				:data-id="item.id"
+				:data-current="item.status"
 				@click="tapTab"
-			>{{tab.name}}</view>
+			>{{item.name}}</view>
 		</scroll-view>
 		<mescroll-uni top="100" @down="downCallback" @up="upCallback">
 			<block v-for="(item, index) in orderList" :key="index">
-				<media-list :options="item" @click="goDetail(item)"></media-list>
-				<view @click="goOrderDrying(item)">213</view>
+				<media-list :options="item" @click="goDetail(item)" @action="action"></media-list>
 			</block>
 		</mescroll-uni>
 	</view>
@@ -41,26 +40,31 @@ export default Vue.extend({
 				{
 					name: "全部",
 					id: "0",
-					status: ""
+					status: undefined
+				},
+				{
+					name: "待填地址",
+					id: "1",
+					status: "0"
 				},
 				{
 					name: "待付款",
-					id: "1",
+					id: "2",
 					status: "1"
 				},
 				{
 					name: "待发货",
-					id: "2",
+					id: "3",
 					status: "2"
 				},
 				{
 					name: "待收货",
-					id: "3",
+					id: "4",
 					status: "3"
 				},
 				{
 					name: "待晒单",
-					id: "4",
+					id: "5",
 					status: "4"
 				}
 			],
@@ -90,12 +94,16 @@ export default Vue.extend({
 		/*上拉加载的回调: mescroll携带page的参数, 其中num:当前页 从1开始, size:每页数据条数,默认10 */
 		upCallback(mescroll: any) {
 			//联网加载数据
-			this.getListDataFromNet(mescroll.num,mescroll.size,(curPageData: any) => {
+			this.getListDataFromNet(
+				mescroll.num,
+				mescroll.size,
+				(curPageData: any) => {
 					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
 					mescroll.endSuccess(curPageData.length);
 					//设置列表数据
 					if (mescroll.num == 1) this.orderList = []; //如果是第一页需手动制空列表
 					this.orderList = this.orderList.concat(curPageData); //追加新数据
+					console.log("orderList", curPageData, this.orderList);
 				},
 				() => {
 					//联网失败的回调,隐藏下拉刷新的状态
@@ -115,8 +123,6 @@ export default Vue.extend({
 			console.log(pageNum, pageSize);
 			try {
 				let orderList: any = await this.getOrderList(pageNum, pageSize);
-				this.orderList = orderList;
-				console.log("data", this.orderList);
 				//联网成功的回调
 				successCallback && successCallback(orderList);
 			} catch (e) {
@@ -127,29 +133,54 @@ export default Vue.extend({
 		getOrderList(pageNum: any, pageSize: any) {
 			return new Promise((sesolve, reject) => {
 				let OrderStatus = this.OrderStatus;
-				let data = {
-					OrderStatus: OrderStatus,
-					PageID: pageNum,
-					PageSize: pageSize
-				};
-				request(OrderListGet, data).then((res: any) => {
-					console.log(res);
-					sesolve(res.OrderList);
-				});
+				if (!OrderStatus) {
+					let data = {
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(OrderListGet, data).then((res: any) => {
+						sesolve(res.OrderList);
+					});
+				} else {
+					let data = {
+						OrderStatus: OrderStatus,
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(OrderListGet, data).then((res: any) => {
+						sesolve(res.OrderList);
+					});
+				}
 			});
+		},
+		action(e: any) {
+			console.log("action", e);
+			switch (e) {
+				case "报名":
+					break;
+				case "举牌":
+					break;
+				case "托管":
+					break;
+				case "取消托管":
+					break;
+			}
 		},
 		goDetail(e: any) {
 			console.log(e);
-			uni.navigateTo({
-				url: "../orderDetail/orderDetail?id=" + e.OrderID
-			});
+			navigateTo(
+				"../orderDetail/orderDetail?id=" + e.ID + "&OrderID=" + e.OrderID
+			);
 		},
 		// 晒单上传
 		goOrderDrying(e: any) {
 			console.log(e);
-			uni.navigateTo({
-				url: "../orderDryingUpload/orderDryingUpload?id=" + e.OrderID
-			});
+			navigateTo(
+				"../orderDryingUpload/orderDryingUpload?id=" +
+					e.ID +
+					"&OrderID=" +
+					e.OrderID
+			);
 		}
 	}
 });
@@ -173,12 +204,19 @@ page {
 .active {
 	color: #fe7f00;
 }
+
+.product-item {
+	display: inline-block;
+	overflow: hidden;
+	line-height: 98upx;
+}
 .i-tab-bar-loading {
 	text-align: center;
 	font-size: 28upx;
 	color: #999;
 }
 .i-swiper-tab {
+	white-space: nowrap;
 	height: 98upx;
 	line-height: 98upx;
 	background-color: #fff;

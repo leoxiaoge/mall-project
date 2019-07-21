@@ -34,7 +34,7 @@
           <view class="uni-swiper-msg-icon">
             <image src="/static/icon/icon_notice.png" mode="widthFix"></image>
           </view>
-          <swiper class="uni-swiper-wrapper" vertical="true" autoplay="true" circular="true" interval="3000" display-multiple-items="2">
+          <swiper class="uni-swiper-wrapper" vertical="true" autoplay="true" circular="true" interval="3000" :display-multiple-items="multiple">
             <block v-for="(item, index) in LastTranActiveList" :key="index">
               <swiper-item>
                 <view class="i-item-msg">
@@ -46,7 +46,7 @@
           <view class="notice-more" @click="noticeList">更多</view>
         </view>
         <!-- 正在竞拍 -->
-        <product-list-being :options="productList" />
+        <product-list-being :options="productListIng" />
         <!-- 即将开拍 -->
         <product-list :options="productListIng" />
       </view>
@@ -77,6 +77,7 @@
         duration: 500,
         circular: true,
         indicatorActiveColor: '#fe7f00',
+        multiple: 1,
         
         productList: [], // 正在竞拍列表
         productListIng: [], // 即将开拍列表
@@ -110,7 +111,7 @@
       }
     },
     onLoad() {
-      
+      // this.scrolltolower()
     },
     methods: {
       /*下拉刷新的回调 */
@@ -131,6 +132,7 @@
             //设置列表数据
             console.log(curPageData)
             if (mescroll.num == 1) this.productListIng = []; //如果是第一页需手动制空列表
+            console.log('productListIng', this.productListIng)
             this.productListIng = this.productListIng.concat(curPageData); //追加新数据
           },
           () => {
@@ -150,10 +152,7 @@
       ) {
         console.log(pageNum, pageSize);
         try {
-          let productList: any = await this.getHomeProductList(pageNum, pageSize);
-          this.productList = productList;
           let productListIng: any = await this.getHomeProductListIng(pageNum, pageSize);
-          this.productListIng = productListIng;
           console.log("data", this.productListIng);
           //联网成功的回调
           successCallback && successCallback(productListIng);
@@ -177,24 +176,14 @@
         request(LastTransactionListGet, data).then((res: any) => {
           console.log(res)
           this.LastTranActiveList = res.LastTranActiveList
+          if (res.LastTranActiveList.length >= 2) {
+            this.multiple = 2;
+          }
         })
       },
       // 首页获取正在竞拍与即将开拍的商品列表
       // 查询类型 : home1=首页的正在竞拍列表, home2=首页的即将开拍列表
-      getHomeProductList(pageNum: string, pageSize: string) {
-        return new Promise((sesolve, reject) => {
-					let data = {
-            PageID: pageNum,
-            PageSize: pageSize,
-            SearchType: 'home1'
-          }
-          request(HomeProductListGet, data).then((res: any) => {
-            console.log(res.ProductList)
-            sesolve(res.ProductList)
-          })
-				})
-      },
-      getHomeProductListIng(pageNum: string, pageSize: string) {
+      getHomeProductListIng(pageNum: number, pageSize: number) {
         return new Promise((sesolve, reject) => {
 					let data = {
             PageID: pageNum,
@@ -206,23 +195,6 @@
             sesolve(res.ProductList)
           })
 				})
-      },
-      getPastTransactionsList() {
-        let data = {
-          PageID: 1,
-          PageSize: 10,
-          SearchType: 'home2'
-        }
-        request(HomeProductListGet, data).then((res: any) => {
-          console.log(res)
-          this.productListIng = res.ProductList
-        })
-      },
-      getLocation: function() {
-        uni.request({
-          url: "/rest.ashx",
-          success: res => {}
-        })
       },
       noticeList() {
         navigateTo('../mall/notice/notice')
@@ -267,6 +239,7 @@
   .uni-swiper-wrapper {
     border-left: 2upx solid #f4f4f4;
     padding-left: 20upx;
+    position: relative;
   }
 
   .i-notice-original {

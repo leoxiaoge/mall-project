@@ -19,6 +19,16 @@ page {
 .list-cell {
 		background-color: #fff;
 }
+.teng-order-body {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-pack: start;
+		-webkit-justify-content: flex-start;
+		    -ms-flex-pack: start;
+		        justify-content: flex-start;
+}
 .teng-order-list {
 		margin: 0 30rpx;
 		padding: 20rpx 0;

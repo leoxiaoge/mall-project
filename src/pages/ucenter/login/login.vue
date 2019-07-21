@@ -7,7 +7,7 @@
     <view class="i-login-mobile i-border-bottom i-flex-between">
       <view class="i-login-content i-flex">
         <image class="i-login-mobile-image" />
-        <input class="i-login-mobile-input" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
+        <input class="i-login-mobile-input" type="number" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
       </view>
       <view class="i-login-set-code">
         <button class="i-button-get" :disabled="disabled" @click="getCode" >
@@ -18,7 +18,7 @@
     <view class="i-login-code i-border-bottom">
       <view class="i-login-content i-flex">
         <image class="i-login-code-image" />
-        <input class="i-login-code-input" :value="LoginCode" placeholder="验证码" @input="codeInput" />
+        <input class="i-login-code-input" type="number" :value="LoginCode" placeholder="验证码" @input="codeInput" />
       </view>
     </view>
     <view class="i-login-radio">
@@ -27,7 +27,12 @@
       </label>
     </view>
     <view class="i-login-button-view">
-      <button class="btn i-login-button" @click="userLogin">登录</button>
+      <!-- #ifdef MP-WEIXIN -->
+      <button class="btn i-login-button" :loading="loading" open-type="getUserInfo" @getuserinfo="wxLogin">登录</button>
+			<!-- #endif -->
+      <!-- #ifdef H5 -->
+      <button class="btn i-login-button" :loading="loading" @click="userLogin">登录</button>
+			<!-- #endif -->
     </view>
   </view>
 </template>
@@ -47,11 +52,13 @@
 		},
 		data() {
 			return {
+        wxFace: '',
+        wxNick: '',
         logo: '/static/icon/icon_login.png',
         checked: true,
         Mobile: '',
         LoginCode: '',
-
+        loading: false,
         time: '获取验证码',
         currentTime: 60,
         disabled: false,
@@ -134,9 +141,19 @@
       radioClick() {
         this.checked = !this.checked
       },
+      wxLogin(e: any) {
+        console.log(e)
+        let userInfo = e.detail.userInfo;
+        this.wxFace = userInfo.avatarUrl;
+        this.wxNick = userInfo.nickName;
+        this.userLogin();
+      },
       userLogin() {
-        let Mobile = this.Mobile
-        let LoginCode  = this.LoginCode
+        let Mobile = this.Mobile;
+        // let Mobile = '13723750893';
+        let LoginCode  = this.LoginCode;
+        let wxFace = this.wxFace;
+        let wxNick = this.wxNick;
         if (!Mobile) {
           showToast('手机号码不能为空！')
           return
@@ -145,17 +162,24 @@
           showToast('验证码不能为空！')
           return
         }
+        this.loading = true;
 				let data = {
           Mobile: Mobile,
-          LoginCode: LoginCode
+          LoginCode: LoginCode,
+          wxFace: wxFace,
+          wxNick: wxNick
         }
 		  	request(UserLogin, data).then((res: any) => {
           console.log(res)
+          this.loading = false;
           let SessionKey = res.SessionKey
           let UserInfo = res.UserInfo
           uni.setStorageSync('SessionKey', SessionKey)
           uni.setStorageSync('UserInfo', UserInfo)
           showToast('登录成功！')
+          uni.navigateBack({
+            delta: 1
+          });
         })
       },
       getuserinfo(e: any) {
@@ -210,10 +234,12 @@
   }
 
   .i-login-mobile-input {
+    min-width: 340upx;
     margin-left: 20upx;
   }
 
   .i-login-code-input {
+    min-width: 560upx;
     margin-left: 20upx;
   }
 

@@ -5,7 +5,12 @@
 				<image :src="path" :class="{'dragging':isDragging(index)}" draggable="true" @tap="previewImage" :data-index="index" @touchstart="start" @touchmove="move" @touchend="stop"></image>
 				<view v-if="isShowDel" class="imageDel" @tap="deleteImage" :data-index="index">x</view>
 			</view>
-			<view v-if="isShowAdd" class="imageUpload" @tap="selectImage">+</view>
+			<view v-if="isShowAdd" class="imageUpload" @tap="selectImage">
+				<view class="upload">
+					<img :src="imageUpload" />
+					<view class="image-upload-text">添加图片</view>
+				</view>
+			</view>
 		</view>
 		<image v-if="showMoveImage" class="moveImage" :style="{left:posMoveImageLeft, top:posMoveImageTop}" :src="moveImagePath"></image>
 	</view>
@@ -33,7 +38,9 @@
 				deltaLeft: 0,
 				deltaTop: 0,
 				dragIndex: null,
-				targetImageIndex: null
+				targetImageIndex: null,
+				picUrl: [],
+				imageUpload: "/static/icon/icon_image_upload.png"
 			}
 		},
 		computed:{
@@ -78,7 +85,7 @@
 				
 				uni.chooseImage({
 					count: _self.limit ? (_self.limit - _self.value.length) : 999,
-					success: function(e){
+					success: (e) => {
 						var imagePathArr = e.tempFilePaths
 						//如果设置了limit限制，在web上count参数无效，这里做判断控制选择的数量是否合要求
 						//在非微信小程序里，虽然可以选多张，但选择的结果会被截掉
@@ -100,8 +107,14 @@
 						let data = {};
 						upload(OrderDryingUpload, data, filePath).then((res) => {
 							console.log(res)
-			      });
-						
+							let data = JSON.parse(res)
+							console.log(data.PicUrl)
+							console.log(_self.picUrl)
+							let picUrl = [data.PicUrl]
+							console.log(_self.picUrl, picUrl)
+							_self.picUrl = _self.picUrl.concat(data.PicUrl);
+							this.$emit('add', _self.picUrl)
+						});
 						for(let i=0; i<imagePathArr.length;i++){
 							_self.value.push(imagePathArr[i])
 						}
@@ -112,24 +125,11 @@
 				var imageIndex = e.currentTarget.dataset.index
 				var deletedImagePath = this.value[imageIndex]
 				this.value.splice(imageIndex, 1) 
-				
-				//检查删除图片的服务器地址是否设置，如果设置则调用API，在服务器端删除该图片
-				if(this.serverUrlDeleteImage){
-					uni.request({
-						url: this.serverUrlDeleteImage,
-						method: 'GET',
-						data: {
-							imagePath: deletedImagePath
-						},
-						success: res => {
-							console.log(res.data)
-						}
-					});
-				}
+				this.picUrl.splice(imageIndex, 1)
 				
 				this.$emit('delete',{
 					currentImage: deletedImagePath,
-					allImages: this.value
+					allImages: this.picUrl
 				})
 				this.$emit('input', this.value)
 			},
@@ -286,6 +286,15 @@
 		border-radius: 8upx;
 	}
 	
+	.upload {
+		padding: 20upx 0;
+	}
+
+	.image-upload-text {
+		font-size: 24upx;
+		color: #b0b0b0;
+	}
+
 	.moveImage{
 		position: absolute;
 	}

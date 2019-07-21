@@ -38,6 +38,8 @@ export const ActiveBillListGet = 'API.Product.ActiveBillListGet' // 获取出价
 export const PastTransactionsListGet = 'API.Product.PastTransactionsListGet' // 往期成交列表
 export const HomeProductListGet = 'API.Product.HomeProductListGet' // 首页获取正在竞拍与即将开拍的商品列表
 export const MyActiveList = 'API.Product.MyActiveList' // 我参与的竞拍活动列表
+export const NextActiveGet = 'API.Product.NextActiveGet' // 获取下一期活动
+export const GetActiveByID = 'API.Product.GetActiveByID' // 根据活动ID获取活动详情
 
 // 运营相关 - Operate => 运营相关接口
 export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表

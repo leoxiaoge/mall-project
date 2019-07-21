@@ -39,17 +39,15 @@ page {
 		height: 100rpx;
 }
 .teng-order-text {
+		width: 100%;
 		margin-left: 20rpx;
-}
-.teng-order-title {
-		padding: 20rpx 0;
 }
 .teng-order-name {
 		font-size: 36rpx;
 		color: #757575;
 		display: -webkit-box;
     overflow: hidden;
-    line-height: 1.5;
+    line-height: 1.8;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
@@ -61,7 +59,6 @@ page {
 		margin-left: 20rpx;
 }
 .teng-order-placard-status {
-		min-width: 80rpx;
 		font-size: 24rpx;
 		line-height: 1.4;
 		color: #fe7f00;
@@ -71,8 +68,8 @@ page {
 }
 .teng-order-number {
 		font-size: 24rpx;
+		line-height: 1.8;
 		color: #909090;
-		margin-left: 20rpx;
 }
 .teng-order-msg {
 		font-size: 28rpx;

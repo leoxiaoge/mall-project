@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "兑现",
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

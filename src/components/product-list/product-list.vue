@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-common">
+	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
@@ -8,9 +8,9 @@
 						<image class="uni-product-image" :src="item.ProductPicList[0]"></image>
 					</view>
 					<view class="uni-product-title">{{item.ProductTitle}}</view>
-					<view class="uni-product-price">
+					<view class="uni-product-price" v-if="item.Active.PrevActiveMoney > 0">
 						<text class="uni-product-text">上期成交：</text>
-						<text class="uni-product-price-original">￥{{item.ProductPrice}}</text>
+						<text class="uni-product-price-original">￥{{item.Active.PrevActiveMoney}}</text>
 					</view>
 				</view>
 				<view class="uni-product-prompt">
@@ -28,36 +28,38 @@
 	</view>
 </template>
 
-<script>
-  import { request, navigateTo } from '@/common/utils/util'
-  import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
-  export default {
-		components: {
-      uniCountdown
-	  },
-    name: 'productList',
-		props: {
-			options: {
-				type: Array,
-				default () {
-					return []
-				}
-      },
-      title: {
-				type: String,
-				default: '即将开拍'
+<script lang="ts">
+import Vue from "vue";
+import { request, navigateTo } from '@/common/utils/util';
+import { HomeProductListGet } from '@/common/config/api'
+import uniCountdown from '@/components/uni-countdown/uni-countdown.vue';
+export default Vue.extend({
+  components: {
+    uniCountdown
+	},
+  name: 'productList',
+	props: {
+		options: {
+			type: Array,
+			default() {
+				return [];
 			}
 		},
-    data() {
-      return {
-				
-			}
-    },
-    computed: {
+    title: {
+			type: String,
+			default: '正在竞拍'
+		}
+	},
+	data() {
+		return {
+      options: []
+    };
+  },
+  computed: {
 			product() {
 				console.log(this.options)
-				let list = this.options
-				list.map(item => {
+				let list: any = this.options
+				list.map((item: any) => {
 					let date1 = item.Active.ActiveEndTime;  //开始时间
           let date2 = new Date();    //结束时间
           let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
@@ -84,15 +86,16 @@
       }
     },
     methods: {
-      productDetailsTo(id) {
+      productDetailsTo(id: any) {
 				navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id)
 			}
     }
-};
+});
 </script>
 
 <style>
-	.uni-product-prompt {
+
+  .uni-product-prompt {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

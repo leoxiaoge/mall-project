@@ -10,7 +10,7 @@
 					<view class="order-status-toast">请在24小时内付款</view>
 				</view>
 			</view>
-			<view class="order-address" @click="addressPath">
+			<view class="order-address" @click="addressPath" v-if="item.Address">
 				<view class="order-address-content">
 					<view class="order-address-user">
 						<text class="order-address-name">{{item.Address.realName}}</text>
@@ -103,14 +103,18 @@
 					<uni-steps :options="item.LocusesList" :active="active" direction="column" />
 				</view>
 			</view>
+			<view class="i-kong"></view>
+			<view class="order-action" v-for="(i, idx) in item.ActionButtons" :key="idx">
+				<button class="btn action-button" @click="actionButton(i.btn)">{{i.btn}}</button>
+			</view>
 		</block>
 	</view>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
-import { OrderListGet } from "@/common/config/api";
+import { request, navigateTo, showToast } from "@/common/utils/util";
+import { OrderListGet, OrderConfirmReceiving, OrderPay } from "@/common/config/api";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
 import uniSteps from "@/components/uni-steps/uni-steps.vue";
 export default Vue.extend({
@@ -121,20 +125,23 @@ export default Vue.extend({
 	data() {
 		return {
 			active: 0,
-			OrderID: "",
+			id: "",
+			orderID: "",
 			icon: "",
 			order: [],
-			address: []
+			address: [],
+			PayTypeID: 1
 		};
 	},
 	onLoad(options: any) {
-		this.OrderID = options.id;
+		this.id = options.id;
+		this.orderID = options.OrderID;
 		this.getOrderList();
 		console.log("onLoad", options);
 	},
 	methods: {
 		getOrderList() {
-			let OrderID = this.OrderID;
+			let OrderID = this.orderID;
 			let data = {
 				OrderID: OrderID
 			};
@@ -142,19 +149,19 @@ export default Vue.extend({
 				console.log(res.OrderList[0]);
 				let orderList: any = res.OrderList;
 				this.order = orderList;
-        orderList.map((item: any) => {
-          if (item.OrderStatus === 0) {
-            this.icon = "/static/icon/icon_order-status1.png";
-          } else if (item.OrderStatus === 1) {
-            this.icon = "/static/icon/icon_order-status2.png";
-          } else if (item.OrderStatus === 2) {
-            this.icon = "/static/icon/icon_order-status3.png";
-          } else if (item.OrderStatus === 3) {
-            this.icon = "/static/icon/icon_order-status4.png";
-          } else {
-            this.icon = "/static/icon/icon_order-status5.png";
-          }
-        })
+				orderList.map((item: any) => {
+					if (item.OrderStatus === 0) {
+						this.icon = "/static/icon/icon_order-status1.png";
+					} else if (item.OrderStatus === 1) {
+						this.icon = "/static/icon/icon_order-status2.png";
+					} else if (item.OrderStatus === 2) {
+						this.icon = "/static/icon/icon_order-status3.png";
+					} else if (item.OrderStatus === 3) {
+						this.icon = "/static/icon/icon_order-status4.png";
+					} else {
+						this.icon = "/static/icon/icon_order-status5.png";
+					}
+				});
 			});
 		},
 		// 复制事件
@@ -169,6 +176,57 @@ export default Vue.extend({
 		},
 		addressPath() {
 			navigateTo("../addressShipping/addressShipping");
+		},
+		async actionButton(e: any) {
+			console.log(e);
+			switch (e) {
+				case "确认收货":
+					let res: any = await this.orderConfirmReceiving();
+					if (res.IsError) {
+						showToast(res.ErrMsg);
+					} else {
+						showToast("确认收货成功！");
+						this.getOrderList();
+					}
+					break;
+				case "晒单":
+					navigateTo(
+						"../orderDryingUpload/orderDryingUpload?id=" +
+							this.id +
+							"&OrderID=" +
+							this.orderID
+					);
+					break;
+				case "马上付款":
+
+					break;
+			}
+		},
+		orderConfirmReceiving() {
+			return new Promise((sesolve, reject) => {
+				let OrderID = this.orderID;
+				let data = {
+					OrderID: OrderID
+				};
+				request(OrderConfirmReceiving, data).then((res: any) => {
+					sesolve(res);
+					console.log(res);
+				});
+			});
+		},
+		orderPay() {
+			return new Promise((sesolve, reject) => {
+				let OrderID = this.orderID;
+				let PayTypeID = this.PayTypeID;
+				let data = {
+					OrderID: OrderID,
+					PayTypeID: PayTypeID
+				};
+				request(OrderPay, data).then((res: any) => {
+					sesolve(res);
+					console.log(res);
+				});
+			});
 		}
 	}
 });
@@ -296,5 +354,17 @@ export default Vue.extend({
 }
 .order-express-content {
 	margin-right: 20upx;
+}
+
+.order-action {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 999;
+}
+
+.action-button {
+	color: #fff;
+	background-color: #fe7f00;
 }
 </style>

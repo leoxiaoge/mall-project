@@ -140,7 +140,7 @@
 		background-color: #fe7f00;
 		color: #fff;
 		line-height: 1.8;
-		border-radius: 4rpx;
+		border-radius: 8rpx;
 		border: none;
 }
 .teng-order-head {

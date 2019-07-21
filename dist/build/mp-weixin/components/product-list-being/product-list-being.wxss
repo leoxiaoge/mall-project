@@ -1,8 +1,8 @@
 
 .teng-image-view {
-    width: 160rpx;
-    height: 120rpx;
+    height: 140rpx;
     margin: 12rpx 0;
+    padding: 0 30rpx;
 }
 .list {
     white-space:nowrap;
@@ -12,12 +12,17 @@
     display: inline-block;
     margin-left: 30rpx;
     overflow: hidden;
+    width: 33.33%;
 }
 .product-price {
     text-align: center;
 }
 .product-price-text {
     line-height: 1.8;
+    padding: 0 20rpx;
+}
+.uni-product-time {
+    text-align: center;
 }
 .img {
     width: 100%;

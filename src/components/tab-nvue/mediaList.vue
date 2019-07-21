@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="list-cell view" hover-class="uni-list-cell-hover" @click="bindClick">
 			<view class="teng-order-list view">
-				<view class="teng-order-body teng-flex">
+				<view class="teng-order-body">
 					<view class="teng-order-image">
 						<image class="teng-order-image-src" :src="options.ProductPicList[0]" />
 						<image class="teng-order-show-status" :src="status" v-if="showStatus"/>
@@ -10,16 +10,16 @@
 					<view class="teng-order-text">
 						<view class="teng-order-title teng-flex-between">
 							<view class="teng-order-name">{{options.ProductName}}</view>
-							<view class="teng-order-num">x1</view>
+							<!-- <view class="teng-order-num">x1</view> -->
 						</view>
-						<view class="teng-order-body teng-flex">
-							<view class="teng-order-placard-status">{{options.OrderStatus}}</view>
+						<view class="teng-order-body">
+							<view class="teng-order-placard-status">{{options.Active.ActiveTypeName}}</view>
 							<view class="teng-order-number">订单编号：{{options.OrderID}}</view>
 						</view>
 						<view class="teng-order-footer teng-flex-between">
-							<view class="teng-order-price">
+							<view class="teng-order-price" v-if="options.Active.OrderMoney">
 								<text class="teng-order-msg">成交价：</text>
-								<text class="teng-order-original">{{options.OrderPrimeCost}}</text>
+								<text class="teng-order-original">¥{{options.Active.OrderMoney}}</text>
 							</view>
 							<view class="teng-order-status">{{options.OrderStatusName}}</view>
 						</view>
@@ -78,6 +78,11 @@
 
 	.list-cell {
 		background-color: #fff;
+	}
+
+	.teng-order-body {
+		display: flex;
+		justify-content: flex-start;
 	}
 
 	.teng-order-list {

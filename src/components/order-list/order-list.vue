@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
-		<view class="list-cell view" hover-class="uni-list-cell-hover" @click="bindClick">
+		<view class="list-cell view" hover-class="uni-list-cell-hover">
 			<view class="teng-order-list view">
-				<view class="teng-order-body teng-flex">
+				<view class="teng-order-body teng-flex" @click="bindClick">
 					<view class="teng-order-image">
 						<image class="teng-order-image-src" :src="options.ProductPicList[0]" />
 						<image class="teng-order-show-status" :src="status" v-if="showStatus"/>
@@ -12,14 +12,14 @@
 							<view class="teng-order-name">{{options.ProductName}}</view>
 							<view class="teng-order-num">x1</view>
 						</view>
-						<view class="teng-order-body teng-flex">
-							<view class="teng-order-placard-status">{{options.OrderStatus}}</view>
+						<view class="teng-order-bodys">
+							<text class="teng-order-placard-status">{{options.OrderTypeName}}</text>
 							<view class="teng-order-number">订单编号：{{options.OrderID}}</view>
 						</view>
 						<view class="teng-order-footer teng-flex-between">
 							<view class="teng-order-price">
 								<text class="teng-order-msg">成交价：</text>
-								<text class="teng-order-original">{{options.OrderPrimeCost}}</text>
+								<text class="teng-order-original">{{options.OrderMoneys}}</text>
 							</view>
 							<view class="teng-order-status">{{options.OrderStatusName}}</view>
 						</view>
@@ -27,7 +27,7 @@
 				</view>
 				<view class="i-order-footer">
 					<view class="teng-order-button teng-flex-end" v-for="(i, idx) in options.ActionButtons" :key="idx">
-						<button class="btn">{{i.btn}}</button>
+						<button class="btn" @click="actionButton(i.btn)">{{i.btn}}</button>
 					</view>
 				</view>
 			</view>
@@ -60,6 +60,9 @@
 			},
 			bindClick() {
 				this.$emit('click');
+			},
+			actionButton(e) {
+				this.$emit('action', e);
 			}
 		}
 	}
@@ -104,11 +107,8 @@
 	}
 
 	.teng-order-text {
+		width: 100%;
 		margin-left: 20upx;
-	}
-
-	.teng-order-title {
-		padding: 20upx 0;
 	}
 
 	.teng-order-name {
@@ -116,7 +116,7 @@
 		color: #757575;
 		display: -webkit-box;
     overflow: hidden;
-    line-height: 1.5;
+    line-height: 1.8;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
@@ -130,7 +130,6 @@
 	}
 
 	.teng-order-placard-status {
-		min-width: 80upx;
 		font-size: 24upx;
 		line-height: 1.4;
 		color: #fe7f00;
@@ -141,8 +140,8 @@
 
 	.teng-order-number {
 		font-size: 24upx;
+		line-height: 1.8;
 		color: #909090;
-		margin-left: 20upx;
 	}
 
 	.teng-order-msg {

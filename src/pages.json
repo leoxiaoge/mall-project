@@ -67,7 +67,8 @@
 				{
           "path": "notice/notice",
 					"style": {
-						"navigationBarTitleText": "最新成交"
+						"navigationBarTitleText": "最新成交",
+						"enablePullDownRefresh": true
 					}
 				},
 				{
@@ -85,7 +86,13 @@
 					"style": {
 						"navigationBarTitleText": "竞拍详情"
 					}
-				}
+				},
+				{
+          "path": "exchangeDetails/exchangeDetails",
+					"style": {
+						"navigationBarTitleText": "兑现"
+					}
+        }
 			]
 		},
 		{

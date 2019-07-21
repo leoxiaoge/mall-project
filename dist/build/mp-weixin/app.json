@@ -17,7 +17,8 @@
         "notice/notice",
         "activeBilList/activeBilList",
         "productDetailsPage/productDetailsPage",
-        "productDetailsUparse/productDetailsUparse"
+        "productDetailsUparse/productDetailsUparse",
+        "exchangeDetails/exchangeDetails"
       ]
     },
     {
@@ -89,6 +90,5 @@
   },
   "usingComponents": {
     "page-head": "/components/page-head"
-  },
-  "sitemapLocation": "sitemap.json"
+  }
 }

@@ -32,46 +32,31 @@
 			<view class="i-product-title">{{product.ProductTitle}}</view>
 			<view class="i-product-name">{{product.ProductName}}</view>
 		</view>
-		<block v-if="msgType === 2">
+		<view v-if="msgType === 2">
 			<view class="i-product-last-transaction">
 				<view class="i-product-status">手动举牌</view>
 				<view class="i-product-last-transaction-content">
 					<view class="i-product-last-transaction-text">上期成交：</view>
-					<view class="i-product-last-transaction-price">¥0.86</view>
+					<view class="i-product-last-transaction-price">¥{{lastPrice}}</view>
 				</view>
 			</view>
-		</block>
-		<view class="i-product-distance-shooting">
-			<view class="i-product-distance-shooting-text">距离开拍</view>
-			<view class="i-product-line"></view>
-			<view class="i-product-distance-shooting-time">{{times}}</view>
 		</view>
 		<view class="i-product-distance-shooting">
-			<view class="i-product-distance-shooting-time">{{times}}</view>
-		</view>
-		<view class="i-product-distance-shooting-end">
-			<view class="i-product-distance-shooting-time-end">竞拍结束</view>
-		</view>
-		<view class="i-product-distance-shooting">
-			<view class="i-product-distance-shooting-text">
-				<text>我已消耗</text>
-				<text>5</text>
-				<text>拍币/赠币</text>
-			</view>
-			<view class="i-product-line"></view>
+			<view class="i-product-distance-shooting-text">{{timerDurationTitle}}</view>
+			<view class="i-product-line" v-if="times"></view>
 			<view class="i-product-distance-shooting-time">{{times}}</view>
 		</view>
 		<view class="i-product-current-bid">
 			<view class="i-product-current-bid-head">当前出价</view>
-			<view class="i-product-current-bid-price">¥0.86</view>
+			<view class="i-product-current-bid-price">{{newPrice}}</view>
 			<view class="i-product-current-bid-icon">
 				<img :src="leading" />
-				<text>当前领选出价人</text>
+				<text>当前领先出价人</text>
 			</view>
 			<view class="i-product-current-bid-user">
-				<img :src="src" />
-				<view class="i-product-current-bid-name">领选出价人</view>
-				<view class="i-product-current-bid-address">广东 深圳</view>
+				<img :src="newFace" />
+				<view class="i-product-current-bid-name">{{newNick}}</view>
+				<view class="i-product-current-bid-address">{{newCity}}</view>
 			</view>
 		</view>
 		<view class="i-product-bill">
@@ -85,7 +70,7 @@
 					<image :src="item.UserNick" />
 					<view class="i-bill-user">{{item.UserMobile}}</view>
 				</view>
-				<view class="i-bill-IsWin i-bill-out" v-if="item.IsWin === 0">出局</view>
+				<view class="i-bill-IsWin i-bill-out" v-if="item.IsWin === 0">出局{{item.bill.Province}}</view>
 				<view class="i-bill-IsWin i-bill-pre" v-else>预选</view>
 				<view class="i-bill-province">{{item.Province}}{{item.City}}</view>
 				<view class="i-bill-price">{{item.Price}}</view>
@@ -95,7 +80,7 @@
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">全部出价记录</view>
 				<view class="i-product-all-bill-length">
-					<text class="i-product-all-bill-text-item">12345</text>
+					<text class="i-product-all-bill-text-item">{{allBills}}</text>
 					<text class="i-product-all-bill-text-total">条</text>
 				</view>
 			</view>
@@ -104,7 +89,7 @@
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">我的出价记录</view>
 				<view class="i-product-all-bill-length">
-					<text class="i-product-all-bill-text-item">8</text>
+					<text class="i-product-all-bill-text-item">{{mySeqBills}}</text>
 					<text class="i-product-all-bill-text-total">条</text>
 				</view>
 			</view>
@@ -191,37 +176,73 @@
 				<view class="i-product-tab-line"></view>
 			</view>
 			<view class="components">
-				<block v-if="tabIndex === 0">
+				<view v-if="tabIndex === 0">
 					<i-past :options="pastList" />
-				</block>
-				<block v-else-if="tabIndex === 1">
+				</view>
+				<view v-else-if="tabIndex === 1">
 					<i-show :options="showList" />
-				</block>
-				<block v-else>
+				</view>
+				<view v-else>
 					<i-rule :options="ruleList" />
-				</block>
+				</view>
 			</view>
 		</view>
 		<view class="kong"></view>
 		<view class="i-product-join">
-			<button class="btn join-btn" v-show="!show" @click="hidePopup">立即参与</button>
-			<button class="btn join-btn" @click="hidePopup">参与下一期</button>
-			<block>
-				<i-popup :show="show" :num="num" @change="change" @hidePopup="hidePopup" @click="billTap('报名')" />
-			</block>
-			<view class="i-product-placad">
-				<view class="i-placard-remaining-num">
-					<view class="i-placard-remaining">剩余次数：</view>
-					<view class="i-placard-num">{{num}}</view>
-				</view>
-				<view class="i-placard-button-view">
-					<view class="i-placard-button">
-						<button class="btn" :disabled="disabled" @click="billTap('举牌')">举牌</button>
-					</view>
-					<view class="i-placard-button i-placard-active">
-						<button class="btn" :disabled="disabled" @click="billTap('托管')">托管</button>
-					</view>
-				</view>
+			<view class="i-product-button-list">
+				<block v-for="(item, index) in buttonsList" :key="index">
+					<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
+						<button class="btn join-btn" v-show="!show" @click.stop.prevent="hidePopup">立即参与</button>
+						<i-popup
+							:disabled="item.ButtonEnabled"
+							:show="show"
+							:num="SeqBills"
+							@change="change"
+							@hidePopup="hidePopup"
+							@click.stop.prevent="billTap(item.ButtonText)"
+						/>
+					</block>
+					<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
+						<view class="i-product-placad">
+							<view class="i-placard-remaining-num">
+								<view class="i-placard-remaining">剩余次数：</view>
+								<view class="i-placard-num">{{SeqBills}}</view>
+							</view>
+							<view class="i-placard-button-view">
+								<view class="i-placard-button">
+									<button
+										class="btn"
+										:disabled="!item.ButtonEnabled"
+										@click.stop.prevent="billTap(item.ButtonText)"
+									>{{item.ButtonText}}</button>
+								</view>
+							</view>
+						</view>
+					</block>
+					<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
+						<view class="i-placard-button i-placard-active">
+							<button
+								class="btn"
+								:disabled="!item.ButtonEnabled"
+								@click.stop.prevent="billTap(item.ButtonText)"
+							>{{item.ButtonText}}</button>
+						</view>
+					</block>
+					<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
+						<button
+							class="btn join-btn"
+							:disabled="!item.ButtonEnabled"
+							@click.stop.prevent="billTap(item.ButtonText)"
+						>{{item.ButtonText}}</button>
+					</block>
+					<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
+						<button
+							class="btn join-btn"
+							:disabled="!item.ButtonEnabled"
+							@click.stop.prevent="billTap(item.ButtonText)"
+						>{{item.ButtonText}}</button>
+					</block>
+				</block>
 			</view>
 		</view>
 	</view>
@@ -239,7 +260,8 @@ import {
 import {
 	ProductGet,
 	PastTransactionsListGet,
-	OrderDryingListGet
+	OrderDryingListGet,
+	GetActiveByID
 } from "@/common/config/api";
 import iPast from "@/components/i-past/i-past.vue";
 import iShow from "@/components/i-show/i-show.vue";
@@ -270,6 +292,9 @@ export default Vue.extend({
 			product: "",
 			num: "1", // 剩余次数
 
+			activeDetail: "", // 活动详情
+			lastPrice: "",
+
 			tabIndex: 0, // 默认往期成交
 			pastList: [], // 往期成交列表
 			showList: [], // 晒单列表
@@ -285,27 +310,45 @@ export default Vue.extend({
 			Price: "",
 			msgID: "",
 			msgType: "",
+			timer: 0,
+			buttonsList: [], // 按钮类型，0表示报名按钮、1表示举牌按钮、2表示托管按钮、3表示填写地址按钮，4表示参与下一期按钮
+			price: "", // 最新价格
+			allBills: "", // 全部举牌次数
+			lastBills: [], // 出价列表
+			timerDurationTitle: "", // 状态对应要显示的标题
+			onTimerStatus: "", // 活动通知
+			OnTimerDowns: "", // 成交通知
 
 			seq: "", // 更新我的剩余举牌次数
 			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
+			SeqBills: "", // 举牌响应消息（剩余可用次数）
+			Signups: "", // 报名份数
+			SeqSignups: "", // 剩下报名份数
+			mySeqBills: "", // 我的出价记录
 			UserID: "", // 登录成功，提示用户
 			tapbtn: "", // 托管
 			BillStat: "", // 总举牌次数
-			newprice: "", // 领先价格
-			newbill: "", // 领先人
+			newPrice: "", // 领先价格
+			newBill: "", // 领先人全部信息
+			newNick: "", // 当前领先人
+			newFace: "", // 当前领先人头像
+			newCity: "", // 当前领先人所在城市
 			lastbills: [], // 出局列表
 			times: "", // 倒计时
-			seqTime: new Date("2019/7/20 10:29:35")
+			seqTime: new Date() // 初始Date时间
 		};
 	},
 	onLoad(options: any) {
 		this.id = options.id;
-		this.ActiveID = options.id;
+    this.ActiveID = options.id;
+    this.websocket();
+	},
+	onShow() {
 		this.UserID = uni.getStorageSync("SessionKey").ID;
 		this.getProduct();
+		this.getActiveByID();
 		this.getPastTransactionsList();
 		this.getOrderDryingList();
-		this.websocket();
 	},
 	methods: {
 		// 获取产品详情
@@ -315,10 +358,21 @@ export default Vue.extend({
 				ProductID: ProductID
 			};
 			request(ProductGet, data).then((res: any) => {
-				console.log("获取产品详情", res);
+				console.log("Product", res);
 				this.product = res.Product;
 				this.swiper = res.Product.ProductPicList;
 				this.Price = res.Product.ProductPrice;
+			});
+		},
+		// 获取活动详情
+		getActiveByID() {
+			let ActiveID = this.ActiveID;
+			let data = {
+				ActiveID: ActiveID
+			};
+			request(GetActiveByID, data).then((res: any) => {
+				console.log("活动详情", res);
+				this.activeDetail = res.ActiveDetail;
 			});
 		},
 		// 选项卡
@@ -349,7 +403,6 @@ export default Vue.extend({
 		},
 		hidePopup() {
 			this.show = !this.show;
-
 		},
 		// 获取用户晒单列表
 		getOrderDryingList() {
@@ -380,8 +433,8 @@ export default Vue.extend({
 					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];
-				this.reqLogin();
 				this.msgSubscribe();
+				this.reqLogin();
 			});
 			uni.onSocketError(res => {
 				console.log("WebSocket连接打开失败，请检查！");
@@ -419,7 +472,6 @@ export default Vue.extend({
 			let UserID = this.UserID;
 			let ConnectionState = false;
 			let msgTime = formatTime(new Date());
-			console.log(GUID);
 			let reqLogin: any = {
 				ActiveID: ActiveID,
 				AppKey: Appkey,
@@ -446,10 +498,13 @@ export default Vue.extend({
 		},
 		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
 		async proccessMsg() {
+			let GUID: any = await this.GUID();
+			let dt = new Date();
+			let msgTime = formatTime(new Date());
 			let msg: any = await this.onSocketMessage();
-			let timerState: any = await this.timerState();
 			let msgType = msg.msgType;
 			this.msgType = msgType;
+			console.log(msgType);
 			try {
 				switch (msgType) {
 					case 0:
@@ -465,31 +520,26 @@ export default Vue.extend({
 						if (msg.IsError) {
 							showToast("报名失败：" + msg.ErrMsg);
 						} else {
+							this.buttonStateChanged("报名", "0", true, true);
 							showToast(msg.ErrMsg);
 						}
 						// 更新我的剩余举牌次数
-						this.seq =
-							"剩余举牌次数：" +
-							msg.SeqBills +
-							"次，已报名份数：" +
-							msg.Signups +
-							"份，还可报名：" +
-							msg.SeqSignups +
-							"份";
+						this.seq = `剩余举牌次数：${msg.SeqBills}次，已报名份数：${msg.Signups}份，还可报名：${msg.SeqSignups}`;
+						this.SeqBills = msg.SeqBills;
+						this.Signups = msg.Signups;
+						this.SeqSignups = msg.SeqSignups;
 						break;
 					case 2:
 						// 举牌响应消息（包含我的举牌次数、剩余可用次数）
 						if (msg.IsError) {
 							showToast(msg.ErrMsg);
 						} else {
-							this.MyBills =
-								"我的举牌次数：" +
-								msg.MyBills +
-								"次，剩余可用次数：" +
-								msg.SeqBills +
-								"次";
+							this.MyBills = msg.MyBills;
+							this.SeqBills = msg.SeqBills;
 							showToast(msg.ErrMsg);
 						}
+						this.buttonStateChanged("举牌", "1", true, true);
+						this.timerState(null);
 						break;
 					case 3:
 						// 登录响应消息
@@ -498,23 +548,66 @@ export default Vue.extend({
 						} else {
 							// 登录成功，提示用户
 							this.UserID = msg.UserID;
-							showToast(msg.ErrMsg);
+							let initMsg = {
+								ActiveID: this.ActiveID,
+								UserID: this.UserID,
+								msgID: GUID,
+								msgType: 6,
+								msgTime: msgTime
+							};
+							this.sendSocketMessage(initMsg);
 						}
 						break;
 					case 4:
 						// 托管响应
 						if (msg.IsError) {
+							this.buttonStateChanged("托管", "2", true, true);
 							showToast("托管失败!" + msg.ErrMsg);
 						} else {
-							this.tapbtn = "取消托管";
+							this.buttonStateChanged("取消托管", "2", true, true);
 						}
 						break;
 					case 5:
 						// 取消托管响应消息
 						if (msg.IsError) {
+							this.buttonStateChanged("取消托管", "2", true, true);
 							showToast("取消托管失败!");
 						} else {
-							this.tapbtn = "取消托管";
+							this.buttonStateChanged("托管", "2", true, true);
+						}
+						break;
+					case 6:
+						// 活动详情页初始化响应
+						this.timerDurationTitle = msg.TimerDurationTitle; // 状态对应要显示的标题
+						// 倒计时显示文本
+						// 判断是否需要倒计时，如果不需要则清除倒计时器
+						if (msg.TimerDurationValue === 0) {
+							this.timerState(null);
+						} else {
+							let tm = dt.getTime() + msg.TimerDurationValue;
+							this.seqTime.setTime(tm);
+							this.timerState(this.seqTime);
+						}
+						// 处理按钮的初始状态列表
+						this.buttonsList = msg.ButtonsList;
+						// 更新最近出价人列表信息，更新全部举牌次数、我的举牌次数、和最新价格
+						this.onPriceUpdateEvent(msg.Price, msg.AllBills, msg.LastBills);
+						break;
+					case 7:
+						// 报名进度更新推送
+						// 隐藏其它按钮
+						this.buttonStateChanged("参与下一期", "4", false, false);
+						this.buttonStateChanged("填写收货地址", "3", false, false);
+						if (msg.AllSignups === msg.MaxSignups) {
+							this.buttonStateChanged("举牌", "1", true, true);
+							this.buttonStateChanged("托管", "2", true, true);
+							// 已满员，隐藏掉报名按钮
+							this.buttonStateChanged("报名", "0", false, false);
+						} else {
+							this.buttonStateChanged("举牌", "1", false, false);
+							this.buttonStateChanged("托管", "2", false, false);
+							// 还需要继续报名，显示报名按钮
+							this.buttonStateChanged("报名", "3", true, true);
 						}
 						break;
 					case 8:
@@ -524,8 +617,10 @@ export default Vue.extend({
 						this.BillStat = "总举牌次数：" + msg.AllBills + "次";
 						// 更新最后出价人信息
 						if (msg.Bills.length > 0) {
-							this.newprice = "￥" + msg.Bills[0].Price;
-							this.newbill = "领先人：" + msg.Bills[0].City;
+							this.newPrice = `￥${msg.Bills[0].Price}`;
+							this.newBill = msg.Bills[0].bill;
+							this.newFace = msg.Bills[0].bill.face;
+							this.newNick = `领先人：${msg.Bills[0].nick}`;
 							// 计算剩余时长
 							let dt = new Date();
 							let tm = dt.getTime() + msg.SeqMiniSecounds;
@@ -537,48 +632,131 @@ export default Vue.extend({
 						}
 						// 判断是否需要启动计时器，如果只有一个出价，肯定就是需要启动的，因为计时器未启动
 						if (msg.Bills.length === 1) {
-							this.timerState();
+							this.timerState(this.seqTime);
 						}
 						break;
 					case 9:
 						//计算剩余时间，并重置剩余时间
-						let dt = new Date();
 						let dt_time = dt.getTime();
 						this.seqTime.setTime(dt_time + msg.SeqMiniSecounds);
 						console.log(this.seqTime);
+						// 设置倒计时标题为即将开拍
+						this.timerDurationTitle = "开拍准备";
+						// 隐藏掉报名按钮
+						this.buttonStateChanged("报名", "0", false, false);
+						// 禁用举牌、托管按钮
+						this.buttonStateChanged("托管", "1", true, false);
+						this.buttonStateChanged("自动举牌中", "2", true, false);
+						// 隐藏其它按钮
+						this.buttonStateChanged("填写收货地址", "3", false, false);
+						this.buttonStateChanged("参与下一期", "4", false, false);
 						break;
 					case 10:
 						// 活动正式开始，但是目前尚未有人出价，所以收到此消息，先停止计时器，并显示为 “等待先手”
-						clearInterval(timerState);
 						this.times = "等待首牌";
-						this.newprice = "￥" + msg.currPrice;
+						// 清除计时器
+						this.timerState(null);
+						// 设置价格
+						this.newPrice = "￥" + msg.currPrice;
+						// 判断活动类型，如果是人工举牌，显示托管、举牌；如果是自动举牌，举牌按钮更改为“自动举牌中”，其它按钮全部隐藏
+						if (msg.ActiveType === 0) {
+							// 停用其它按钮，仅剩下举牌按钮，且举牌按钮状态显示为自动举牌中
+							this.buttonStateChanged("自动举牌中", "1", true, false);
+							this.buttonStateChanged("托管", "2", true, false);
+						} else {
+							// 启用举牌、托管按钮
+							this.buttonStateChanged("举牌", "1", true, true);
+							this.buttonStateChanged("托管", "2", true, true);
+						}
+						// 隐藏掉报名、填写地址、参与下一期按钮
+						this.buttonStateChanged("报名", "0", false, false);
+						this.buttonStateChanged("填写收货地址", "3", false, false);
+						this.buttonStateChanged("参与下一期", "4", false, false);
 						break;
 					case 11:
 						// 活动结束通知
-						clearInterval(timerState);
+						this.timerState(null);
 						this.times = "已成交";
 						// 判断是否当前用户，如果是当前用户，则需要弹出收货地址和订单信息处理界面
 						if (this.UserID === msg.WinsBill.UserID) {
-							showModal("恭喜，您已中拍！点击确定去填写订单信息吧！");
+							// 当前用户
+							showToast("恭喜，您已中拍！点击确定去填写订单信息吧！");
+							// 隐藏其它按钮
+							this.buttonStateChanged("报名", "0", false, false);
+							this.buttonStateChanged("举牌", "1", false, false);
+							this.buttonStateChanged("托管", "2", false, false);
+							this.buttonStateChanged("参与下一期", "4", false, false);
+							// 触发填写地址按钮的显示，其它按钮隐藏
+							this.buttonStateChanged("填写收货地址", "3", true, true);
+						} else {
+							// 隐藏掉其它按钮
+							this.buttonStateChanged("报名", "0", false, false);
+							this.buttonStateChanged("举牌", "1", false, false);
+							this.buttonStateChanged("托管", "2", false, false);
+							this.buttonStateChanged("填写收货地址", "3", false, false);
+							// 触发下一期按钮的显示，其它按钮隐藏
+							this.buttonStateChanged("参与下一期", "4", true, true);
 						}
 						break;
+					case 12:
+						// 活动流拍通知
+						this.onTimerStatus = "活动流拍";
+						this.OnTimerDowns = "-";
+						// 隐藏掉其它按钮
+						this.buttonStateChanged("报名", "0", false, false);
+						this.buttonStateChanged("举牌", "1", false, false);
+						this.buttonStateChanged("托管", "2", false, false);
+						this.buttonStateChanged("填写收货地址", "3", false, false);
+						// 触发下一期按钮的显示，其它按钮隐藏
+						this.buttonStateChanged("参与下一期", "4", true, true);
+						break;
 				}
-				console.log(msgType);
 			} catch (e) {
 				console.error("处理消息出错：");
 				console.error(e);
 			}
 		},
+
+		// 定义按钮处理函数
+		buttonStateChanged(text: any, type: any, isDisplay: any, isEnabled: any) {
+			this.buttonsList.map((item: any, i: any, value: any) => {
+				value[type].ButtonText = text;
+				value[type].ButtonVisibility = isDisplay;
+				value[type].ButtonEnabled = isEnabled;
+			});
+		},
+
+		// 更新价格事件
+		onPriceUpdateEvent(startPrice: any, allBills: any, lastBills: any) {
+			// 更新全部举牌次数、我的举牌次数、和最新价格
+			this.allBills = allBills; // '活动总举牌次数：' + allBills + '次'
+			if (lastBills.length > 0) {
+				// 有人出价，按最后出价人
+				this.newPrice = `￥${lastBills[0].bill.Price}`;
+				this.newBill = lastBills[0].bill;
+				this.newFace = lastBills[0].face;
+				this.newNick = `领先人：${lastBills[0].nick}`;
+				this.newCity = `${lastBills[0].bill.Province} ${lastBills[0].bill.City}`;
+			} else {
+				// 未有人出价，按起拍价
+				this.newPrice = `￥${startPrice}`;
+			}
+			// 更新最近出局人信息
+			if (lastBills.length > 1) {
+				this.lastBills = lastBills;
+			}
+		},
 		async billTap(type: any) {
 			let action = type;
 			let ActiveID = this.ActiveID;
-			let num = this.num
+			let num = this.num;
 			let Price = this.Price;
 			let GUID: any = await this.GUID();
 			let msgTime = formatTime(new Date());
+			console.log("switch", type);
 			switch (action) {
 				case "报名":
-					var SignupMsg = {
+					let SignupMsg = {
 						ActiveID: ActiveID,
 						Shares: num,
 						msgID: GUID,
@@ -586,9 +764,10 @@ export default Vue.extend({
 						msgTime: msgTime
 					};
 					this.sendSocketMessage(SignupMsg);
+					this.show = !this.show;
 					break;
 				case "举牌":
-					var billMsg = {
+					let billMsg = {
 						ActiveID: ActiveID,
 						Price: Price,
 						msgID: GUID,
@@ -598,7 +777,7 @@ export default Vue.extend({
 					this.sendSocketMessage(billMsg);
 					break;
 				case "托管":
-					var tapMsg = {
+					let tapMsg = {
 						ActiveID: ActiveID,
 						msgID: GUID,
 						msgType: 4,
@@ -607,7 +786,7 @@ export default Vue.extend({
 					this.sendSocketMessage(tapMsg);
 					break;
 				case "取消托管":
-					var cancelTapMsg = {
+					let cancelTapMsg = {
 						ActiveID: ActiveID,
 						msgID: GUID,
 						msgType: 5,
@@ -624,6 +803,7 @@ export default Vue.extend({
 			let between: number = seqTime - date;
 			let sec: number = Math.floor(between / 1000);
 			let hours: any = Math.floor(Math.floor(sec / 60) / 60) % 24;
+			let days = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
 			let minutes: any = Math.floor(sec / 60) % 60;
 			let seconds: any = sec % 60;
 			let minisec: number = Math.floor(between / 100) % 10;
@@ -639,18 +819,38 @@ export default Vue.extend({
 				if (seconds < 10) {
 					seconds = "0" + seconds;
 				}
-				let times = hours + ":" + minutes + ":" + seconds + "." + minisec;
+				let times =
+					(days > 0 ? days + "天" : "") +
+					hours +
+					":" +
+					minutes +
+					":" +
+					seconds +
+					"." +
+					minisec;
 				this.times = times;
 			}
 		},
 		// 倒计时
-		timerState() {
-			return new Promise((sesolve, reject) => {
-				let timerState = setInterval(() => {
-					this.seqDisplay();
-				}, 100);
-				sesolve(timerState);
-			});
+		timerState(type: any) {
+			if (type === null) {
+				clearInterval(this.timer);
+				return;
+			}
+			if (!(type instanceof Date)) {
+				console.error("传入日期时间格式不正确！");
+				return;
+			}
+			if (type.getTime() < new Date().getTime()) {
+				// 时间错误，时间必须是未来的日期时间
+				console.error("设置倒计时器无效，日期时间必须是未来的时间！");
+				return;
+			}
+			// 清除旧的倒计时器
+			clearInterval(this.timer);
+			this.timer = setInterval(() => {
+				this.seqDisplay();
+			}, 100);
 		},
 		// 下面是生成随机GUID的函数
 		GUID() {
@@ -733,6 +933,7 @@ export default Vue.extend({
 
 .i-product-current-bid-icon img {
 	width: 100%;
+	height: 140upx;
 }
 
 .i-product-current-bid-icon text {
@@ -748,6 +949,7 @@ export default Vue.extend({
 .i-product-current-bid-user img {
 	width: 120upx;
 	height: 120upx;
+	border-radius: 50%;
 }
 
 .i-product-current-bid-name {
@@ -802,6 +1004,7 @@ export default Vue.extend({
 	padding: 0 30upx;
 	border: 2upx solid #fe7f00;
 	border-radius: 100upx;
+	text-align: center;
 }
 
 .i-product-distance-shooting-text {
@@ -897,6 +1100,14 @@ export default Vue.extend({
 	height: 100upx;
 }
 
+.i-product-button-list {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+	border-top: 2upx solid #f4f4f4;
+}
+
 .i-active {
 	color: #fe7f00;
 }
@@ -906,19 +1117,18 @@ export default Vue.extend({
 	bottom: 0;
 	width: 100%;
 	z-index: 10;
+	margin: 0;
 }
 
 .join-btn {
-	height: 106upx;
-	line-height: 106upx;
+	width: 100%;
 	color: #fff;
-	background-color: #fe7c13;
+	background-image: linear-gradient(-225deg, #fe7f00 35%, #fe7c13);
 }
 
 .i-product-placard {
 	position: fixed;
 	bottom: 0;
-	width: 100%;
 	height: 90upx;
 	display: flex;
 	align-items: center;
@@ -928,8 +1138,7 @@ export default Vue.extend({
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 60%;
-	background-color: #fff;
+	padding-left: 30upx;
 }
 
 .i-placard-remaining {
@@ -1010,16 +1219,12 @@ export default Vue.extend({
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-}
-
-.i-placard-button-view {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
+	background-color: #fff;
+	width: 100%;
 }
 
 .i-placard-button {
-	width: 200upx;
+	min-width: 200upx;
 	height: 90upx;
 	font-size: 30upx;
 }
@@ -1037,6 +1242,9 @@ export default Vue.extend({
 }
 
 .btn {
+	font-size: 32upx;
+	height: 106upx;
+	line-height: 98upx;
 	border: none;
 	border-radius: 0;
 }

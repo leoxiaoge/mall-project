@@ -70,12 +70,15 @@ export const request = (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
-          // console.log(res.data)
           uni.hideLoading()
           if (!res.data.IsError) {
             resolve(res.data)
           } else {
-            showToast(res.data.ErrMsg)
+            if (res.data.ErrCode == "Missing_Session") {
+              navigateTo("../../ucenter/login/login")
+            } else {
+              showToast(res.data.ErrMsg)
+            }
           }
         } else {
           reject(res.errMsg)
@@ -138,8 +141,25 @@ export const showModal = (msg: any) => {
   })
 }
 
+export const defaultShowModal = (msg: string) => {
+  return new Promise((resolve, reject) => {
+    uni.showModal({
+      content: msg,
+      success: (res: any) => {
+        resolve(res)
+      }
+    })
+  })
+}
+
 export const navigateTo = (url: any) => {
   uni.navigateTo({
+    url: url
+  })
+}
+
+export const redirectTo = (url: any) => {
+  uni.redirectTo({
     url: url
   })
 }

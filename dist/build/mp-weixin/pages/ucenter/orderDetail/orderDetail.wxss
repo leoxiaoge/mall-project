@@ -172,4 +172,14 @@
 .order-express-content {
 	margin-right: 20rpx;
 }
+.order-action {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 999;
+}
+.action-button {
+	color: #fff;
+	background-color: #fe7f00;
+}
 

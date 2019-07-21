@@ -48,6 +48,13 @@
 	border: 1px solid #D9D9D9;
 	border-radius: 8rpx;
 }
+.upload {
+	padding: 20rpx 0;
+}
+.image-upload-text {
+	font-size: 24rpx;
+	color: #b0b0b0;
+}
 .moveImage{
 	position: absolute;
 }

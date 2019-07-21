@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, showModal } from "@/common/utils/util";
 import {
 	PayMoneyListGet,
 	PayMoneySubmit,
@@ -85,10 +85,7 @@ export default {
 					});
 				},
 				fail: res => {
-					uni.showModal({
-						content: "支付失败,原因为: " + res.errMsg,
-						showCancel: false
-					});
+					showModal("支付失败!");
 				},
 				complete: () => {
 					this.loading = false;
@@ -114,17 +111,14 @@ export default {
 					fail: e => {
 						console.log("fail", e);
 						this.loading = false;
-						uni.showModal({
-							content: "支付失败,原因为: " + e.errMsg,
-							showCancel: false
-						});
+						showModal("支付失败!");
 					}
 				});
 			});
 		},
 		// 支付API
 		async payMoneySubmit() {
-      let OpenID = await this.getWXOpenID();
+			let OpenID = await this.getWXOpenID();
 			return new Promise((sesolve, reject) => {
 				let MoneyID = this.MoneyID;
 				let PayTypeID = this.PayTypeID;

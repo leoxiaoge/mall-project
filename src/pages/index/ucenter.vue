@@ -77,7 +77,7 @@
 					id: '0',
           image: '/static/icon/icon_pending_address.png',
 					text: '待填地址',
-					status: '',
+					status: '0',
           navigateTo: 'orderList'
         },
         {
@@ -126,18 +126,6 @@
 		},
 		onLoad() {
 			this.useInfo()
-			let data = {
-				Mobile : '13723750893',
-				LoginCode: '0000'
-			}
-			request(UserLogin, data).then(function(res: any) {
-				console.log(res)
-				let SessionKey = res.SessionKey
-				let UserInfo = res.UserInfo
-				uni.setStorageSync('SessionKey', SessionKey)
-				uni.setStorageSync('UserInfo', UserInfo)
-				console.log(SessionKey)
-			})
 		},
 		onShow() {
 
@@ -324,7 +312,7 @@
 		background-color: #fe7f00;
 		color: #fff;
 		line-height: 1.8;
-		border-radius: 4upx;
+		border-radius: 8upx;
 		border: none;
 	}
 
