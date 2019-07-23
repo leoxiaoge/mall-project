@@ -7,7 +7,11 @@
 			</view>
 			<view v-if="isShowAdd" class="imageUpload" @tap="selectImage">
 				<view class="upload">
+<<<<<<< HEAD
 					<img class="image-add" :src="imageUpload" />
+=======
+					<img :src="imageUpload" />
+>>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
 					<view class="image-upload-text">添加图片</view>
 				</view>
 			</view>
@@ -290,11 +294,14 @@
 		padding: 20upx 0;
 	}
 
+<<<<<<< HEAD
 	.image-add {
 		width: 48upx;
 		height: 48upx;
 	}
 
+=======
+>>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
 	.image-upload-text {
 		font-size: 24upx;
 		color: #b0b0b0;

@@ -51,10 +51,13 @@
 .upload {
 	padding: 20rpx 0;
 }
+<<<<<<< HEAD
 .image-add {
 	width: 48rpx;
 	height: 48rpx;
 }
+=======
+>>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
 .image-upload-text {
 	font-size: 24rpx;
 	color: #b0b0b0;
