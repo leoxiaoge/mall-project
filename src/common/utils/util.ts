@@ -7,7 +7,7 @@ export function formatTime(date: Date): string {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 const formatNumber = (n: number) => {
@@ -70,18 +70,44 @@ export const request = (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
-          // console.log(res.data)
           uni.hideLoading()
+          uni.stopPullDownRefresh()
           if (!res.data.IsError) {
             resolve(res.data)
           } else {
-            showToast(res.data.ErrMsg)
+            if (res.data.ErrCode == "Missing_Session") {
+              navigateTo("../../ucenter/login/login")
+            } else {
+              showToast(res.data.ErrMsg)
+            }
           }
         } else {
           reject(res.errMsg)
         }
       },
       fail: (err: any) => {
+        reject(err)
+        showToast("网络出错!")
+      }
+    })
+  })
+}
+
+export const upload = (api: any, data: any, filePath: any) => {
+  return new Promise((resolve, reject) => {
+    let handle = processing(api, data)
+    console.log(api, data, filePath)
+    uni.uploadFile({
+      url:  handle.url,
+      filePath: filePath,
+      name: 'file',
+      formData: handle.postdata,
+      success (res: any){
+        const data = res.data
+        console.log(res)
+        resolve(res.data)
+      },
+      fail (err: any) {
         reject(err)
         showToast("网络出错!")
       }
@@ -107,8 +133,8 @@ export const showToast = (msg: any) => {
 
 export const showModal = (msg: any) => {
   uni.showModal({
-    confirmColor: '#37bfc8',
     content: msg,
+    confirmColor: '#fe7f00',
     showCancel: false,
     success: (res: any) => {
       console.log(res)
@@ -116,8 +142,26 @@ export const showModal = (msg: any) => {
   })
 }
 
+export const defaultShowModal = (msg: string) => {
+  return new Promise((resolve, reject) => {
+    uni.showModal({
+      content: msg,
+      confirmColor: '#fe7f00',
+      success: (res: any) => {
+        resolve(res)
+      }
+    })
+  })
+}
+
 export const navigateTo = (url: any) => {
   uni.navigateTo({
+    url: url
+  })
+}
+
+export const redirectTo = (url: any) => {
+  uni.redirectTo({
     url: url
   })
 }

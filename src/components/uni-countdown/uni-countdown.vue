@@ -14,9 +14,9 @@
 			<view v-if="showDay" :style="{borderColor:borderColor, color:color, background:backgroundColor}" class="uni-countdown__number">{{ d }}</view>
 			<view v-if="showDay" :style="{color:splitorColor}" class="uni-countdown__splitor">天</view>
 			<view class="uni-countdown__number-else">{{ h }}</view>
-			<view class="uni-countdown__splitor">{{ showColon ? ':' : '时' }}</view>
+			<view class="uni-countdown__splitors">{{ showColon ? ':' : '时' }}</view>
 			<view class="uni-countdown__number-else">{{ i }}</view>
-			<view class="uni-countdown__splitor">{{ showColon ? ':' : '分' }}</view>
+			<view class="uni-countdown__splitors">{{ showColon ? ':' : '分' }}</view>
 			<view class="uni-countdown__number-else">{{ s }}</view>
 			<view v-if="!showColon" :style="{color:splitorColor}" class="uni-countdown__splitor">秒</view>
 		</view>
@@ -132,7 +132,6 @@
 		flex-wrap: nowrap;
 		justify-content: center;
 		color: #fe7f00;
-		margin-top: 10upx;
 		padding: 4upx 20upx;
 		border-radius: 100upx;
 		border: 2upx solid #e8e8e8
@@ -147,6 +146,7 @@
 	}
 
 	.uni-countdown__splitor {
+		color: #fe7f00;
 		justify-content: center;
 		line-height: 44upx;
 		padding: 0 5upx;

@@ -1,31 +1,32 @@
 
-.uni-product-title {
-    word-break: break-all;
-    display: -webkit-box;
-    overflow: hidden;
-    line-height:1.5;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1
-}
 .teng-image-view {
+    height: 140rpx;
     margin: 12rpx 0;
+    padding: 0 30rpx;
 }
 .list {
     white-space:nowrap;
     background-color: #fff
 }
-.item {
+.product-item {
     display: inline-block;
-    width: 240rpx;
     margin-left: 30rpx;
     overflow: hidden;
-    text-align: center
+    width: 33.33%;
+}
+.product-price {
+    text-align: center;
+}
+.product-price-text {
+    line-height: 1.8;
+    padding: 0 20rpx;
+}
+.uni-product-time {
+    text-align: center;
 }
 .img {
-    width: 160rpx;
-    height: 120rpx;
+    width: 100%;
+    height: 100%;
     margin: 10rpx 0
 }
 

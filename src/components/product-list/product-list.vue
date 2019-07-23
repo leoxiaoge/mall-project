@@ -1,16 +1,16 @@
 <template>
-	<view class="uni-common">
+	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
-				<view class="i-product-content" @click="productDetailsTo(item.ID)">
+				<view class="i-product-content" @click="productDetailsTo(item.ID, item.Active.ID)">
 	        <view class="image-view">
-						<image class="uni-product-image" :src="item.ProductPics | url"></image>
+						<image class="uni-product-image" :src="item.ProductPicList[0]"></image>
 					</view>
-					<view class="uni-product-title">{{item.ProductTitle}}</view>
-					<view class="uni-product-price">
+					<view class="uni-product-title product-title">{{item.ProductTitle}}</view>
+					<view class="uni-product-price" v-if="item.Active.PrevActiveMoney > 0">
 						<text class="uni-product-text">上期成交：</text>
-						<text class="uni-product-price-original">￥{{item.ProductPrice}}</text>
+						<text class="uni-product-price-original">￥{{item.Active.PrevActiveMoney}}</text>
 					</view>
 				</view>
 				<view class="uni-product-prompt">
@@ -20,7 +20,7 @@
 						<uni-countdown :hour="item.Active.hour" :minute="item.Active.minute" :second="item.Active.minute" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.ID)">马上参与</button>
+						<button class="btn" @click="productDetailsTo(item.ID, item.Active.ID)">马上参与</button>
 					</view>
 				</view>
 			</view>
@@ -28,36 +28,34 @@
 	</view>
 </template>
 
-<script>
-  import { request, navigateTo } from '@/common/utils/util'
-  import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
-  export default {
-		components: {
-      uniCountdown
-	  },
-    name: 'productList',
-		props: {
-			options: {
-				type: Array,
-				default () {
-					return []
-				}
-      },
-      title: {
-				type: String,
-				default: '即将开拍'
-			}
+<script lang="ts">
+import Vue from "vue";
+import { request, navigateTo } from '@/common/utils/util';
+import { HomeProductListGet } from '@/common/config/api'
+import uniCountdown from '@/components/uni-countdown/uni-countdown.vue';
+export default Vue.extend({
+  components: {
+    uniCountdown
+	},
+  name: 'productList',
+	props: {
+		options: {
+			type: Array
 		},
-    data() {
-      return {
-				
-			}
-    },
-    computed: {
+    title: {
+			type: String,
+			default: '即将竞拍'
+		}
+	},
+	data() {
+		return {
+			
+		};
+  },
+  computed: {
 			product() {
-				console.log(this.options)
-				let list = this.options
-				list.map(item => {
+				let list: any = this.options
+				list.map((item: any) => {
 					let date1 = item.Active.ActiveEndTime;  //开始时间
           let date2 = new Date();    //结束时间
           let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
@@ -84,19 +82,24 @@
       }
     },
     methods: {
-      productDetailsTo(id) {
-				navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id)
+      productDetailsTo(id: any, activeID: any) {
+				navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id + '&activeID=' + activeID)
 			}
     }
-};
+});
 </script>
 
 <style>
-	.uni-product-prompt {
+
+  .uni-product-prompt {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding-top: 14upx;
+	}
+
+	.product-title {
+		padding: 0 10upx;
 	}
 
 	.uni-product-price {

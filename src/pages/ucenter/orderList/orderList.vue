@@ -1,171 +1,229 @@
 <template>
-	<view class="uni-tab-bar">
-		<scroll-view id="tab-bar" class="uni-swiper-tab" scroll-x :scroll-left="scrollLeft">
-			<view v-for="(tab,index) in tabBars" :key="tab.id" class="swiper-tab-list" :class="tabIndex==index ? 'active' : ''"
-			 :id="tab.id" :data-current="index" @click="tapTab">{{tab.name}}</view>
+	<view>
+		<scroll-view id="tab-bar" class="i-swiper-tab" scroll-x>
+			<view
+				v-for="(item, index) in tabBars"
+				:key="index"
+				class="swiper-tab-list product-item"
+				:class="current===item.status ? 'active' : ''"
+				:data-id="item.id"
+				:data-current="item.status"
+				@click="tapTab"
+			>{{item.name}}</view>
 		</scroll-view>
-		<swiper :current="tabIndex" class="swiper-box" :duration="300" @change="changeTab">
-			<swiper-item>
-				<scroll-view class="list" scroll-y @scrolltolower="loadMore(index1)">
-					<block v-for="(newsitem,index2) in orderList" :key="index2">
-						<media-list :options="newsitem" @close="close(index1,index2)" @click="goDetail(newsitem)"></media-list>
-					</block>
-					<view class="uni-tab-bar-loading">
-						{{loadingText}}
-					</view>
-				</scroll-view>
-			</swiper-item>
-		</swiper>
+		<mescroll-uni top="100" @down="downCallback" @up="upCallback">
+			<block v-for="(item, index) in orderList" :key="index">
+				<media-list :options="item" @click="goDetail(item)" @action="action"></media-list>
+			</block>
+		</mescroll-uni>
 	</view>
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import { request, navigateTo } from '@/common/utils/util'
-	import { OrderListGet } from '@/common/config/api'
-	import mediaList from '@/components/tab-nvue/mediaList.vue'
-	const tpl = [{
-		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-		image_list: [
-			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-			'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg'
-		],
-		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		OrderStatusName: '去支付',
-		OrderStatus: '自动举牌',
-		OrderID: '12345688974343',
-		price: '3000',
-		num: '1',
-		ActionButtons: '确认收货'
-	},{
-		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		OrderStatusName: '去支付',
-		OrderStatus: '自动举牌',
-		OrderID: '12345688974343',
-		price: '2000',
-		num: '1'
-	},{
-		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		OrderStatusName: '去支付',
-		OrderStatus: '自动举牌',
-		OrderID: '12345688974343',
-		price: '4000'
-	},{
-		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		OrderStatusName: '去支付',
-		OrderStatus: '自动举牌',
-		OrderID: '12345688974343',
-		price: '6000'
-	},{
-		CommentPics: 'https://img-cdn-qiniu.dcloud.net.cn/uploads/example/product1.jpg',
-		ProductName: 'Apple iPhone X 256GB 深空灰色 移动联通电信4G手机',
-		OrderStatusName: '去支付',
-		OrderStatus: '自动举牌',
-		OrderID: '12345688974343',
-		price: '6000'
-	}]
-	export default Vue.extend({
-		components: {
-			mediaList
-		},
-		data() {
-			return {
-				scrollLeft: 0,
-				isClickChange: false,
-				tabIndex: 0,
-				orderList: [],
-				tabBars: [{
-					name: '全部',
-					id: '0'
-				}, {
-					name: '待付款',
-					id: '1'
-				}, {
-					name: '待发货',
-					id: '2'
-				}, {
-					name: '待收货',
-					id: '3'
-				}, {
-					name: '待晒单',
-					id: '4'
-				}],
-				loadingText: '加载更多！'
-			}
-		},
-		onLoad(options: any) {
-			console.log(options)
-			this.getData()
-			let id = options.id
-			this.tabIndex = id
-		},
-		methods: {
-			getData() {
-				let data = {
-					OrderStatus: 1
-        }
-		  	request(OrderListGet, data).then((res: any) => {
-          console.log(res)
-				})
-				let tpldata: any = tpl
-				this.orderList = tpldata
-			},
-			goDetail(e: any) {
-				uni.navigateTo({
-					url: '/pages/template/tabbar/detail/detail?title=' + e.title
-				});
-			},
-			loadMore(e: any) {
-				setTimeout(() => {
-					
-				}, 1200);
-			},
-			async changeTab(e: any) {
-				console.log(e)
-			},
-			getElSize(id: any) { //得到元素的size
-				return new Promise((res, rej) => {
-					uni.createSelectorQuery().select("#" + id).fields({
-						size: true,
-						scrollOffset: true
-					}, (data) => {
-						res(data);
-					}).exec();
-				})
-			},
-			async tapTab(e: any) { //点击tab-bar
-				console.log(e)
-				this.tabIndex = e.target.dataset.current
-				let tpldata: any = tpl
-				this.orderList = tpldata
-				console.log(tpldata)
-			},
-			randomfn() {
-				let ary = [];
-				for (let i = 0, length = this.tabBars.length; i < length; i++) {
-					let aryItem = {
-						loadingText: '加载更多...',
-						data: []
-					};
-					ary.push(aryItem);
+import Vue from "vue";
+import { request, navigateTo } from "@/common/utils/util";
+import { OrderListGet } from "@/common/config/api";
+import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
+import mediaList from "@/components/order-list/order-list.vue";
+
+export default Vue.extend({
+	components: {
+		MescrollUni,
+		mediaList
+	},
+	data() {
+		return {
+			current: 0,
+			OrderStatus: "",
+			orderList: [], // 订单列表
+			tabBars: [
+				{
+					name: "全部",
+					id: "0",
+					status: "-1"
+				},
+				{
+					name: "待填地址",
+					id: "1",
+					status: "0"
+				},
+				{
+					name: "待付款",
+					id: "2",
+					status: "1"
+				},
+				{
+					name: "待发货",
+					id: "3",
+					status: "2"
+				},
+				{
+					name: "待收货",
+					id: "4",
+					status: "3"
+				},
+				{
+					name: "待晒单",
+					id: "5",
+					status: "4"
 				}
-				return ary;
+			],
+			mescroll: []
+		};
+	},
+	onLoad(options: any) {
+		console.log(options);
+		let status = options.status;
+		this.current = status;
+		this.OrderStatus = status;
+	},
+	methods: {
+		// 点击选项卡
+		tapTab(e: any) {
+			this.current = e.target.dataset.current;
+			this.OrderStatus = e.target.dataset.current;
+			let mescroll: any = this.mescroll;
+			this.downCallback(mescroll);
+		},
+		/*下拉刷新的回调 */
+		downCallback(mescroll: any) {
+			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
+			this.mescroll = mescroll;
+			mescroll.resetUpScroll();
+		},
+		/*上拉加载的回调: mescroll携带page的参数, 其中num:当前页 从1开始, size:每页数据条数,默认10 */
+		upCallback(mescroll: any) {
+			//联网加载数据
+			this.getListDataFromNet(
+				mescroll.num,
+				mescroll.size,
+				(curPageData: any) => {
+					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+					mescroll.endSuccess(curPageData.length);
+					//设置列表数据
+					if (mescroll.num == 1) this.orderList = []; //如果是第一页需手动制空列表
+					this.orderList = this.orderList.concat(curPageData); //追加新数据
+					console.log("orderList", curPageData, this.orderList);
+				},
+				() => {
+					//联网失败的回调,隐藏下拉刷新的状态
+					mescroll.endErr();
+				}
+			);
+		},
+		/*联网加载列表数据
+			实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+			* */
+		async getListDataFromNet(
+			pageNum: any,
+			pageSize: any,
+			successCallback: any,
+			errorCallback: any
+		) {
+			console.log(pageNum, pageSize);
+			try {
+				let orderList: any = await this.getOrderList(pageNum, pageSize);
+				//联网成功的回调
+				successCallback && successCallback(orderList);
+			} catch (e) {
+				//联网失败的回调
+				errorCallback && errorCallback();
 			}
+		},
+		getOrderList(pageNum: any, pageSize: any) {
+			return new Promise((sesolve, reject) => {
+				let OrderStatus = this.OrderStatus;
+				if (!OrderStatus || OrderStatus === "-1") {
+					let data = {
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(OrderListGet, data).then((res: any) => {
+						sesolve(res.OrderList);
+					});
+				} else {
+					let data = {
+						OrderStatus: OrderStatus,
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(OrderListGet, data).then((res: any) => {
+						sesolve(res.OrderList);
+					});
+				}
+			});
+		},
+		action(e: any) {
+			console.log("action", e);
+			switch (e) {
+				case "报名":
+					break;
+				case "举牌":
+					break;
+				case "托管":
+					break;
+				case "取消托管":
+					break;
+			}
+		},
+		goDetail(e: any) {
+			console.log(e);
+			navigateTo(
+				"../orderDetail/orderDetail?id=" + e.ID + "&OrderID=" + e.OrderID
+			);
+		},
+		// 晒单上传
+		goOrderDrying(e: any) {
+			console.log(e);
+			navigateTo(
+				"../orderDryingUpload/orderDryingUpload?id=" +
+					e.ID +
+					"&OrderID=" +
+					e.OrderID
+			);
 		}
-	})
+	}
+});
 </script>
 
 <style>
-	.uni-tab-bar-loading {
-		text-align: center;
-		font-size: 28upx;
-		color: #999;
-	}
-	.uni-swiper-tab {
-		background-color: #fff;
-	}
+page {
+	width: 100%;
+	height: 100%;
+}
+.content {
+	width: 100%;
+	height: 100%;
+}
+.swiper {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+}
+.active {
+	color: #fe7f00;
+}
+
+.product-item {
+	display: inline-block;
+	overflow: hidden;
+	line-height: 98upx;
+}
+.i-tab-bar-loading {
+	text-align: center;
+	font-size: 28upx;
+	color: #999;
+}
+.i-swiper-tab {
+	white-space: nowrap;
+	height: 98upx;
+	line-height: 98upx;
+	background-color: #fff;
+	border-bottom: 2upx solid #f4f4f4;
+}
+.scroll-view-list {
+	width: 100%;
+	height: 100%;
+}
 </style>

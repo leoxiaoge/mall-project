@@ -1,0 +1,80 @@
+
+.mask {
+	position: fixed;
+	z-index: 998;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.exchange {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 999;
+}
+.exchange-btn {
+	color: #fff;
+	background-color: #fe7f00;
+}
+.exchange-model {
+	background-color: #fff;
+}
+.exchange-model-head {
+	font-size: 32rpx;
+	color: #767676;
+	text-align: center;
+	padding: 20rpx 0;
+}
+.exchange-model-address {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	border-top: 2rpx solid #f4f4f4;
+	border-bottom: 2rpx solid #f4f4f4;
+	padding: 20rpx 30rpx;
+}
+.exchange-model-address-user text {
+	font-size: 32rpx;
+}
+.exchange-model-mobile {
+	margin-left: 60rpx;
+}
+.exchange-model-integrals {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	padding: 20rpx 30rpx;
+}
+.exchange-model-need-integrals text {
+	color: #fe7f00;
+}
+.exchange-submit {
+	padding: 20rpx 30rpx;
+}
+.submitBtn {
+	line-height: 80rpx;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 100rpx;
+}
+

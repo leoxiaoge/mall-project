@@ -76,17 +76,8 @@
 		},
 		methods: {
 			onClick(items, index) {
-				let navigatePath = items[index].navigateTo
-				console.log(this.options)
-				console.log(this.isOrder)
-				let id = items[index].status
-				if (this.isOrder) {
-					var navigate = `../ucenter/${navigatePath}/${navigatePath}?id=` + id
-				} else {
-					var navigate = `../mall/${navigatePath}/${navigatePath}`
-				}
-				console.log(navigate)
-				navigateTo(navigate)
+				let item = items[index]
+				this.$emit('click', item)
 			}
 		}
 	}

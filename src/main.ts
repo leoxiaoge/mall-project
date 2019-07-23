@@ -1,16 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from './store'
 import pageHead from './components/page-head.vue'
 
 Vue.config.productionTip = false
+Vue.prototype.$store = store
 
 Vue.component('page-head', pageHead)
-
-Vue.filter('url', (value: any) => {
-  console.log('11')
-  if (!value) return ''
-  value = 'https://api.tengpaisc.com/' + value
-  return value
-})
 
 new App().$mount()

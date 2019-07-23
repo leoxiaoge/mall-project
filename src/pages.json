@@ -4,7 +4,10 @@
 		  "path": "pages/index/home",
 		  "style": {
 			"navigationBarTitleText": "腾拍商城",
-			"enablePullDownRefresh": true
+			"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
 		  }
 		},
 		{
@@ -64,7 +67,8 @@
 				{
           "path": "notice/notice",
 					"style": {
-						"navigationBarTitleText": "最新成交"
+						"navigationBarTitleText": "最新成交",
+						"enablePullDownRefresh": true
 					}
 				},
 				{
@@ -75,14 +79,21 @@
 				},{
           "path": "productDetailsPage/productDetailsPage",
 					"style": {
-						"navigationBarTitleText": "竞拍详情"
+						"navigationBarTitleText": "竞拍详情",
+						"enablePullDownRefresh": true
 					}
 				},{
 					"path": "productDetailsUparse/productDetailsUparse",
 					"style": {
 						"navigationBarTitleText": "竞拍详情"
 					}
-				}
+				},
+				{
+          "path": "exchangeDetails/exchangeDetails",
+					"style": {
+						"navigationBarTitleText": "兑现"
+					}
+        }
 			]
 		},
 		{
@@ -111,6 +122,14 @@
 			  "path": "orderList/orderList",
 		  	"style": {
 		  	  "navigationBarTitleText": "订单中心"
+				},
+				"app-plus": {
+					"bounce": "none"
+				}
+	 	  },{
+			  "path": "orderDetail/orderDetail",
+		  	"style": {
+		  	  "navigationBarTitleText": "订单详情"
 	  		}
 	 	  },{
 			  "path": "recharge/recharge",
@@ -148,7 +167,12 @@
 		  	"style": {
 		  	  "navigationBarTitleText": "我的地址"
 	  		}
-	 	  }]
+	 	  },{
+				"path": "orderDryingUpload/orderDryingUpload",
+		  	"style": {
+		  	  "navigationBarTitleText": "晒单评价"
+	  		}
+			}]
 		}
 	],
 	"globalStyle": {

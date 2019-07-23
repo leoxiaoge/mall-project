@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "出价记录",
-  "usingComponents": {}
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei"
+  }
 }

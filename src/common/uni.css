@@ -72,7 +72,6 @@ form {
 }
 .uni-padding-wrap{
 	width:690upx;
-	padding:0 30upx;
 }
 .uni-word {
 	text-align: center;
@@ -910,7 +909,7 @@ radio-group label, checkbox-group label{
 
 .uni-product {
 	width: calc(50% - 2px);
-  padding: 20upx;
+  padding: 20upx 10upx;
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
@@ -930,11 +929,10 @@ radio-group label, checkbox-group label{
 }
 
 .uni-product-title {
-    width: 300upx;
     word-break: break-all;
     display: -webkit-box;
     overflow: hidden;
-	line-height:1.5;
+	  line-height:1.5;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;

@@ -2,15 +2,17 @@
 	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
-			<scroll-view scroll-x class="list">
-        <view class="item" v-for="(item,index) in product" :key="index">
-          <view class="" @click="productDetailsTo(item.ID)">
+			<scroll-view scroll-x class="list" @scrolltolower="lower">
+        <view class="product-item" v-for="(item,index) in product" :key="index">
+          <view class="" @click="productDetailsTo(item.ID, item.Active.ID)">
             <view class="teng-image-view">
-              <image class="uni-product-image img" :src="item.ProductPics | url"></image>
+              <image class="uni-product-image img" :src="item.ProductPicList[0]"></image>
             </view>
-            <view class="uni-product-title">{{item.ProductName}}</view>
-            <view class="uni-product-price">
-              <text class="uni-product-price">￥{{item.ProductPrice}}</text>
+            <view class="product-price-title">
+              <view class="product-price-text uni-ellipsis">{{item.ProductTitle}}</view>
+            </view>
+            <view class="product-price">
+              <view class="product-price-text">￥{{item.ProductPrice}}</view>
             </view>
           </view>
           <view class="uni-product-time">
@@ -23,35 +25,43 @@
 	</view>
 </template>
 
-<script>
-  import { request, navigateTo } from '@/common/utils/util'
-  import uniCountdown from '@/components/uni-countdown/uni-countdown.vue'
-  export default {
-    components: {
-      uniCountdown
-	  },
-    name: 'productListBeing',
-		props: {
-			options: {
-				type: Array,
-				default () {
-					return []
-				}
-      },
-      title: {
-				type: String,
-				default: '正在竞拍'
+<script lang="ts">
+import Vue from "vue";
+import { request, navigateTo } from '@/common/utils/util';
+import { HomeProductListGet } from '@/common/config/api'
+import uniCountdown from '@/components/uni-countdown/uni-countdown.vue';
+export default Vue.extend({
+  components: {
+    uniCountdown
+	},
+  name: 'productListBeing',
+	props: {
+		options: {
+			type: Array,
+			default() {
+				return [];
 			}
-    },
-    data() {
-      return {
-        
-      }
-    },
-    computed: {
+		},
+    title: {
+			type: String,
+			default: '正在竞拍'
+		}
+	},
+	data() {
+		return {
+      PageCount: 1,
+      pageNum: 1,
+      pageSize: 10,
+      productList: []
+    };
+  },
+  created() {
+    this.getHomeProductList();
+  },
+  computed: {
 			product() {
-        let list = this.options
-				list.map(item => {
+        let list: any = this.productList
+				list.map((item: any) => {
 					let date1 = item.Active.ActiveEndTime;  //开始时间
           let date2 = new Date();    //结束时间
           let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
@@ -76,27 +86,44 @@
 				return list
       }
     },
-    methods: {
-      productDetailsTo(id) {
-				navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id)
-			}
+	methods: {
+    productDetailsTo(id: any, activeID: any) {
+			navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id + '&activeID='+ activeID)
+    },
+    getHomeProductList() {
+      let pageNum = this.pageNum;
+      let pageSize = this.pageSize
+      let data = {
+        PageID: pageNum,
+        PageSize: pageSize,
+        SearchType: 'home1'
+      }
+      request(HomeProductListGet, data).then((res: any) => {
+        console.log(res.ProductList)
+        if (pageNum === 1) {
+          this.productList = [];
+        }
+        this.productList = this.productList.concat(res.ProductList);
+        this.PageCount = res.PageCount;
+      })
+    },
+    lower() {
+      console.log('lower')
+      if (this.pageNum < this.PageCount) {
+        this.pageNum++;
+        this.getHomeProductList();
+      }
     }
-};
+  }
+});
 </script>
 
 <style>
-  .uni-product-title {
-    word-break: break-all;
-    display: -webkit-box;
-    overflow: hidden;
-    line-height:1.5;
-    text-overflow: ellipsis;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1
-  }
 
   .teng-image-view {
+    height: 140upx;
     margin: 12upx 0;
+    padding: 0 30upx;
   }
 
 	.list {
@@ -104,17 +131,29 @@
     background-color: #fff
   }
 
-  .item {
+  .product-item {
     display: inline-block;
-    width: 240upx;
     margin-left: 30upx;
     overflow: hidden;
-    text-align: center
+    width: 33.33%;
+  }
+
+  .product-price {
+    text-align: center;
+  }
+
+  .product-price-text {
+    line-height: 1.8;
+    padding: 0 20upx;
+  }
+
+  .uni-product-time {
+    text-align: center;
   }
 
   .img {
-    width: 160upx;
-    height: 120upx;
+    width: 100%;
+    height: 100%;
     margin: 10upx 0
   }
 </style>

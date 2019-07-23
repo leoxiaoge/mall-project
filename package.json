@@ -1,5 +1,5 @@
 {
-  "name": "auction-mall",
+  "name": "mall-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -44,11 +44,12 @@
     "@dcloudio/uni-template-compiler": "*",
     "@dcloudio/vue-cli-plugin-hbuilderx": "latest",
     "@dcloudio/vue-cli-plugin-uni": "latest",
+    "@dcloudio/vue-cli-plugin-uni-optimize": "latest",
     "@dcloudio/webpack-uni-mp-loader": "*",
     "@dcloudio/webpack-uni-pages-loader": "*",
     "@vue/cli-plugin-babel": "3.5.1",
     "@vue/cli-plugin-typescript": "^3.5.1",
-    "@vue/cli-service": "^3.8.0",
+    "@vue/cli-service": "^3.9.0",
     "babel-plugin-import": "^1.11.0",
     "postcss-comment": "^2.0.0",
     "typescript": "^3.0.0",

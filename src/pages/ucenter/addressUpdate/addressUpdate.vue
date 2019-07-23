@@ -42,7 +42,7 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { request, navigateTo, showToast } from '@/common/utils/util'
+  import { request, navigateTo, redirectTo, showToast } from '@/common/utils/util'
   import { UserAddressListGet, UserAddressUpdate } from '@/common/config/api'
   import mpvueCityPicker from '@/components/mpvue-citypicker/mpvueCityPicker.vue'
 	export default Vue.extend({
@@ -170,7 +170,7 @@
 		  	request(UserAddressUpdate, data).then((res: any) => {
 					console.log(res)
 					showToast('保存成功！')
-					navigateTo('../addressShipping/addressShipping')
+					redirectTo('../addressShipping/addressShipping')
         })
 			}
     }

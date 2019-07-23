@@ -1,7 +1,8 @@
 {
   "navigationBarTitleText": "腾拍商城",
-  "enablePullDownRefresh": true,
+  "enablePullDownRefresh": false,
   "usingComponents": {
+    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei",
     "uni-grid": "/components/uni-grid/uni-grid",
     "product-list-being": "/components/product-list-being/product-list-being",
     "product-list": "/components/product-list/product-list"

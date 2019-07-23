@@ -1,4 +1,4 @@
-# auction-mall
+# mall-project
 
 ## Project setup
 ```

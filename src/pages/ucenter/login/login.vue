@@ -7,7 +7,7 @@
     <view class="i-login-mobile i-border-bottom i-flex-between">
       <view class="i-login-content i-flex">
         <image class="i-login-mobile-image" />
-        <input class="i-login-mobile-input" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
+        <input class="i-login-mobile-input" type="number" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
       </view>
       <view class="i-login-set-code">
         <button class="i-button-get" :disabled="disabled" @click="getCode" >
@@ -18,7 +18,7 @@
     <view class="i-login-code i-border-bottom">
       <view class="i-login-content i-flex">
         <image class="i-login-code-image" />
-        <input class="i-login-code-input" :value="LoginCode" placeholder="验证码" @input="codeInput" />
+        <input class="i-login-code-input" type="number" :value="LoginCode" placeholder="验证码" @input="codeInput" />
       </view>
     </view>
     <view class="i-login-radio">
@@ -27,32 +27,39 @@
       </label>
     </view>
     <view class="i-login-button-view">
-      <button class="btn i-login-button" @click="userLogin">登录</button>
+      <!-- #ifdef MP-WEIXIN -->
+      <button class="btn i-login-button" :loading="loading" open-type="getUserInfo" @getuserinfo="wxLogin">登录</button>
+			<!-- #endif -->
+      <!-- #ifdef H5 -->
+      <button class="btn i-login-button" :loading="loading" @click="userLogin">登录</button>
+			<!-- #endif -->
     </view>
-    <!-- #ifdef MP-WEIXIN -->		
-    <view class="mp-weixin">
-      <button class="i-login-weixin" open-type="getUserInfo" @getuserinfo="getuserinfo"></button>
-    </view>
-    <!-- #endif -->
   </view>
 </template>
 
 <script lang="ts">
   import Vue from 'vue'
+  import { mapState, mapMutations } from 'vuex'
   import { request, navigateTo, showToast } from '@/common/utils/util'
-  import { UserLogin, GetLoginCode } from '@/common/config/api'
+  import { UserLogin, GetLoginCode, GetWXOpenID } from '@/common/config/api'
   import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	export default Vue.extend({
     components: {
 			uniIcon
+    },
+    computed: {
+			...mapState(['hasLogin'])
 		},
 		data() {
 			return {
+        wxFace: '',
+        wxNick: '',
+        refUserID: '',
         logo: '/static/icon/icon_login.png',
         checked: true,
         Mobile: '',
         LoginCode: '',
-
+        loading: false,
         time: '获取验证码',
         currentTime: 60,
         disabled: false,
@@ -60,13 +67,37 @@
 			}
 		},
 		onLoad(options) {
-      console.log(options)
+      console.log(this.$store.state)
+      uni.getProvider({
+        service: 'oauth',
+        success: (res: any) =>{
+            console.log(res.provider)
+            if (~res.provider.indexOf('weixin')) {
+                uni.login({
+                    provider: 'weixin',
+                    success: (loginRes: any) => {
+                      console.log(JSON.stringify(loginRes));
+                      let JSCode = loginRes.code
+                      let data = {
+                        JSCode: JSCode
+                      }
+                      request(GetWXOpenID, data).then((res: any) => {
+                        console.log(res)
+                        let OpenID = res.OpenID
+                        uni.setStorageSync('OpenID', OpenID)
+                      })
+                    }
+                });
+            }
+        }
+    });
     },
     onUnload() {
       let interval: any = this.interval
       clearInterval(interval)
     },
 		methods: {
+      ...mapMutations(['login']),
       mobileInput(e: any) {
         console.log(e)
         this.Mobile = e.detail.value
@@ -111,9 +142,23 @@
       radioClick() {
         this.checked = !this.checked
       },
+      wxLogin(e: any) {
+        console.log(e)
+        let userInfo = e.detail.userInfo;
+        this.wxFace = userInfo.avatarUrl;
+        this.wxNick = userInfo.nickName;
+        this.userLogin();
+      },
       userLogin() {
-        let Mobile = this.Mobile
-        let LoginCode  = this.LoginCode
+        let Mobile = this.Mobile;
+        // let Mobile = '13723750893';
+        let LoginCode  = this.LoginCode;
+        let wxFace = this.wxFace;
+        let wxNick = this.wxNick;
+        let refUserID = this.refUserID
+        if (uni.getStorageSync("scene")) {
+          refUserID = uni.getStorageSync("scene")
+        }
         if (!Mobile) {
           showToast('手机号码不能为空！')
           return
@@ -122,17 +167,25 @@
           showToast('验证码不能为空！')
           return
         }
+        this.loading = true;
 				let data = {
           Mobile: Mobile,
-          LoginCode: LoginCode
+          LoginCode: LoginCode,
+          wxFace: wxFace,
+          wxNick: wxNick,
+          RefUserID: refUserID
         }
 		  	request(UserLogin, data).then((res: any) => {
           console.log(res)
+          this.loading = false;
           let SessionKey = res.SessionKey
           let UserInfo = res.UserInfo
           uni.setStorageSync('SessionKey', SessionKey)
           uni.setStorageSync('UserInfo', UserInfo)
           showToast('登录成功！')
+          uni.navigateBack({
+            delta: 1
+          });
         })
       },
       getuserinfo(e: any) {
@@ -173,24 +226,26 @@
   }
 
   .i-login-mobile-image {
-    background: url(/static/icon/icon_login_mobile.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_mobile.png) center no-repeat;
     background-size: 100%;
     width: 36upx;
     height: 52upx;
   }
 
   .i-login-code-image {
-    background: url(/static/icon/icon_login_code.png) center no-repeat;
+    background: url(https://api.tengpaisc.com/Resources/images/icon_login_code.png) center no-repeat;
     background-size: 100%;
     width: 36upx;
     height: 52upx;
   }
 
   .i-login-mobile-input {
+    min-width: 340upx;
     margin-left: 20upx;
   }
 
   .i-login-code-input {
+    min-width: 560upx;
     margin-left: 20upx;
   }
 
@@ -234,13 +289,5 @@
     background-color: #fe7f00;
     border-radius: 100upx;
     margin-top: 40upx;
-  }
-
-  .i-login-weixin {
-    background: url(/static/icon/icon_wechat.png) center no-repeat;
-    background-size: 100%;
-    width: 88upx;
-    height: 88upx;
-    margin-top: 160upx;
   }
 </style>

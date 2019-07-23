@@ -13,7 +13,6 @@
 	    -ms-flex-pack: center;
 	        justify-content: center;
 	color: #fe7f00;
-	margin-top: 10rpx;
 	padding: 4rpx 20rpx;
 	border-radius: 100rpx;
 	border: 2rpx solid #e8e8e8
@@ -34,6 +33,7 @@
 	border-radius: 100rpx;
 }
 .uni-countdown__splitor {
+	color: #fe7f00;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	    -ms-flex-pack: center;

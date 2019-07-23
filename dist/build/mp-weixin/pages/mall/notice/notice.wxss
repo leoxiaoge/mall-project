@@ -1,35 +1,39 @@
 
-page  {
-  background-color: #fff
+page {
+	background-color: #fff;
 }
 .i-notice-list {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  margin: 0 30rpx;
-  padding: 20rpx 0;
-  border-bottom: 2rpx solid #f4f4f4
+	margin: 0 30rpx;
+	padding: 20rpx 0;
+	border-bottom: 2rpx solid #f4f4f4;
+}
+.i-notice-head {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	justify-items: flex-start;
 }
 .i-notice-original {
-  color: #fe7f00
+	color: #fe7f00;
+	font-weight: 600;
+}
+.i-notice-title {
+	color: #6a6a6a;
+	font-weight: 600;
 }
 .teng-notice-title {
-  font-weight: 600;
+	font-weight: 600;
 }
 .i-notice-status {
-  margin-left: 20rpx;
+	margin-left: 20rpx;
 }
 .i-notice-time {
-  font-size: 18rpx;
-  color: #616161
+	font-size: 28rpx;
+	color: #616161;
 }
 
