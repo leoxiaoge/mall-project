@@ -40,7 +40,7 @@
 <script lang="ts">
   import Vue from 'vue'
   import { mapState, mapMutations } from 'vuex'
-  import { request, navigateTo, showToast } from '@/common/utils/util'
+  import { request, navigateTo, navigateBack, showToast } from '@/common/utils/util'
   import { UserLogin, GetLoginCode, GetWXOpenID } from '@/common/config/api'
   import uniIcon from '@/components/uni-icon/uni-icon.vue'
 	export default Vue.extend({
@@ -183,9 +183,7 @@
           uni.setStorageSync('SessionKey', SessionKey)
           uni.setStorageSync('UserInfo', UserInfo)
           showToast('登录成功！')
-          uni.navigateBack({
-            delta: 1
-          });
+          navigateBack(1);
         })
       },
       getuserinfo(e: any) {
@@ -276,7 +274,7 @@
     border-radius: 10px;
   }
 
-  uni-button[disabled]:not([type]), uni-button[disabled][type=default] {
+  button[disabled]:not([type]), button[disabled][type=default] {
     color: rgba(0,0,0,.3);
     background-color: #fff;
   }

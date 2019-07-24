@@ -98,16 +98,16 @@ export const upload = (api: any, data: any, filePath: any) => {
     let handle = processing(api, data)
     console.log(api, data, filePath)
     uni.uploadFile({
-      url:  handle.url,
+      url: handle.url,
       filePath: filePath,
       name: 'file',
       formData: handle.postdata,
-      success (res: any){
+      success(res: any) {
         const data = res.data
         console.log(res)
         resolve(res.data)
       },
-      fail (err: any) {
+      fail(err: any) {
         reject(err)
         showToast("网络出错!")
       }
@@ -157,6 +157,14 @@ export const defaultShowModal = (msg: string) => {
 export const navigateTo = (url: any) => {
   uni.navigateTo({
     url: url
+  })
+}
+
+export const navigateBack = (delta: number) => {
+  return new Promise((resolve, reject) => {
+    uni.navigateBack({
+      delta: delta
+    });
   })
 }
 

@@ -9,11 +9,17 @@
 			>
 				<view class="i-bill-image i-flex">
 					<img :src="item.UserFace" />
-					<view class="i-bill-user" :class="(item.IsWin === 0?'i-default':'i-active')">{{item.UserMobile}}</view>
+					<view
+						class="i-bill-user"
+						:class="(item.IsWin === 0?'i-default':'i-active')"
+					>{{item.UserMobile}}</view>
 				</view>
 				<view class="i-bill-IsWin" v-if="item.IsWin === 0">出局</view>
 				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-else>预选</view>
-				<view class="i-bill-province" :class="(item.IsWin === 0?'i-default':'i-active')">{{item.Province}}{{item.City}}</view>
+				<view
+					class="i-bill-province"
+					:class="(item.IsWin === 0?'i-default':'i-active')"
+				>{{item.Province}}{{item.City}}</view>
 				<view class="i-bill-price" :class="(item.IsWin === 0?'i-default':'i-active')">{{item.Price}}</view>
 			</view>
 		</mescroll-uni>
@@ -48,7 +54,10 @@ export default Vue.extend({
 		},
 		// 上拉加载的回调: mescroll携带page的参数, 其中num:当前页 从1开始, size:每页数据条数,默认10
 		upCallback(mescroll: any) {
-			this.getListDataFromNet(mescroll.num,mescroll.size,(curPageData: any) => {
+			this.getListDataFromNet(
+				mescroll.num,
+				mescroll.size,
+				(curPageData: any) => {
 					mescroll.endSuccess(curPageData.length);
 					if (mescroll.num == 1) this.billList = [];
 					this.billList = this.billList.concat(curPageData);
@@ -82,10 +91,15 @@ export default Vue.extend({
 					PageID: pageNum,
 					PageSize: pageSize
 				};
-				request(ActiveBillListGet, data).then((res: any) => {
-					console.log(res);
-					sesolve(res.BillList);
-				});
+				request(ActiveBillListGet, data)
+					.then((res: any) => {
+						console.log(res);
+						sesolve(res.BillList);
+					})
+					.catch((err: any) => {
+						let mescroll: any = this.mescroll;
+						mescroll.endErr();
+					});
 			});
 		}
 	}

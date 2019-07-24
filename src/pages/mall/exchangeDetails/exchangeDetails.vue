@@ -3,49 +3,51 @@
 		<view class="uni-padding-wrap i-kong">
 			<uParse :content="article" @preview="preview" @navigate="navigate" />
 		</view>
-		<view v-show="isShow" class="mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
-		<view class="exchange">
-			<view class="exchange-now" v-if="!isShow">
-				<button class="btn exchange-btn" @click="show">马上兑换</button>
-			</view>
-			<view class="exchange-model" v-if="isShow">
-				<view class="exchange-model-head">
-					<text>订单信息确认</text>
+		<view class="mask-show" :class="(show?'show':'hide')">
+			<view class="mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
+			<view class="exchange">
+				<view class="exchange-now" v-if="!show">
+					<button class="btn exchange-btn" @click="isShow">马上兑换</button>
 				</view>
-				<view
-					class="exchange-model-address"
-					v-for="(item, index) in addressList"
-					:key="index"
-					@click="addressClick"
-				>
-					<view class="exchange-model-address-body">
-						<view class="exchange-model-address-user">
-							<text>{{item.realName}}</text>
-							<text class="exchange-model-mobile">{{item.Mobile}}</text>
+				<view class="exchange-model mask-content">
+					<view class="exchange-model-head">
+						<text>订单信息确认</text>
+					</view>
+					<view
+						class="exchange-model-address"
+						v-for="(item, index) in addressList"
+						:key="index"
+						@click="addressClick"
+					>
+						<view class="exchange-model-address-body">
+							<view class="exchange-model-address-user">
+								<text>{{item.realName}}</text>
+								<text class="exchange-model-mobile">{{item.Mobile}}</text>
+							</view>
+							<view class="exchange-model-address-list">
+								<text>{{item.Province}}</text>
+								<text>{{item.City}}</text>
+								<text>{{item.Area}}</text>
+								<text>{{item.Address}}</text>
+							</view>
 						</view>
-						<view class="exchange-model-address-list">
-							<text>{{item.Province}}</text>
-							<text>{{item.City}}</text>
-							<text>{{item.Area}}</text>
-							<text>{{item.Address}}</text>
+						<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
+					</view>
+					<view class="exchange-model-integrals">
+						<view class="exchange-model-remaining-integrals" v-if="userInfo">
+							<text>剩余积分：</text>
+							<text>{{userInfo.Integrals}}</text>
+							<text>分</text>
+						</view>
+						<view class="exchange-model-need-integrals" v-if="integrals">
+							<text>所需积分：</text>
+							<text>{{integrals}}</text>
+							<text>分</text>
 						</view>
 					</view>
-					<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
-				</view>
-				<view class="exchange-model-integrals">
-					<view class="exchange-model-remaining-integrals" v-if="userInfo">
-						<text>剩余积分：</text>
-						<text>{{userInfo.Integrals}}</text>
-						<text>分</text>
+					<view class="exchange-submit">
+						<button class="submitBtn" @click="exchangeSubmit">确认订单</button>
 					</view>
-					<view class="exchange-model-need-integrals" v-if="integrals">
-						<text>所需积分：</text>
-						<text>{{integrals}}</text>
-						<text>分</text>
-					</view>
-				</view>
-				<view class="exchange-submit">
-					<button class="submitBtn" @click="exchangeSubmit">确认订单</button>
 				</view>
 			</view>
 		</view>
@@ -79,7 +81,7 @@ export default Vue.extend({
 			integrals: "",
 			userInfo: "",
 			addressList: "",
-			isShow: false
+			show: false
 		};
 	},
 	onLoad(options: any) {
@@ -117,8 +119,8 @@ export default Vue.extend({
 				showCancel: false
 			});
 		},
-		show() {
-			this.isShow = true;
+		isShow() {
+			this.show = true;
 		},
 		// 获取当前登录用户的信息
 		getLoginUser() {
@@ -161,13 +163,14 @@ export default Vue.extend({
 				AddressID: AddressID
 			};
 			request(OrderExchangeSubmit, data).then((res: any) => {
-				this.isShow = false;
+				this.show = false;
 				let msg: string = "兑换成功，请点击确定查看订单！";
 				defaultShowModal(msg).then((res: any) => {
 					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");
-						navigateTo("../../ucenter/orderList/orderList");
+						let status = "-1";
+						navigateTo("../../ucenter/orderList/orderList?status=" + status);
 					} else if (res.cancel) {
 						console.log("用户点击取消");
 					}
@@ -176,13 +179,14 @@ export default Vue.extend({
 			});
 		},
 		hide() {
-			this.isShow = false;
+			this.show = false;
 		},
 		moveHandle() {
-			this.isShow = false;
+			this.show = false;
 		},
 		addressClick() {
-			navigateTo("../../ucenter/addressShipping/addressShipping");
+			let disabled: boolean = true;
+			navigateTo("../../ucenter/addressShipping/addressShipping?disabled=" + disabled);
 		}
 	}
 });
@@ -191,12 +195,33 @@ export default Vue.extend({
 <style>
 .mask {
 	position: fixed;
-	z-index: 998;
 	top: 0;
+	left: 0;
 	right: 0;
 	bottom: 0;
+	z-index: 10;
+	background: rgba(0, 0, 0, 0.3);
+	display: none;
+	z-index: 998;
+}
+
+.mask-content {
+	position: fixed;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.3);
+	bottom: 0;
+	width: 100%;
+	background-color: #fff;
+	transform: translateY(100%);
+	transition: all 0.4s ease;
+	z-index: 999;
+}
+
+.show .mask-content {
+	transform: translateY(0);
+}
+
+.show .mask {
+	display: block;
 }
 
 .exchange {

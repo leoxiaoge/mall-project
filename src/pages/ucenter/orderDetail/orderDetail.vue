@@ -180,6 +180,10 @@ export default Vue.extend({
 		async actionButton(e: any) {
 			console.log(e);
 			switch (e) {
+				case "填写地址":
+					let disabled:boolean = true;
+					navigateTo("../addressShipping/addressShipping?disabled=" + disabled)
+					break;
 				case "确认收货":
 					let res: any = await this.orderConfirmReceiving();
 					if (res.IsError) {

@@ -138,25 +138,37 @@ export default Vue.extend({
 						PageID: pageNum,
 						PageSize: pageSize
 					};
-					request(OrderListGet, data).then((res: any) => {
-						sesolve(res.OrderList);
-					});
+					request(OrderListGet, data)
+						.then((res: any) => {
+							sesolve(res.OrderList);
+						})
+						.catch((err: any) => {
+							let mescroll: any = this.mescroll;
+							mescroll.endErr();
+						});
 				} else {
 					let data = {
 						OrderStatus: OrderStatus,
 						PageID: pageNum,
 						PageSize: pageSize
 					};
-					request(OrderListGet, data).then((res: any) => {
-						sesolve(res.OrderList);
-					});
+					request(OrderListGet, data)
+						.then((res: any) => {
+							sesolve(res.OrderList);
+						})
+						.catch((err: any) => {
+							let mescroll: any = this.mescroll;
+							mescroll.endErr();
+						});
 				}
 			});
 		},
 		action(e: any) {
 			console.log("action", e);
 			switch (e) {
-				case "报名":
+				case "填写地址":
+					let disabled:boolean = true;
+					navigateTo("../addressShipping/addressShipping?disabled=" + disabled)
 					break;
 				case "举牌":
 					break;

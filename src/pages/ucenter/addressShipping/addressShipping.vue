@@ -2,13 +2,15 @@
 	<view class="container">
 		<view class="i-address">
 			<view class="i-address-item" v-for="(item, index) in addressList" :key="index">
-				<view class="i-address-user i-flex">
-					<text class="i-address-name">{{item.realName}}</text>
-					<text class="i-address-mobile">{{item.Mobile}}</text>
-				</view>
-				<view class="i-address-text">
-					<text>{{item.Province}}{{item.City}}{{item.Area}}{{item.Address}}</text>
-				</view>
+				<button class="address-button" :disabled="!disabled" @click="setAddress(item.ID)">
+					<view class="i-address-user i-flex">
+						<text class="i-address-name">{{item.realName}}</text>
+						<text class="i-address-mobile">{{item.Mobile}}</text>
+					</view>
+					<view class="i-address-text i-flex">
+						<text>{{item.Province}}{{item.City}}{{item.Area}}{{item.Address}}</text>
+					</view>
+				</button>
 				<view class="i-address-bottom i-flex-between">
 					<view class="i-address-default i-flex">
 						<view class="i-address-icon">
@@ -49,7 +51,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast } from "@/common/utils/util";
+import { request, navigateTo, navigateBack, showToast } from "@/common/utils/util";
 import {
 	UserAddressListGet,
 	UserAddressDelete,
@@ -67,14 +69,16 @@ export default Vue.extend({
 			addressList: [], // 用户收货地址列表
 			type: "checkbox-filled", // 默认icon
 			isDefault: false,
+			disabled: false,
 			noTitle: "您还没有可以用收货地址喔~",
 			noIcon: "/static/icon/icon_no_address.png",
 			isData: false, // 是否有数据
 			isMaxData: false // 最多5个
 		};
 	},
-	onLoad(options) {
+	onLoad(options: any) {
 		console.log("onLoad", options);
+		this.disabled = options.disabled;
 	},
 	onShow() {
 		this.getUserAddressList();
@@ -141,6 +145,11 @@ export default Vue.extend({
 		addAddress() {
 			let id = 0;
 			navigateTo("../addressUpdate/addressUpdate?id=" + id);
+		},
+		// 设置存储地址
+		setAddress(id: string) {
+			uni.setStorageSync("addressID", id);
+			navigateBack(1)
 		}
 	}
 });
@@ -153,6 +162,10 @@ page {
 
 .i-address-item {
 	padding: 20upx 0;
+}
+
+.address-button {
+	background-color: #fff;
 }
 
 .i-address-user {
@@ -236,4 +249,6 @@ page {
 	border: none;
 	border-radius: 0;
 }
+
+
 </style>

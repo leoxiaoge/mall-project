@@ -193,7 +193,12 @@ image {
 }
 
 .i-kong {
-	height: 100upx;
+	height: 98upx;
 }
 
+button[disabled]:not([type]),
+button[disabled][type="default"] {
+	color: rgba(0, 0, 0, 0.3);
+	background-color: #fff;
+}
 </style>

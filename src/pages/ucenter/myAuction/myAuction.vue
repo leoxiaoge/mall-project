@@ -116,9 +116,14 @@ export default Vue.extend({
 					PageID: pageNum,
 					PageSize: pageSize
 				};
-				request(MyActiveList, data).then((res: any) => {
-					sesolve(res.ActiveList);
-				});
+				request(MyActiveList, data)
+					.then((res: any) => {
+						sesolve(res.ActiveList);
+					})
+					.catch((err: any) => {
+						let mescroll: any = this.mescroll;
+						mescroll.endErr();
+					});
 			});
 		},
 		async tapTab(e: any) {
