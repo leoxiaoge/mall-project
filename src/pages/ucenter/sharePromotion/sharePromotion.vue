@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="teng-share">
 			<view class="teng-share-content">
-				<view class="teng-share-code">
+				<view class="teng-share-code" @click="preview(code, [code])">
 					<image :src="code" />
 				</view>
 				<!-- #ifdef MP-WEIXIN -->
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, previewImage } from "@/common/utils/util";
 import { GetWxacode } from "@/common/config/api";
 export default Vue.extend({
 	data() {
@@ -50,6 +50,9 @@ export default Vue.extend({
 			request(GetWxacode, data).then((res: any) => {
 				this.code = res.CodeValue;
 			});
+		},
+		preview(current: any, urls: any) {
+			previewImage(current, urls);
 		},
 		exchange() {
 			navigateTo("../../mall/exchange/exchange");

@@ -173,3 +173,12 @@ export const redirectTo = (url: any) => {
     url: url
   })
 }
+
+export const previewImage = (current: any, urls: any) => {
+  return new Promise((resolve, reject) => {
+    uni.previewImage({
+      current: current,
+      urls: urls
+    });
+  })
+}
