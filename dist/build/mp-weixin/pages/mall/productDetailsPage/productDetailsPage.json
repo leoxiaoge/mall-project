@@ -5,11 +5,7 @@
     "i-past": "/components/i-past/i-past",
     "i-show": "/components/i-show/i-show",
     "i-rule": "/components/i-rule/i-rule",
-<<<<<<< HEAD
     "i-popup": "/components/i-popup/i-popup",
     "product-table": "/components/product-table/product-table"
-=======
-    "i-popup": "/components/i-popup/i-popup"
->>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
   }
 }

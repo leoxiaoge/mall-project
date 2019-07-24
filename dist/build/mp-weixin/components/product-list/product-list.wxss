@@ -13,12 +13,9 @@
 		    -ms-flex-align: center;
 		        align-items: center;
 		padding-top: 14rpx;
-<<<<<<< HEAD
 }
 .product-title {
 		padding: 0 10rpx;
-=======
->>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
 }
 .uni-product-price {
 		text-align: center;

@@ -47,10 +47,7 @@
 				@delete="deleteImage"
 				@add="addImage"
 			></robby-image-upload>
-<<<<<<< HEAD
 			<view class="i-kong"></view>
-=======
->>>>>>> 49f6dd955dfa63b795bcfd1a55d42a38ea1f7be1
 			<view class="common-submit">
 				<view class="common-button">
 					<button class="btn-reset" formType="reset">重置</button>
