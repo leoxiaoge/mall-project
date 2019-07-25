@@ -1,12 +1,36 @@
 
 .mask {
 	position: fixed;
-	z-index: 998;
 	top: 0;
+	left: 0;
 	right: 0;
 	bottom: 0;
+	z-index: 10;
+	background: rgba(0, 0, 0, 0.3);
+	display: none;
+	z-index: 998;
+}
+.mask-content {
+	position: fixed;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.3);
+	bottom: 0;
+	width: 100%;
+	background-color: #fff;
+	-webkit-transform: translateY(100%);
+	    -ms-transform: translateY(100%);
+	        transform: translateY(100%);
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	z-index: 999;
+}
+.show .mask-content {
+	-webkit-transform: translateY(0);
+	    -ms-transform: translateY(0);
+	        transform: translateY(0);
+}
+.show .mask {
+	display: block;
 }
 .exchange {
 	position: fixed;

@@ -90,5 +90,6 @@
   },
   "usingComponents": {
     "page-head": "/components/page-head"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

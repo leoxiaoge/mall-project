@@ -5,6 +5,9 @@ page {
 .i-address-item {
 	padding: 20rpx 0;
 }
+.address-button {
+	background-color: #fff;
+}
 .i-address-user {
 	padding: 0 30rpx;
 }
@@ -72,4 +75,6 @@ page {
 	border: none;
 	border-radius: 0;
 }
+
+
 

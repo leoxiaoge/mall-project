@@ -13,11 +13,21 @@
 				<!-- #ifdef MP-WEIXIN -->
 				<open-data type="userAvatarUrl"></open-data>
 				<!-- #endif -->
+				<!-- #ifndef MP-WEIXIN -->
+				<view class="userInfo-userFace">
+					<img :src="userInfo.userFace" />
+				</view>
+				<!-- #endif -->
 			</view>
 			<view class="text-xl">
 				<view class="userInfo-txt-name">
 					<!-- #ifdef MP-WEIXIN -->
 					<open-data type="userNickName"></open-data>
+					<!-- #endif -->
+					<!-- #ifndef MP-WEIXIN -->
+					<view class="userInfo-userNick">
+						<text>{{userInfo.userNick}}</text>
+					</view>
 					<!-- #endif -->
 				</view>
 			</view>
@@ -148,6 +158,7 @@ export default Vue.extend({
 		async useInfo() {
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
+			console.log(userInfo);
 		},
 		VIPCard() {
 			console.log("11");
@@ -279,6 +290,13 @@ export default Vue.extend({
 	text-align: center;
 	border-radius: 3rpx;
 }
+
+.userInfo-userNick text{
+	font-size: 32upx;
+	line-height: 1.8;
+	color: #fff;
+}
+
 .UCenter-bg {
 	display: flex;
 	justify-content: center;

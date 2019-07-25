@@ -23,15 +23,17 @@
     </view>
     <view class="i-login-radio">
       <label class="radio">
-        <radio @click="radioClick" :checked="checked" color="#fe7f00" />我已阅读并同意《腾拍商场购物协议》
+        <radio @click="radioClick" :checked="checked" color="#fe7f00" />
+        <text>我已阅读并同意</text>
+        <text class="protocol">《腾拍商场购物协议》</text>
       </label>
     </view>
     <view class="i-login-button-view">
       <!-- #ifdef MP-WEIXIN -->
-      <button class="btn i-login-button" :loading="loading" open-type="getUserInfo" @getuserinfo="wxLogin">登录</button>
+      <button class="btn i-login-button" :loading="loading" :disabled="!checked" open-type="getUserInfo" @getuserinfo="wxLogin">登录</button>
 			<!-- #endif -->
       <!-- #ifdef H5 -->
-      <button class="btn i-login-button" :loading="loading" @click="userLogin">登录</button>
+      <button class="btn i-login-button" :loading="loading" :disabled="!checked" @click="userLogin">登录</button>
 			<!-- #endif -->
     </view>
   </view>
@@ -68,29 +70,6 @@
 		},
 		onLoad(options) {
       console.log(this.$store.state)
-      uni.getProvider({
-        service: 'oauth',
-        success: (res: any) =>{
-            console.log(res.provider)
-            if (~res.provider.indexOf('weixin')) {
-                uni.login({
-                    provider: 'weixin',
-                    success: (loginRes: any) => {
-                      console.log(JSON.stringify(loginRes));
-                      let JSCode = loginRes.code
-                      let data = {
-                        JSCode: JSCode
-                      }
-                      request(GetWXOpenID, data).then((res: any) => {
-                        console.log(res)
-                        let OpenID = res.OpenID
-                        uni.setStorageSync('OpenID', OpenID)
-                      })
-                    }
-                });
-            }
-        }
-    });
     },
     onUnload() {
       let interval: any = this.interval
@@ -98,6 +77,39 @@
     },
 		methods: {
       ...mapMutations(['login']),
+      getProvider() {
+        return new Promise((sesolve, reject) => {
+          uni.getProvider({
+            service: 'oauth',
+            success: (res: any) =>{
+              console.log(res)
+              sesolve(res.provider)
+            }
+          });
+			  });
+      },
+      async login() {
+        let provider: any = await this.getProvider();
+        console.log(provider)
+        return new Promise((sesolve, reject) => {
+          if (~provider.indexOf('weixin')) {
+            uni.login({
+              provider: 'weixin',
+              success: (loginRes: any) => {
+                console.log(JSON.stringify(loginRes));
+                let JSCode = loginRes.code
+                let data = {
+                  JSCode: JSCode
+                }
+                request(GetWXOpenID, data).then((res: any) => {
+                  console.log(res)
+                  sesolve(res.OpenID)
+                })
+              }
+            });
+          }
+			  });
+      },
       mobileInput(e: any) {
         console.log(e)
         this.Mobile = e.detail.value
@@ -142,11 +154,13 @@
       radioClick() {
         this.checked = !this.checked
       },
-      wxLogin(e: any) {
+      async wxLogin(e: any) {
         console.log(e)
         let userInfo = e.detail.userInfo;
         this.wxFace = userInfo.avatarUrl;
         this.wxNick = userInfo.nickName;
+        let OpenID: any = await this.login();
+        uni.setStorageSync('OpenID', OpenID);
         this.userLogin();
       },
       userLogin() {
@@ -252,13 +266,17 @@
     padding: 20upx 0;
   }
 
+  .protocol {
+    color: #fe7f00;
+  }
+
   .i-button-get {
     background-color: #fff;
     font-size: 32upx;
     color: #fe7f00;
   }
 
-  uni-button:after {
+  button:after {
     content: " ";
     width: 200%;
     height: 200%;
@@ -276,7 +294,7 @@
 
   button[disabled]:not([type]), button[disabled][type=default] {
     color: rgba(0,0,0,.3);
-    background-color: #fff;
+    background-color: #f4f4f4;
   }
 
   .i-login-button {

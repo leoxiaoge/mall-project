@@ -45,12 +45,15 @@ page {
     margin: 0 60rpx;
     padding: 20rpx 0;
 }
+.protocol {
+    color: #fe7f00;
+}
 .i-button-get {
     background-color: #fff;
     font-size: 32rpx;
     color: #fe7f00;
 }
-uni-button:after {
+button:after {
     content: " ";
     width: 200%;
     height: 200%;
@@ -68,9 +71,9 @@ uni-button:after {
             box-sizing: border-box;
     border-radius: 10px;
 }
-uni-button[disabled]:not([type]), uni-button[disabled][type=default] {
+button[disabled]:not([type]), button[disabled][type=default] {
     color: rgba(0,0,0,.3);
-    background-color: #fff;
+    background-color: #f4f4f4;
 }
 .i-login-button {
     font-size: 32rpx;

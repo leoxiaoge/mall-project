@@ -1836,7 +1836,11 @@ image {
 	height: 100%;
 }
 .i-kong {
-	height: 100rpx;
+	height: 98rpx;
 }
-
+button[disabled]:not([type]),
+button[disabled][type="default"] {
+	color: rgba(0, 0, 0, 0.3);
+	background-color: #fff;
+}
 

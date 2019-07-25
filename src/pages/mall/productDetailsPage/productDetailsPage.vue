@@ -196,7 +196,8 @@ import {
 	navigateTo,
 	formatTime,
 	showToast,
-	showModal
+	showModal,
+	defaultShowModal
 } from "@/common/utils/util";
 import {
 	ProductGet,
@@ -261,6 +262,13 @@ export default Vue.extend({
 			timerDurationTitle: "", // 状态对应要显示的标题
 			onTimerStatus: "", // 活动通知
 			OnTimerDowns: "", // 成交通知
+
+			currSignups: "", // 总已报名份数
+			maxSignups: "", // 总需报名份数
+			signups: "", // 我已报名份数
+			seqSignups: "", // 还可报名份数
+			myBills: "", // 我的举牌次数
+			seqBills: "", // 剩余可用次数
 
 			seq: "", // 更新我的剩余举牌次数
 			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
@@ -360,7 +368,7 @@ export default Vue.extend({
 			this.show = !this.show;
 		},
 		tolowerShow(e: any) {
-			console.log('tolowerShow', e)
+			console.log("tolowerShow", e);
 		},
 		// 获取用户晒单列表
 		getOrderDryingList() {
@@ -474,11 +482,12 @@ export default Vue.extend({
 						}
 						break;
 					case 1:
+						// 重新置为可用，不管结果如何，因为报名后仍可以继续报名
+						this.buttonStateChanged("报名", "0", true, true);
 						// 报名响应消息
 						if (msg.IsError) {
 							showToast("报名失败：" + msg.ErrMsg);
 						} else {
-							this.buttonStateChanged("报名", "0", true, true);
 							showToast(msg.ErrMsg);
 						}
 						// 更新我的剩余举牌次数
@@ -502,7 +511,16 @@ export default Vue.extend({
 					case 3:
 						// 登录响应消息
 						if (msg.IsError) {
-							showToast("登录失败：" + msg.ErrMsg);
+							console.log("登录失败：" + msg.ErrMsg);
+							let msgs: string = "你暂未登录，请点击确定去登录！";
+							defaultShowModal(msgs).then((res: any) => {
+								if (res.confirm) {
+									console.log("用户点击确定");
+									navigateTo("../../ucenter/login/login");
+								} else if (res.cancel) {
+									console.log("用户点击取消");
+								}
+							});
 						} else {
 							// 登录成功，提示用户
 							this.UserID = msg.UserID;
@@ -550,9 +568,15 @@ export default Vue.extend({
 						this.buttonsList = msg.ButtonsList;
 						// 更新最近出价人列表信息，更新全部举牌次数、我的举牌次数、和最新价格
 						this.onPriceUpdateEvent(msg.Price, msg.AllBills, msg.LastBills);
+						// 更新全局报名状态信息
+						this.onUpdateAllSignups(msg.AllSignups, msg.MaxSignups);
+						// 更新我的报名状态信息
+						this.onUpdateMySignups(msg.MySignups, msg.SeqSignups);
+						this.onUpdateMyBills(msg.MyBills, msg.MySeqBills);
 						break;
 					case 7:
 						// 报名进度更新推送
+						this.onUpdateAllSignups(msg.AllSignups, msg.MaxSignups);
 						// 隐藏其它按钮
 						this.buttonStateChanged("参与下一期", "4", false, false);
 						this.buttonStateChanged("填写收货地址", "3", false, false);
@@ -682,6 +706,24 @@ export default Vue.extend({
 				value[type].ButtonVisibility = isDisplay;
 				value[type].ButtonEnabled = isEnabled;
 			});
+		},
+
+		// 更新全局报名信息
+		onUpdateAllSignups(curr: string, max: string) {
+			this.currSignups = `总已报名份数：${curr}份`;
+			this.maxSignups = `总需报名份数：${max}份`;
+		},
+
+		// 更新我的报名信息
+		onUpdateMySignups(curr: string, seq: string) {
+			this.signups = `我已报名份数：${curr}份`;
+			this.seqSignups = `还可报名份数：${seq}份`;
+		},
+
+		// 更新我的举牌信息
+		onUpdateMyBills(mybills: string, seqbills: string) {
+			this.myBills = `我的举牌次数：${mybills}次`;
+			this.seqBills = `剩余可用次数：${seqbills}次`;
 		},
 
 		// 更新价格事件

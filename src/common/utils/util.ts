@@ -161,11 +161,9 @@ export const navigateTo = (url: any) => {
 }
 
 export const navigateBack = (delta: number) => {
-  return new Promise((resolve, reject) => {
-    uni.navigateBack({
-      delta: delta
-    });
-  })
+  uni.navigateBack({
+    delta: delta
+  });
 }
 
 export const redirectTo = (url: any) => {
