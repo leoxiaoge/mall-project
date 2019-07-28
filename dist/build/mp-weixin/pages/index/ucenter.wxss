@@ -79,6 +79,11 @@
 	text-align: center;
 	border-radius: 3rpx;
 }
+.userInfo-userNick text {
+	font-size: 32rpx;
+	line-height: 1.8;
+	color: #fff;
+}
 .UCenter-bg {
 	display: -webkit-box;
 	display: -webkit-flex;

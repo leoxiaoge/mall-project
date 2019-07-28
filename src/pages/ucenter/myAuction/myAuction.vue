@@ -1,17 +1,18 @@
 <template>
 	<view class="uni-tab-bar">
-		<scroll-view id="tab-bar" class="uni-swiper-tab" scroll-x>
+		<scroll-view id="tab-bar" class="swiper-tab" scroll-x>
 			<view
 				v-for="(tab,index) in tabBars"
 				:key="index"
-				class="swiper-tab-list"
+				class="swiper-tab-list product-item"
 				:class="ListType==tab.type ? 'active' : ''"
-				:id="tab.id"
-				:data-current="tab.type"
-				@click="tapTab"
-			>{{tab.name}}</view>
+				@click="tapTab(tab.type)"
+			>
+				<view class="name">{{tab.name}}</view>
+				<view class="line"></view>
+			</view>
 		</scroll-view>
-		<mescroll-uni top="104" @down="downCallback" @up="upCallback">
+		<mescroll-uni top="100" @down="downCallback" @up="upCallback">
 			<block v-for="(item,index2) in activeList" :key="index2">
 				<media-list
 					:options="item"
@@ -128,7 +129,7 @@ export default Vue.extend({
 		},
 		async tapTab(e: any) {
 			console.log(e);
-			let type = e.target.dataset.current;
+			let type = e;
 			let mescroll: any = this.mescroll;
 			this.ListType = type;
 			this.downCallback(mescroll);
@@ -143,16 +144,56 @@ export default Vue.extend({
 </script>
 
 <style>
+
 .uni-tab-bar-loading {
 	text-align: center;
 	font-size: 28upx;
 	color: #999;
 }
+
+.swiper-tab {
+	width: 100%;
+	background-color: #fff;
+	height: 98upx;
+}
+
 .uni-swiper-tab {
 	width: 100%;
 	background-color: #fff;
 }
+
 .swiper-tab-list {
 	width: 33.33%;
+}
+
+.product-item {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	height: 98upx;
+	line-height: 98upx;
+}
+
+.product-item .name {
+	position: absolute;
+	top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);	
+	font-weight: 600;
+}
+
+.active .name {
+	color: #fe7f00;
+}
+
+.active .line {
+	position: absolute;
+	bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+	width: 100upx;
+	height: 6upx;
+	background-color: #fe7f00;
+	border-radius: 8upx;
 }
 </style>

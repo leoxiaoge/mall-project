@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { request } from "@/common/utils/util";
+import { GetWXOpenID } from "@/common/config/api";
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -23,18 +24,38 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-		// lazy loading openid
-		async getUserOpenId({
+		asyncInrement(context) {
+			console.log(context)
+			return new Promise(resolve => {
+				setTimeout(() => {
+					context.commit('setOpenid', 'ffs');
+					resolve();
+				}, 100)
+			});
+		},
+		getUserOpenId: async function ({
 			commit,
 			state
 		}) {
-			console.log('12')
 			return await new Promise((resolve, reject) => {
-				console.log('12', state.openid)
 				if (state.openid) {
 					resolve(state.openid)
 				} else {
-					console.log(12)
+					uni.login({
+						success: (e: any) => {
+							console.log(e)
+							commit('login')
+							let JSCode = e.code;
+							let data = {
+								JSCode: JSCode
+							};
+							request(GetWXOpenID, data).then((res: any) => {
+								console.log(res);
+								commit('setOpenid', res.OpenID)
+								resolve(res.OpenID);
+							});
+						}
+					})
 				}
 			})
 		}

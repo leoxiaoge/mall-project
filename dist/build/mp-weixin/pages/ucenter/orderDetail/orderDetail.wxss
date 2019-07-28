@@ -50,8 +50,9 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	margin: 20rpx 30rpx;
+	padding: 20rpx 30rpx;
 	font-size: 36rpx;
+	background-color: #fff;
 }
 .order-address-mobile {
 	margin-left: 50rpx;

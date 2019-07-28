@@ -142,10 +142,10 @@ export const showModal = (msg: any) => {
   })
 }
 
-export const defaultShowModal = (msg: string) => {
+export const defaultShowModal = (content: string) => {
   return new Promise((resolve, reject) => {
     uni.showModal({
-      content: msg,
+      content: content,
       confirmColor: '#fe7f00',
       success: (res: any) => {
         resolve(res)

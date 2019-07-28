@@ -40,7 +40,7 @@
   position: relative;
   background-color: #fff;
   width: 100%;
-  height: 100%;
+  height: 64rpx;
   text-align: center;
   padding: 0;
   margin: 0 30rpx;
@@ -83,6 +83,10 @@
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 70rpx;
   position: relative;
 }
@@ -134,14 +138,14 @@
           box-shadow: 2px 2px 5px #747474;
 }
 .popus-totals {
-  width: 70%;
   text-align: center;
+  padding: 0 30rpx;
 }
 .popus-btn {
-  width: 30%;
   margin: 0;
   line-height: 98rpx;
   color: #fff;
   background-color: #fe7f00;
+  padding: 0 40px;
 }
 

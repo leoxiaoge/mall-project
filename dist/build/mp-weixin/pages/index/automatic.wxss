@@ -50,7 +50,6 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	height: 220rpx;
 	font-size: 28rpx;
 	border-bottom: 2rpx solid #f4f4f4;
 	margin-left: 20rpx;
@@ -107,14 +106,13 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	margin-top: 20rpx;
 }
 .teng-type-text {
 	font-size: 24rpx;
 	line-height: 1.6;
 	text-align: center;
 	margin-right: 10rpx;
-	padding: 0 10rpx;
+	padding: 2rpx 10rpx;
 	color: #fe7f00;
 	border: 2rpx solid #fe7f00;
 	border-radius: 100rpx;

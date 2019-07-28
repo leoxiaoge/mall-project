@@ -55,13 +55,12 @@
 </template>
 <script lang="ts">
   import Vue from 'vue'
-  import { request, navigateTo, formatTime } from '@/common/utils/util'
-  import { AdsListGet, LastTransactionListGet, HomeProductListGet } from '@/common/config/api'
+  import { request, navigateTo, formatTime } from '@/common/utils/util';
+  import { AdsListGet, LastTransactionListGet, HomeProductListGet } from '@/common/config/api';
   import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
-  import uniGrid from '@/components/uni-grid/uni-grid.vue'
-  import productList from '@/components/product-list/product-list.vue'
-  import productListBeing from '@/components/product-list-being/product-list-being.vue'
-  
+  import uniGrid from '@/components/uni-grid/uni-grid.vue';
+  import productList from '@/components/product-list/product-list.vue';
+  import productListBeing from '@/components/product-list-being/product-list-being.vue';
   export default Vue.extend({
 		components: {
       MescrollUni,
@@ -250,7 +249,7 @@
 
   .uni-swiper-wrapper {
     position: relative;
-    width: 95%;
+    width: 90%;
     border-left: 2upx solid #f4f4f4;
     padding-left: 20upx;
   }

@@ -51,11 +51,17 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, navigateBack, showToast } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	navigateBack,
+	showToast
+} from "@/common/utils/util";
 import {
 	UserAddressListGet,
 	UserAddressDelete,
-	UserAddressSetDefault
+	UserAddressSetDefault,
+	OrderAddressSubmit
 } from "@/common/config/api";
 import uNo from "@/components/u-no/u-no.vue";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
@@ -66,6 +72,8 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			orderID: "",
+			addressID: "",
 			addressList: [], // 用户收货地址列表
 			type: "checkbox-filled", // 默认icon
 			isDefault: false,
@@ -79,6 +87,7 @@ export default Vue.extend({
 	onLoad(options: any) {
 		console.log("onLoad", options);
 		this.disabled = options.disabled;
+		this.orderID = options.orderID;
 	},
 	onShow() {
 		this.getUserAddressList();
@@ -147,9 +156,29 @@ export default Vue.extend({
 			navigateTo("../addressUpdate/addressUpdate?id=" + id);
 		},
 		// 设置存储地址
-		setAddress(id: string) {
+		async setAddress(id: string) {
 			uni.setStorageSync("addressID", id);
-			navigateBack(1)
+			this.addressID = id;
+			console.log(this.orderID);
+			if (this.orderID) {
+				let res: any = await this.orderAddressSubmit();
+			}
+			navigateBack(1);
+		},
+		orderAddressSubmit() {
+			return new Promise((sesolve, reject) => {
+				let OrderID = this.orderID;
+				let AddressID = this.addressID;
+				let data = {
+					OrderID: OrderID,
+					AddressID: AddressID
+				};
+				request(OrderAddressSubmit, data).then((res: any) => {
+					console.log(res);
+					showToast("订单提交收货地址成功！")
+					sesolve(res);
+				});
+			});
 		}
 	}
 });
@@ -249,6 +278,4 @@ page {
 	border: none;
 	border-radius: 0;
 }
-
-
 </style>

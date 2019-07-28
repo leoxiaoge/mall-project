@@ -14,13 +14,36 @@ page {
 	height: 100%;
 	overflow: scroll;
 }
-.active {
-	color: #fe7f00;
-}
 .product-item {
+	position: relative;
 	display: inline-block;
 	overflow: hidden;
+	height: 98rpx;
 	line-height: 98rpx;
+}
+.product-item .name {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	    -ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
+	font-weight: 600;
+}
+.active .name {
+	color: #fe7f00;
+}
+.active .line {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	-webkit-transform: translate(-50%, 0);
+	    -ms-transform: translate(-50%, 0);
+	        transform: translate(-50%, 0);
+	width: 100rpx;
+	height: 6rpx;
+	background-color: #fe7f00;
+	border-radius: 8rpx;
 }
 .i-tab-bar-loading {
 	text-align: center;

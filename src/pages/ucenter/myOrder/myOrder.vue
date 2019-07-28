@@ -1,105 +1,107 @@
 <template>
 	<view class="container">
-		<view class="i-comment-item" v-for="(item, indexes) in orderList" :key="indexes">
-			<view class="i-comment-date">{{item.OrderComment.CreatedDate}}</view>
-			<view class="i-comment-title">{{item.ProductName}}</view>
-			<view class="i-comment-comment">{{item.OrderComment.Comment}}</view>
-			<view class="i-comment-pic">
-				<view class="i-comment-pic-item" v-for="(i, index) in item.ProductPicList" :key="index">
-					<img :src="i" :data-src="i" :data-urls="item.ProductPicList" @tap="previewImage">
+		<mescroll-uni @down="downCallback" @up="upCallback">
+			<view class="i-comment-item" v-for="(item, indexes) in orderList" :key="indexes">
+				<view class="i-comment-date">{{item.OrderComment.CreatedDateTime}}</view>
+				<view class="i-comment-title">{{item.ProductName}}</view>
+				<view class="i-comment-comment">{{item.OrderComment.Comment}}</view>
+				<view class="i-comment-pic">
+					<view class="i-comment-pic-item" v-for="(i, index) in item.ProductPicList" :key="index">
+						<img :src="i" @click="preview(i, item.ProductPicList)" />
+					</view>
 				</view>
 			</view>
-		</view>
-		<uni-load-more :status="status" :content-text="contentText"/>
+		</mescroll-uni>
 	</view>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, formatTime, previewImage } from "@/common/utils/util";
 import { OrderDryingListGet } from "@/common/config/api";
-import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue";
+import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
 	components: {
-		uniLoadMore
+		MescrollUni
 	},
 	data() {
 		return {
-			PageID: 1,
-			PageSize: 10,
-			orderList: [],
-			reload: false,
-			status: "",
-			Totals: 0,
-			contentText: {
-				contentdefault: "",
-				contentdown: "上拉加载更多",
-				contentrefresh: "加载中",
-				contentnomore: "没有更多数据了"
-			}
+			mescroll: [],
+			orderList: []
 		};
 	},
-	onLoad(options: any) {
-		this.getOrderDryingList();
-		console.log("onLoad", options);
-	},
-	onPullDownRefresh() {
-		this.reload = true;
-		this.PageID = 1;
-		this.getOrderDryingList();
-	},
-	onReachBottom() {
-		console.log("onReachBottom");
-		let orderList: any = this.orderList;
-		if (orderList.length < this.Totals) {
-			//说明已有数据，目前处于上拉加载
-			this.PageID++;
-			this.status = "loading";
-			this.reload = false;
-			this.status = "more";
-			this.getOrderDryingList();
-		} else {
-			this.status = "nomore";
-		}
-		console.log(this.orderList);
-	},
 	methods: {
-		getOrderDryingList() {
-			let PageID = this.PageID;
-			let PageSize = this.PageSize;
+		// 下拉刷新的回调
+		downCallback(mescroll: any) {
+			this.mescroll = mescroll;
+			mescroll.resetUpScroll();
+		},
+		// 上拉加载的回调: mescroll携带page的参数, 其中num:当前页 从1开始, size:每页数据条数,默认10
+		upCallback(mescroll: any) {
+			this.getListDataFromNet(
+				mescroll.num,
+				mescroll.size,
+				(curPageData: any) => {
+					mescroll.endSuccess(curPageData.length);
+					if (mescroll.num == 1) this.orderList = [];
+					this.orderList = this.orderList.concat(curPageData);
+				},
+				() => {
+					mescroll.endErr();
+				}
+			);
+		},
+		// 联网加载列表数据
+		async getListDataFromNet(
+			pageNum: any,
+			pageSize: any,
+			successCallback: any,
+			errorCallback: any
+		) {
+			console.log(pageNum, pageSize);
+			try {
+				let orderList: any = await this.getOrderDryingList(pageNum, pageSize);
+				successCallback && successCallback(orderList);
+			} catch (e) {
+				errorCallback && errorCallback();
+			}
+		},
+		getOrderDryingList(pageNum: any, pageSize: any) {
 			let UserInfo: any = uni.getStorageSync("UserInfo");
 			let UserID = UserInfo.ID;
-			let data = {
-				PageID: PageID,
-				PageSize: PageSize,
-				UserID: UserID
-			};
-			request(OrderDryingListGet, data).then((res: any) => {
-				this.orderList = this.reload
-					? res.OrderList
-					: this.orderList.concat(res.OrderList);
-				this.Totals = res.Totals;
-				uni.stopPullDownRefresh();
+			return new Promise((sesolve, reject) => {
+				let data = {
+					PageID: pageNum,
+					PageSize: pageSize,
+					UserID: UserID
+				};
+				request(OrderDryingListGet, data)
+					.then((res: any) => {
+						console.log(res);
+						let orderList = res.OrderList;
+						orderList.map((item: any) => {
+							item.OrderComment.CreatedDateTime = formatTime(new Date(item.OrderComment.CreatedDate));
+						});
+						sesolve(res.OrderList);
+					})
+					.catch((err: any) => {
+						let mescroll: any = this.mescroll;
+						mescroll.endErr();
+					});
 			});
 		},
-		previewImage(e: any) {
-			console.log(e);
-			let current: any = e.currentTarget.dataset.src;
-			let urlString: any = e.currentTarget.dataset.urls;
-			let urls: any = urlString.split(",");
-			uni.previewImage({
-				current: current,
-				urls: urls
-			});
+		preview(current: any, urls: any) {
+			previewImage(current, urls)
 		}
 	}
 });
 </script>
 
 <style>
+
 .i-comment-item {
-	margin: 0 30upx;
-	padding: 10upx 0;
+	background-color: #fff;
+	padding: 10upx 30upx;
 	border-bottom: 2upx solid #f4f4f4;
 }
 

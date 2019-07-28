@@ -10,7 +10,7 @@
 					<view class="order-status-toast">请在24小时内付款</view>
 				</view>
 			</view>
-			<view class="order-address" @click="addressPath" v-if="item.Address">
+			<button class="order-address" @click="addressPath" v-if="item.Address">
 				<view class="order-address-content">
 					<view class="order-address-user">
 						<text class="order-address-name">{{item.Address.realName}}</text>
@@ -26,7 +26,7 @@
 				<view class="arrowright">
 					<uni-icon type="arrowright" size="24" />
 				</view>
-			</view>
+			</button>
 			<view class="order-toast">
 				<text>温馨提示：信息确认后不可修改</text>
 			</view>
@@ -67,7 +67,7 @@
 				</view>
 				<view class="order-information-item">
 					<text>创建时间：</text>
-					<text>{{item.Created}}</text>
+					<text>{{item.CreatedTime}}</text>
 				</view>
 				<view class="order-information-item">
 					<text>支付方式：</text>
@@ -75,23 +75,23 @@
 				</view>
 				<view class="order-information-item">
 					<text>交易时间：</text>
-					<text>{{item.Updated}}</text>
+					<text>{{item.UpdatedTime}}</text>
 				</view>
-				<view class="order-information-item">
+				<view class="order-information-item" v-if="item.PayOrderNO">
 					<text>交易号：</text>
 					<text>{{item.PayOrderNO}}</text>
 				</view>
-				<view class="order-information-item">
+				<view class="order-information-item" v-if="item.ExpressNo">
 					<text>货运单号：</text>
 					<text>{{item.ExpressNo}}</text>
 				</view>
-				<view class="order-information-item">
+				<view class="order-information-item" v-if="item.SendGoodsDate">
 					<text>发货时间：</text>
-					<text>{{item.SendGoodsDate}}</text>
+					<text>{{item.SendGoodsDateTime}}</text>
 				</view>
-				<view class="order-information-item">
+				<view class="order-information-item" v-if="item.ExpressName">
 					<text>货运公司：</text>
-					<text>{{item.SendGoodsDate}}</text>
+					<text>{{item.ExpressName}}</text>
 				</view>
 			</view>
 			<view class="order-express" v-if="item.LocusesList.length > 0">
@@ -113,8 +113,19 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast } from "@/common/utils/util";
-import { OrderListGet, OrderConfirmReceiving, OrderPay } from "@/common/config/api";
+import {
+	request,
+	navigateTo,
+	formatTime,
+	showToast,
+	showModal
+} from "@/common/utils/util";
+import {
+	OrderListGet,
+	OrderConfirmReceiving,
+	OrderPay,
+	GetWXOpenID
+} from "@/common/config/api";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
 import uniSteps from "@/components/uni-steps/uni-steps.vue";
 export default Vue.extend({
@@ -126,11 +137,11 @@ export default Vue.extend({
 		return {
 			active: 0,
 			id: "",
-			orderID: "",
+			orderID: "", // 订单ID
+			PayTypeID: 1, // 支付类型ID 微信小程序支付传1
 			icon: "",
 			order: [],
-			address: [],
-			PayTypeID: 1
+			address: []
 		};
 	},
 	onLoad(options: any) {
@@ -138,6 +149,7 @@ export default Vue.extend({
 		this.orderID = options.OrderID;
 		this.getOrderList();
 		console.log("onLoad", options);
+		this.$store.dispatch("getUserOpenId");
 	},
 	methods: {
 		getOrderList() {
@@ -150,6 +162,9 @@ export default Vue.extend({
 				let orderList: any = res.OrderList;
 				this.order = orderList;
 				orderList.map((item: any) => {
+					item.CreatedTime = formatTime(new Date(item.Created));
+					item.UpdatedTime = formatTime(new Date(item.Updated));
+					item.SendGoodsDateTime = formatTime(new Date(item.SendGoodsDate));
 					if (item.OrderStatus === 0) {
 						this.icon = "/static/icon/icon_order-status1.png";
 					} else if (item.OrderStatus === 1) {
@@ -181,8 +196,14 @@ export default Vue.extend({
 			console.log(e);
 			switch (e) {
 				case "填写地址":
-					let disabled:boolean = true;
-					navigateTo("../addressShipping/addressShipping?disabled=" + disabled)
+					let disabled: boolean = true;
+					let orderID = this.orderID;
+					navigateTo(
+						"../addressShipping/addressShipping?disabled=" +
+							disabled +
+							"&orderID=" +
+							orderID
+					);
 					break;
 				case "确认收货":
 					let res: any = await this.orderConfirmReceiving();
@@ -193,6 +214,9 @@ export default Vue.extend({
 						this.getOrderList();
 					}
 					break;
+				case "去支付":
+					this.payment();
+					break;
 				case "晒单":
 					navigateTo(
 						"../orderDryingUpload/orderDryingUpload?id=" +
@@ -201,11 +225,9 @@ export default Vue.extend({
 							this.orderID
 					);
 					break;
-				case "马上付款":
-
-					break;
 			}
 		},
+		// 订单确认收货
 		orderConfirmReceiving() {
 			return new Promise((sesolve, reject) => {
 				let OrderID = this.orderID;
@@ -218,17 +240,40 @@ export default Vue.extend({
 				});
 			});
 		},
-		orderPay() {
+		async payment() {
+			let that = this;
+			let payment: any = await this.payMoneySubmit();
+			let paymentData = JSON.parse(payment);
+			uni.requestPayment({
+				timeStamp: paymentData.timeStamp,
+				nonceStr: paymentData.nonceStr,
+				package: paymentData.package,
+				signType: "MD5",
+				paySign: paymentData.paySign,
+				success() {
+					showToast("充值成功！!");
+					that.getOrderList();
+				},
+				fail() {
+					showModal("支付失败，用户取消支付!");
+				}
+			});
+		},
+		// 支付API
+		async payMoneySubmit() {
+			let state: any = this.$store.state;
+			let OpenID = state.openid;
+			let OrderID = this.orderID;
+			let PayTypeID = this.PayTypeID;
 			return new Promise((sesolve, reject) => {
-				let OrderID = this.orderID;
-				let PayTypeID = this.PayTypeID;
 				let data = {
 					OrderID: OrderID,
-					PayTypeID: PayTypeID
+					PayTypeID: PayTypeID,
+					OpenID: OpenID
 				};
 				request(OrderPay, data).then((res: any) => {
-					sesolve(res);
 					console.log(res);
+					sesolve(res.PayParam);
 				});
 			});
 		}
@@ -273,8 +318,9 @@ export default Vue.extend({
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin: 20upx 30upx;
+	padding: 20upx 30upx;
 	font-size: 36upx;
+	background-color: #fff;
 }
 .order-address-mobile {
 	margin-left: 50upx;

@@ -36,7 +36,7 @@
 					<view class="exchange-model-integrals">
 						<view class="exchange-model-remaining-integrals" v-if="userInfo">
 							<text>剩余积分：</text>
-							<text>{{userInfo.Integrals}}</text>
+							<text>{{userInfo.SeqIntegrals}}</text>
 							<text>分</text>
 						</view>
 						<view class="exchange-model-need-integrals" v-if="integrals">
@@ -164,8 +164,8 @@ export default Vue.extend({
 			};
 			request(OrderExchangeSubmit, data).then((res: any) => {
 				this.show = false;
-				let msg: string = "兑换成功，请点击确定查看订单！";
-				defaultShowModal(msg).then((res: any) => {
+				let content: string = "兑换成功，请点击确定查看订单！";
+				defaultShowModal(content).then((res: any) => {
 					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");

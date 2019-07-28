@@ -67,8 +67,6 @@ export default Vue.extend({
 	onLoad() {
 		let windowHeight: any = uni.getSystemInfoSync().windowHeight;
 		this.height = windowHeight;
-	},
-	onShow() {
 		this.getCategory();
 	},
 	methods: {
@@ -162,7 +160,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: 220upx;
 	font-size: 28upx;
 	border-bottom: 2upx solid #f4f4f4;
 	margin-left: 20upx;

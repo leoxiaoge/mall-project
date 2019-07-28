@@ -80,19 +80,17 @@ export default {
 				signType: "MD5",
 				paySign: paymentData.paySign,
 				success: res => {
-					uni.showToast({
-						title: "充值成功！!"
-					});
+					showToast("充值成功！")
 				},
 				fail: res => {
-					showModal("支付失败!");
+					showModal("支付失败，用户取消支付！");
 				},
 				complete: () => {
 					this.loading = false;
 				}
 			});
 		},
-		// 获取
+		// 获取OpenID
 		getWXOpenID() {
 			return new Promise((sesolve, reject) => {
 				uni.login({
@@ -111,7 +109,6 @@ export default {
 					fail: e => {
 						console.log("fail", e);
 						this.loading = false;
-						showModal("支付失败!");
 					}
 				});
 			});

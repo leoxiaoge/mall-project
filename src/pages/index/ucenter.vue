@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="UCenter-bg" v-if="!userInfo">
+		<view class="UCenter-bg" v-if="!sessionkey">
 			<view class="i-no-userInfo-head">
 				<text>欢迎来到腾拍商城</text>
 			</view>
@@ -11,10 +11,12 @@
 		<view class="UCenter-bg" v-else>
 			<view class="userInfo-head">
 				<!-- #ifdef MP-WEIXIN -->
-				<open-data type="userAvatarUrl"></open-data>
+				<view class="clear" @click="clear">
+					<open-data type="userAvatarUrl"></open-data>
+				</view>
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
-				<view class="userInfo-userFace">
+				<view class="userInfo-userFace" @click="clear">
 					<img :src="userInfo.userFace" />
 				</view>
 				<!-- #endif -->
@@ -36,7 +38,7 @@
 			<view class="teng-left teng-flex">
 				<text class="icon-gold"></text>
 				<text class="teng-ticket">我的入场券</text>
-				<text class="teng-number">{{userInfo.Integrals}}</text>
+				<text class="teng-number">{{userInfo.SeqVirtual}}</text>
 			</view>
 			<view class="teng-right teng-recharge">
 				<button class="btn" @click="recharge">去充值</button>
@@ -74,7 +76,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, defaultShowModal } from "@/common/utils/util";
 import { GetLoginUser } from "@/common/config/api";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
 import uniList from "@/components/uni-list/uni-list.vue";
@@ -89,32 +91,33 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			sessionkey: "",
 			userInfo: "",
 			Integrals: "",
 			lists: [
 				{
-					id: "0",
+					id: 0,
 					image: "/static/icon/icon_pending_address.png",
 					text: "待填地址",
 					status: "0",
 					navigateTo: "orderList"
 				},
 				{
-					id: "1",
+					id: 1,
 					image: "/static/icon/icon_pending_payment.png",
 					text: "待付款",
 					status: "1",
 					navigateTo: "orderList"
 				},
 				{
-					id: "2",
+					id: 2,
 					image: "/static/icon/icon_pending_receipt.png",
 					text: "待收货",
 					status: "3",
 					navigateTo: "orderList"
 				},
 				{
-					id: "3",
+					id: 3,
 					image: "/static/icon/icon_pending_order.png",
 					text: "待晒单",
 					status: "4",
@@ -156,6 +159,8 @@ export default Vue.extend({
 	},
 	methods: {
 		async useInfo() {
+			this.sessionkey = uni.getStorageSync("SessionKey");
+			console.log(this.sessionkey);
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
 			console.log(userInfo);
@@ -174,7 +179,7 @@ export default Vue.extend({
 		},
 		// 全部订单
 		allOrderClick() {
-			let status = "-1";
+			let status = -1;
 			navigateTo("../ucenter/orderList/orderList?status=" + status);
 		},
 		// 获取当前登录用户的信息
@@ -201,6 +206,18 @@ export default Vue.extend({
 			var navigate =
 				`../ucenter/${item.navigateTo}/${item.navigateTo}?status=` + status;
 			navigateTo(navigate);
+		},
+		clear() {
+			let content: string = "是否确定退出登录？";
+			defaultShowModal(content).then((res: any) => {
+				if (res.confirm) {
+					console.log("用户点击确定");
+					uni.clearStorageSync();
+					this.useInfo();
+				} else if (res.cancel) {
+					console.log("用户点击取消");
+				}
+			});
 		}
 	}
 });
@@ -291,7 +308,7 @@ export default Vue.extend({
 	border-radius: 3rpx;
 }
 
-.userInfo-userNick text{
+.userInfo-userNick text {
 	font-size: 32upx;
 	line-height: 1.8;
 	color: #fff;

@@ -40,12 +40,12 @@
 			</view>
 			<robby-image-upload
 				v-model="imageData"
-				:server-url-delete-image="serverUrlDeleteImage"
-				:server-url="serverUrl"
 				:showUploadProgress="show"
+				:limit="limit"
 				:form-data="formData"
 				@delete="deleteImage"
 				@add="addImage"
+				@picUrlInput="picUrlInput"
 			></robby-image-upload>
 			<view class="i-kong"></view>
 			<view class="common-submit">
@@ -85,9 +85,8 @@ export default Vue.extend({
 			enableAdd: false,
 			enableDrag: false,
 			show: true,
+			limit: 9,
 			imageData: [],
-			serverUrl: "http://localhost:2000/work/uploadWorkPicture",
-			serverUrlDeleteImage: "http://localhost:2000/work/deleteWorkPicture",
 			formData: {
 				userId: 2
 			}
@@ -117,6 +116,9 @@ export default Vue.extend({
 		},
 		addImage(e: any) {
 			console.log('addImage', e);
+			this.commentPic = e.allImages;
+		},
+		picUrlInput(e: any) {
 			this.commentPic = e;
 		},
 		bindTextAreaBlur(e: any) {
@@ -139,8 +141,8 @@ export default Vue.extend({
 				CommentPic: CommentPic
 			};
 			request(OrderDrying, data).then((res: any) => {
-				let msg: string = "提交晒单成功，点击确定返回订单中心！";
-				defaultShowModal(msg).then((res: any) => {
+				let content: string = "提交晒单成功，点击确定返回订单中心！";
+				defaultShowModal(content).then((res: any) => {
 					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");
@@ -153,7 +155,6 @@ export default Vue.extend({
 		},
 		formReset() {
 			console.log("清空数据");
-			this.chosen = "";
 		}
 	}
 });

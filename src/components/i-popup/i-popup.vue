@@ -2,8 +2,8 @@
   <view class="content">
     <view v-show="show" class="mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
     <view class="popus-content" v-show="show">
-      <view class="popus-head">入场费用【入场券】： 1张/份</view>
-      <view class="popus-remarks">注：每份=1次举牌</view>
+      <view class="popus-head">入场费用【入场券】： {{options.ActiveVirtualCoins}}张/份</view>
+      <view class="popus-remarks">注：每份={{options.ActiveCardNumbers}}次举牌</view>
       <view class="popus-purchase-num">购买数量</view>
       <view class="popus-num-box">
         <view class="i-numbox">
@@ -28,7 +28,7 @@
       </view>
       <view class="popus-totals-footer">
         <view class="popus-totals">共{{num}}次举牌次数</view>
-        <button class="btn popus-btn" :disabled="!disabled" @click="closeMask">{{options.ButtonText}}</button>
+        <button class="btn popus-btn" :disabled="!disabled" @click.stop.prevent="closeMask(buttonText)">{{buttonText}}</button>
       </view>
     </view>
   </view>
@@ -40,11 +40,14 @@ export default Vue.extend({
   name: "iPopup",
   props: {
     options: {
-      type: Array,
-      default() {
-        return [];
-      }
-    },
+			type: Object,
+			default() {
+				return {
+					ActiveVirtualCoins: "",
+					ActiveCardNumbers: ""
+				};
+			}
+		},
     disabled: {
       type: Boolean,
       default: false
@@ -56,6 +59,10 @@ export default Vue.extend({
     num: {
       type: [Number, String],
       default: "0"
+    },
+    buttonText: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -124,8 +131,8 @@ export default Vue.extend({
     hide() {
       this.$emit("hidePopup");
     },
-    closeMask() {
-      this.$emit("click");
+    closeMask(e: string) {
+      this.$emit("click", e);
     },
     moveHandle() {
       this.$emit("hidePopup");
@@ -183,7 +190,7 @@ export default Vue.extend({
   position: relative;
   background-color: #fff;
   width: 100%;
-  height: 100%;
+  height: 64upx;
   text-align: center;
   padding: 0;
   margin: 0 30upx;
@@ -213,6 +220,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   height: 70upx;
   position: relative;
 }
@@ -249,15 +257,15 @@ export default Vue.extend({
 }
 
 .popus-totals {
-  width: 70%;
   text-align: center;
+  padding: 0 30upx;
 }
 
 .popus-btn {
-  width: 30%;
   margin: 0;
   line-height: 98upx;
   color: #fff;
   background-color: #fe7f00;
+  padding: 0 40px;
 }
 </style>

@@ -6,14 +6,21 @@
 				:key="index"
 				class="swiper-tab-list product-item"
 				:class="current===item.status ? 'active' : ''"
-				:data-id="item.id"
-				:data-current="item.status"
-				@click="tapTab"
-			>{{item.name}}</view>
+				@click="tapTab(item.status)"
+			>
+				<view class="name">{{item.name}}</view>
+				<view class="line"></view>
+			</view>
 		</scroll-view>
 		<mescroll-uni top="100" @down="downCallback" @up="upCallback">
 			<block v-for="(item, index) in orderList" :key="index">
-				<media-list :options="item" @click="goDetail(item)" @action="action"></media-list>
+				<media-list
+					:options="item"
+					@click="goDetail(item)"
+					@action="action"
+					@order="order"
+					@product="product"
+				></media-list>
 			</block>
 		</mescroll-uni>
 	</view>
@@ -21,8 +28,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
-import { OrderListGet } from "@/common/config/api";
+import { request, navigateTo, showToast, showModal } from "@/common/utils/util";
+import {
+	OrderListGet,
+	OrderPay,
+	OrderConfirmReceiving
+} from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import mediaList from "@/components/order-list/order-list.vue";
 
@@ -33,38 +44,41 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			current: 0,
+			current: "",
 			OrderStatus: "",
 			orderList: [], // 订单列表
+			id: "", // 选择产品ID
+			orderID: "", // 选择订单ID
+			PayTypeID: 1, // 支付类型ID 微信小程序支付传1
 			tabBars: [
 				{
 					name: "全部",
-					id: "0",
+					id: 0,
 					status: "-1"
 				},
 				{
 					name: "待填地址",
-					id: "1",
+					id: 1,
 					status: "0"
 				},
 				{
 					name: "待付款",
-					id: "2",
+					id: 2,
 					status: "1"
 				},
 				{
 					name: "待发货",
-					id: "3",
+					id: 3,
 					status: "2"
 				},
 				{
 					name: "待收货",
-					id: "4",
+					id: 4,
 					status: "3"
 				},
 				{
 					name: "待晒单",
-					id: "5",
+					id: 5,
 					status: "4"
 				}
 			],
@@ -76,12 +90,12 @@ export default Vue.extend({
 		let status = options.status;
 		this.current = status;
 		this.OrderStatus = status;
+		this.$store.dispatch("getUserOpenId");
 	},
 	methods: {
 		// 点击选项卡
 		tapTab(e: any) {
-			this.current = e.target.dataset.current;
-			this.OrderStatus = e.target.dataset.current;
+			this.current = e;
 			let mescroll: any = this.mescroll;
 			this.downCallback(mescroll);
 		},
@@ -120,7 +134,6 @@ export default Vue.extend({
 			successCallback: any,
 			errorCallback: any
 		) {
-			console.log(pageNum, pageSize);
 			try {
 				let orderList: any = await this.getOrderList(pageNum, pageSize);
 				//联网成功的回调
@@ -132,8 +145,8 @@ export default Vue.extend({
 		},
 		getOrderList(pageNum: any, pageSize: any) {
 			return new Promise((sesolve, reject) => {
-				let OrderStatus = this.OrderStatus;
-				if (!OrderStatus || OrderStatus === "-1") {
+				let OrderStatus = this.current;
+				if (OrderStatus == "-1") {
 					let data = {
 						PageID: pageNum,
 						PageSize: pageSize
@@ -163,18 +176,45 @@ export default Vue.extend({
 				}
 			});
 		},
-		action(e: any) {
+		order(e: any) {
+			this.orderID = e;
+		},
+		product(e: any) {
+			this.id = e;
+		},
+		async action(e: any) {
 			console.log("action", e);
 			switch (e) {
 				case "填写地址":
-					let disabled:boolean = true;
-					navigateTo("../addressShipping/addressShipping?disabled=" + disabled)
+					let disabled: boolean = true;
+					let orderID = this.orderID;
+					navigateTo(
+						"../addressShipping/addressShipping?disabled=" +
+							disabled +
+							"&orderID=" +
+							orderID
+					);
 					break;
-				case "举牌":
+				case "确认收货":
+					let res: any = await this.orderConfirmReceiving();
+					let mescroll = this.mescroll;
+					if (res.IsError) {
+						showToast(res.ErrMsg);
+					} else {
+						showToast("确认收货成功！");
+						this.downCallback(mescroll);
+					}
 					break;
-				case "托管":
+				case "去支付":
+					this.payment();
 					break;
-				case "取消托管":
+				case "晒单":
+					navigateTo(
+						"../orderDryingUpload/orderDryingUpload?id=" +
+							this.orderID +
+							"&OrderID=" +
+							this.orderID
+					);
 					break;
 			}
 		},
@@ -193,6 +233,57 @@ export default Vue.extend({
 					"&OrderID=" +
 					e.OrderID
 			);
+		},
+		// 订单确认收货
+		orderConfirmReceiving() {
+			return new Promise((sesolve, reject) => {
+				let OrderID = this.orderID;
+				let data = {
+					OrderID: OrderID
+				};
+				request(OrderConfirmReceiving, data).then((res: any) => {
+					sesolve(res);
+					console.log(res);
+				});
+			});
+		},
+		// 订单支付
+		async payment() {
+			let payment: any = await this.payMoneySubmit();
+			let paymentData = JSON.parse(payment);
+			let mescroll: any = this.mescroll;
+			uni.requestPayment({
+				timeStamp: paymentData.timeStamp,
+				nonceStr: paymentData.nonceStr,
+				package: paymentData.package,
+				signType: "MD5",
+				paySign: paymentData.paySign,
+				success() {
+					showToast("支付成功！!");
+					mescroll.resetUpScroll();
+				},
+				fail() {
+					showModal("支付失败，用户取消支付!");
+				}
+			});
+		},
+		// 支付API
+		async payMoneySubmit() {
+			let state: any = this.$store.state;
+			let OpenID = state.openid;
+			let OrderID = this.orderID;
+			let PayTypeID = this.PayTypeID;
+			return new Promise((sesolve, reject) => {
+				let data = {
+					OrderID: OrderID,
+					PayTypeID: PayTypeID,
+					OpenID: OpenID
+				};
+				request(OrderPay, data).then((res: any) => {
+					console.log(res);
+					sesolve(res.PayParam);
+				});
+			});
 		}
 	}
 });
@@ -213,15 +304,38 @@ page {
 	height: 100%;
 	overflow: scroll;
 }
-.active {
+
+.product-item {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	height: 98upx;
+	line-height: 98upx;
+}
+
+.product-item .name {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-weight: 600;
+}
+
+.active .name {
 	color: #fe7f00;
 }
 
-.product-item {
-	display: inline-block;
-	overflow: hidden;
-	line-height: 98upx;
+.active .line {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 100upx;
+	height: 6upx;
+	background-color: #fe7f00;
+	border-radius: 8upx;
 }
+
 .i-tab-bar-loading {
 	text-align: center;
 	font-size: 28upx;

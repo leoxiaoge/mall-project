@@ -18,11 +18,11 @@
 
 <script>
 	var _self;
-	import { upload, navigateTo } from "@/common/utils/util";
+	import { upload, navigateTo, showToast } from "@/common/utils/util";
   import { OrderDryingUpload } from "@/common/config/api";
 	export default {
 		name:'robby-image-upload',
-		props: ['value','enableDel','enableAdd','enableDrag','serverUrl','formData','limit','fileKeyName','showUploadProgress','serverUrlDeleteImage'],
+		props: ['value','enableDel','enableAdd','enableDrag','formData','limit','fileKeyName','showUploadProgress'],
 		data() {
 			return {
 				imageBasePos:{
@@ -93,33 +93,36 @@
 						if(_self.limit){
 							var availableImageNumber = _self.limit - _self.value.length
 							if(availableImageNumber < imagePathArr.length){
-								uni.showToast({
-									title: '图片总数限制为'+_self.limit+'张，当前还可以选'+availableImageNumber+'张',
-									icon:'none',
-									mask: false,
-									duration: 2000
-								});
+								let title = `图片总数限制为${_self.limit}张，当前还可以选${availableImageNumber}张`
+								showToast(title)
 								return
 							}
 						}
-
-						let filePath = imagePathArr[0]
-						let data = {};
-						upload(OrderDryingUpload, data, filePath).then((res) => {
-							console.log(res)
-							let data = JSON.parse(res)
-							console.log(data.PicUrl)
-							console.log(_self.picUrl)
-							let picUrl = [data.PicUrl]
-							console.log(_self.picUrl, picUrl)
-							_self.picUrl = _self.picUrl.concat(data.PicUrl);
-							this.$emit('add', _self.picUrl)
-						});
+						console.log(imagePathArr)
+						imagePathArr.forEach((item) => {
+							_self.uploadImage(item)
+						})
 						for(let i=0; i<imagePathArr.length;i++){
 							_self.value.push(imagePathArr[i])
 						}
 					}
 				})
+			},
+			uploadImage: function(filePath) {
+				let data = {};
+				upload(OrderDryingUpload, data, filePath).then((res) => {
+					console.log(res)
+					let data = JSON.parse(res)
+					console.log(data.PicUrl)
+					console.log(_self.picUrl)
+					let picUrl = data.PicUrl
+					console.log(_self.picUrl, picUrl)
+					_self.picUrl = _self.picUrl.concat(data.PicUrl);
+					this.$emit('add',{
+						currentImage: picUrl,
+						allImages: _self.picUrl
+					})
+				});
 			},
 			deleteImage: function(e){
 				var imageIndex = e.currentTarget.dataset.index
@@ -173,6 +176,7 @@
 				}
 				this.dragIndex = e.currentTarget.dataset.index
 				this.moveImagePath = this.value[this.dragIndex]
+				this.movePicImagePath = this.picUrl[this.dragIndex]
 				this.showMoveImage = true
 				
 				//计算纵向图片基准位置
@@ -221,6 +225,8 @@
 					if(this.dragIndex !== this.targetImageIndex){
 						this.value[this.dragIndex] = this.value[this.targetImageIndex]
 						this.value[this.targetImageIndex] = this.moveImagePath
+						this.picUrl[this.dragIndex] = this.picUrl[this.targetImageIndex]
+						this.picUrl[this.targetImageIndex] = this.movePicImagePath
 					}
 				}
 				
@@ -229,8 +235,10 @@
 				this.deltaLeft = 0
 				this.deltaTop = 0
 				this.showMoveImage = false
-				
+				console.log(this.value)
+				console.log(this.picUrl)
 				this.$emit('input', this.value)
+				this.$emit('picUrlInput', this.picUrl)
 			}
 		}
 	}

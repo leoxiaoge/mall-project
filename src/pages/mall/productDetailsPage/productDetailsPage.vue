@@ -41,19 +41,23 @@
 				</view>
 			</view>
 		</view>
-		<view class="i-product-distance-shooting">
-			<view class="i-product-distance-shooting-text">{{timerDurationTitle}}</view>
-			<view class="i-product-line" v-if="times"></view>
-			<view class="i-product-distance-shooting-time">{{times}}</view>
+		<view
+			class="i-product-distance-shooting"
+			:class="(times?'i-active-shooting':'i-shooting')"
+			v-if="times || timerDurationTitle"
+		>
+			<view class="i-product-distance-shooting-text" v-if="timerDurationTitle">{{timerDurationTitle}}</view>
+			<view class="i-product-line" v-if="times && timerDurationTitle"></view>
+			<view class="i-product-distance-shooting-time" v-if="times">{{times}}</view>
 		</view>
 		<view class="i-product-current-bid">
-			<view class="i-product-current-bid-head">当前出价</view>
+			<view class="i-product-current-bid-head">{{newCurrent}}</view>
 			<view class="i-product-current-bid-price">{{newPrice}}</view>
-			<view class="i-product-current-bid-icon">
+			<view class="i-product-current-bid-icon" v-if="newCurrentBidder">
 				<img :src="leading" />
-				<text>当前领先出价人</text>
+				<text>{{newCurrentBidder}}</text>
 			</view>
-			<view class="i-product-current-bid-user">
+			<view class="i-product-current-bid-user" v-if="newFace || newNick">
 				<img :src="newFace" />
 				<view class="i-product-current-bid-name">{{newNick}}</view>
 				<view class="i-product-current-bid-address">{{newCity}}</view>
@@ -76,7 +80,11 @@
 				<view class="i-bill-price">{{item.Price}}</view>
 			</view>
 		</view>
-		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="activePath">
+		<view
+			class="i-product-all-bill uni-list-cell-navigate uni-navigate-right"
+			@click="allActivePath"
+			v-if="allBills"
+		>
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">全部出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -85,7 +93,11 @@
 				</view>
 			</view>
 		</view>
-		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="activePath">
+		<view
+			class="i-product-all-bill uni-list-cell-navigate uni-navigate-right"
+			@click="myActivePath"
+			v-if="mySeqBills"
+		>
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">我的出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -128,19 +140,25 @@
 				</view>
 			</view>
 		</view>
-		<view class="kong"></view>
+		<view class="i-kong"></view>
 		<view class="i-product-join">
 			<view class="i-product-button-list">
 				<block v-for="(item, index) in buttonsList" :key="index">
 					<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
-						<button class="btn join-btn" v-show="!show" @click.stop.prevent="hidePopup">立即参与</button>
+						<button
+							class="btn join-btn"
+							v-show="!show"
+							@click.stop.prevent="hidePopup(item.ButtonText)"
+						>{{item.ButtonText}}</button>
 						<i-popup
 							:disabled="item.ButtonEnabled"
 							:show="show"
+							:options="active"
+							:buttonText="item.ButtonText"
 							:num="SeqBills"
 							@change="change"
 							@hidePopup="hidePopup"
-							@click.stop.prevent="billTap(item.ButtonText)"
+							@click="billTap(item.ButtonText)"
 						/>
 					</block>
 					<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
@@ -203,7 +221,8 @@ import {
 	ProductGet,
 	PastTransactionsListGet,
 	OrderDryingListGet,
-	GetActiveByID
+	GetActiveByID,
+	NextActiveGet
 } from "@/common/config/api";
 import iPast from "@/components/i-past/i-past.vue";
 import iShow from "@/components/i-show/i-show.vue";
@@ -230,11 +249,15 @@ export default Vue.extend({
 			indicatorActiveColor: "#fe7f00",
 			disabled: false, // 按钮disabled
 
-			swiper: [],
-			title: "服务",
+			swiper: [], // 产品轮播
 			id: "",
+			orderID: "", // 订单ID
 			product: "",
 			num: "1", // 剩余次数
+			pageID: 1, // 页码
+			pageSize: 10, // 每页条数
+			hasPastNext: false, // 是否还有往期成交下一页
+			hasOrderNext: false, // 是否还有晒单下一页
 
 			activeDetail: "", // 活动详情
 			active: {}, // 活动内容
@@ -250,11 +273,13 @@ export default Vue.extend({
 			src: "/static/icon_experience.png",
 			leading: "/static/icon/icon_leading.png",
 
-			ActiveID: "",
+			ActiveID: "", // 活动ID
 			Price: "",
 			msgID: "",
 			msgType: "",
-			timer: 0,
+			timer: 0, // 计时器
+			newCurrent: "", // 当前出价文字
+			newCurrentBidder: "", // 当前领先出价人文字
 			buttonsList: [], // 按钮类型，0表示报名按钮、1表示举牌按钮、2表示托管按钮、3表示填写地址按钮，4表示参与下一期按钮
 			price: "", // 最新价格
 			allBills: "", // 全部举牌次数
@@ -293,6 +318,7 @@ export default Vue.extend({
 		console.log("options", options);
 		this.id = options.id;
 		this.ActiveID = options.activeID;
+		this.ActiveID = "2";
 		this.websocket();
 	},
 	onShow() {
@@ -300,7 +326,6 @@ export default Vue.extend({
 		this.getProduct();
 		this.getActiveByID();
 		this.getPastTransactionsList();
-		this.getOrderDryingList();
 	},
 	onUnload() {
 		uni.closeSocket();
@@ -309,8 +334,22 @@ export default Vue.extend({
 		this.websocket();
 		this.getProduct();
 		this.getActiveByID();
-		this.getPastTransactionsList();
-		this.getOrderDryingList();
+	},
+	onReachBottom() {
+		switch (this.tabIndex) {
+			case 0:
+				if (!this.hasPastNext) {
+					this.pageID++;
+					this.getPastTransactionsList();
+				}
+				break;
+			case 1:
+				if (!this.hasOrderNext) {
+					this.pageID++;
+					this.getOrderDryingList();
+				}
+				break;
+		}
 	},
 	methods: {
 		// 获取产品详情
@@ -341,49 +380,113 @@ export default Vue.extend({
 		// 选项卡
 		tabClick(index: number) {
 			this.tabIndex = index;
+			console.log(this.pageID);
+			switch (index) {
+				case 0:
+					this.pageID = 1;
+					this.hasPastNext = false;
+					this.getPastTransactionsList();
+					break;
+				case 1:
+					this.pageID = 1;
+					this.hasOrderNext = false;
+					this.getOrderDryingList();
+					break;
+			}
 		},
 		// 往期成交列表
 		getPastTransactionsList() {
 			let ProductID = this.id;
+			let PageID = this.pageID;
+			let PageSize = this.pageSize;
 			let data = {
-				ProductID: ProductID
+				ProductID: ProductID,
+				PageID: PageID,
+				PageSize: PageSize
 			};
 			request(PastTransactionsListGet, data).then((res: any) => {
-				console.log(res);
-				let pastList = res.OrderList;
-				pastList.map((item: any) => {
+				if (PageID === 1) this.pastList = [];
+				this.pastList = this.pastList.concat(res.OrderList);
+				this.pastList.map((item: any) => {
 					item.percentage = (
 						(item.OrderMoneys / item.OrderPrimeCost) *
 						100
 					).toFixed(2);
+					item.CreatedTime = formatTime(new Date(item.Created));
 				});
-				this.pastList = pastList;
+				if (res.PageCount <= PageID) {
+					this.hasPastNext = true;
+				}
+			});
+		},
+		// 获取用户晒单列表
+		getOrderDryingList() {
+			let ProductID = this.id;
+			let PageID = this.pageID;
+			let PageSize = this.pageSize;
+			let data = {
+				ProductID: ProductID,
+				PageID: PageID,
+				PageSize: PageSize
+			};
+			request(OrderDryingListGet, data).then((res: any) => {
+				if (PageID === 1) this.showList = [];
+				this.showList = this.showList.concat(res.OrderList);
+				this.showList.map((item: any) => {
+					item.SendGoodsDateTime = formatTime(new Date(item.SendGoodsDate));
+				});
+				if (res.PageCount <= PageID) {
+					this.hasOrderNext = true;
+				}
 			});
 		},
 		change(val: any) {
 			console.log(val);
 			this.num = val;
 		},
-		hidePopup() {
-			this.show = !this.show;
+		async hidePopup(e: any) {
+			switch (e) {
+				case "参与下一期":
+					let nexActive: any = await this.getNextActive();
+					break;
+				default:
+					this.show = !this.show;
+			}
+		},
+		// 获取下一期活动
+		getNextActive() {
+			return new Promise((sesolve, reject) => {
+				let ActiveID = this.ActiveID;
+				let data = {
+					ActiveID: ActiveID
+				};
+				request(NextActiveGet, data).then((res: any) => {
+					console.log(res);
+					sesolve(res.NexActive);
+				});
+			});
 		},
 		tolowerShow(e: any) {
 			console.log("tolowerShow", e);
 		},
-		// 获取用户晒单列表
-		getOrderDryingList() {
-			let ProductID = this.id;
-			let data = {
-				ProductID: ProductID
-			};
-			request(OrderDryingListGet, data).then((res: any) => {
-				this.showList = res.OrderList;
-			});
+		// 全部记录
+		allActivePath() {
+			let activeID = this.ActiveID;
+			navigateTo("../activeBilList/activeBilList?activeID=" + activeID);
 		},
-		activePath() {
-			let id = this.id;
-			navigateTo("../activeBilList/activeBilList?id=" + id);
+		// 我的出价记录
+		myActivePath() {
+			console.log(this.ActiveID);
+			let activeID = this.ActiveID;
+			let userID: string = uni.getStorageSync("UserInfo").ID;
+			navigateTo(
+				"../activeBilList/activeBilList?activeID=" +
+					activeID +
+					"&userID=" +
+					userID
+			);
 		},
+		// 产品详情
 		productDetailsUparsePath() {
 			let id = this.id;
 			navigateTo("../productDetailsUparse/productDetailsUparse?id=" + id);
@@ -504,16 +607,16 @@ export default Vue.extend({
 							this.MyBills = msg.MyBills;
 							this.SeqBills = msg.SeqBills;
 							showToast(msg.ErrMsg);
+							this.buttonStateChanged("举牌", "1", true, true);
 						}
-						this.buttonStateChanged("举牌", "1", true, true);
 						this.timerState(null);
 						break;
 					case 3:
 						// 登录响应消息
 						if (msg.IsError) {
 							console.log("登录失败：" + msg.ErrMsg);
-							let msgs: string = "你暂未登录，请点击确定去登录！";
-							defaultShowModal(msgs).then((res: any) => {
+							let content: string = "你暂未登录，请点击确定去登录！";
+							defaultShowModal(content).then((res: any) => {
 								if (res.confirm) {
 									console.log("用户点击确定");
 									navigateTo("../../ucenter/login/login");
@@ -524,15 +627,15 @@ export default Vue.extend({
 						} else {
 							// 登录成功，提示用户
 							this.UserID = msg.UserID;
-							let initMsg = {
-								ActiveID: this.ActiveID,
-								UserID: this.UserID,
-								msgID: GUID,
-								msgType: 6,
-								msgTime: msgTime
-							};
-							this.sendSocketMessage(initMsg);
 						}
+						let initMsg = {
+							ActiveID: this.ActiveID,
+							UserID: this.UserID,
+							msgID: GUID,
+							msgType: 6,
+							msgTime: msgTime
+						};
+						this.sendSocketMessage(initMsg);
 						break;
 					case 4:
 						// 托管响应
@@ -573,6 +676,13 @@ export default Vue.extend({
 						// 更新我的报名状态信息
 						this.onUpdateMySignups(msg.MySignups, msg.SeqSignups);
 						this.onUpdateMyBills(msg.MyBills, msg.MySeqBills);
+						// 判断是否活动结束
+						if (msg.TimerDurationValue === 0) {
+							this.newCurrent = "成交价";
+							this.newCurrentBidder = "中拍人";
+						} else {
+							this.newCurrent = "当前出价";
+						}
 						break;
 					case 7:
 						// 报名进度更新推送
@@ -589,7 +699,8 @@ export default Vue.extend({
 							this.buttonStateChanged("举牌", "1", false, false);
 							this.buttonStateChanged("托管", "2", false, false);
 							// 还需要继续报名，显示报名按钮
-							this.buttonStateChanged("报名", "3", true, true);
+							showToast("报名成功，即将开团！");
+							this.buttonStateChanged("报名", "0", true, true);
 						}
 						break;
 					case 8:
@@ -724,6 +835,7 @@ export default Vue.extend({
 		onUpdateMyBills(mybills: string, seqbills: string) {
 			this.myBills = `我的举牌次数：${mybills}次`;
 			this.seqBills = `剩余可用次数：${seqbills}次`;
+			this.mySeqBills = mybills;
 		},
 
 		// 更新价格事件
@@ -737,9 +849,11 @@ export default Vue.extend({
 				this.newFace = lastBills[0].face;
 				this.newNick = `领先人：${lastBills[0].nick}`;
 				this.newCity = `${lastBills[0].bill.Province} ${lastBills[0].bill.City}`;
+				this.newCurrentBidder = "当前领先出价人";
 			} else {
 				// 未有人出价，按起拍价
 				this.newPrice = `￥${startPrice}`;
+				this.newCurrent = "起拍价";
 			}
 			// 更新最近出局人信息
 			if (lastBills.length > 1) {
@@ -793,6 +907,19 @@ export default Vue.extend({
 						msgTime: msgTime
 					};
 					this.sendSocketMessage(cancelTapMsg);
+					break;
+				case "填写收货地址":
+					let disabled = true;
+					let OrderID = this.orderID;
+					navigateTo(
+						"../ucenter/addressShipping/addressShipping?disabled=" +
+							disabled +
+							"&OrderID=" +
+							OrderID
+					);
+					break;
+				case "参与下一期":
+					let nexActive: any = await this.getNextActive();
 					break;
 			}
 		},
@@ -869,10 +996,6 @@ export default Vue.extend({
 </script>
 
 <style>
-.kong {
-	height: 98upx;
-}
-
 .i-label {
 	display: flex;
 	justify-content: space-around;
@@ -1000,16 +1123,33 @@ export default Vue.extend({
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	margin: 10upx 30upx;
-	padding: 0 30upx;
-	border: 2upx solid #fe7f00;
+	height: 80upx;
 	border-radius: 100upx;
 	text-align: center;
+	margin: 20upx 30upx;
+	padding: 0 30upx;
+}
+
+.i-shooting {
+	border: 2upx solid #4d4d4d;
+}
+
+.i-active-shooting {
+	border: 2upx solid #fe7f00;
+}
+
+.i-shooting .i-product-distance-shooting-text {
+	font-size: 42upx;
+	font-weight: 600;
+	color: #4d4d4d;
+}
+
+.i-active-shooting .i-product-distance-shooting-text {
+	font-size: 30upx;
+	color: #4d4d4d;
 }
 
 .i-product-distance-shooting-text {
-	font-size: 30upx;
-	color: #4d4d4d;
 	padding: 0 20upx;
 }
 

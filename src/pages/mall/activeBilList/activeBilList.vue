@@ -37,14 +37,16 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			id: "",
+			activeID: "",
+			userID: "",
 			billList: [],
 			mescroll: []
 		};
 	},
 	onLoad(options: any) {
 		console.log("onLoad", options);
-		this.id = options.id;
+		this.activeID = options.activeID;
+		this.userID = options.userID;
 	},
 	methods: {
 		// 下拉刷新的回调
@@ -85,9 +87,11 @@ export default Vue.extend({
 		},
 		getActiveBillList(pageNum: any, pageSize: any) {
 			return new Promise((sesolve, reject) => {
-				let ActiveID = this.id;
+				let ActiveID = this.activeID;
+				let UserID = this.userID ? this.userID : "";
 				let data = {
 					ActiveID: ActiveID,
+					UserID: UserID,
 					PageID: pageNum,
 					PageSize: pageSize
 				};

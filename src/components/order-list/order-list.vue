@@ -27,7 +27,7 @@
 				</view>
 				<view class="i-order-footer">
 					<view class="teng-order-button teng-flex-end" v-for="(i, idx) in options.ActionButtons" :key="idx">
-						<button class="btn" @click="actionButton(i.btn)">{{i.btn}}</button>
+						<button class="btn" @click="actionButton(options.OrderID, options.ID, i.btn)">{{i.btn}}</button>
 					</view>
 				</view>
 			</view>
@@ -40,7 +40,7 @@
 		props: {
 			options: {
 				type: Object,
-				default: function(e) {
+				default() {
 					return {}
 				}
 			},
@@ -61,7 +61,9 @@
 			bindClick() {
 				this.$emit('click');
 			},
-			actionButton(e) {
+			actionButton(order, product, e) {
+				this.$emit('order', order);
+				this.$emit('product', product);
 				this.$emit('action', e);
 			}
 		}

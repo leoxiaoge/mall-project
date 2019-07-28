@@ -31,8 +31,10 @@
 					</view>
 					<view class="teng-content">
 						<view class="teng-title">{{item.ProductTitle}}</view>
-						<view class="teng-type" v-for="(i, idx) in item.Active.ActiveTagList" :key="idx">
-							<text class="teng-type-text">{{i}}</text>
+						<view class="teng-type">
+							<view class="teng-type-item" v-for="(i, idx) in item.Active.ActiveTagList" :key="idx">
+								<text class="teng-type-text">{{i}}</text>
+							</view>
 						</view>
 						<view class="teng-footer">
 							<view class="teng-pirce">
@@ -76,8 +78,6 @@ export default Vue.extend({
 	onLoad() {
 		let windowHeight: any = uni.getSystemInfoSync().windowHeight;
 		this.height = windowHeight;
-	},
-	onShow() {
 		this.getCategory();
 	},
 	methods: {
@@ -173,7 +173,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	height: 220upx;
 	font-size: 28upx;
 	border-bottom: 2upx solid #f4f4f4;
 	margin-left: 20upx;
@@ -228,7 +227,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	margin-top: 20upx;
 }
 
 .teng-type-text {
@@ -236,7 +234,7 @@ export default Vue.extend({
 	line-height: 1.6;
 	text-align: center;
 	margin-right: 10upx;
-	padding: 0 10upx;
+	padding: 2upx 10upx;
 	color: #fe7f00;
 	border: 2upx solid #fe7f00;
 	border-radius: 100upx;

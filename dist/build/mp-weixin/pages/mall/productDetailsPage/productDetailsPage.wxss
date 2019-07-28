@@ -1,7 +1,4 @@
 
-.kong {
-	height: 98rpx;
-}
 .i-label {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -146,15 +143,28 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	margin: 10rpx 30rpx;
-	padding: 0 30rpx;
-	border: 2rpx solid #fe7f00;
+	height: 80rpx;
 	border-radius: 100rpx;
 	text-align: center;
+	margin: 20rpx 30rpx;
+	padding: 0 30rpx;
 }
-.i-product-distance-shooting-text {
+.i-shooting {
+	border: 2rpx solid #4d4d4d;
+}
+.i-active-shooting {
+	border: 2rpx solid #fe7f00;
+}
+.i-shooting .i-product-distance-shooting-text {
+	font-size: 42rpx;
+	font-weight: 600;
+	color: #4d4d4d;
+}
+.i-active-shooting .i-product-distance-shooting-text {
 	font-size: 30rpx;
 	color: #4d4d4d;
+}
+.i-product-distance-shooting-text {
 	padding: 0 20rpx;
 }
 .i-product-line {
