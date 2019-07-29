@@ -13,6 +13,10 @@
 	text-align: center;
 	margin: 10rpx 20rpx 40rpx 20rpx;
 }
+.teng-share-code ._img {
+	width: 100%;
+	height: 100%;
+}
 .teng-share-list {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -31,7 +35,7 @@
 	text-align: center;
 	background-color: #fff;
 }
-.teng-share-text image {
+.teng-share-text ._img {
 	width: 68rpx;
 	height: 68rpx;
 }

@@ -213,7 +213,7 @@ export default Vue.extend({
 				if (res.confirm) {
 					console.log("用户点击确定");
 					uni.clearStorageSync();
-					this.useInfo();
+					this.userInfo = "";
 				} else if (res.cancel) {
 					console.log("用户点击取消");
 				}

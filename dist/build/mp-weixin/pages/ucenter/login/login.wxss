@@ -45,7 +45,10 @@ page {
     margin: 0 60rpx;
     padding: 20rpx 0;
 }
-.protocol {
+.radio {
+    padding: 0;
+}
+.protocol-text {
     color: #fe7f00;
 }
 .i-button-get {

@@ -33,6 +33,7 @@ const store = new Vuex.Store({
 				}, 100)
 			});
 		},
+		// #ifdef MP-WEIXIN
 		getUserOpenId: async function ({
 			commit,
 			state
@@ -59,6 +60,7 @@ const store = new Vuex.Store({
 				}
 			})
 		}
+		// #endif
 	}
 })
 

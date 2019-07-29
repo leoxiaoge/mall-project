@@ -22,17 +22,19 @@
       </view>
     </view>
     <view class="i-login-radio">
-      <label class="radio">
-        <radio @click="radioClick" :checked="checked" color="#fe7f00" />
+      <radio-group name="radio">
+        <label class="radio">
+          <radio @click.stop.prevent="radioClick" :checked="checked" :color="color" />
+        </label>
         <text>我已阅读并同意</text>
-        <text class="protocol">《腾拍商场购物协议》</text>
-      </label>
+        <text class="protocol-text">《腾拍商场购物协议》</text>
+      </radio-group>
     </view>
     <view class="i-login-button-view">
       <!-- #ifdef MP-WEIXIN -->
       <button class="btn i-login-button" :loading="loading" :disabled="!checked" open-type="getUserInfo" @getuserinfo="wxLogin">登录</button>
 			<!-- #endif -->
-      <!-- #ifdef H5 -->
+      <!-- #ifndef MP-WEIXIN -->
       <button class="btn i-login-button" :loading="loading" :disabled="!checked" @click="userLogin">登录</button>
 			<!-- #endif -->
     </view>
@@ -59,6 +61,7 @@
         refUserID: '',
         logo: '/static/icon/icon_login.png',
         checked: true,
+        color: "#fe7f00",
         Mobile: '',
         LoginCode: '',
         loading: false,
@@ -266,7 +269,11 @@
     padding: 20upx 0;
   }
 
-  .protocol {
+  .radio {
+    padding: 0;
+  }
+
+  .protocol-text {
     color: #fe7f00;
   }
 

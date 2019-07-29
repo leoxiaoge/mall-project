@@ -2,13 +2,13 @@
 	<view class="content">
 		<view class="teng-share">
 			<view class="teng-share-content">
-				<view class="teng-share-code" @click="preview(code, [code])">
-					<image :src="code" />
+				<view class="teng-share-code" @click="preview(code, code)">
+					<img :src="code" />
 				</view>
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="teng-share-list">
 					<button class="teng-share-text" open-type="share">
-						<image :src="wechat" />
+						<img :src="wechat" />
 						<view class="teng-share-list-text">微信好友</view>
 					</button>
 				</view>
@@ -28,7 +28,7 @@ import { GetWxacode } from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
-			code: "",
+			code: [],
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
 	},
@@ -52,6 +52,8 @@ export default Vue.extend({
 			});
 		},
 		preview(current: any, urls: any) {
+			urls = [urls]
+			console.log(urls)
 			previewImage(current, urls);
 		},
 		exchange() {
@@ -79,6 +81,11 @@ export default Vue.extend({
 	margin: 10upx 20upx 40upx 20upx;
 }
 
+.teng-share-code img {
+	width: 100%;
+	height: 100%;
+}
+
 .teng-share-list {
 	display: flex;
 	justify-content: space-around;
@@ -91,7 +98,7 @@ export default Vue.extend({
 	background-color: #fff;
 }
 
-.teng-share-text image {
+.teng-share-text img {
 	width: 68upx;
 	height: 68upx;
 }
