@@ -117,10 +117,11 @@ export default Vue.extend({
 
 	.uni-product-button button{
 		margin: 0;
-		padding: 0 14upx;
-		font-size: 20upx;
+		padding: 10upx 14upx;
+		font-size: 28upx;
+		line-height: 1.4;
 		color: #fff;
 		background-color: #fe7f00;
-		border-radius: 100upx;
+		border-radius: 40upx;
 	}
 </style>

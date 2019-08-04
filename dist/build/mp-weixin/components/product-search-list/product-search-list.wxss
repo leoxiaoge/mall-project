@@ -39,10 +39,11 @@
 }
 .uni-product-button button{
 		margin: 0;
-		padding: 0 14rpx;
-		font-size: 20rpx;
+		padding: 10rpx 14rpx;
+		font-size: 28rpx;
+		line-height: 1.4;
 		color: #fff;
 		background-color: #fe7f00;
-		border-radius: 100rpx;
+		border-radius: 40rpx;
 }
 

@@ -1343,7 +1343,7 @@ export default Vue.extend({
 }
 
 .btn {
-	font-size: 32upx;
+	font-size: 40upx;
 	height: 106upx;
 	line-height: 98upx;
 	border: none;

@@ -28,7 +28,7 @@
 					</view>
 				</view>
 				<view class="popus-totals-footer">
-					<view class="popus-totals">共{{num}}次举牌次数</view>
+					<view class="popus-totals">共{{num?num: "0"}}次举牌次数</view>
 					<button
 						class="btn popus-btn"
 						:disabled="!disabled"
