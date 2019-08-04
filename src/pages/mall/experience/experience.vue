@@ -203,6 +203,10 @@ export default Vue.extend({
 	background-color: #e4e4e4;
 }
 
+.teng-content {
+	width: 100%;
+}
+
 .teng-title {
 	word-break: break-all;
 	display: -webkit-box;
@@ -245,7 +249,12 @@ export default Vue.extend({
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 10upx;
+	margin-top: 8upx;
+}
+
+.teng-pirce {
+	display: flex;
+	align-items: center;
 }
 
 .teng-pirce-text {

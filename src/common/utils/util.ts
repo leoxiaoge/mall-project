@@ -90,7 +90,12 @@ export const request = async (api: any, data: any) => {
           reject(res.errMsg)
         }
       },
-      fail: () => {
+      fail: (err: any) => {
+        console.log(err)
+        reject(err)
+        uni.hideLoading()
+        uni.hideNavigationBarLoading()
+        uni.stopPullDownRefresh()
         showToast("网络出错!")
       }
     })
