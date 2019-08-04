@@ -1,12 +1,21 @@
 <template>
 	<view class="container">
 		<view class="search">
-			<i-search :iconSrc="iconSrc" @blur="blur" @search="search" @manager="manager" @scan="scan"></i-search>
+			<i-search
+				:iconSrc="iconSrc"
+				:focus="focus"
+				@blur="blur"
+				@search="search"
+				@manager="manager"
+				@scan="scan"
+			></i-search>
 		</view>
-		<product-list :options="productList" />
-    <view class="" v-if="productList.length <= 0">
-      <i-no :thumb="thumb" :title="title"></i-no>
-    </view>
+		<view class="product-list">
+			<product-list :options="productList" />
+		</view>
+		<view class="no" v-if="noShow">
+			<i-no :thumb="thumb" :title="title"></i-no>
+		</view>
 	</view>
 </template>
 
@@ -19,8 +28,8 @@ import iNo from "@/components/u-no/u-no.vue";
 import productList from "@/components/product-search-list/product-search-list.vue";
 export default Vue.extend({
 	components: {
-    iSearch,
-    iNo,
+		iSearch,
+		iNo,
 		productList
 	},
 	data() {
@@ -29,9 +38,11 @@ export default Vue.extend({
 			pageSize: 10,
 			keyword: "",
 			pageCount: 1,
-      productList: [],
-      thumb: "http://www.mescroll.com/img/mescroll-empty.png?v=1",
-      title: "暂无搜索数据",
+			productList: [],
+			focus: true,
+			noShow: false,
+			thumb: "http://www.mescroll.com/img/mescroll-empty.png?v=1",
+			title: "暂无搜索数据",
 			iconSrc: {
 				logo: "/static/icon/icon_search.png",
 				voice: "/static/img/icon_voice.png",
@@ -59,23 +70,26 @@ export default Vue.extend({
 			this.keyword = e;
 			this.pageNum = 1;
 			this.getListDataFromNet();
-    },
-    manager(e: any) {
-      this.keyword = e;
+		},
+		manager(e: any) {
+			this.keyword = e;
 			this.pageNum = 1;
 			this.getListDataFromNet();
-    },
-    scan(e: any) {
-      this.keyword = e.result;
+		},
+		scan(e: any) {
+			this.keyword = e.result;
 			this.pageNum = 1;
 			this.getListDataFromNet();
-    },
+		},
 		async getListDataFromNet() {
 			let pageNum = this.pageNum;
 			let pageSize = this.pageSize;
 			let productList: any = await this.getProductSearchList(pageNum, pageSize);
 			if (this.pageNum == 1) this.productList = [];
-      this.productList = this.productList.concat(productList);
+			this.productList = this.productList.concat(productList);
+			if (this.productList.length <= 0) {
+				this.noShow = true;
+			}
 		},
 		getProductSearchList(pageNum: number, pageSize: number) {
 			return new Promise((sesolve, reject) => {
@@ -106,9 +120,9 @@ export default Vue.extend({
 
 <style>
 page {
-  background-color: #fff;
+	background-color: #fff;
 }
 .search {
-  margin: 20upx 20upx 0 20upx;
+	margin: 20upx 20upx 0 20upx;
 }
 </style>
