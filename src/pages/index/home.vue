@@ -97,7 +97,7 @@
 
         list: [{
           image: '/static/icon_experience.png',
-          text: '体验区',
+          text: '品类',
           navigateTo: 'experience'
         },
         {

@@ -18,7 +18,7 @@ page {
 	    -ms-flex-wrap: wrap;
 	        flex-wrap: wrap;
 	background-color: #fff;
-	padding: 20rpx 10rpx;
+	padding: 0 10rpx;
 }
 .teng-recharge-item {
 	width: calc(33.33% - 30rpx);
@@ -26,6 +26,7 @@ page {
 	background-color: #fff;
 	border-radius: 20rpx;
 	text-align: center;
+	margin-top: 20rpx;
 	padding: 40rpx 0;
 	border: 2rpx solid #f4f4f4;
 }

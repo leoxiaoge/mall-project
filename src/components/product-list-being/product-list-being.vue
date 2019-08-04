@@ -29,7 +29,7 @@
 import Vue from "vue";
 import { request, navigateTo } from '@/common/utils/util';
 import { HomeProductListGet } from '@/common/config/api'
-import pageHead from "@/components/page-head.vue";
+import pageHead from "@/components/page-head/page-head.vue";
 import uniCountdown from '@/components/uni-countdown/uni-countdown.vue';
 export default Vue.extend({
   components: {

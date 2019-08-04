@@ -145,7 +145,7 @@ page {
 	align-items: center;
 	flex-wrap: wrap;
 	background-color: #fff;
-	padding: 20upx 10upx;
+	padding: 0 10upx;
 }
 
 .teng-recharge-item {
@@ -154,6 +154,7 @@ page {
 	background-color: #fff;
 	border-radius: 20upx;
 	text-align: center;
+	margin-top: 20upx;
 	padding: 40upx 0;
 	border: 2upx solid #f4f4f4;
 }

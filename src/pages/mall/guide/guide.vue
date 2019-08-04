@@ -8,10 +8,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, showModal } from "@/common/utils/util";
 import uParse from "@/components/uParse/src/wxParse.vue";
 var htmlString = `
-<img src="http://api.tengpaisc.com/upload/4692acf65f67e39412e2890787911f6.jpg" />
+<img src="http://api.tengpaisc.com/upload/1b876200e60545e211132bc69081475.jpg" />
     `;
 export default Vue.extend({
 	components: {
@@ -33,10 +33,7 @@ export default Vue.extend({
 		navigate(href: any, e: any) {
 			// 如允许点击超链接跳转，则应该打开一个新页面，并传入href，由新页面内嵌webview组件负责显示该链接内容
 			console.log("href: " + href);
-			uni.showModal({
-				content: "点击链接为：" + href,
-				showCancel: false
-			});
+			showModal("点击链接为：" + href)
 		}
 	}
 });

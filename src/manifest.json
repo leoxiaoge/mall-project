@@ -73,6 +73,13 @@
     "mp-toutiao": {
         "usingComponents": true
     },
+    "h5" : {
+        "template" : "template.h5.html",
+        "router" : {
+            "mode" : "history",
+            "base" : "/h5/"
+        }
+    },
     "networkTimeout": {
         "request": 10000,
         "connectSocket": 10000,

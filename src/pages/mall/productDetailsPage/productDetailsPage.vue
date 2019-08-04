@@ -67,8 +67,7 @@
 			<view
 				class="i-bill"
 				:class="(item.IsWin === 0?'':'i-active')"
-				v-for="(item, index) in lastbills"
-				v-if="index<2"
+				v-for="(item, index) in lastbills.slice(0,2)"
 				:key="index"
 			>
 				<view class="i-bill-image i-flex">

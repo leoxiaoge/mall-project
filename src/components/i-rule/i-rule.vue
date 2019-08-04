@@ -8,9 +8,12 @@
 
 <script lang="ts">
   import Vue from 'vue'
-  import { request, navigateTo } from '@/common/utils/util'
+  import { request, navigateTo, showModal } from '@/common/utils/util'
   import { ProductGet } from '@/common/config/api'
-  import uParse from '@/components/uParse/src/wxParse.vue'
+	import uParse from '@/components/uParse/src/wxParse.vue'
+	var htmlString = `
+<img src="http://api.tengpaisc.com/upload/0697de3744b7d12e15eb171b47d247a.jpg" />
+    `;
 	export default Vue.extend({
     components: {
 			uParse
@@ -18,7 +21,7 @@
 		data() {
 			return {
 				id: '',
-				article: ''
+				article: htmlString
 			}
 		},
 		onLoad(options: any) {
@@ -43,10 +46,7 @@
 			navigate(href: any, e: any) {
 				// 如允许点击超链接跳转，则应该打开一个新页面，并传入href，由新页面内嵌webview组件负责显示该链接内容
 				console.log("href: " + href);
-				uni.showModal({
-					content : "点击链接为：" + href,
-					showCancel:false
-				})
+				showModal("点击链接为：" + href)
 			}
 		}
 	})
