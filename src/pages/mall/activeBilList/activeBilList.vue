@@ -14,7 +14,7 @@
 						:class="(item.IsWin === 0?'i-default':'i-active')"
 					>{{item.UserMobile}}</view>
 				</view>
-				<view class="i-bill-IsWin" v-if="item.IsWin === 0">出局</view>
+				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-if="item.IsWin === 0">出局</view>
 				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-else>预选</view>
 				<view
 					class="i-bill-province"
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, defaultShowModal } from "@/common/utils/util";
 import { ActiveBillListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
@@ -63,6 +63,9 @@ export default Vue.extend({
 					mescroll.endSuccess(curPageData.length);
 					if (mescroll.num == 1) this.billList = [];
 					this.billList = this.billList.concat(curPageData);
+					this.billList.map((item: any) => {
+						item.UserMobile = item.UserMobile.substring(0, 3) + '****' + item.UserMobile.substring(7);
+					})
 				},
 				() => {
 					mescroll.endErr();
@@ -79,31 +82,47 @@ export default Vue.extend({
 			console.log(pageNum, pageSize);
 			try {
 				let billList: any = await this.getActiveBillList(pageNum, pageSize);
-				this.billList = billList;
 				successCallback && successCallback(billList);
 			} catch (e) {
 				errorCallback && errorCallback();
 			}
 		},
 		getActiveBillList(pageNum: any, pageSize: any) {
+			let ActiveID = this.activeID;
+			let UserID = this.userID;
 			return new Promise((sesolve, reject) => {
-				let ActiveID = this.activeID;
-				let UserID = this.userID ? this.userID : "";
-				let data = {
-					ActiveID: ActiveID,
-					UserID: UserID,
-					PageID: pageNum,
-					PageSize: pageSize
-				};
-				request(ActiveBillListGet, data)
-					.then((res: any) => {
-						console.log(res);
-						sesolve(res.BillList);
-					})
-					.catch((err: any) => {
-						let mescroll: any = this.mescroll;
-						mescroll.endErr();
-					});
+				if (UserID) {
+					let data = {
+						ActiveID: ActiveID,
+						UserID: UserID,
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(ActiveBillListGet, data)
+						.then((res: any) => {
+							console.log(res);
+							sesolve(res.BillList);
+						})
+						.catch((err: any) => {
+							let mescroll: any = this.mescroll;
+							mescroll.endErr();
+						});
+				} else {
+					let data = {
+						ActiveID: ActiveID,
+						PageID: pageNum,
+						PageSize: pageSize
+					};
+					request(ActiveBillListGet, data)
+						.then((res: any) => {
+							console.log(res);
+							sesolve(res.BillList);
+						})
+						.catch((err: any) => {
+							let mescroll: any = this.mescroll;
+							mescroll.endErr();
+						});
+				}
 			});
 		}
 	}

@@ -1,4 +1,5 @@
 import { Md5 } from "ts-md5/dist/md5"
+import store from '../../store'
 
 export function formatTime(date: Date): string {
   const year = date.getFullYear()
@@ -15,52 +16,55 @@ const formatNumber = (n: number) => {
   return str[1] ? str : '0' + str
 }
 
-const processing = (api: any, data: any) => {
-  const sessionkey = uni.getStorageSync('SessionKey')
-  let Appkey = "3957399",
-    AppSecert = "2d2c443086630f6c2c804d11983729c8",
-    url = "https://api.tengpaisc.com/Rest.ashx"
-  let paramkey = Object.keys(data),
-    paramdata = "",
-    sign = ""
-  paramkey.sort((a: string, b: string) => {
-    if (a.toLowerCase() > b.toLowerCase()) {
-      return 1
-    } else {
-      return -1
+export const processing = (api: any, data: any) => {
+  return new Promise((resolve, reject) => {
+    const sessionkey = uni.getStorageSync('SessionKey')
+    let Appkey = "3957399",
+      AppSecert = "2d2c443086630f6c2c804d11983729c8",
+      url = "https://api.tengpaisc.com/Rest.ashx"
+    let paramkey = Object.keys(data),
+      paramdata = "",
+      sign = ""
+    paramkey.sort((a: string, b: string) => {
+      if (a.toLowerCase() > b.toLowerCase()) {
+        return 1
+      } else {
+        return -1
+      }
+    })
+    paramkey.map((item: string) => {
+      paramdata += data[item]
+    })
+    paramdata = `${AppSecert}${paramdata}${AppSecert}`
+    sign = Md5.hashStr(paramdata).toString()
+    let systemdata = {
+      Appkey: Appkey,
+      V: 1,
+      AppVer: 1,
+      Format: "json",
+      SessionKey: sessionkey,
+      Method: api,
+      Sign: sign
     }
+    let postdata = {
+      ...systemdata,
+      ...data
+    }
+    let handle: any = {
+      url,
+      postdata
+    }
+    resolve(handle)
   })
-  paramkey.map((item: string) => {
-    paramdata += data[item]
-  })
-  paramdata = `${AppSecert}${paramdata}${AppSecert}`
-  sign = Md5.hashStr(paramdata).toString()
-  let systemdata = {
-    Appkey: Appkey,
-    V: 1,
-    AppVer: 1,
-    Format: "json",
-    SessionKey: sessionkey,
-    Method: api,
-    Sign: sign
-  }
-  let postdata = {
-    ...systemdata,
-    ...data
-  }
-  let handle = {
-    url,
-    postdata
-  }
-  return handle
 }
 
-export const request = (api: any, data: any) => {
+export const request = async (api: any, data: any) => {
+  let handle: any = await processing(api, data);
   return new Promise((resolve, reject) => {
-    let handle = processing(api, data)
     uni.showLoading({
       title: '加载中'
     })
+    uni.showNavigationBarLoading()
     uni.request({
       url: handle.url,
       data: handle.postdata,
@@ -71,40 +75,37 @@ export const request = (api: any, data: any) => {
       success: (res: any) => {
         if (res.statusCode == 200) {
           uni.hideLoading()
+          uni.hideNavigationBarLoading()
           uni.stopPullDownRefresh()
-          if (!res.data.IsError) {
-            resolve(res.data)
-          } else {
+          if (res.data.IsError) {
             if (res.data.ErrCode == "Missing_Session") {
               navigateTo("../../ucenter/login/login")
             } else {
               showToast(res.data.ErrMsg)
             }
+          } else {
+            resolve(res.data)
           }
         } else {
           reject(res.errMsg)
         }
       },
-      fail: (err: any) => {
-        reject(err)
+      fail: () => {
         showToast("网络出错!")
       }
     })
   })
 }
 
-export const upload = (api: any, data: any, filePath: any) => {
+export const upload = async (api: any, data: any, filePath: any) => {
+  let handle: any = await processing(api, data);
   return new Promise((resolve, reject) => {
-    let handle = processing(api, data)
-    console.log(api, data, filePath)
     uni.uploadFile({
       url: handle.url,
       filePath: filePath,
       name: 'file',
       formData: handle.postdata,
       success(res: any) {
-        const data = res.data
-        console.log(res)
         resolve(res.data)
       },
       fail(err: any) {

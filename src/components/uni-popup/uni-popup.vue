@@ -12,9 +12,9 @@
     >
       <view class="i-content">
         <text class="i-msg">{{ msg }}</text>
-        <view class="i-textarea">
+        <cover-view class="i-textarea" v-show="show">
           <textarea @blur="bindTextAreaBlur" placeholder="请写下您的宝贵意见" />
-        </view>
+        </cover-view>
         <view class="i-feedback">
           <button class="btn i-feedback-button" @click="submit">提交</button>
         </view>

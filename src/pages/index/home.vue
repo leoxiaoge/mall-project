@@ -1,24 +1,29 @@
 <template>
-	<view>
+	<view class="container">
     <mescroll-uni @down="downCallback" @up="upCallback">
       <view class="content">
-        <!-- 轮播 -->
-        <view class="i-padding-wrap">
-          <view class="page-section swiper">
-            <view class="page-section-spacing">
-              <swiper
-                class="swiper-box"
-                :indicator-dots="indicatorDots"
-                :autoplay="autoplay"
-                :interval="interval"
-                :duration="duration"
-                :circular="circular"
-                :indicator-active-color="indicatorActiveColor"
-              >
-                <swiper-item v-for="(item, index) in swiper" :key="index">
-                  <image :src="item.AdPicUrl" mode="aspectFill" />
-                </swiper-item>
-              </swiper>
+        <view class="search-swiper">
+          <view class="search" @click="search">
+            <input placeholder="搜索好物" placeholder-class="placeholder" disabled="true" />
+          </view>
+          <!-- 轮播 -->
+          <view class="i-padding-wrap">
+            <view class="page-section swiper">
+              <view class="page-section-spacing">
+                <swiper
+                  class="swiper-box"
+                  :indicator-dots="indicatorDots"
+                  :autoplay="autoplay"
+                  :interval="interval"
+                  :duration="duration"
+                  :circular="circular"
+                  :indicator-active-color="indicatorActiveColor"
+                >
+                  <swiper-item v-for="(item, index) in swiper" :key="index">
+                    <image :src="item.AdPicUrl" mode="aspectFill" />
+                  </swiper-item>
+                </swiper>
+              </view>
             </view>
           </view>
         </view>
@@ -46,9 +51,9 @@
           <view class="notice-more" @click="noticeList">更多</view>
         </view>
         <!-- 正在竞拍 -->
-        <product-list-being :options="productListIng" />
+        <product-list-being :options="productListIng" @lower="lower" />
         <!-- 即将开拍 -->
-        <product-list :options="productListIng" />
+        <product-list :options="productList" />
       </view>
     </mescroll-uni>
 	</view>
@@ -59,14 +64,14 @@
   import { AdsListGet, LastTransactionListGet, HomeProductListGet } from '@/common/config/api';
   import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
   import uniGrid from '@/components/uni-grid/uni-grid.vue';
-  import productList from '@/components/product-list/product-list.vue';
   import productListBeing from '@/components/product-list-being/product-list-being.vue';
+  import productList from '@/components/product-list/product-list.vue';
   export default Vue.extend({
 		components: {
       MescrollUni,
       uniGrid,
       productListBeing,
-      productList,
+      productList
     },
     data() {
       return {
@@ -85,6 +90,10 @@
         swiperGridWidth: '100%',
         swiper:[],
         LastTranActiveList: [], // 最新成交列表
+
+        PageCount: 1,
+        pageNum: 1,
+        pageSize: 10,
 
         list: [{
           image: '/static/icon_experience.png',
@@ -120,6 +129,9 @@
         }
       }
     },
+    onShow() {
+      this.getHomeProductList();
+    },
     methods: {
       /*下拉刷新的回调 */
       downCallback(mescroll: any) {
@@ -138,9 +150,9 @@
             mescroll.endSuccess(curPageData.length);
             //设置列表数据
             console.log(curPageData)
-            if (mescroll.num == 1) this.productListIng = []; //如果是第一页需手动制空列表
-            console.log('productListIng', this.productListIng)
-            this.productListIng = this.productListIng.concat(curPageData); //追加新数据
+            if (mescroll.num == 1) this.productList = []; //如果是第一页需手动制空列表
+            console.log('productListIng', this.productList)
+            this.productList = this.productList.concat(curPageData); //追加新数据
           },
           () => {
             //联网失败的回调,隐藏下拉刷新的状态
@@ -159,10 +171,10 @@
       ) {
         console.log(pageNum, pageSize);
         try {
-          let productListIng: any = await this.getHomeProductListIng(pageNum, pageSize);
-          console.log("data", this.productListIng);
+          let productList: any = await this.getHomeProductListIng(pageNum, pageSize);
+          console.log("data", this.productList);
           //联网成功的回调
-          successCallback && successCallback(productListIng);
+          successCallback && successCallback(productList);
         } catch (e) {
           //联网失败的回调
           errorCallback && errorCallback();
@@ -207,8 +219,34 @@
           })
 				})
       },
+      getHomeProductList() {
+        let pageNum = this.pageNum;
+        let pageSize = this.pageSize
+        let data = {
+          PageID: pageNum,
+          PageSize: pageSize,
+          SearchType: 'home1'
+        }
+        request(HomeProductListGet, data).then((res: any) => {
+          console.log(res.ProductList)
+          if (pageNum === 1) {
+            this.productListIng = [];
+          }
+          this.productListIng = this.productListIng.concat(res.ProductList);
+          this.PageCount = res.PageCount;
+        })
+      },
+      lower(e: any) {
+        if (this.pageNum < this.PageCount) {
+          this.pageNum++;
+          this.getHomeProductList();
+        }
+      },
       noticeList() {
         navigateTo('../mall/notice/notice')
+      },
+      search() {
+        navigateTo('../mall/search/search')
       },
       // grid页面
       listClick(item: any) {
@@ -239,8 +277,37 @@
     border-radius: 50%
   }
 
+  .search-swiper {
+    position: relative;
+  }
+
+  .search {
+    position: absolute;
+    top: 20upx;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 90%;
+    z-index: 999;
+  }
+
+  .search input {
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 100upx;
+    padding: 8upx 0;
+  }
+
+  .placeholder {
+    color: #fff;
+  }
+
   .teng-options-grid {
     background-color: #fff;
+  }
+
+  .swiper-box {
+    height: 440upx;
   }
 
   .uni-swiper-msg {

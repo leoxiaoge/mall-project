@@ -40,7 +40,7 @@
 						<view class="order-product-num">x1</view>
 					</view>
 					<view class="order-product-status">
-						<view class="order-product-status-btn">{{item.OrderStatus}}</view>
+						<text class="order-product-status-btn">{{item.OrderTypeName}}</text>
 					</view>
 					<view class="order-product-price">
 						<view class="order-product-money">成交价：{{item.OrderMoneys}}</view>
@@ -325,6 +325,11 @@ export default Vue.extend({
 .order-address-mobile {
 	margin-left: 50upx;
 }
+.order-address-user {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
 .order-toast {
 	padding: 10upx 30upx;
 	border-top: 2upx solid #f4f4f4;
@@ -373,6 +378,14 @@ export default Vue.extend({
 	font-size: 36upx;
 	font-weight: 600;
 	color: #373737;
+}
+.order-product-status-btn {
+	font-size: 24upx;
+	line-height: 1.4;
+	color: #fe7f00;
+	border: 2upx solid #fe7f00;
+	border-radius: 100upx;
+	padding: 2upx 14upx;
 }
 .order-information {
 	padding: 0 30upx;

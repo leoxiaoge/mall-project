@@ -1,11 +1,3 @@
-<!--**
- * forked from：https://github.com/F-loat/mpvue-wxParse
- *
- * github地址: https://github.com/dcloudio/uParse
- *
- * for: uni-app框架下 富文本解析
- */-->
-
 <template>
 <!--基础元素-->
 <div class="wxParse" :class="className" v-if="!loading">
@@ -17,7 +9,7 @@
 
 <script>
 import HtmlToJson from './libs/html2json';
-import wxParseTemplate from './components/wxParseTemplate0';
+import wxParseTemplate from './components/wxParseTemplate';
 
 export default {
   name: 'wxParse',
@@ -120,3 +112,7 @@ export default {
   },
 };
 </script>
+
+<style>
+@import "./wxParse.css";
+</style>

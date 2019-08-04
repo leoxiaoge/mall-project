@@ -1,14 +1,6 @@
 <template>
 	<view class="content">
-		<view class="UCenter-bg" v-if="!sessionkey">
-			<view class="i-no-userInfo-head">
-				<text>欢迎来到腾拍商城</text>
-			</view>
-			<view class="i-login">
-				<button class="btn i-login-button" @click="loginPath">马上登录</button>
-			</view>
-		</view>
-		<view class="UCenter-bg" v-else>
+		<view class="UCenter-bg" v-if="sessionkey && userInfo">
 			<view class="userInfo-head">
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="clear" @click="clear">
@@ -34,6 +26,15 @@
 				</view>
 			</view>
 		</view>
+		<view class="UCenter-bg" v-else>
+			<view class="i-no-userInfo-head">
+				<text>欢迎来到腾拍商城</text>
+			</view>
+			<view class="i-login">
+				<button class="btn i-login-button" @click="loginPath">马上登录</button>
+			</view>
+		</view>
+		
 		<view class="teng-gold teng-flex-between">
 			<view class="teng-left teng-flex">
 				<text class="icon-gold"></text>
@@ -160,13 +161,10 @@ export default Vue.extend({
 	methods: {
 		async useInfo() {
 			this.sessionkey = uni.getStorageSync("SessionKey");
-			console.log(this.sessionkey);
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
-			console.log(userInfo);
 		},
 		VIPCard() {
-			console.log("11");
 			navigateTo("../store/store/store");
 		},
 		// 马上登录
@@ -201,7 +199,6 @@ export default Vue.extend({
 		// 成功完成 = 5,
 		// 订单取消 = 6
 		orderClick(item: any) {
-			console.log(item);
 			let status = item.status;
 			var navigate =
 				`../ucenter/${item.navigateTo}/${item.navigateTo}?status=` + status;
@@ -212,7 +209,9 @@ export default Vue.extend({
 			defaultShowModal(content).then((res: any) => {
 				if (res.confirm) {
 					console.log("用户点击确定");
-					uni.clearStorageSync();
+					uni.removeStorageSync('SessionKey');
+					uni.removeStorageSync('UserInfo');
+					this.sessionkey = "";
 					this.userInfo = "";
 				} else if (res.cancel) {
 					console.log("用户点击取消");

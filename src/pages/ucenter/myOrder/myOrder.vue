@@ -17,7 +17,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, formatTime, previewImage } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	formatTime,
+	previewImage
+} from "@/common/utils/util";
 import { OrderDryingListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
@@ -69,6 +74,10 @@ export default Vue.extend({
 		getOrderDryingList(pageNum: any, pageSize: any) {
 			let UserInfo: any = uni.getStorageSync("UserInfo");
 			let UserID = UserInfo.ID;
+			if (!UserID) {
+				navigateTo("../../ucenter/login/login")
+				return;
+			}
 			return new Promise((sesolve, reject) => {
 				let data = {
 					PageID: pageNum,
@@ -80,7 +89,9 @@ export default Vue.extend({
 						console.log(res);
 						let orderList = res.OrderList;
 						orderList.map((item: any) => {
-							item.OrderComment.CreatedDateTime = formatTime(new Date(item.OrderComment.CreatedDate));
+							item.OrderComment.CreatedDateTime = formatTime(
+								new Date(item.OrderComment.CreatedDate)
+							);
 						});
 						sesolve(res.OrderList);
 					})
@@ -91,14 +102,13 @@ export default Vue.extend({
 			});
 		},
 		preview(current: any, urls: any) {
-			previewImage(current, urls)
+			previewImage(current, urls);
 		}
 	}
 });
 </script>
 
 <style>
-
 .i-comment-item {
 	background-color: #fff;
 	padding: 10upx 30upx;

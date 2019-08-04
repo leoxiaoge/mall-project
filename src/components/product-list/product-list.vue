@@ -58,28 +58,21 @@ export default Vue.extend({
 			product() {
 				let list: any = this.options
 				list.map((item: any) => {
-					let date1 = item.Active.ActiveEndTime;  //开始时间
-          let date2 = new Date();    //结束时间
-          let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
-          let subMinutes = Math.floor( date3/(60*1000) ) //获取总共的分钟差
-          //计算出相差天数
-          let days = Math.floor(date3/(24*3600*1000))
-          //计算出小时数
-          let leave1 = date3%(24*3600*1000)    //计算天数后剩余的毫秒数
-          let hours = Math.floor(leave1/(3600*1000))
-          //计算相差分钟数
-          let leave2 = leave1%(3600*1000)        //计算小时数后剩余的毫秒数
-          let minutes = Math.floor(leave2/(60*1000))
-          //计算相差秒数
-          let leave3 = leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-					let seconds = Math.round(leave3/1000)
+					let date: number = item.Active.StartCountCown;
+          let day: any = date/(1000 * 60 * 60 * 24)
+          let days = parseInt(day);
+          let hour: any = (date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          let hours = parseInt(hour);
+          let minute: any = (date % (1000 * 60 * 60)) / (1000 * 60)
+          let minutes = parseInt(minute);
+          let second: any = (date % (1000 * 60)) / 1000;
+          let seconds = parseInt(second);
 					item.Active.day = days
 					item.Active.hour = hours
 					item.Active.minute = minutes
 					item.Active.second = seconds
           console.log(" 相差 "+days+"天 "+hours+"小时 "+minutes+" 分钟"+seconds+" 秒")
 				})
-				console.log(list)
 				return list
       }
     },

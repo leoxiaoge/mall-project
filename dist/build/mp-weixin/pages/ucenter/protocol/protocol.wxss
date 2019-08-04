@@ -1,0 +1,8 @@
+
+page {
+  background-color: #fff;
+}
+.padding-wrap {
+  padding: 0 30rpx;
+}
+

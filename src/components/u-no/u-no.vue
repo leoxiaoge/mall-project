@@ -33,14 +33,15 @@
   
   .u-no {
     position: absolute;
-    top: 20%;
+    top: 200upx;
     left: 0;
     right: 0;
+    bottom: 0;
     text-align: center;
   }
 
   .u-no image {
-    width: 20%;
+    width: 40%;
     height: 100%;
   }
 

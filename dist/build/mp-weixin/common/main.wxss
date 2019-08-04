@@ -15,6 +15,31 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*每个页面公共css */
 @font-face {
 	font-family: uniicons;
@@ -1681,7 +1706,6 @@ navigator {
 view,
 text {
 	font-family: PingFangSC-Light, helvetica, "Heiti SC";
-	font-size: 29rpx;
 	color: #333;
 }
 text {

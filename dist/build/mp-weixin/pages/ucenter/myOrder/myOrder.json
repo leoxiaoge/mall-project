@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "我的晒单",
-  "enablePullDownRefresh": true,
   "usingComponents": {
     "mescroll-uni": "/components/mescroll-diy/mescroll-beibei"
   }

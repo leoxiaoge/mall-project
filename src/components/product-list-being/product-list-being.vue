@@ -2,7 +2,7 @@
 	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
-			<scroll-view scroll-x class="list" @scrolltolower="lower">
+			<scroll-view scroll-x class="list" @scrolltolower="scrolltolower">
         <view class="product-item" v-for="(item,index) in product" :key="index">
           <view class="" @click="productDetailsTo(item.ID, item.Active.ID)">
             <view class="teng-image-view">
@@ -39,10 +39,7 @@ export default Vue.extend({
   name: 'productListBeing',
 	props: {
 		options: {
-			type: Array,
-			default() {
-				return [];
-			}
+			type: Array
 		},
     title: {
 			type: String,
@@ -51,34 +48,22 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-      PageCount: 1,
-      pageNum: 1,
-      pageSize: 10,
-      productList: []
+
     };
-  },
-  created() {
-    this.getHomeProductList();
   },
   computed: {
 			product() {
-        let list: any = this.productList
+        let list: any = this.options
 				list.map((item: any) => {
-					let date1 = item.Active.ActiveEndTime;  //开始时间
-          let date2 = new Date();    //结束时间
-          let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数      
-          let subMinutes = Math.floor( date3/(60*1000) ) //获取总共的分钟差
-          //计算出相差天数
-          let days = Math.floor(date3/(24*3600*1000))
-          //计算出小时数
-          let leave1 = date3%(24*3600*1000)    //计算天数后剩余的毫秒数
-          let hours = Math.floor(leave1/(3600*1000))
-          //计算相差分钟数
-          let leave2 = leave1%(3600*1000)        //计算小时数后剩余的毫秒数
-          let minutes = Math.floor(leave2/(60*1000))
-          //计算相差秒数
-          let leave3 = leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-					let seconds = Math.round(leave3/1000)
+          let date: number = item.Active.StartCountCown;
+          let day: any = date/(1000 * 60 * 60 * 24)
+          let days = parseInt(day);
+          let hour: any = (date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          let hours = parseInt(hour);
+          let minute: any = (date % (1000 * 60 * 60)) / (1000 * 60)
+          let minutes = parseInt(minute);
+          let second: any = (date % (1000 * 60)) / 1000;
+          let seconds = parseInt(second);
 					item.Active.day = days
 					item.Active.hour = hours
 					item.Active.minute = minutes
@@ -87,34 +72,13 @@ export default Vue.extend({
 				})
 				return list
       }
-    },
+  },
 	methods: {
     productDetailsTo(id: any, activeID: any) {
 			navigateTo('../mall/productDetailsPage/productDetailsPage?id=' + id + '&activeID='+ activeID)
     },
-    getHomeProductList() {
-      let pageNum = this.pageNum;
-      let pageSize = this.pageSize
-      let data = {
-        PageID: pageNum,
-        PageSize: pageSize,
-        SearchType: 'home1'
-      }
-      request(HomeProductListGet, data).then((res: any) => {
-        console.log(res.ProductList)
-        if (pageNum === 1) {
-          this.productList = [];
-        }
-        this.productList = this.productList.concat(res.ProductList);
-        this.PageCount = res.PageCount;
-      })
-    },
-    lower() {
-      console.log('lower')
-      if (this.pageNum < this.PageCount) {
-        this.pageNum++;
-        this.getHomeProductList();
-      }
+    scrolltolower() {
+      this.$emit('lower');
     }
   }
 });
@@ -135,7 +99,7 @@ export default Vue.extend({
 
   .product-item {
     display: inline-block;
-    margin-left: 30upx;
+    padding-left: 20upx;
     overflow: hidden;
     width: 33.33%;
   }

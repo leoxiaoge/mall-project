@@ -48,7 +48,10 @@
 				{
 					"path": "show/show",
 					"style": {
-						"navigationBarTitleText": "分享晒单"
+						"navigationBarTitleText": "分享晒单",
+						"app-plus": {
+							"bounce": "none"
+						}
 					}
 				},
 				{
@@ -129,6 +132,12 @@
 					"style": {
 						"navigationBarTitleText": "兑现"
 					}
+				},
+				{
+					"path": "search/search",
+					"style": {
+						"navigationBarTitleText": "搜索"
+					}
 				}
 			]
 		},
@@ -163,10 +172,10 @@
 				{
 					"path": "orderList/orderList",
 					"style": {
-						"navigationBarTitleText": "订单中心"
-					},
-					"app-plus": {
-						"bounce": "none"
+						"navigationBarTitleText": "订单中心",
+						"app-plus": {
+							"bounce": "none"
+						}
 					}
 				},
 				{
@@ -184,30 +193,18 @@
 				{
 					"path": "myAuction/myAuction",
 					"style": {
-						"navigationBarTitleText": "我的竞拍"
+						"navigationBarTitleText": "我的竞拍",
+						"app-plus": {
+							"bounce": "none"
+						}
 					}
 				},
 				{
 					"path": "myOrder/myOrder",
 					"style": {
 						"navigationBarTitleText": "我的晒单",
-						"enablePullDownRefresh": true,
 						"app-plus": {
-							"bounce": "none",
-							"pullToRefresh": {
-								"support": true,
-								"color": "#fe7f00",
-								"style": "default",
-								"contentdown": {
-									"caption": "下拉刷新"
-								},
-								"contentover": {
-									"caption": "释放可刷新"
-								},
-								"contentrefresh": {
-									"caption": "正在刷新"
-								}
-							}
+							"bounce": "none"
 						}
 					}
 				},
@@ -240,6 +237,12 @@
 					"style": {
 						"navigationBarTitleText": "晒单评价"
 					}
+				},
+				{
+					"path": "protocol/protocol",
+					"style": {
+						"navigationBarTitleText": "用户协议"
+					}
 				}
 			]
 		}
@@ -260,13 +263,13 @@
 				"pagePath": "pages/index/home",
 				"iconPath": "static/home.png",
 				"selectedIconPath": "static/home@selected.png",
-				"text": "所有商品"
+				"text": "首页"
 			},
 			{
 				"pagePath": "pages/index/automatic",
 				"iconPath": "static/automatic.png",
 				"selectedIconPath": "static/automatic@selected.png",
-				"text": "自助举牌"
+				"text": "自动举牌"
 			},
 			{
 				"pagePath": "pages/index/artificial",

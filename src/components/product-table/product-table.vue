@@ -46,7 +46,7 @@
 					<view class="table-content">
 						<img :src="icon_4" />
 						<view class="table-text">
-							<text class="table-text-content">可买份数</text>
+							<text class="table-text-content">可用份数</text>
 							<text class="table-text-content-item">{{options.ActiveMaxBuys}}份</text>
 						</view>
 					</view>
@@ -55,8 +55,8 @@
 					<view class="table-content">
 						<img :src="icon_5" />
 						<view class="table-text">
-							<text class="table-text-content">所需费用</text>
-							<text class="table-text-content-item">¥{{options.ActiveVirtualCoins}}/份</text>
+							<text class="table-text-content">参与资格</text>
+							<text class="table-text-content-item">{{options.ActiveVirtualCoins}}/入场券</text>
 						</view>
 					</view>
 				</view>

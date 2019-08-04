@@ -34,11 +34,9 @@ page {
     height: 52rpx;
 }
 .i-login-mobile-input {
-    min-width: 340rpx;
     margin-left: 20rpx;
 }
 .i-login-code-input {
-    min-width: 560rpx;
     margin-left: 20rpx;
 }
 .i-login-radio {

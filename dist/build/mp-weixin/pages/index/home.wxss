@@ -17,8 +17,34 @@
   padding-top: 28rpx;
   border-radius: 50%
 }
+.search-swiper {
+  position: relative;
+}
+.search {
+  position: absolute;
+  top: 20rpx;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  width: 90%;
+  z-index: 999;
+}
+.search input {
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, .1);
+  border-radius: 100rpx;
+  padding: 8rpx 0;
+}
+.placeholder {
+  color: #fff;
+}
 .teng-options-grid {
   background-color: #fff;
+}
+.swiper-box {
+  height: 440rpx;
 }
 .uni-swiper-msg {
   border-top: 2rpx solid #f4f4f4;

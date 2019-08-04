@@ -18,7 +18,8 @@
         "activeBilList/activeBilList",
         "productDetailsPage/productDetailsPage",
         "productDetailsUparse/productDetailsUparse",
-        "exchangeDetails/exchangeDetails"
+        "exchangeDetails/exchangeDetails",
+        "search/search"
       ]
     },
     {
@@ -46,7 +47,8 @@
         "sharePromotion/sharePromotion",
         "helpAndFeedback/helpAndFeedback",
         "addressUpdate/addressUpdate",
-        "orderDryingUpload/orderDryingUpload"
+        "orderDryingUpload/orderDryingUpload",
+        "protocol/protocol"
       ]
     }
   ],
@@ -66,13 +68,13 @@
         "pagePath": "pages/index/home",
         "iconPath": "static/home.png",
         "selectedIconPath": "static/home@selected.png",
-        "text": "所有商品"
+        "text": "首页"
       },
       {
         "pagePath": "pages/index/automatic",
         "iconPath": "static/automatic.png",
         "selectedIconPath": "static/automatic@selected.png",
-        "text": "自助举牌"
+        "text": "自动举牌"
       },
       {
         "pagePath": "pages/index/artificial",
@@ -95,5 +97,11 @@
     "downloadFile": 10000
   },
   "debug": false,
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.0",
+      "provider": "wx069ba97219f66d99"
+    }
+  },
   "usingComponents": {}
 }

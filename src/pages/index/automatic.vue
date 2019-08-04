@@ -194,6 +194,7 @@ export default Vue.extend({
 
 .teng-item-images {
 	position: relative;
+	padding-right: 10px;
 }
 
 .nav-right-item-image {
@@ -225,11 +226,6 @@ export default Vue.extend({
 	-webkit-line-clamp: 1;
 }
 
-.teng-content {
-	width: 100%;
-	margin-left: 20upx;
-}
-
 .teng-title {
 	font-size: 28upx;
 	line-height: 1.6;
@@ -238,8 +234,13 @@ export default Vue.extend({
 
 .teng-type {
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
+	flex-wrap: wrap;
+}
+
+.teng-type-item {
+	display: inline-block;
+	overflow: hidden;
 }
 
 .teng-type-text {

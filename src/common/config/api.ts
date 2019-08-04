@@ -42,6 +42,7 @@ export const HomeProductListGet = 'API.Product.HomeProductListGet' // 首页获�
 export const MyActiveList = 'API.Product.MyActiveList' // 我参与的竞拍活动列表
 export const NextActiveGet = 'API.Product.NextActiveGet' // 获取下一期活动
 export const GetActiveByID = 'API.Product.GetActiveByID' // 根据活动ID获取活动详情
+export const ProductSearchListGet = 'API.Product.ProductSearchListGet' // 根据活动ID获取活动详情
 
 // 运营相关 - Operate => 运营相关接口
 export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表

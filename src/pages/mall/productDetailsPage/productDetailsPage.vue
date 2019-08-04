@@ -68,6 +68,7 @@
 				class="i-bill"
 				:class="(item.IsWin === 0?'':'i-active')"
 				v-for="(item, index) in lastbills"
+				v-if="index<2"
 				:key="index"
 			>
 				<view class="i-bill-image i-flex">
@@ -80,11 +81,7 @@
 				<view class="i-bill-price">{{item.Price}}</view>
 			</view>
 		</view>
-		<view
-			class="i-product-all-bill uni-list-cell-navigate uni-navigate-right"
-			@click="allActivePath"
-			v-if="allBills"
-		>
+		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="allActivePath">
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">全部出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -93,11 +90,7 @@
 				</view>
 			</view>
 		</view>
-		<view
-			class="i-product-all-bill uni-list-cell-navigate uni-navigate-right"
-			@click="myActivePath"
-			v-if="mySeqBills"
-		>
+		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="myActivePath">
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">我的出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -282,7 +275,7 @@ export default Vue.extend({
 			newCurrentBidder: "", // 当前领先出价人文字
 			buttonsList: [], // 按钮类型，0表示报名按钮、1表示举牌按钮、2表示托管按钮、3表示填写地址按钮，4表示参与下一期按钮
 			price: "", // 最新价格
-			allBills: "", // 全部举牌次数
+			allBills: "0", // 全部举牌次数
 			lastBills: [], // 出价列表
 			timerDurationTitle: "", // 状态对应要显示的标题
 			onTimerStatus: "", // 活动通知
@@ -299,8 +292,8 @@ export default Vue.extend({
 			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
 			SeqBills: "", // 举牌响应消息（剩余可用次数）
 			Signups: "", // 报名份数
-			SeqSignups: "", // 剩下报名份数
-			mySeqBills: "", // 我的出价记录
+			SeqSignups: "0", // 剩下报名份数
+			mySeqBills: "0", // 我的出价记录
 			UserID: "", // 登录成功，提示用户
 			tapbtn: "", // 托管
 			BillStat: "", // 总举牌次数
@@ -318,7 +311,7 @@ export default Vue.extend({
 		console.log("options", options);
 		this.id = options.id;
 		this.ActiveID = options.activeID;
-		this.ActiveID = "2";
+		// this.ActiveID = "10";
 		this.websocket();
 	},
 	onShow() {
@@ -479,12 +472,24 @@ export default Vue.extend({
 			console.log(this.ActiveID);
 			let activeID = this.ActiveID;
 			let userID: string = uni.getStorageSync("UserInfo").ID;
-			navigateTo(
-				"../activeBilList/activeBilList?activeID=" +
-					activeID +
-					"&userID=" +
-					userID
-			);
+			if (!userID) {
+				let content: string = "你暂未登录，请点击确定去登录！";
+				defaultShowModal(content).then((res: any) => {
+					if (res.confirm) {
+						console.log("用户点击确定");
+						navigateTo("../../ucenter/login/login");
+					} else if (res.cancel) {
+						console.log("用户点击取消");
+					}
+				});
+			} else {
+				navigateTo(
+					"../activeBilList/activeBilList?activeID=" +
+						activeID +
+						"&userID=" +
+						userID
+				);
+			}
 		},
 		// 产品详情
 		productDetailsUparsePath() {
@@ -676,13 +681,6 @@ export default Vue.extend({
 						// 更新我的报名状态信息
 						this.onUpdateMySignups(msg.MySignups, msg.SeqSignups);
 						this.onUpdateMyBills(msg.MyBills, msg.MySeqBills);
-						// 判断是否活动结束
-						if (msg.TimerDurationValue === 0) {
-							this.newCurrent = "成交价";
-							this.newCurrentBidder = "中拍人";
-						} else {
-							this.newCurrent = "当前出价";
-						}
 						break;
 					case 7:
 						// 报名进度更新推送
@@ -770,6 +768,8 @@ export default Vue.extend({
 						// 活动结束通知
 						this.timerState(null);
 						this.times = "已成交";
+						this.newCurrent = "成交价";
+						this.newCurrentBidder = "中拍人";
 						// 判断是否当前用户，如果是当前用户，则需要弹出收货地址和订单信息处理界面
 						if (this.UserID === msg.WinsBill.UserID) {
 							// 当前用户
@@ -850,6 +850,7 @@ export default Vue.extend({
 				this.newNick = `领先人：${lastBills[0].nick}`;
 				this.newCity = `${lastBills[0].bill.Province} ${lastBills[0].bill.City}`;
 				this.newCurrentBidder = "当前领先出价人";
+				this.newCurrent = "当前出价";
 			} else {
 				// 未有人出价，按起拍价
 				this.newPrice = `￥${startPrice}`;
@@ -1047,7 +1048,7 @@ export default Vue.extend({
 .i-product-current-bid-price {
 	font-size: 56upx;
 	font-weight: 600;
-	color: #414141;
+	color: #fe7f00;
 }
 
 .i-product-current-bid-icon {
@@ -1061,10 +1062,10 @@ export default Vue.extend({
 
 .i-product-current-bid-icon text {
 	position: absolute;
-	top: 18upx;
+	top: 14upx;
 	left: 0;
 	right: 0;
-	font-size: 36upx;
+	font-size: 38upx;
 	font-weight: 600;
 	color: #fffefe;
 }

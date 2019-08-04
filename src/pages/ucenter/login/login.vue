@@ -27,7 +27,7 @@
           <radio @click.stop.prevent="radioClick" :checked="checked" :color="color" />
         </label>
         <text>我已阅读并同意</text>
-        <text class="protocol-text">《腾拍商场购物协议》</text>
+        <text class="protocol-text" @click="protocol">《腾拍商场购物协议》</text>
       </radio-group>
     </view>
     <view class="i-login-button-view">
@@ -71,8 +71,8 @@
         interval: ''
 			}
 		},
-		onLoad(options) {
-      console.log(this.$store.state)
+		onLoad(options: any) {
+      
     },
     onUnload() {
       let interval: any = this.interval
@@ -85,7 +85,6 @@
           uni.getProvider({
             service: 'oauth',
             success: (res: any) =>{
-              console.log(res)
               sesolve(res.provider)
             }
           });
@@ -93,19 +92,16 @@
       },
       async login() {
         let provider: any = await this.getProvider();
-        console.log(provider)
         return new Promise((sesolve, reject) => {
           if (~provider.indexOf('weixin')) {
             uni.login({
               provider: 'weixin',
               success: (loginRes: any) => {
-                console.log(JSON.stringify(loginRes));
                 let JSCode = loginRes.code
                 let data = {
                   JSCode: JSCode
                 }
                 request(GetWXOpenID, data).then((res: any) => {
-                  console.log(res)
                   sesolve(res.OpenID)
                 })
               }
@@ -114,15 +110,12 @@
 			  });
       },
       mobileInput(e: any) {
-        console.log(e)
         this.Mobile = e.detail.value
       },
       codeInput(e: any) {
-        console.log(e)
         this.LoginCode = e.detail.value
       },
       getCode(e: any) {
-        console.log(e)
         let Mobile = this.Mobile
         if (!Mobile) {
           showToast('手机号码不能为空！')
@@ -193,7 +186,6 @@
           RefUserID: refUserID
         }
 		  	request(UserLogin, data).then((res: any) => {
-          console.log(res)
           this.loading = false;
           let SessionKey = res.SessionKey
           let UserInfo = res.UserInfo
@@ -205,6 +197,9 @@
       },
       getuserinfo(e: any) {
         console.log(e)
+      },
+      protocol() {
+        navigateTo("../protocol/protocol")
       }
 		}
 	})
@@ -255,12 +250,10 @@
   }
 
   .i-login-mobile-input {
-    min-width: 340upx;
     margin-left: 20upx;
   }
 
   .i-login-code-input {
-    min-width: 560upx;
     margin-left: 20upx;
   }
 

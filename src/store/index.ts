@@ -7,6 +7,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
+		hasBack: false,
+		hasApi: "",
+		hasData: "",
 		loginProvider: "",
 		openid: null
 	},
@@ -15,12 +18,21 @@ const store = new Vuex.Store({
 			state.hasLogin = true;
 			state.loginProvider = provider;
 		},
+		handlBack(state, back) {
+			state.hasBack = back;
+		},
+		handleApi(state, api) {
+			state.hasApi = api;
+		},
+		handData(state, data) {
+			state.hasData = data;
+		},
 		logout(state) {
-			state.hasLogin = false
-			state.openid = null
+			state.hasLogin = false;
+			state.openid = null;
 		},
 		setOpenid(state, openid) {
-			state.openid = openid
+			state.openid = openid;
 		}
 	},
 	actions: {
@@ -28,7 +40,7 @@ const store = new Vuex.Store({
 			console.log(context)
 			return new Promise(resolve => {
 				setTimeout(() => {
-					context.commit('setOpenid', 'ffs');
+					context.commit('setOpenid', '');
 					resolve();
 				}, 100)
 			});
@@ -44,17 +56,19 @@ const store = new Vuex.Store({
 				} else {
 					uni.login({
 						success: (e: any) => {
-							console.log(e)
 							commit('login')
 							let JSCode = e.code;
 							let data = {
 								JSCode: JSCode
 							};
 							request(GetWXOpenID, data).then((res: any) => {
-								console.log(res);
 								commit('setOpenid', res.OpenID)
 								resolve(res.OpenID);
 							});
+						},
+						fail: () => {
+							let err = "接口调用失败，将无法正常使用开放接口等服务";
+							reject(err)
 						}
 					})
 				}

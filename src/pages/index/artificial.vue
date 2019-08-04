@@ -39,12 +39,15 @@
 						<view class="teng-footer">
 							<view class="teng-pirce">
 								<block v-if="item.Active.PrevActiveMoney > 0">
-									<text class="teng-pirce-text">上期成交：</text>
-									<text class="teng-price-number">¥{{item.Active.PrevActiveMoney}}</text>
+									<view class="teng-pirce-text">上期成交：</view>
+									<view class="teng-price-number">¥{{item.Active.PrevActiveMoney}}</view>
 								</block>
 							</view>
 							<view class="teng-jion-btn">
-								<button class="btn teng-btn" @click="productDetailsTo(item.ID, item.Active.ID)">{{item.activeButton}}</button>
+								<button
+									class="btn teng-btn"
+									@click="productDetailsTo(item.ID, item.Active.ID)"
+								>{{item.activeButton}}</button>
 							</view>
 						</view>
 					</view>
@@ -57,7 +60,11 @@
 <script lang="ts">
 import Vue from "vue";
 import { request, navigateTo } from "@/common/utils/util";
-import { HomeProductListGet, ProductCategoryListGet, ProductPaiListGet } from "@/common/config/api";
+import {
+	HomeProductListGet,
+	ProductCategoryListGet,
+	ProductPaiListGet
+} from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
@@ -135,7 +142,12 @@ export default Vue.extend({
 			}
 		},
 		productDetailsTo(id: any, activeID: any) {
-			navigateTo("../mall/productDetailsPage/productDetailsPage?id=" + id + '&activeID=' + activeID);
+			navigateTo(
+				"../mall/productDetailsPage/productDetailsPage?id=" +
+					id +
+					"&activeID=" +
+					activeID
+			);
 		}
 	}
 });
@@ -182,6 +194,7 @@ export default Vue.extend({
 
 .teng-item-images {
 	position: relative;
+	padding-right: 10px;
 }
 
 .nav-right-item-image {
@@ -213,11 +226,6 @@ export default Vue.extend({
 	-webkit-line-clamp: 1;
 }
 
-.teng-content {
-	width: 100%;
-	margin-left: 20upx;
-}
-
 .teng-title {
 	font-size: 28upx;
 	line-height: 1.6;
@@ -226,8 +234,13 @@ export default Vue.extend({
 
 .teng-type {
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
+	flex-wrap: wrap;
+}
+
+.teng-type-item {
+	display: inline-block;
+	overflow: hidden;
 }
 
 .teng-type-text {

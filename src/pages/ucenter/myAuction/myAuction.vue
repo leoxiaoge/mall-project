@@ -54,7 +54,7 @@ export default Vue.extend({
 				},
 				{
 					id: "2",
-					name: "未拍中",
+					name: "全部",
 					type: "3"
 				}
 			]

@@ -10,7 +10,7 @@
 }
 .product-item {
     display: inline-block;
-    margin-left: 30rpx;
+    padding-left: 20rpx;
     overflow: hidden;
     width: 33.33%;
 }

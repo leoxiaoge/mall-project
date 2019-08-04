@@ -9,7 +9,7 @@
 				<view class="teng-share-list">
 					<button class="teng-share-text" open-type="share">
 						<img :src="wechat" />
-						<view class="teng-share-list-text">微信好友</view>
+						<view class="teng-share-list-text">一键转发好友</view>
 					</button>
 				</view>
 				<!-- #endif -->

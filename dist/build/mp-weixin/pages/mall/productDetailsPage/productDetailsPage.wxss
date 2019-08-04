@@ -59,7 +59,7 @@
 .i-product-current-bid-price {
 	font-size: 56rpx;
 	font-weight: 600;
-	color: #414141;
+	color: #fe7f00;
 }
 .i-product-current-bid-icon {
 	position: relative;
@@ -70,10 +70,10 @@
 }
 .i-product-current-bid-icon text {
 	position: absolute;
-	top: 18rpx;
+	top: 14rpx;
 	left: 0;
 	right: 0;
-	font-size: 36rpx;
+	font-size: 38rpx;
 	font-weight: 600;
 	color: #fffefe;
 }
