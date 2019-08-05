@@ -293,7 +293,7 @@
 
   .search-icon {
     position: absolute;
-    top: 14upx;
+    top: 12upx;
     left: 4%;
     width: 44upx;
     height: 44upx;
