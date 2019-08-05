@@ -4,7 +4,6 @@
 			"path": "pages/index/home",
 			"style": {
 				"navigationBarTitleText": "腾拍商城",
-				"enablePullDownRefresh": false,
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -76,7 +75,6 @@
 							"pullToRefresh": {
 								"support": true,
 								"color": "#fe7f00",
-								"style": "default",
 								"contentdown": {
 									"caption": "下拉刷新"
 								},
@@ -107,7 +105,6 @@
 							"pullToRefresh": {
 								"support": true,
 								"color": "#fe7f00",
-								"style": "default",
 								"contentdown": {
 									"caption": "下拉刷新"
 								},
