@@ -48,3 +48,4 @@ export const ProductSearchListGet = 'API.Product.ProductSearchListGet' // 根据
 export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表
 export const PayMoneyListGet = 'API.Operate.PayMoneyListGet' // 获取充值金额列表
 export const PayMoneySubmit = 'API.Operate.PayMoneySubmit' // 充值提交接口
+export const GetSystemConfig = 'API.Operate.GetSystemConfig' // 充值提交接口

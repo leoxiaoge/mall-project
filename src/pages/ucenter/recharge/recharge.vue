@@ -12,12 +12,44 @@
 				<view class="teng-recharge-description" v-if="item.VirtualMoney">兑{{item.VirtualMoney}}个入场券</view>
 			</view>
 		</view>
+		<!-- #ifdef APP-PLUS -->
+		<view class="payment-method">
+			<view class="payment-method-head">
+				<text>选择支付方式</text>
+			</view>
+			<radio-group @change="radioChange">
+				<label
+					class="uni-list-cell uni-list-cell-pd"
+					v-for="(item, index) in providerList"
+					:key="index"
+				>
+					<view class="payment-method-item">
+						<view class="payment-method-icon">
+							<img :src="item.icon" />
+						</view>
+						<view class="payment-method-name">{{item.name}}</view>
+					</view>
+					<view>
+						<radio :value="item.value" :checked="index === current" :color="color" />
+					</view>
+				</label>
+			</radio-group>
+		</view>
+		<!-- #endif -->
 		<view class="teng-recharge-bottom teng-flex-between">
 			<view class="teng-recharge-total-price">
 				<text>支付金额：</text>
 				<text class="teng-recharge-total-price-number">¥{{payMoney}}</text>
 			</view>
+			<!-- #ifdef MP-WEIXIN -->
 			<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
+			<!-- #endif -->
+			<!-- #ifdef H5 -->
+			<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
+			<!-- #endif -->
+      <!-- #ifdef APP-PLUS -->
+			<button class="btn payment-btn bg-gradual-orange" @click="requestPayment" :loading="loading">支付</button>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -35,25 +67,78 @@ export default {
 			title: "request-payment",
 			loading: false,
 			price: 1,
-			providerList: [],
+			color: "#fe7f00",
+			current: 0,
+			providerList: [
+				{
+					name: "微信",
+					id: "wxpay",
+					value: "wxpay",
+					icon: "/static/icon/icon_wxpay.png",
+				},
+				{
+					name: "支付宝",
+					id: "alipay",
+					value: "alipay",
+					icon: "/static/icon/icon_alipay.png",
+				}
+			],
 			payList: [],
 			payIndex: 0,
-			MoneyID: "", // 支付金额对应的ID
+			moneyID: "", // 支付金额对应的ID
 			payMoney: "",
-			PayTypeID: 1, // 支付方式ID 微信小程序支付传1
-			OpenID: "" // OpenID
+			payTypeID: 1 // 支付方式ID 微信小程序支付传1
 		};
 	},
 	onLoad: function() {
 		this.getPayMoneyList();
+
+		this.getProvider();
 	},
 	methods: {
+		getProvider() {
+			uni.getProvider({
+				service: "payment",
+				success: e => {
+					console.log("payment success:" + JSON.stringify(e));
+					let providerList = [];
+					e.provider.map(value => {
+						switch (value) {
+							case "wxpay":
+								providerList.push({
+									name: "微信",
+									icon: "/static/icon/icon_wxpay.png",
+									id: value,
+									value: value,
+									loading: false
+								});
+								break;
+							case "alipay":
+								providerList.push({
+									name: "支付宝",
+									icon: "/static/icon/icon_alipay.png",
+									id: value,
+									value: value,
+									loading: false
+								});
+								break;
+							default:
+								break;
+						}
+					});
+					// this.providerList = providerList;
+				},
+				fail: e => {
+					console.log("获取支付通道失败：", e);
+				}
+			});
+		},
 		getPayMoneyList() {
 			let data = {};
 			request(PayMoneyListGet, data).then(res => {
 				console.log(res);
 				this.payList = res.PayMoneyList;
-				this.MoneyID = res.PayMoneyList[0].ID;
+				this.moneyID = res.PayMoneyList[0].ID;
 				this.payMoney = res.PayMoneyList[0].PayMoney;
 			});
 		},
@@ -62,7 +147,7 @@ export default {
 			this.payIndex = index;
 			let payList = this.payList;
 			let intemIndex = payList[index].ID;
-			this.MoneyID = intemIndex;
+			this.moneyID = intemIndex;
 			console.log(intemIndex);
 			this.payMoney = payList[index].PayMoney;
 		},
@@ -80,7 +165,7 @@ export default {
 				signType: "MD5",
 				paySign: paymentData.paySign,
 				success: res => {
-					showToast("充值成功！")
+					showToast("充值成功！");
 				},
 				fail: res => {
 					showModal("支付失败，用户取消支付！");
@@ -103,7 +188,6 @@ export default {
 						request(GetWXOpenID, data).then(res => {
 							console.log(res);
 							sesolve(res.OpenID);
-							let OpenID = res.OpenID;
 						});
 					},
 					fail: e => {
@@ -117,8 +201,8 @@ export default {
 		async payMoneySubmit() {
 			let OpenID = await this.getWXOpenID();
 			return new Promise((sesolve, reject) => {
-				let MoneyID = this.MoneyID;
-				let PayTypeID = this.PayTypeID;
+				let MoneyID = this.moneyID;
+				let PayTypeID = this.payTypeID;
 				let data = {
 					MoneyID: MoneyID,
 					PayTypeID: PayTypeID,
@@ -127,6 +211,55 @@ export default {
 				request(PayMoneySubmit, data).then(res => {
 					console.log(res);
 					sesolve(res.PayParam);
+				});
+			});
+		},
+		// APP支付
+		// #ifdef APP-PLUS
+		radioChange(e) {
+			console.log(e);
+			let value = e.target.value;
+			this.payTypeID = value;
+		},
+		// #endif
+		// #ifdef APP-PLUS
+		async requestPayment(e, index) {
+			this.loading = true;
+			let orderInfo = await this.getOrderInfo(e.id);
+			console.log("得到订单信息", orderInfo);
+			uni.requestPayment({
+				provider: e.id,
+				orderInfo: orderInfo.data,
+				success: e => {
+					console.log("success", e);
+					showToast("充值成功！")
+				},
+				fail: e => {
+					console.log("fail", e);
+					showModal("支付失败!");
+				},
+				complete: () => {
+					this.loading = false;
+				}
+			});
+		},
+		// #endif
+		getOrderInfo() {
+			let appid = "";
+			// #ifdef APP-PLUS
+			appid = plus.runtime.appid;
+			// #endif
+			return new Promise((sesolve, reject) => {
+				let MoneyID = this.moneyID;
+				let PayTypeID = this.payTypeID;
+				let data = {
+					MoneyID: MoneyID,
+					PayTypeID: PayTypeID,
+					appid: appid
+				};
+				request(PayMoneySubmit, data).then(res => {
+					console.log(res);
+					sesolve(res);
 				});
 			});
 		}
@@ -197,6 +330,37 @@ page {
 
 .teng-recharge-total-price-number {
 	color: #ff0000;
+}
+
+.payment-method {
+	padding: 30upx 0;
+}
+
+.payment-method-head {
+	height: 80upx;
+	line-height: 80upx;
+	background-color: #f4f4f4;
+	margin-top: 80upx;
+	padding: 0 30upx;
+}
+
+.payment-method-head text {
+	font-size: 32upx;
+}
+
+.payment-method-item {
+	display: flex;
+	align-items: center;
+}
+
+.payment-method-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.payment-method-name {
+	margin-left: 20upx;
 }
 
 .payment-btn {

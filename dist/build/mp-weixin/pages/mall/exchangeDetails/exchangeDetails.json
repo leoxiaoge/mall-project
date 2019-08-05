@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "兑现",
+  "navigationBarTitleText": "兑换",
   "usingComponents": {
     "u-parse": "/components/uParse/src/wxParse"
   }

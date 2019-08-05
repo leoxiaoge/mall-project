@@ -29,8 +29,8 @@
 			</view>
 		</view>
 		<view class="i-product-head">
-			<view class="i-product-title">{{product.ProductTitle}}</view>
-			<view class="i-product-name">{{product.ProductName}}</view>
+			<view class="i-product-title">{{activeDetail.ProductTitle}}</view>
+			<view class="i-product-name">{{activeDetail.ProductName}}</view>
 		</view>
 		<view v-if="active.PrevActiveMoney">
 			<view class="i-product-last-transaction">
@@ -265,7 +265,7 @@ export default Vue.extend({
 			src: "/static/icon_experience.png",
 			leading: "/static/icon/icon_leading.png",
 
-			ActiveID: "", // 活动ID
+			activeID: "", // 活动ID
 			Price: "",
 			msgID: "",
 			msgType: "",
@@ -309,13 +309,12 @@ export default Vue.extend({
 	onLoad(options: any) {
 		console.log("options", options);
 		this.id = options.id;
-		this.ActiveID = options.activeID;
+		this.activeID = options.activeID;
 		// this.ActiveID = "10";
 		this.websocket();
 	},
 	onShow() {
 		this.UserID = uni.getStorageSync("UserInfo").ID;
-		this.getProduct();
 		this.getActiveByID();
 		this.getPastTransactionsList();
 	},
@@ -324,7 +323,6 @@ export default Vue.extend({
 	},
 	onPullDownRefresh() {
 		this.websocket();
-		this.getProduct();
 		this.getActiveByID();
 	},
 	onReachBottom() {
@@ -344,27 +342,16 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		// 获取产品详情
-		getProduct() {
-			let ProductID = this.id;
-			let data = {
-				ProductID: ProductID
-			};
-			request(ProductGet, data).then((res: any) => {
-				console.log("Product", res);
-				this.product = res.Product;
-				this.swiper = res.Product.ProductPicList;
-				this.Price = res.Product.ProductPrice;
-			});
-		},
 		// 获取活动详情
 		getActiveByID() {
-			let ActiveID = this.ActiveID;
+			let ActiveID = this.activeID;
 			let data = {
 				ActiveID: ActiveID
 			};
 			request(GetActiveByID, data).then((res: any) => {
 				console.log("活动详情", res);
+				this.swiper = res.ActiveDetail.ProductPicList;
+				this.Price = res.ActiveDetail.ProductPrice;
 				this.activeDetail = res.ActiveDetail;
 				this.active = res.ActiveDetail.Active;
 			});
@@ -448,7 +435,7 @@ export default Vue.extend({
 		// 获取下一期活动
 		getNextActive() {
 			return new Promise((sesolve, reject) => {
-				let ActiveID = this.ActiveID;
+				let ActiveID = this.activeID;
 				let data = {
 					ActiveID: ActiveID
 				};
@@ -463,13 +450,13 @@ export default Vue.extend({
 		},
 		// 全部记录
 		allActivePath() {
-			let activeID = this.ActiveID;
+			let activeID = this.activeID;
 			navigateTo("../activeBilList/activeBilList?activeID=" + activeID);
 		},
 		// 我的出价记录
 		myActivePath() {
-			console.log(this.ActiveID);
-			let activeID = this.ActiveID;
+			console.log(this.activeID);
+			let activeID = this.activeID;
 			let userID: string = uni.getStorageSync("UserInfo").ID;
 			if (!userID) {
 				let content: string = "你暂未登录，请点击确定去登录！";
@@ -541,7 +528,7 @@ export default Vue.extend({
 			let GUID: any = await this.GUID();
 			const Appkey = "3957399";
 			const SessionKey = uni.getStorageSync("SessionKey");
-			let ActiveID = this.ActiveID;
+			let ActiveID = this.activeID;
 			let UserID = this.UserID;
 			let ConnectionState = false;
 			let msgTime = formatTime(new Date());
@@ -558,7 +545,7 @@ export default Vue.extend({
 		// 发送对该活动的消息订阅
 		async msgSubscribe() {
 			let GUID: any = await this.GUID();
-			let ActiveID = this.ActiveID;
+			let ActiveID = this.activeID;
 			let url = "/Actives/" + ActiveID + "/";
 			let msgTime = formatTime(new Date());
 			let reqSubscribe = {
@@ -633,7 +620,7 @@ export default Vue.extend({
 							this.UserID = msg.UserID;
 						}
 						let initMsg = {
-							ActiveID: this.ActiveID,
+							ActiveID: this.activeID,
 							UserID: this.UserID,
 							msgID: GUID,
 							msgType: 6,
@@ -862,7 +849,7 @@ export default Vue.extend({
 		},
 		async billTap(type: any) {
 			let action = type;
-			let ActiveID = this.ActiveID;
+			let ActiveID = this.activeID;
 			let num = this.num;
 			let Price = this.Price;
 			let GUID: any = await this.GUID();

@@ -57,7 +57,7 @@
 				{
 					"path": "exchange/exchange",
 					"style": {
-						"navigationBarTitleText": "兑现"
+						"navigationBarTitleText": "兑换"
 					}
 				},
 				{
@@ -130,7 +130,7 @@
 				{
 					"path": "exchangeDetails/exchangeDetails",
 					"style": {
-						"navigationBarTitleText": "兑现"
+						"navigationBarTitleText": "兑换"
 					}
 				},
 				{

@@ -9,7 +9,20 @@
         "compatible": {
             "ignoreVersion": true
         },
-        "modules": {},
+        "splashscreen": {
+            "alwaysShowBeforeRender": true,
+            "waiting": false,
+            "autoclose": true,
+            "delay": 0
+        },
+        "modules": {
+            "OAuth": {},
+            "Payment": {},
+            "Push": {},
+            "Share": {},
+            "Speech": {},
+            "VideoPlayer": {}
+        },
         "distribute": {
             "android": {
                 "permissions": [

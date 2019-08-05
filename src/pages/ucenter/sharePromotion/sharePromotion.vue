@@ -1,22 +1,27 @@
 <template>
 	<view class="content">
 		<view class="teng-share">
+			<view class="teng-share-head">
+				<view class="teng-share-head-img">
+					<img :src="commission" />
+				</view>
+				<view class="teng-share-head-text">
+					<text>成功邀请好友消费即可获得佣金{{commissionValue}}%的提成</text>
+				</view>
+			</view>
 			<view class="teng-share-content">
 				<view class="teng-share-code" @click="preview(code, code)">
 					<img :src="code" />
 				</view>
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="teng-share-list">
-					<button class="teng-share-text" open-type="share">
+					<view class="teng-share-text">
 						<img :src="wechat" />
-						<view class="teng-share-list-text">一键转发好友</view>
-					</button>
+						<button class="teng-share-list-text" open-type="share">一键转发好友</button>
+					</view>
 				</view>
 				<!-- #endif -->
 			</view>
-		</view>
-		<view class="teng-redeem">
-			<button class="btn redeem-btn" @click="exchange">积分兑换</button>
 		</view>
 	</view>
 </template>
@@ -24,16 +29,19 @@
 <script lang="ts">
 import Vue from "vue";
 import { request, navigateTo, previewImage } from "@/common/utils/util";
-import { GetWxacode } from "@/common/config/api";
+import { GetWxacode, GetSystemConfig } from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
+			commissionValue: "",
 			code: [],
+			commission: "/static/icon/icon_commission.png",
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
 	},
 	onLoad(options: any) {
 		this.getWxacode();
+		this.getSystemConfig();
 	},
 	onShareAppMessage(res) {
 		if (res.from === "button") {
@@ -51,13 +59,16 @@ export default Vue.extend({
 				this.code = res.CodeValue;
 			});
 		},
-		preview(current: any, urls: any) {
-			urls = [urls]
-			console.log(urls)
-			previewImage(current, urls);
+		getSystemConfig() {
+			let data = {};
+			request(GetSystemConfig, data).then((res: any) => {
+				this.commissionValue = res.ConfigValue.CommissionValue
+			});
 		},
-		exchange() {
-			navigateTo("../../mall/exchange/exchange");
+		preview(current: any, urls: any) {
+			urls = [urls];
+			console.log(urls);
+			previewImage(current, urls);
 		}
 	}
 });
@@ -65,8 +76,35 @@ export default Vue.extend({
 
 <style>
 .teng-share {
-	padding: 40upx 60upx;
+	padding: 30upx 30upx;
 	border-radius: 10upx;
+}
+
+.teng-share-head {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	background-color: #fe7f00;
+	padding: 30upx 80upx;
+}
+
+.teng-share-head-img {
+	display: flex;
+	align-items: center;
+}
+
+.teng-share-head-img img {
+	width: 100upx;
+	height: 100upx;
+}
+
+.teng-share-head-text {
+	margin-left: 30upx;
+}
+
+.teng-share-head-text text {
+	color: #fff;
 }
 
 .teng-share-content {
@@ -75,15 +113,14 @@ export default Vue.extend({
 }
 
 .teng-share-code {
-	width: 460upx;
-	height: 460upx;
-	text-align: center;
-	margin: 10upx 20upx 40upx 20upx;
+	display: flex;
+	justify-content: center;
+	margin: 10upx 0 40upx 0;
 }
 
 .teng-share-code img {
-	width: 100%;
-	height: 100%;
+	width: 500upx;
+	height: 500upx;
 }
 
 .teng-share-list {
@@ -99,20 +136,17 @@ export default Vue.extend({
 }
 
 .teng-share-text img {
-	width: 68upx;
-	height: 68upx;
+	width: 88upx;
+	height: 88upx;
 }
 
 .teng-share-list-text {
-	font-size: 24upx;
-	color: #7a7a7a;
-}
-
-.teng-redeem button {
-	font-size: 36upx;
+	font-size: 28upx;
+	line-height: 2.4;
 	color: #fff;
 	background-color: #fe7f00;
-	border-radius: 100upx;
-	margin: 0 60upx;
+	border-radius: 60upx;
+	margin: 10upx 0;
+	padding: 0 60upx;
 }
 </style>

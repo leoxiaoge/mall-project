@@ -26,7 +26,7 @@
 					<view class="teng-content">
 						<view class="teng-title">{{item.ProductTitle}}</view>
 						<view class="teng-type">
-							<text class="teng-type-text i-original">兑换积分：{{item.Exchange.Integrals}}</text>
+							<text class="teng-type-text i-original">需要积分：{{item.Exchange.Integrals}}</text>
 							<text class="teng-type-text">市场价：¥{{item.ProductPrice}}</text>
 						</view>
 						<view class="teng-footer">

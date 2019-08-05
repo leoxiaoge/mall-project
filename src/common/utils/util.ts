@@ -1,5 +1,4 @@
 import { Md5 } from "ts-md5/dist/md5"
-import store from '../../store'
 
 export function formatTime(date: Date): string {
   const year = date.getFullYear()
@@ -79,7 +78,7 @@ export const request = async (api: any, data: any) => {
           uni.stopPullDownRefresh()
           if (res.data.IsError) {
             if (res.data.ErrCode == "Missing_Session") {
-              navigateTo("../../ucenter/login/login")
+              redirectTo("../../ucenter/login/login")
             } else {
               showToast(res.data.ErrMsg)
             }

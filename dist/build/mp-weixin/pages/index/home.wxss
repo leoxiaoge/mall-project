@@ -30,15 +30,21 @@
   width: 90%;
   z-index: 999;
 }
+.search-icon {
+  position: absolute;
+  top: 10rpx;
+  left: 2%;
+  width: 44rpx;
+  height: 44rpx;
+}
 .search input {
-  text-align: center;
-  color: #fff;
-  background-color: rgba(0, 0, 0, .1);
+  color: #a4a4a4;
+  background-color: rgba(160, 160, 160, .4);
   border-radius: 100rpx;
-  padding: 8rpx 0;
+  padding: 10rpx 0 10rpx 10%;
 }
 .placeholder {
-  color: #fff;
+  color: #a4a4a4;
 }
 .teng-options-grid {
   background-color: #fff;

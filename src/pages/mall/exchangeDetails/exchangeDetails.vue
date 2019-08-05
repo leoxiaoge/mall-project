@@ -33,6 +33,10 @@
 						</view>
 						<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
 					</view>
+					<view class="exchange-model-address" @click="addressClick" v-if="addressList.length <= 0">
+						<view class="exchange-model-address-body"></view>
+						<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
+					</view>
 					<view class="exchange-model-integrals">
 						<view class="exchange-model-remaining-integrals" v-if="userInfo">
 							<text>剩余积分：</text>
@@ -80,7 +84,7 @@ export default Vue.extend({
 			article: "",
 			integrals: "",
 			userInfo: "",
-			addressList: "",
+			addressList: [],
 			show: false
 		};
 	},
@@ -186,7 +190,9 @@ export default Vue.extend({
 		},
 		addressClick() {
 			let disabled: boolean = true;
-			navigateTo("../../ucenter/addressShipping/addressShipping?disabled=" + disabled);
+			navigateTo(
+				"../../ucenter/addressShipping/addressShipping?disabled=" + disabled
+			);
 		}
 	}
 });

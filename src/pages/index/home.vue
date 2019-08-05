@@ -4,6 +4,7 @@
       <view class="content">
         <view class="search-swiper">
           <view class="search" @click="search">
+            <img class="search-icon" :src="searchIcon" />
             <input placeholder="搜索好物" placeholder-class="placeholder" disabled="true" />
           </view>
           <!-- 轮播 -->
@@ -82,7 +83,7 @@
         circular: true,
         indicatorActiveColor: '#fe7f00',
         multiple: 1,
-        
+        searchIcon: "/static/icon/icon_search.png",
         productList: [], // 正在竞拍列表
         productListIng: [], // 即将开拍列表
         productListData: [], // 正在竞拍新列表
@@ -290,16 +291,23 @@
     z-index: 999;
   }
 
+  .search-icon {
+    position: absolute;
+    top: 10upx;
+    left: 2%;
+    width: 44upx;
+    height: 44upx;
+  }
+
   .search input {
-    text-align: center;
-    color: #fff;
-    background-color: rgba(0, 0, 0, .1);
+    color: #a4a4a4;
+    background-color: rgba(160, 160, 160, .4);
     border-radius: 100upx;
-    padding: 8upx 0;
+    padding: 10upx 0 10upx 10%;
   }
 
   .placeholder {
-    color: #fff;
+    color: #a4a4a4;
   }
 
   .teng-options-grid {
