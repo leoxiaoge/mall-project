@@ -32,8 +32,8 @@
 }
 .search-icon {
   position: absolute;
-  top: 10rpx;
-  left: 2%;
+  top: 14rpx;
+  left: 4%;
   width: 44rpx;
   height: 44rpx;
 }
@@ -41,7 +41,7 @@
   color: #a4a4a4;
   background-color: rgba(160, 160, 160, .4);
   border-radius: 100rpx;
-  padding: 10rpx 0 10rpx 10%;
+  padding: 10rpx 0 10rpx 12%;
 }
 .placeholder {
   color: #a4a4a4;
