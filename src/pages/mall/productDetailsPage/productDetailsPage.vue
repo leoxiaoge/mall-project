@@ -161,25 +161,20 @@
 
 				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
 					<view class="i-placard-button-view">
-						<view class="i-placard-button">
-							<button
-								class="btn"
-								:disabled="!item.ButtonEnabled"
-								@click.stop.prevent="billTap(item.ButtonText)"
-							>{{item.ButtonText}}</button>
-						</view>
-					</view>
-				</block>
-				<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
-					<view class="i-placard-button i-placard-active">
 						<button
-							class="btn"
+							class="btn i-placard-button"
 							:disabled="!item.ButtonEnabled"
 							@click.stop.prevent="billTap(item.ButtonText)"
 						>{{item.ButtonText}}</button>
 					</view>
 				</block>
-
+				<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
+					<button
+						class="btn i-placard-button i-placard-active"
+						:disabled="!item.ButtonEnabled"
+						@click.stop.prevent="billTap(item.ButtonText)"
+					>{{item.ButtonText}}</button>
+				</block>
 				<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
 					<button
 						class="btn join-btn"
@@ -1208,7 +1203,7 @@ export default Vue.extend({
 .join-btn {
 	width: 100%;
 	color: #fff;
-	background-image: linear-gradient(-225deg, #fe7f00 35%, #fe7c13);
+	background-color: #fe7f00;
 }
 
 .i-placard-remaining-num {
