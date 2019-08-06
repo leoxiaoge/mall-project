@@ -134,67 +134,67 @@
 		</view>
 		<view class="i-kong"></view>
 		<view class="i-product-join">
-			<view class="i-product-button-list">
-				<block v-for="(item, index) in buttonsList" :key="index">
-					<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
-						<button
-							class="btn join-btn"
-							v-show="!show"
-							@click.stop.prevent="hidePopup(item.ButtonText)"
-						>{{item.ButtonText}}</button>
-						<i-popup
-							:disabled="item.ButtonEnabled"
-							:show="show"
-							:options="active"
-							:buttonText="item.ButtonText"
-							:num="SeqBills"
-							@change="change"
-							@hidePopup="hidePopup"
-							@click="billTap(item.ButtonText)"
-						/>
-					</block>
-					<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
-						<view class="i-product-placad">
-							<view class="i-placard-remaining-num">
-								<view class="i-placard-remaining">剩余次数：</view>
-								<view class="i-placard-num">{{SeqBills}}</view>
-							</view>
-							<view class="i-placard-button-view">
-								<view class="i-placard-button">
-									<button
-										class="btn"
-										:disabled="!item.ButtonEnabled"
-										@click.stop.prevent="billTap(item.ButtonText)"
-									>{{item.ButtonText}}</button>
-								</view>
-							</view>
-						</view>
-					</block>
-					<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
-						<view class="i-placard-button i-placard-active">
+			<block v-for="(item, index) in buttonsList" :key="index">
+				<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
+					<button
+						class="btn join-btn"
+						v-show="!show"
+						@click.stop.prevent="hidePopup(item.ButtonText)"
+					>{{item.ButtonText}}</button>
+					<i-popup
+						:disabled="item.ButtonEnabled"
+						:show="show"
+						:options="active"
+						:buttonText="item.ButtonText"
+						:num="SeqBills"
+						@change="change"
+						@hidePopup="hidePopup"
+						@click="billTap(item.ButtonText)"
+					/>
+				</block>
+				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
+					<view class="i-placard-remaining-num">
+						<view class="i-placard-remaining">剩余次数：</view>
+						<view class="i-placard-num">{{SeqBills}}</view>
+					</view>
+				</block>
+
+				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
+					<view class="i-placard-button-view">
+						<view class="i-placard-button">
 							<button
 								class="btn"
 								:disabled="!item.ButtonEnabled"
 								@click.stop.prevent="billTap(item.ButtonText)"
 							>{{item.ButtonText}}</button>
 						</view>
-					</block>
-					<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
-						<button
-							class="btn join-btn"
-							:disabled="!item.ButtonEnabled"
-							@click.stop.prevent="billTap(item.ButtonText)"
-						>{{item.ButtonText}}</button>
-					</block>
-					<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
-						<button
-							class="btn join-btn"
-							:disabled="!item.ButtonEnabled"
-							@click.stop.prevent="billTap(item.ButtonText)"
-						>{{item.ButtonText}}</button>
-					</block>
+					</view>
 				</block>
-			</view>
+				<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
+					<view class="i-placard-button i-placard-active">
+						<button
+							class="btn"
+							:disabled="!item.ButtonEnabled"
+							@click.stop.prevent="billTap(item.ButtonText)"
+						>{{item.ButtonText}}</button>
+					</view>
+				</block>
+
+				<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
+					<button
+						class="btn join-btn"
+						:disabled="!item.ButtonEnabled"
+						@click.stop.prevent="billTap(item.ButtonText)"
+					>{{item.ButtonText}}</button>
+				</block>
+				<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
+					<button
+						class="btn join-btn"
+						:disabled="!item.ButtonEnabled"
+						@click.stop.prevent="billTap(item.ButtonText)"
+					>{{item.ButtonText}}</button>
+				</block>
+			</block>
 		</view>
 	</view>
 </template>
@@ -388,7 +388,7 @@ export default Vue.extend({
 				this.pastList = this.pastList.concat(res.OrderList);
 				this.pastList.map((item: any) => {
 					item.percentage = (
-						(item.OrderMoneys / item.OrderPrimeCost) *
+						((item.OrderPrimeCost - item.OrderMoneys) / item.OrderPrimeCost) *
 						100
 					).toFixed(2);
 					item.CreatedTime = formatTime(new Date(item.Created));
@@ -1188,14 +1188,6 @@ export default Vue.extend({
 	height: 100upx;
 }
 
-.i-product-button-list {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: #fff;
-	border-top: 2upx solid #f4f4f4;
-}
-
 .i-active {
 	color: #fe7f00;
 }
@@ -1206,6 +1198,11 @@ export default Vue.extend({
 	width: 100%;
 	z-index: 10;
 	margin: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fff;
+	border-top: 2upx solid #f4f4f4;
 }
 
 .join-btn {
@@ -1214,19 +1211,12 @@ export default Vue.extend({
 	background-image: linear-gradient(-225deg, #fe7f00 35%, #fe7c13);
 }
 
-.i-product-placard {
-	position: fixed;
-	bottom: 0;
-	height: 90upx;
-	display: flex;
-	align-items: center;
-}
-
 .i-placard-remaining-num {
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	padding-left: 30upx;
+	padding-right: 64upx;
 }
 
 .i-placard-remaining {
@@ -1303,16 +1293,7 @@ export default Vue.extend({
 	margin-right: 10upx;
 }
 
-.i-product-placad {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: #fff;
-	width: 100%;
-}
-
 .i-placard-button {
-	min-width: 200upx;
 	height: 90upx;
 	font-size: 30upx;
 }

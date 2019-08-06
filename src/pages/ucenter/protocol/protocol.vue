@@ -116,6 +116,7 @@ export default Vue.extend({
 </script>
 
 <style>
+@import url("../../../components/uParse/src/wxParse.css");
 page {
   background-color: #fff;
 }

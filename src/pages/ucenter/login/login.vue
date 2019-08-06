@@ -7,7 +7,7 @@
     <view class="i-login-mobile i-border-bottom i-flex-between">
       <view class="i-login-content i-flex">
         <image class="i-login-mobile-image" />
-        <input class="i-login-mobile-input" type="number" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
+        <input class="i-login-mobile-input" type="number" :focus="focus" :value="Mobile" placeholder="请输入手机号码" @input="mobileInput" />
       </view>
       <view class="i-login-set-code">
         <button class="i-button-get" :disabled="disabled" @click="getCode" >
@@ -62,6 +62,7 @@
         logo: '/static/icon/icon_login.png',
         checked: true,
         color: "#fe7f00",
+        focus: true,
         Mobile: '',
         LoginCode: '',
         loading: false,

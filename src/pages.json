@@ -1,5 +1,17 @@
 {
 	"pages": [
+		// #ifdef APP-PLUS
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "腾拍商城",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		// #endif
 		{
 			"path": "pages/index/home",
 			"style": {

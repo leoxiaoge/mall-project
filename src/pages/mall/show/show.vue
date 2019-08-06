@@ -11,7 +11,7 @@
 						<view class="teng-show-time">{{item.UpdatedTime}}</view>
 					</view>
 				</view>
-				<view class="teng-show-order" @click="productDetailsTo(item.ID, item.ActiveID)">
+				<view class="teng-show-order" @click="productDetailsTo(item.ProductID, item.ActiveID)">
 					<view class="teng-show-order-images">
 						<image :src="item.ProductPicList[0]" />
 					</view>

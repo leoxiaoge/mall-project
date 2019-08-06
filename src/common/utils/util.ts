@@ -177,6 +177,12 @@ export const redirectTo = (url: any) => {
   })
 }
 
+export const switchTab = (url: any) => {
+  uni.switchTab({
+    url: url
+  })
+}
+
 export const previewImage = (current: any, urls: any) => {
   return new Promise((resolve, reject) => {
     uni.previewImage({
