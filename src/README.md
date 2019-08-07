@@ -55,6 +55,12 @@ git clone https://github.com/leoxiaoge/mall-project
 
 npm install ts-md5 --save
 
+安装 sass-loader
+
+npm install node-sass --save-dev
+
+npm install sass-loader --save-dev
+
 在需要使用的component或者service中 import
 
 import {Md5} from 'ts-md5/dist/md5';
