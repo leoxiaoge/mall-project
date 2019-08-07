@@ -359,6 +359,11 @@ page {
 	align-items: center;
 }
 
+.payment-method-icon img{
+	width: 64upx;
+	height: 64upx;
+}
+
 .payment-method-name {
 	margin-left: 20upx;
 }

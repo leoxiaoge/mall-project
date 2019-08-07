@@ -28,7 +28,10 @@
 					</view>
 				</view>
 				<view class="popus-totals-footer">
-					<view class="popus-totals">{{signups}}{{seqSignups}}</view>
+					<view class="popus-totals">
+						<view>{{signups}}</view>
+						<view>{{seqSignups}}</view>
+					</view>
 					<button
 						class="btn popus-btn"
 						:disabled="!disabled"
