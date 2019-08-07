@@ -12,6 +12,9 @@
 						<text class="uni-product-text">上期成交：</text>
 						<text class="uni-product-price-original">￥{{item.Active.PrevActiveMoney}}</text>
 					</view>
+					<view class="uni-product-title uni-product-price">
+						<text class="uni-product-text">{{item.Active.LastBillUserName}}</text>
+					</view>
 				</view>
 				<view class="uni-product-prompt">
 					<view class="uni-product-time">

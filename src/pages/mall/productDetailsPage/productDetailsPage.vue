@@ -147,6 +147,8 @@
 						:options="active"
 						:buttonText="item.ButtonText"
 						:num="SeqBills"
+						:signups="signups"
+						:seqSignups="seqSignups"
 						@change="change"
 						@hidePopup="hidePopup"
 						@click="billTap(item.ButtonText)"
@@ -158,7 +160,6 @@
 						<view class="i-placard-num">{{SeqBills}}</view>
 					</view>
 				</block>
-
 				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
 					<view class="i-placard-button-view">
 						<button
@@ -994,6 +995,10 @@ export default Vue.extend({
 	border-radius: 50%;
 }
 
+.swiper-box {
+	height: 480upx;
+}
+
 .i-label-item {
 	display: flex;
 	justify-content: center;
@@ -1165,7 +1170,7 @@ export default Vue.extend({
 
 .i-product-table {
 	display: table;
-	width: calc(100% - 60upx);
+	width: calc(100% - 30px);
 	border-collapse: collapse;
 	box-sizing: border-box;
 	margin: 30upx 30upx;

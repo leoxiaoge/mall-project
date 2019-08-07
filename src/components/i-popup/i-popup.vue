@@ -28,7 +28,7 @@
 					</view>
 				</view>
 				<view class="popus-totals-footer">
-					<view class="popus-totals">共{{num?num: "0"}}次举牌次数</view>
+					<view class="popus-totals">{{signups}}{{seqSignups}}</view>
 					<button
 						class="btn popus-btn"
 						:disabled="!disabled"
@@ -64,7 +64,15 @@ export default Vue.extend({
 		},
 		num: {
 			type: [Number, String],
-			default: "0"
+			default: 0
+		},
+		signups: {
+			type: [Number, String],
+			default: ""
+		},
+		seqSignups: {
+			type: [Number, String],
+			default: ""
 		},
 		buttonText: {
 			type: String,

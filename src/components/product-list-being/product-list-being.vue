@@ -14,6 +14,9 @@
             <view class="product-price">
               <view class="product-price-text">￥{{item.ProductPrice}}</view>
             </view>
+            <view class="product-price">
+              <view class="product-price-text">{{item.Active.LastBillUserName}}</view>
+            </view>
           </view>
           <view class="uni-product-time">
             <!-- 倒计时 -->

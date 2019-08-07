@@ -92,6 +92,10 @@ export default Vue.extend({
 		this.OrderStatus = status;
 		this.$store.dispatch("getUserOpenId");
 	},
+	onShow() {
+		let mescroll: any = this.mescroll;
+		this.downCallback(mescroll);
+	},
 	methods: {
 		// 点击选项卡
 		tapTab(e: any) {

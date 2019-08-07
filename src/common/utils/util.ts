@@ -17,53 +17,62 @@ const formatNumber = (n: number) => {
 
 export const processing = (api: any, data: any) => {
   return new Promise((resolve, reject) => {
-    const sessionkey = uni.getStorageSync('SessionKey')
-    let Appkey = "3957399",
-      AppSecert = "2d2c443086630f6c2c804d11983729c8",
-      url = "https://api.tengpaisc.com/Rest.ashx"
-    let paramkey = Object.keys(data),
-      paramdata = "",
-      sign = ""
-    paramkey.sort((a: string, b: string) => {
-      if (a.toLowerCase() > b.toLowerCase()) {
-        return 1
-      } else {
-        return -1
+    try {
+      const sessionkey = uni.getStorageSync('SessionKey')
+      let Appkey = "3957399",
+        AppSecert = "2d2c443086630f6c2c804d11983729c8",
+        url = "https://api.tengpaisc.com/Rest.ashx"
+      let paramkey = Object.keys(data),
+        paramdata = "",
+        sign = ""
+      paramkey.sort((a: string, b: string) => {
+        if (a.toLowerCase() > b.toLowerCase()) {
+          return 1
+        } else {
+          return -1
+        }
+      })
+      paramkey.map((item: string) => {
+        paramdata += data[item]
+      })
+      paramdata = `${AppSecert}${paramdata}${AppSecert}`
+      sign = Md5.hashStr(paramdata).toString()
+      let systemdata = {
+        Appkey: Appkey,
+        V: 1,
+        AppVer: 1,
+        Format: "json",
+        SessionKey: sessionkey,
+        Method: api,
+        Sign: sign
       }
-    })
-    paramkey.map((item: string) => {
-      paramdata += data[item]
-    })
-    paramdata = `${AppSecert}${paramdata}${AppSecert}`
-    sign = Md5.hashStr(paramdata).toString()
-    let systemdata = {
-      Appkey: Appkey,
-      V: 1,
-      AppVer: 1,
-      Format: "json",
-      SessionKey: sessionkey,
-      Method: api,
-      Sign: sign
+      let postdata = {
+        ...systemdata,
+        ...data
+      }
+      let handle: any = {
+        url,
+        postdata
+      }
+      resolve(handle)
+    } catch (e) {
+      reject(e)
     }
-    let postdata = {
-      ...systemdata,
-      ...data
-    }
-    let handle: any = {
-      url,
-      postdata
-    }
-    resolve(handle)
   })
 }
 
 export const request = async (api: any, data: any) => {
   let handle: any = await processing(api, data);
+  // #ifndef APP-PLUS
+  uni.showLoading({
+    title: '加载中'
+  })
+  uni.showNavigationBarLoading()
+  // #endif
+  // #ifdef APP-PLUS
+  plus.nativeUI.showWaiting('加载中…');
+  // #endif
   return new Promise((resolve, reject) => {
-    uni.showLoading({
-      title: '加载中'
-    })
-    uni.showNavigationBarLoading()
     uni.request({
       url: handle.url,
       data: handle.postdata,
@@ -73,9 +82,6 @@ export const request = async (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
-          uni.hideLoading()
-          uni.hideNavigationBarLoading()
-          uni.stopPullDownRefresh()
           if (res.data.IsError) {
             if (res.data.ErrCode == "Missing_Session") {
               redirectTo("../../ucenter/login/login")
@@ -90,12 +96,18 @@ export const request = async (api: any, data: any) => {
         }
       },
       fail: (err: any) => {
-        console.log(err)
         reject(err)
+        showToast("网络出错!")
+      },
+      complete: () => {
+        // #ifndef APP-PLUS
         uni.hideLoading()
         uni.hideNavigationBarLoading()
+        // #endif
+        // #ifdef APP-PLUS
+        plus.nativeUI.closeWaiting()
+        // #endif
         uni.stopPullDownRefresh()
-        showToast("网络出错!")
       }
     })
   })
@@ -187,7 +199,17 @@ export const previewImage = (current: any, urls: any) => {
   return new Promise((resolve, reject) => {
     uni.previewImage({
       current: current,
-      urls: urls
-    });
+      urls: urls,
+      longPressActions: {
+        itemList: ['发送给朋友', '保存图片'],
+        success(data: any) {
+          resolve(data)
+          console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+        },
+        fail() {
+          reject()
+        }
+      }
+    })
   })
 }
