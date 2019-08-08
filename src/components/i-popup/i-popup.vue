@@ -35,6 +35,7 @@
 					<button
 						class="btn popus-btn"
 						:disabled="!disabled"
+						formType="submit"
 						@click.stop.prevent="closeMask(buttonText)"
 					>{{buttonText}}</button>
 				</view>
@@ -153,6 +154,9 @@ export default Vue.extend({
 		},
 		moveHandle() {
 			this.$emit("hidePopup");
+		},
+		submit(e: any) {
+			this.$emit("submit", e);
 		}
 	}
 });

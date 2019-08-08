@@ -99,6 +99,10 @@ page {
 	    -ms-flex-align: center;
 	        align-items: center;
 }
+.payment-method-icon ._img{
+	width: 64rpx;
+	height: 64rpx;
+}
 .payment-method-name {
 	margin-left: 20rpx;
 }

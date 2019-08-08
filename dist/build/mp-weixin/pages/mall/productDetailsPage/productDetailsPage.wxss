@@ -229,6 +229,10 @@
 	width: 100%;
 	z-index: 10;
 	margin: 0;
+	background-color: #fff;
+	border-top: 2rpx solid #f4f4f4;
+}
+.i-placard-form {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -241,8 +245,20 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	background-color: #fff;
-	border-top: 2rpx solid #f4f4f4;
+}
+.i-placard-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
 .join-btn {
 	width: 100%;
@@ -361,17 +377,19 @@
 	background-color: #fff;
 	border-left: 2rpx solid #f4f4f4;
 }
-.i-placard-active button {
+.i-placard-active {
 	color: #fff;
 	background-color: #fe7c13;
 	border-left: 2rpx solid #f4f4f4;
 }
 .btn {
+	min-width: 240rpx;
 	font-size: 40rpx;
 	height: 106rpx;
 	line-height: 98rpx;
 	border: none;
 	border-radius: 0;
+	margin: 0;
 }
 .btn:after {
 	border: none;

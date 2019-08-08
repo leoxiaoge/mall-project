@@ -399,9 +399,10 @@ export default Vue.extend({
 	font-size: 36upx;
 	background-color: #fe7f00;
 	color: #fff;
-	line-height: 1.8;
+	line-height: 2;
 	border-radius: 8upx;
 	border: none;
+	padding: 0 30upx;
 }
 
 .teng-order-head {

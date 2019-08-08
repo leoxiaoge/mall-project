@@ -172,9 +172,10 @@
 	font-size: 36rpx;
 	background-color: #fe7f00;
 	color: #fff;
-	line-height: 1.8;
+	line-height: 2;
 	border-radius: 8rpx;
 	border: none;
+	padding: 0 30rpx;
 }
 .teng-order-head {
 	background-color: #fff;

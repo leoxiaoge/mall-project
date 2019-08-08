@@ -63,14 +63,14 @@ export const processing = (api: any, data: any) => {
 
 export const request = async (api: any, data: any) => {
   let handle: any = await processing(api, data);
-  // #ifndef APP-PLUS
+  // #ifdef APP-PLUS
+  plus.nativeUI.showWaiting('加载中…');
+  // #endif
+  // #ifdef MP-WEIXIN || H5
   uni.showLoading({
     title: '加载中'
   })
   uni.showNavigationBarLoading()
-  // #endif
-  // #ifdef APP-PLUS
-  plus.nativeUI.showWaiting('加载中…');
   // #endif
   return new Promise((resolve, reject) => {
     uni.request({
@@ -100,12 +100,12 @@ export const request = async (api: any, data: any) => {
         showToast("网络出错!")
       },
       complete: () => {
-        // #ifndef APP-PLUS
-        uni.hideLoading()
-        uni.hideNavigationBarLoading()
-        // #endif
         // #ifdef APP-PLUS
         plus.nativeUI.closeWaiting()
+        // #endif
+        // #ifdef MP-WEIXIN || H5
+        uni.hideLoading()
+        uni.hideNavigationBarLoading()
         // #endif
         uni.stopPullDownRefresh()
       }
@@ -133,22 +133,40 @@ export const upload = async (api: any, data: any, filePath: any) => {
 }
 
 export const showErrorToast = (msg: any) => {
+  // #ifdef APP-PLUS
+  plus.nativeUI.toast(msg, {
+    icon: '/static/icon_error.png'
+  })
+  // #endif
+  // #ifdef MP-WEIXIN || H5
   uni.showToast({
     title: msg,
     image: '/static/icon_error.png'
   })
+  // #endif
 }
 
 export const showToast = (msg: any) => {
+  // #ifdef APP-PLUS
+  plus.nativeUI.toast(msg)
+  // #endif
+  // #ifdef MP-WEIXIN || H5
   uni.showToast({
     title: msg,
     icon: 'none',
     duration: 2000,
     mask: true
   })
+  // #endif
 }
 
 export const showModal = (msg: any) => {
+  // #ifdef APP-PLUS
+  plus.nativeUI.confirm(msg, (e: any) => {
+    console.log("Close confirm: " + msg + e.index);
+  });
+  // #endif
+  // #ifdef MP-WEIXIN || H5
   uni.showModal({
     content: msg,
     confirmColor: '#fe7f00',
@@ -157,17 +175,48 @@ export const showModal = (msg: any) => {
       console.log(res)
     }
   })
+  // #endif
 }
 
 export const defaultShowModal = (content: string) => {
   return new Promise((resolve, reject) => {
-    uni.showModal({
-      content: content,
-      confirmColor: '#fe7f00',
-      success: (res: any) => {
+    // #ifdef APP-PLUS
+    try {
+      plus.nativeUI.confirm(content, function (e: any) {
+        let res: any = {
+          confirm: false,
+          cancel: false
+        }
+        if (e.index === 0) {
+          res.confirm = true
+        } else {
+          res.cancel = true
+        }
         resolve(res)
-      }
-    })
+      },
+        {
+          "title": "提示",
+          "buttons": ["确定", "取消"],
+          "verticalAlign": "center"
+        }
+      )
+    } catch (e) {
+      reject(e)
+    }
+    // #endif
+    // #ifdef MP-WEIXIN || H5
+    try {
+      uni.showModal({
+        content: content,
+        confirmColor: '#fe7f00',
+        success: (res: any) => {
+          resolve(res)
+        }
+      })
+    } catch (e) {
+      reject(e)
+    }
+    // #endif
   })
 }
 
@@ -196,13 +245,28 @@ export const switchTab = (url: any) => {
 }
 
 export const previewImage = (current: any, urls: any) => {
+  // #ifdef MP-WEIXIN || H5
+  uni.previewImage({
+    current: current,
+    urls: urls
+  })
+  // #endif
+  // #ifdef APP-PLUS
   return new Promise((resolve, reject) => {
     uni.previewImage({
       current: current,
       urls: urls,
       longPressActions: {
-        itemList: ['发送给朋友', '保存图片'],
+        itemList: ['保存图片'],
         success(data: any) {
+          if (data.tapIndex === 0) {
+            uni.saveImageToPhotosAlbum({
+              filePath: urls[data.index],
+              success: () => {
+                showToast("保存成功！")
+              }
+            })
+          }
           resolve(data)
           console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
         },
@@ -212,4 +276,5 @@ export const previewImage = (current: any, urls: any) => {
       }
     })
   })
+  // #endif
 }

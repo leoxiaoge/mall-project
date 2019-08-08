@@ -85,6 +85,8 @@ export default Vue.extend({
 	onLoad() {
 		let windowHeight: any = uni.getSystemInfoSync().windowHeight;
 		this.height = windowHeight;
+	},
+	onShow() {
 		this.getCategory();
 	},
 	methods: {

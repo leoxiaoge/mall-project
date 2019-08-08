@@ -134,63 +134,72 @@
 		</view>
 		<view class="i-kong"></view>
 		<view class="i-product-join">
-			<block v-for="(item, index) in buttonsList" :key="index">
-				<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
-					<button
-						class="btn join-btn"
-						v-show="!show"
-						@click.stop.prevent="hidePopup(item.ButtonText)"
-					>{{item.ButtonText}}</button>
-					<i-popup
-						:disabled="item.ButtonEnabled"
-						:show="show"
-						:options="active"
-						:buttonText="item.ButtonText"
-						:num="SeqBills"
-						:signups="signups"
-						:seqSignups="seqSignups"
-						@change="change"
-						@hidePopup="hidePopup"
-						@click="billTap(item.ButtonText)"
-					/>
-				</block>
-				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
-					<view class="i-placard-remaining-num">
-						<view class="i-placard-remaining">剩余次数：</view>
-						<view class="i-placard-num">{{SeqBills}}</view>
-					</view>
-				</block>
-				<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
-					<view class="i-placard-button-view">
-						<button
-							class="btn i-placard-button"
-							:disabled="!item.ButtonEnabled"
-							@click.stop.prevent="billTap(item.ButtonText)"
-						>{{item.ButtonText}}</button>
-					</view>
-				</block>
-				<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
-					<button
-						class="btn i-placard-button i-placard-active"
-						:disabled="!item.ButtonEnabled"
-						@click.stop.prevent="billTap(item.ButtonText)"
-					>{{item.ButtonText}}</button>
-				</block>
-				<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
-					<button
-						class="btn join-btn"
-						:disabled="!item.ButtonEnabled"
-						@click.stop.prevent="billTap(item.ButtonText)"
-					>{{item.ButtonText}}</button>
-				</block>
-				<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
-					<button
-						class="btn join-btn"
-						:disabled="!item.ButtonEnabled"
-						@click.stop.prevent="billTap(item.ButtonText)"
-					>{{item.ButtonText}}</button>
-				</block>
-			</block>
+			<form @submit="formSubmit" report-submit="true" report-submit-timeout="“2”">
+				<view class="i-placard-form">
+					<block v-for="(item, index) in buttonsList" :key="index">
+						<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
+							<button
+								class="btn join-btn"
+								v-show="!show"
+								@click.stop.prevent="hidePopup(item.ButtonText)"
+							>{{item.ButtonText}}</button>
+							<i-popup
+								:disabled="item.ButtonEnabled"
+								:show="show"
+								:options="active"
+								:buttonText="item.ButtonText"
+								:num="SeqBills"
+								:signups="signups"
+								:seqSignups="seqSignups"
+								@change="change"
+								@hidePopup="hidePopup"
+								@submit="submit"
+								@click="billTap(item.ButtonText)"
+							/>
+						</block>
+						<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
+							<view class="i-placard-remaining-num">
+								<view class="i-placard-remaining">剩余次数：</view>
+								<view class="i-placard-num">{{SeqBills}}</view>
+							</view>
+						</block>
+						<block v-if="item.ButtonType === 1 && item.ButtonVisibility">
+							<view class="i-placard-button-view">
+								<button
+									class="btn i-placard-button"
+									:disabled="!item.ButtonEnabled"
+									formType="submit"
+									@click.stop.prevent="billTap(item.ButtonText)"
+								>{{item.ButtonText}}</button>
+							</view>
+						</block>
+						<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
+							<button
+								class="btn i-placard-button i-placard-active"
+								:disabled="!item.ButtonEnabled"
+								formType="submit"
+								@click.stop.prevent="billTap(item.ButtonText)"
+							>{{item.ButtonText}}</button>
+						</block>
+						<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
+							<button
+								class="btn join-btn"
+								:disabled="!item.ButtonEnabled"
+								formType="submit"
+								@click.stop.prevent="billTap(item.ButtonText)"
+							>{{item.ButtonText}}</button>
+						</block>
+						<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
+							<button
+								class="btn join-btn"
+								:disabled="!item.ButtonEnabled"
+								formType="submit"
+								@click.stop.prevent="billTap(item.ButtonText)"
+							>{{item.ButtonText}}</button>
+						</block>
+					</block>
+				</view>
+			</form>
 		</view>
 	</view>
 </template>
@@ -210,7 +219,8 @@ import {
 	PastTransactionsListGet,
 	OrderDryingListGet,
 	GetActiveByID,
-	NextActiveGet
+	NextActiveGet,
+	AddUserFormID
 } from "@/common/config/api";
 import iPast from "@/components/i-past/i-past.vue";
 import iShow from "@/components/i-show/i-show.vue";
@@ -843,6 +853,15 @@ export default Vue.extend({
 				this.lastBills = lastBills;
 			}
 		},
+		formSubmit(e: any) {
+			let formId = e.detail.formId;
+			let data = {
+				FormID: formId
+			};
+			request(AddUserFormID, data).then((res: any) => {
+				console.log(res);
+			});
+		},
 		async billTap(type: any) {
 			let action = type;
 			let ActiveID = this.activeID;
@@ -1198,11 +1217,20 @@ export default Vue.extend({
 	width: 100%;
 	z-index: 10;
 	margin: 0;
+	background-color: #fff;
+	border-top: 2upx solid #f4f4f4;
+}
+
+.i-placard-form {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: #fff;
-	border-top: 2upx solid #f4f4f4;
+}
+
+.i-placard-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .join-btn {
@@ -1304,18 +1332,20 @@ export default Vue.extend({
 	border-left: 2upx solid #f4f4f4;
 }
 
-.i-placard-active button {
+.i-placard-active {
 	color: #fff;
 	background-color: #fe7c13;
 	border-left: 2upx solid #f4f4f4;
 }
 
 .btn {
+	min-width: 240upx;
 	font-size: 40upx;
 	height: 106upx;
 	line-height: 98upx;
 	border: none;
 	border-radius: 0;
+	margin: 0;
 }
 
 .btn:after {

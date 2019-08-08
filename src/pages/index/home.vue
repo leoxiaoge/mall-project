@@ -130,15 +130,11 @@
         }
       }
     },
-    onShow() {
-      this.getHomeProductList();
-    },
     methods: {
       /*下拉刷新的回调 */
       downCallback(mescroll: any) {
         // 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
         this.getAdsList();
-        this.getLastTransactionList();
         this.getLastTransactionList();
         this.mescroll = mescroll;
         mescroll.resetUpScroll();
@@ -173,6 +169,7 @@
         console.log(pageNum, pageSize);
         try {
           let productList: any = await this.getHomeProductListIng(pageNum, pageSize);
+          this.getHomeProductList();
           console.log("data", this.productList);
           //联网成功的回调
           successCallback && successCallback(productList);
