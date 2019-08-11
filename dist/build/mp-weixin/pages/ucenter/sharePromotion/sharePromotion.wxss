@@ -20,7 +20,7 @@
 	background-color: #fe7f00;
 	padding: 30rpx 80rpx;
 }
-.teng-share-head-img {
+.teng-share-head-image {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -30,7 +30,7 @@
 	    -ms-flex-align: center;
 	        align-items: center;
 }
-.teng-share-head-img ._img {
+.teng-share-head-image image {
 	width: 100rpx;
 	height: 100rpx;
 }

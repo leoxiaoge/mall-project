@@ -4,7 +4,7 @@
 			<view class="table-tr">
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_0" />
+						<image :src="icon_0" />
 						<view class="table-text">
 							<text class="table-text-content">起拍价</text>
 							<text class="table-text-content-item">¥{{options.ActiveStartPrice}}</text>
@@ -13,7 +13,7 @@
 				</view>
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_1" />
+						<image :src="icon_1" />
 						<view class="table-text">
 							<text class="table-text-content">加价幅度</text>
 							<text class="table-text-content-item">¥{{options.ActiveIncreaseRange}}</text>
@@ -24,7 +24,7 @@
 			<view class="table-tr">
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_2" />
+						<image :src="icon_2" />
 						<view class="table-text">
 							<text class="table-text-content">举牌次数</text>
 							<text class="table-text-content-item">{{options.ActiveCardNumbers}}次/份</text>
@@ -33,7 +33,7 @@
 				</view>
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_3" />
+						<image :src="icon_3" />
 						<view class="table-text">
 							<text class="table-text-content">落拍倒计时</text>
 							<text class="table-text-content-item">{{options.ActiveDuration}}S</text>
@@ -44,7 +44,7 @@
 			<view class="table-tr">
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_4" />
+						<image :src="icon_4" />
 						<view class="table-text">
 							<text class="table-text-content">可用份数</text>
 							<text class="table-text-content-item">{{options.ActiveMaxBuys}}份</text>
@@ -53,7 +53,7 @@
 				</view>
 				<view class="table-td">
 					<view class="table-content">
-						<img :src="icon_5" />
+						<image :src="icon_5" />
 						<view class="table-text">
 							<text class="table-text-content">参与资格</text>
 							<text class="table-text-content-item">{{options.ActiveVirtualCoins}}/入场券</text>
@@ -122,7 +122,7 @@ export default Vue.extend({
 	margin-left: 20upx;
 }
 
-.table-content img {
+.table-content image {
 	width: 44upx;
 	height: 44upx;
 }

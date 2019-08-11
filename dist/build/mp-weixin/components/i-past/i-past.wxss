@@ -41,7 +41,7 @@
 .past-item-userface {
 	margin: 10rpx 20rpx;
 }
-.past-item-userface ._img {
+.past-item-userface image {
 	width: 100rpx;
 	height: 100rpx;
 	border-radius: 50%;

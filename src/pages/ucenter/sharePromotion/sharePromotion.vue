@@ -2,8 +2,8 @@
 	<view class="content">
 		<view class="teng-share">
 			<view class="teng-share-head">
-				<view class="teng-share-head-img">
-					<img :src="commission" />
+				<view class="teng-share-head-image">
+					<image :src="commission" />
 				</view>
 				<view class="teng-share-head-text">
 					<text>成功邀请好友消费即可获得佣金{{commissionValue}}%的提成</text>
@@ -16,7 +16,7 @@
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="teng-share-list">
 					<view class="teng-share-text">
-						<img :src="wechat" />
+						<image :src="wechat" />
 						<button class="teng-share-list-text" open-type="share">一键转发好友</button>
 					</view>
 				</view>
@@ -89,12 +89,12 @@ export default Vue.extend({
 	padding: 30upx 80upx;
 }
 
-.teng-share-head-img {
+.teng-share-head-image {
 	display: flex;
 	align-items: center;
 }
 
-.teng-share-head-img img {
+.teng-share-head-image image {
 	width: 100upx;
 	height: 100upx;
 }

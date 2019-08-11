@@ -54,11 +54,11 @@
 			<view class="i-product-current-bid-head">{{newCurrent}}</view>
 			<view class="i-product-current-bid-price">{{newPrice}}</view>
 			<view class="i-product-current-bid-icon" v-if="newCurrentBidder">
-				<img :src="leading" />
+				<image :src="leading" />
 				<text>{{newCurrentBidder}}</text>
 			</view>
 			<view class="i-product-current-bid-user" v-if="newFace || newNick">
-				<img :src="newFace" />
+				<image :src="newFace" />
 				<view class="i-product-current-bid-name">{{newNick}}</view>
 				<view class="i-product-current-bid-address">{{newCity}}</view>
 			</view>
@@ -291,11 +291,11 @@ export default Vue.extend({
 			signups: "", // 我已报名份数
 			seqSignups: "", // 还可报名份数
 			myBills: "", // 我的举牌次数
-			seqBills: "", // 剩余可用次数
+			seqBills: "0", // 剩余可用次数
 
 			seq: "", // 更新我的剩余举牌次数
 			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
-			SeqBills: "", // 举牌响应消息（剩余可用次数）
+			SeqBills: "0", // 举牌响应消息（剩余可用次数）
 			Signups: "", // 报名份数
 			SeqSignups: "0", // 剩下报名份数
 			mySeqBills: "0", // 我的出价记录
@@ -490,7 +490,7 @@ export default Vue.extend({
 		},
 		websocket() {
 			uni.connectSocket({
-				url: "wss://websocket.tengpaisc.com:8888/"
+				url: "wss://websocket.tengpaisc.com"
 			});
 			uni.onSocketOpen((res: any) => {
 				console.log("WebSocket连接已打开！");
@@ -1060,7 +1060,7 @@ export default Vue.extend({
 	position: relative;
 }
 
-.i-product-current-bid-icon img {
+.i-product-current-bid-icon image {
 	width: 100%;
 	height: 140upx;
 }
@@ -1075,7 +1075,7 @@ export default Vue.extend({
 	color: #fffefe;
 }
 
-.i-product-current-bid-user img {
+.i-product-current-bid-user image {
 	width: 120upx;
 	height: 120upx;
 	border-radius: 50%;
@@ -1244,7 +1244,7 @@ export default Vue.extend({
 	justify-content: flex-start;
 	align-items: center;
 	padding-left: 30upx;
-	padding-right: 64upx;
+	padding-right: 160upx;
 }
 
 .i-placard-remaining {
@@ -1339,7 +1339,7 @@ export default Vue.extend({
 }
 
 .btn {
-	min-width: 240upx;
+	min-width: 200upx;
 	font-size: 40upx;
 	height: 106upx;
 	line-height: 98upx;

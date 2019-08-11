@@ -82,6 +82,9 @@ export const request = async (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
+          // #ifdef MP-WEIXIN || H5
+          uni.hideLoading()
+          // #endif
           if (res.data.IsError) {
             if (res.data.ErrCode == "Missing_Session") {
               redirectTo("../../ucenter/login/login")
@@ -104,7 +107,6 @@ export const request = async (api: any, data: any) => {
         plus.nativeUI.closeWaiting()
         // #endif
         // #ifdef MP-WEIXIN || H5
-        uni.hideLoading()
         uni.hideNavigationBarLoading()
         // #endif
         uni.stopPullDownRefresh()

@@ -3,7 +3,7 @@
 		<view class="past-item" v-for="(item, index) in options" :key="index">
 			<view class="past-item-user">
 				<view class="past-item-userface">
-					<img :src="item.UserFace" />
+					<image :src="item.UserFace" />
 				</view>
 				<view class="past-item-text">
 					<view class="past-item-usernick">
@@ -74,7 +74,7 @@ export default Vue.extend({
 	margin: 10upx 20upx;
 }
 
-.past-item-userface img {
+.past-item-userface image {
 	width: 100upx;
 	height: 100upx;
 	border-radius: 50%;

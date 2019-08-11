@@ -15,7 +15,7 @@
 .show-item-userface {
 	width: 20%;
 }
-.show-item-userface ._img {
+.show-item-userface image {
 	width: 88rpx;
 	height: 88rpx;
 	border-radius: 50%;
@@ -41,7 +41,7 @@
 	font-size: 32rpx;
 	color: #333232;
 }
-.show-item-img ._img {
+.show-item-image image {
 	width: 140rpx;
 	height: 140rpx;
 }
