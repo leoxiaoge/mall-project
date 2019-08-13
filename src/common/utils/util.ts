@@ -97,6 +97,7 @@ export const request = async (api: any, data: any) => {
         } else {
           reject(res.errMsg)
         }
+        uni.stopPullDownRefresh()
       },
       fail: (err: any) => {
         reject(err)
@@ -109,7 +110,6 @@ export const request = async (api: any, data: any) => {
         // #ifdef MP-WEIXIN || H5
         uni.hideNavigationBarLoading()
         // #endif
-        uni.stopPullDownRefresh()
       }
     })
   })

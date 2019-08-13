@@ -17,12 +17,12 @@
 	background-color: #fe9400;
 	padding: 30rpx 0;
 }
-.order-status-img {
+.order-status-image {
 	width: 100rpx;
 	height: 100rpx;
 	margin-left: 40rpx;
 }
-.order-status-img ._img {
+.order-status-image image {
 	width: 100%;
 	height: 100%;
 }
@@ -95,11 +95,11 @@
 	width: 80%;
 	margin-left: 20rpx;
 }
-.order-product-img {
+.order-product-image {
 	width: 120rpx;
 	height: 100rpx;
 }
-.order-product-img ._img {
+.order-product-image ._img {
 	width: 100%;
 	height: 100%;
 }

@@ -30,7 +30,7 @@
 						</block>
 					</view>
 					<view class="teng-content">
-						<view class="teng-title">{{item.ProductTitle}}</view>
+						<view class="teng-title" v-if="item">【{{item.Active.ActiveNo}}期】{{item.ProductTitle}}</view>
 						<view class="teng-type">
 							<view class="teng-type-item" v-for="(i, idx) in item.Active.ActiveTagList" :key="idx">
 								<text class="teng-type-text">{{i}}</text>

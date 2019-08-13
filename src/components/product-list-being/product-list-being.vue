@@ -9,7 +9,7 @@
               <image class="uni-product-image img" :src="item.ProductPicList[0]"></image>
             </view>
             <view class="product-price-title">
-              <view class="product-price-text uni-ellipsis">{{item.ProductTitle}}</view>
+              <view class="product-price-text uni-ellipsis">【{{item.Active.ActiveNo}}期】{{item.ProductTitle}}</view>
             </view>
             <view class="product-price">
               <view class="product-price-text">￥{{item.ProductPrice}}</view>

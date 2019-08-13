@@ -39,7 +39,7 @@ export default Vue.extend({
 			keyword: "",
 			pageCount: 1,
 			productList: [],
-			focus: true,
+			focus: false,
 			noShow: false,
 			thumb: "http://www.mescroll.com/img/mescroll-empty.png?v=1",
 			title: "暂无搜索数据",

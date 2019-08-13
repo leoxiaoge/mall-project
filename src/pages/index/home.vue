@@ -145,7 +145,7 @@ export default Vue.extend({
 					navigateTo: "guide"
 				}
 			],
-			mescroll: []
+			mescroll: null
 		};
 	},
 	onLoad(options: any) {
@@ -155,8 +155,16 @@ export default Vue.extend({
 			let sessionKey: any = uni.getStorageSync("SessionKey");
 			let userInfo: any = uni.getStorageSync("UserInfo");
 			if (!sessionKey && !userInfo) {
+				// 如果用户未登录，则保存scene
 				uni.setStorageSync("scene", scene);
 			}
+		}
+	},
+	onShow() {
+		if (this.mescroll) {
+			let mescroll = this.mescroll;
+			console.log(mescroll);
+			this.downCallback(mescroll);
 		}
 	},
 	methods: {

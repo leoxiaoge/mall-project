@@ -3,8 +3,8 @@
 		<view class="mask-show" :class="(show?'show':'hide')">
 			<view class="mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
 			<view class="popus-content mask-content">
-				<view class="popus-head">入场费用【入场券】： {{options.ActiveVirtualCoins}}张/份</view>
-				<view class="popus-remarks">注：每份={{options.ActiveCardNumbers}}次举牌</view>
+				<!-- <view class="popus-head">入场费用【入场券】： {{options.ActiveVirtualCoins}}张/份</view>
+				<view class="popus-remarks">注：每份={{options.ActiveCardNumbers}}次举牌</view> -->
 				<view class="popus-purchase-num">购买数量</view>
 				<view class="popus-num-box">
 					<view class="i-numbox">

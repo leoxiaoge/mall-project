@@ -2,8 +2,8 @@
 	<view class="container">
 		<block v-for="(item, index) in order" :key="index">
 			<view class="order-status">
-				<view class="order-status-img">
-					<img :src="icon" />
+				<view class="order-status-image">
+					<image :src="icon" />
 				</view>
 				<view class="order-status-text">
 					<view class="order-status-name">{{item.OrderStatusName}}</view>
@@ -31,7 +31,7 @@
 				<text>温馨提示：信息确认后不可修改</text>
 			</view>
 			<view class="order-product">
-				<view class="order-product-img">
+				<view class="order-product-image">
 					<img :src="item.ProductPicList" />
 				</view>
 				<view class="order-product-content">
@@ -149,7 +149,9 @@ export default Vue.extend({
 		this.orderID = options.OrderID;
 		this.getOrderList();
 		console.log("onLoad", options);
+		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
+		// #endif
 	},
 	methods: {
 		getOrderList() {
@@ -294,12 +296,12 @@ export default Vue.extend({
 	background-color: #fe9400;
 	padding: 30upx 0;
 }
-.order-status-img {
+.order-status-image {
 	width: 100upx;
 	height: 100upx;
 	margin-left: 40upx;
 }
-.order-status-img img {
+.order-status-image image {
 	width: 100%;
 	height: 100%;
 }
@@ -348,11 +350,11 @@ export default Vue.extend({
 	width: 80%;
 	margin-left: 20upx;
 }
-.order-product-img {
+.order-product-image {
 	width: 120upx;
 	height: 100upx;
 }
-.order-product-img img {
+.order-product-image img {
 	width: 100%;
 	height: 100%;
 }

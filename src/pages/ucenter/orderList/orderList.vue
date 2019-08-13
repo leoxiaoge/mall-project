@@ -90,7 +90,9 @@ export default Vue.extend({
 		let status = options.status;
 		this.current = status;
 		this.OrderStatus = status;
+		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
+		// #endif
 	},
 	onShow() {
 		let mescroll: any = this.mescroll;

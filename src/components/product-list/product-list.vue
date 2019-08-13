@@ -7,7 +7,7 @@
 	        <view class="image-view">
 						<image class="uni-product-image" :src="item.ProductPicList[0]"></image>
 					</view>
-					<view class="uni-product-title product-title">{{item.ProductTitle}}</view>
+					<view class="uni-product-title product-title">【{{item.Active.ActiveNo}}期】{{item.ProductTitle}}</view>
 					<view class="uni-product-price" v-if="item.Active.PrevActiveMoney > 0">
 						<text class="uni-product-text">上期成交：</text>
 						<text class="uni-product-price-original">￥{{item.Active.PrevActiveMoney}}</text>

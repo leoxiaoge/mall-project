@@ -29,7 +29,7 @@
 			</view>
 		</view>
 		<view class="i-product-head">
-			<view class="i-product-title">{{activeDetail.ProductTitle}}</view>
+			<view class="i-product-title">【{{active.ActiveNo}}期】{{activeDetail.ProductTitle}}</view>
 			<view class="i-product-name">{{activeDetail.ProductName}}</view>
 		</view>
 		<view v-if="active.PrevActiveMoney">
@@ -67,7 +67,7 @@
 			<view
 				class="i-bill"
 				:class="(item.IsWin === 0?'':'i-active')"
-				v-for="(item, index) in lastbills.slice(0,2)"
+				v-for="(item, index) in lastBills.slice(0,2)"
 				:key="index"
 			>
 				<view class="i-bill-image i-flex">
@@ -134,7 +134,9 @@
 		</view>
 		<view class="i-kong"></view>
 		<view class="i-product-join">
+			<!-- #ifdef MP-WEIXIN -->
 			<form @submit="formSubmit" report-submit="true" report-submit-timeout="“2”">
+			<!-- #endif -->
 				<view class="i-placard-form">
 					<block v-for="(item, index) in buttonsList" :key="index">
 						<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
@@ -199,7 +201,9 @@
 						</block>
 					</block>
 				</view>
+			<!-- #ifdef MP-WEIXIN -->
 			</form>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -212,6 +216,7 @@ import {
 	formatTime,
 	showToast,
 	showModal,
+	showErrorToast,
 	defaultShowModal
 } from "@/common/utils/util";
 import {
@@ -307,7 +312,6 @@ export default Vue.extend({
 			newNick: "", // 当前领先人
 			newFace: "", // 当前领先人头像
 			newCity: "", // 当前领先人所在城市
-			lastbills: [], // 出局列表
 			times: "", // 倒计时
 			seqTime: new Date() // 初始Date时间
 		};
@@ -323,6 +327,7 @@ export default Vue.extend({
 		this.UserID = uni.getStorageSync("UserInfo").ID;
 		this.getActiveByID();
 		this.getPastTransactionsList();
+		this.websocket();
 	},
 	onUnload() {
 		uni.closeSocket();
@@ -494,6 +499,7 @@ export default Vue.extend({
 			});
 			uni.onSocketOpen((res: any) => {
 				console.log("WebSocket连接已打开！");
+				uni.hideLoading();
 				socketOpen = true;
 				for (let i = 0; i < socketMsgQueue.length; i++) {
 					this.sendSocketMessage(socketMsgQueue[i]);
@@ -503,7 +509,13 @@ export default Vue.extend({
 				this.reqLogin();
 			});
 			uni.onSocketError(res => {
+				console.log(res);
 				console.log("WebSocket连接打开失败，请检查！");
+				// 断线调用函数
+				showErrorToast("断线重连中...");
+				setTimeout(() => {
+					this.websocket();
+				}, 1000);
 			});
 			this.onSocketMessage();
 		},
@@ -588,6 +600,7 @@ export default Vue.extend({
 						if (msg.IsError) {
 							showToast("报名失败：" + msg.ErrMsg);
 						} else {
+							this.onUpdateMySignups(msg.Signups, msg.SeqSignups);
 							showToast(msg.ErrMsg);
 						}
 						// 更新我的剩余举牌次数
@@ -711,12 +724,14 @@ export default Vue.extend({
 						}
 						// 更新最近出局人信息
 						if (msg.Bills.length > 1) {
-							this.lastbills = msg.Bills;
+							this.lastBills = msg.Bills;
 						}
 						// 判断是否需要启动计时器，如果只有一个出价，肯定就是需要启动的，因为计时器未启动
 						if (msg.Bills.length === 1) {
 							this.timerState(this.seqTime);
 						}
+						// 更新价格事件
+						this.onPriceUpdateEvent(msg.Price, msg.AllBills, msg.Bills);
 						break;
 					case 9:
 						//计算剩余时间，并重置剩余时间
@@ -833,6 +848,7 @@ export default Vue.extend({
 		// 更新价格事件
 		onPriceUpdateEvent(startPrice: any, allBills: any, lastBills: any) {
 			// 更新全部举牌次数、我的举牌次数、和最新价格
+			console.log(lastBills);
 			this.allBills = allBills; // '活动总举牌次数：' + allBills + '次'
 			if (lastBills.length > 0) {
 				// 有人出价，按最后出价人
