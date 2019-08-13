@@ -438,6 +438,12 @@ export default Vue.extend({
 			switch (e) {
 				case "参与下一期":
 					let nexActive: any = await this.getNextActive();
+					this.swiper = nexActive.ProductPicList;
+					this.Price = nexActive.ProductPrice;
+					this.activeDetail = nexActive;
+					this.active = nexActive.Active;
+					this.activeID = nexActive.Active.ID;
+					this.websocket();
 					break;
 				default:
 					this.show = !this.show;
@@ -938,6 +944,12 @@ export default Vue.extend({
 					break;
 				case "参与下一期":
 					let nexActive: any = await this.getNextActive();
+					this.swiper = nexActive.ProductPicList;
+					this.Price = nexActive.ProductPrice;
+					this.activeDetail = nexActive;
+					this.active = nexActive.Active;
+					this.activeID = nexActive.Active.ID;
+					this.websocket();
 					break;
 			}
 		},
