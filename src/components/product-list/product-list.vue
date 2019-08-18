@@ -4,8 +4,8 @@
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.ID, item.Active.ID)">
-	        <view class="image-view">
-						<image class="uni-product-image" :src="item.ProductPicList[0]"></image>
+	        <view class="i-image-view">
+						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFill"></image>
 					</view>
 					<view class="uni-product-title product-title">【{{item.Active.ActiveNo}}期】{{item.ProductTitle}}</view>
 					<view class="uni-product-price" v-if="item.Active.PrevActiveMoney > 0">
@@ -96,8 +96,14 @@ export default Vue.extend({
 		padding-top: 14upx;
 	}
 
-	.product-title {
-		padding: 0 10upx;
+	.i-image-view {
+		margin: 8upx 0;
+		padding: 0 8upx;
+	}
+
+	.i-product-image {
+		height: 320upx;
+		border-radius: 8upx;
 	}
 
 	.uni-product-price {

@@ -18,6 +18,13 @@
 	        align-items: center;
 	border-bottom: 2rpx solid #f4f4f4;
 }
+.past-item-usernick {
+	max-width: 280rpx;
+	overflow: hidden; 
+	white-space: nowrap; 
+	-o-text-overflow: ellipsis; 
+	text-overflow: ellipsis;
+}
 .past-item-crested-saved {
 	display: -webkit-box;
 	display: -webkit-flex;

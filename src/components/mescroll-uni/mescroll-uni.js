@@ -1,6 +1,5 @@
 /* mescroll
  * version 1.1.0
- * 2019-07-01 lichubiao
  */
 
 export default function MeScroll(options) {

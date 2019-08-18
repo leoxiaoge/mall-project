@@ -1,7 +1,6 @@
 {
   "navigationBarTitleText": "最新成交",
-  "enablePullDownRefresh": true,
   "usingComponents": {
-    "u-no": "/components/u-no/u-no"
+    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei"
   }
 }

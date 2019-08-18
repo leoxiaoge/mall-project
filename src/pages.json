@@ -81,22 +81,8 @@
 					"path": "notice/notice",
 					"style": {
 						"navigationBarTitleText": "最新成交",
-						"enablePullDownRefresh": true,
 						"app-plus": {
-							"bounce": "none",
-							"pullToRefresh": {
-								"support": true,
-								"color": "#fe7f00",
-								"contentdown": {
-									"caption": "下拉刷新"
-								},
-								"contentover": {
-									"caption": "释放可刷新"
-								},
-								"contentrefresh": {
-									"caption": "正在刷新"
-								}
-							}
+							"bounce": "none"
 						}
 					}
 				},

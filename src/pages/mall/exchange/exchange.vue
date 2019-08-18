@@ -1,7 +1,11 @@
 <template>
 	<view class="container">
+		<view class="integrals" :style="'height:'+ 50+'px'">
+			<view class="integrals-text">我的积分：</view>
+			<view class="integrals-num">{{integrals}}</view>
+		</view>
 		<view class="page-body">
-			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
+			<scroll-view class="nav-left" scroll-y :style="'height:'+(height - 50)+'px'">
 				<view
 					class="nav-left-item"
 					@click="categoryClickMain(index)"
@@ -16,7 +20,7 @@
 				:scroll-top="scrollTop"
 				@scroll="scroll"
 				@scrolltolower="lower"
-				:style="'height:'+height+'px'"
+				:style="'height:'+(height - 50)+'px'"
 				scroll-with-animation
 			>
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
@@ -31,7 +35,10 @@
 						</view>
 						<view class="teng-footer">
 							<view class="teng-jion-btn">
-								<button class="btn teng-btn" @click="exchangeDetailsTo(item.Exchange.ID, item.Exchange.Integrals)">马上兑换</button>
+								<button
+									class="btn teng-btn"
+									@click="exchangeDetailsTo(item.Exchange.ID, item.Exchange.Integrals)"
+								>马上兑换</button>
 							</view>
 						</view>
 					</view>
@@ -46,18 +53,20 @@ import Vue from "vue";
 import { request, navigateTo } from "@/common/utils/util";
 import {
 	ProductCategoryListGet,
-	ProductExchangeListGet
+	ProductExchangeListGet,
+	GetLoginUser
 } from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
+			integrals: 0,
 			categoryList: [],
 			subCategoryList: [],
 			categoryActive: 0,
 			height: 0,
 			scrollTop: 0,
 			scrollHeight: 0,
-			categoryID: '',
+			categoryID: "",
 			pageNum: 0,
 			pageSize: 10,
 			pageCount: 1,
@@ -69,7 +78,24 @@ export default Vue.extend({
 		this.height = windowHeight;
 		this.getCategory();
 	},
+	onShow() {
+		this.useInfo();
+	},
 	methods: {
+		async useInfo() {
+			let userInfo: any = await this.getLoginUser();
+			this.integrals = userInfo.Integrals;
+		},
+		// 获取当前登录用户的信息
+		getLoginUser() {
+			return new Promise((sesolve, reject) => {
+				let data = {};
+				request(GetLoginUser, data).then((res: any) => {
+					uni.setStorageSync("UserInfo", res.UserInfo);
+					sesolve(res.UserInfo);
+				});
+			});
+		},
 		scroll(e: any) {
 			this.scrollHeight = e.detail.scrollHeight;
 		},
@@ -104,7 +130,7 @@ export default Vue.extend({
 				request(ProductExchangeListGet, data).then((res: any) => {
 					this.pageCount = res.PageCount;
 					let subCategoryList = res.ProductList;
-			  	this.pageCount = res.PageCount;
+					this.pageCount = res.PageCount;
 					sesolve(subCategoryList);
 				});
 			});
@@ -121,7 +147,12 @@ export default Vue.extend({
 			}
 		},
 		exchangeDetailsTo(id: any, integrals: any) {
-			navigateTo("../exchangeDetails/exchangeDetails?id=" + id + "&integrals=" + integrals);
+			navigateTo(
+				"../exchangeDetails/exchangeDetails?id=" +
+					id +
+					"&integrals=" +
+					integrals
+			);
 		}
 	}
 });
@@ -130,6 +161,24 @@ export default Vue.extend({
 <style>
 .page-body {
 	display: flex;
+}
+
+.integrals {
+	display: flex;
+	align-items: center;
+	background-color: #f3f4f3;
+}
+
+.integrals-text {
+	font-size: 32upx;
+	color: 5e5e5e;
+	margin-left: 30upx;
+}
+
+.integrals-num {
+	font-size: 36upx;
+	color: #fe7f00;
+	font-weight: 600;
 }
 
 .nav {
@@ -162,7 +211,7 @@ export default Vue.extend({
 	align-items: center;
 	font-size: 28upx;
 	border-bottom: 2upx solid #f4f4f4;
-	margin-left: 20upx;
+	margin-left: 10upx;
 	padding: 20upx 20upx 20upx 0;
 }
 

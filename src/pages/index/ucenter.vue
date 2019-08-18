@@ -34,7 +34,7 @@
 				<button class="btn i-login-button" @click="loginPath">马上登录</button>
 			</view>
 		</view>
-		
+
 		<view class="teng-gold teng-flex-between">
 			<view class="teng-left teng-flex">
 				<text class="icon-gold"></text>
@@ -69,7 +69,13 @@
 		</view>
 		<view class="teng-listItem">
 			<uni-list v-for="(item, i) in listItem" :key="i">
-				<uni-list-item :title="item.title" :thumb="item.icon" :navigatePath="item.navigateTo" />
+				<uni-list-item
+					:title="item.title"
+					:showBadge="item.showBadge"
+					:badgeText="item.badgeText"
+					:thumb="item.icon"
+					:navigatePath="item.navigateTo"
+				/>
 			</uni-list>
 		</view>
 	</view>
@@ -142,6 +148,11 @@ export default Vue.extend({
 					navigateTo: "addressShipping"
 				},
 				{
+					icon: "/static/icon/icon_exchange.png",
+					title: "积分兑换",
+					navigateTo: "exchange"
+				},
+				{
 					icon: "/static/icon/icon_share.png",
 					title: "分享得豪礼",
 					navigateTo: "sharePromotion"
@@ -163,6 +174,17 @@ export default Vue.extend({
 			this.sessionkey = uni.getStorageSync("SessionKey");
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
+			if (userInfo.Integrals) {
+				uni.showTabBarRedDot({
+					index: 3
+				});
+			}
+			this.listItem.map((item: any, i: any) => {
+				if (i === 3) {
+					item.showBadge = true;
+					item.badgeText = userInfo.Integrals;
+				}
+			});
 		},
 		VIPCard() {
 			navigateTo("../store/store/store");
@@ -209,8 +231,8 @@ export default Vue.extend({
 			defaultShowModal(content).then((res: any) => {
 				if (res.confirm) {
 					console.log("用户点击确定");
-					uni.removeStorageSync('SessionKey');
-					uni.removeStorageSync('UserInfo');
+					uni.removeStorageSync("SessionKey");
+					uni.removeStorageSync("UserInfo");
 					this.sessionkey = "";
 					this.userInfo = "";
 				} else if (res.cancel) {

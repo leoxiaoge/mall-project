@@ -82,7 +82,7 @@ export default Vue.extend({
 					status: "4"
 				}
 			],
-			mescroll: []
+			mescroll: null
 		};
 	},
 	onLoad(options: any) {
@@ -95,8 +95,10 @@ export default Vue.extend({
 		// #endif
 	},
 	onShow() {
-		let mescroll: any = this.mescroll;
-		this.downCallback(mescroll);
+		if (this.mescroll) {
+			let mescroll: any = this.mescroll;
+			this.downCallback(mescroll);
+		}
 	},
 	methods: {
 		// 点击选项卡

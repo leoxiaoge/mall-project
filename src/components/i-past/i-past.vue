@@ -60,6 +60,14 @@ export default Vue.extend({
 	border-bottom: 2upx solid #f4f4f4;
 }
 
+.past-item-usernick {
+	max-width: 280upx;
+	overflow: hidden; 
+	white-space: nowrap; 
+	-o-text-overflow: ellipsis; 
+	text-overflow: ellipsis;
+}
+
 .past-item-crested-saved {
 	display: flex;
 	justify-content: flex-end;

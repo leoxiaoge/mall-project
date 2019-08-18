@@ -159,10 +159,11 @@
 	padding: 0 30rpx;
 }
 .popus-btn {
-	margin: 0;
+	font-size: 48rpx;
 	line-height: 98rpx;
 	color: #fff;
 	background-color: #fe7f00;
-	padding: 0 40px;
+	margin: 0;
+	padding: 0 50px;
 }
 

@@ -1,7 +1,7 @@
 // mescroll 全局配置
 const GlobalOption = {
 	down: {
-		offset: 80 // 在列表顶部,下拉大于80upx,松手即可触发下拉刷新的回调
+		offset: 40 // 在列表顶部,下拉大于40upx,松手即可触发下拉刷新的回调
 	},
 	up: {
 		textLoading: '加载中 ...', // 加载中的提示文本

@@ -27,10 +27,10 @@
 }
 .uni-badge-success {
 	color: #fff;
-	background-color: #4cd964
+	background-color: #fe7f00
 }
 .uni-badge-success.uni-badge-inverted {
-	color: #4cd964;
+	color: #fe7f00;
 	background-color: transparent
 }
 .uni-badge-warning {

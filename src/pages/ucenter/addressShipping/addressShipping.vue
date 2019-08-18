@@ -54,7 +54,6 @@ import Vue from "vue";
 import {
 	request,
 	navigateTo,
-	navigateBack,
 	showToast
 } from "@/common/utils/util";
 import {
@@ -162,8 +161,8 @@ export default Vue.extend({
 			console.log(this.orderID);
 			if (this.orderID) {
 				let res: any = await this.orderAddressSubmit();
+				navigateTo("../orderList/orderList?status=" + "1");
 			}
-			navigateBack(1);
 		},
 		orderAddressSubmit() {
 			return new Promise((sesolve, reject) => {

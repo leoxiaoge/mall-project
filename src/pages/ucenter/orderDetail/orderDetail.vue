@@ -147,8 +147,9 @@ export default Vue.extend({
 	onLoad(options: any) {
 		this.id = options.id;
 		this.orderID = options.OrderID;
+	},
+	onShow() {
 		this.getOrderList();
-		console.log("onLoad", options);
 		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
 		// #endif

@@ -99,6 +99,7 @@
               provider: 'weixin',
               success: (loginRes: any) => {
                 let JSCode = loginRes.code
+                console.log(JSCode)
                 let data = {
                   JSCode: JSCode
                 }
@@ -160,7 +161,7 @@
         uni.setStorageSync('OpenID', OpenID);
         this.userLogin();
       },
-      userLogin() {
+      async userLogin() {
         let Mobile = this.Mobile;
         // let Mobile = '13723750893';
         let LoginCode  = this.LoginCode;
@@ -179,9 +180,15 @@
           return
         }
         this.loading = true;
-				let data = {
+        // #ifdef MP-WEIXIN
+        let OpenID: any = await this.login();
+        // #endif
+        let data = {
           Mobile: Mobile,
           LoginCode: LoginCode,
+          // #ifdef MP-WEIXIN
+          OpenID: OpenID,
+          // #endif
           wxFace: wxFace,
           wxNick: wxNick,
           RefUserID: refUserID

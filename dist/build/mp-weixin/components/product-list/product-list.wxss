@@ -14,8 +14,13 @@
 		        align-items: center;
 		padding-top: 14rpx;
 }
-.product-title {
-		padding: 0 10rpx;
+.i-image-view {
+		margin: 8rpx 0;
+		padding: 0 8rpx;
+}
+.i-product-image {
+		height: 320rpx;
+		border-radius: 8rpx;
 }
 .uni-product-price {
 		text-align: center;

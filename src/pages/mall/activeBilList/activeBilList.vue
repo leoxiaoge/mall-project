@@ -17,9 +17,9 @@
 				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-if="item.IsWin === 0">出局</view>
 				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-else>预选</view>
 				<view
-					class="i-bill-province"
+					class="i-bill-province uni-ellipsis"
 					:class="(item.IsWin === 0?'i-default':'i-active')"
-				>{{item.Province}}{{item.City}}</view>
+				>{{item.Province}}</view>
 				<view class="i-bill-price" :class="(item.IsWin === 0?'i-default':'i-active')">{{item.Price}}</view>
 			</view>
 		</mescroll-uni>
@@ -51,6 +51,7 @@ export default Vue.extend({
 	methods: {
 		// 下拉刷新的回调
 		downCallback(mescroll: any) {
+			mescroll.optUp.page.size = 20;
 			this.mescroll = mescroll;
 			mescroll.resetUpScroll();
 		},

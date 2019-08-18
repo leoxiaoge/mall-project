@@ -5,6 +5,27 @@
 	display: -ms-flexbox;
 	display: flex;
 }
+.integrals {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	background-color: #f3f4f3;
+}
+.integrals-text {
+	font-size: 32rpx;
+	color: 5e5e5e;
+	margin-left: 30rpx;
+}
+.integrals-num {
+	font-size: 36rpx;
+	color: #fe7f00;
+	font-weight: 600;
+}
 .nav {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -52,7 +73,7 @@
 	        align-items: center;
 	font-size: 28rpx;
 	border-bottom: 2rpx solid #f4f4f4;
-	margin-left: 20rpx;
+	margin-left: 10rpx;
 	padding: 20rpx 20rpx 20rpx 0;
 }
 .teng-item-images {

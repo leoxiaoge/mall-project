@@ -175,13 +175,13 @@ export default Vue.extend({
 	align-items: center;
 	font-size: 28upx;
 	border-bottom: 2upx solid #f4f4f4;
-	margin-left: 20upx;
-	padding: 20upx 20upx 20upx 0;
+	margin-left: 10upx;
+	padding: 20upx 10upx 20upx 0;
 }
 
 .teng-item-images {
 	position: relative;
-	padding-right: 10px;
+	padding-right: 8upx;
 }
 
 .nav-right-item-image {
@@ -249,7 +249,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 8upx;
 }
 
 .teng-pirce {

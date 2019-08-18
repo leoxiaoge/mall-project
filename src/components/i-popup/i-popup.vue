@@ -296,10 +296,11 @@ export default Vue.extend({
 }
 
 .popus-btn {
-	margin: 0;
+	font-size: 44upx;
 	line-height: 98upx;
 	color: #fff;
 	background-color: #fe7f00;
-	padding: 0 40px;
+	margin: 0;
+	padding: 0 50px;
 }
 </style>
