@@ -187,7 +187,7 @@ export default Vue.extend({
 }
 
 .nav-left {
-	width: 25%;
+	width: 24%;
 	border-right: solid 1px #ededed;
 }
 
@@ -202,7 +202,7 @@ export default Vue.extend({
 }
 
 .nav-right {
-	width: 75%;
+	width: 76%;
 }
 
 .nav-right-item {

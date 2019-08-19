@@ -22,6 +22,9 @@
 				</view>
 				<!-- #endif -->
 			</view>
+			<view class="teng-commission">
+				<button class="teng-commission-button" @click="commissionTo">我的佣金</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -69,6 +72,9 @@ export default Vue.extend({
 			urls = [urls];
 			console.log(urls);
 			previewImage(current, urls);
+		},
+		commissionTo() {
+			navigateTo("../commission/commission")
 		}
 	}
 });
@@ -148,5 +154,15 @@ export default Vue.extend({
 	border-radius: 60upx;
 	margin: 10upx 0;
 	padding: 0 60upx;
+}
+
+.teng-commission {
+	margin-top: 40upx;
+}
+
+.teng-commission-button {
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 100upx;
 }
 </style>

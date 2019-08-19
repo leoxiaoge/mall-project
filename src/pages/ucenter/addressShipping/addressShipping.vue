@@ -71,6 +71,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			id: "",
 			orderID: "",
 			addressID: "",
 			addressList: [], // 用户收货地址列表
@@ -86,6 +87,7 @@ export default Vue.extend({
 	onLoad(options: any) {
 		console.log("onLoad", options);
 		this.disabled = options.disabled;
+		this.id = options.id;
 		this.orderID = options.orderID;
 	},
 	onShow() {
@@ -161,7 +163,7 @@ export default Vue.extend({
 			console.log(this.orderID);
 			if (this.orderID) {
 				let res: any = await this.orderAddressSubmit();
-				navigateTo("../orderList/orderList?status=" + "1");
+				navigateTo("../orderDetail/orderDetail?id=" + this.id + "&OrderID=" + this.orderID);
 			}
 		},
 		orderAddressSubmit() {

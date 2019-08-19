@@ -219,6 +219,12 @@
 					}
 				},
 				{
+					"path": "commission/commission",
+					"style": {
+						"navigationBarTitleText": "我的佣金"
+					}
+				},
+				{
 					"path": "helpAndFeedback/helpAndFeedback",
 					"style": {
 						"navigationBarTitleText": "帮助与反馈"

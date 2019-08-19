@@ -5,7 +5,7 @@
 			<view class="page-section swiper">
 				<view class="page-section-spacing">
 					<swiper
-						class="swiper-box"
+						class="swiper-box square-dot"
 						:indicator-dots="indicatorDots"
 						:autoplay="autoplay"
 						:interval="interval"
@@ -249,7 +249,7 @@ export default Vue.extend({
 		return {
 			indicatorDots: true,
 			autoplay: true,
-			interval: 2000,
+			interval: 5000,
 			duration: 500,
 			circular: true,
 			indicatorActiveColor: "#fe7f00",
@@ -1053,10 +1053,13 @@ export default Vue.extend({
 					break;
 				case "填写收货地址":
 					let disabled = true;
+					let id = this.id;
 					let OrderID = this.orderID;
 					navigateTo(
 						"/pages/ucenter/addressShipping/addressShipping?disabled=" +
 							disabled +
+							"&id=" +
+							id +
 							"&orderID=" +
 							OrderID
 					);

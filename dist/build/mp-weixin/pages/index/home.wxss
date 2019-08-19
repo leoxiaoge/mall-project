@@ -8,14 +8,16 @@
 	        transform-origin: 20% 40%;
 }
 .teng-option {
-	background-color: #fff;
+	position: relative;
 }
 .teng-options {
-	position: relative;
-	top: -14rpx;
+	position: absolute;
+	left: -20%;
+	top: -24rpx;
 	background-color: #fff;
-	padding-top: 28rpx;
-	border-radius: 50%;
+	width: 140%;
+	height: 80rpx;
+	border-radius: 50% / 100% 100% 0 0;
 }
 .search-swiper {
 	position: relative;
@@ -27,33 +29,51 @@
 	-webkit-transform: translate(-50%, 0);
 	    -ms-transform: translate(-50%, 0);
 	        transform: translate(-50%, 0);
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 	width: 90%;
+	height: 60rpx;
+	background-color: rgba(255, 255, 255, 0.4);
+	border-radius: 100rpx;
+	border: 2rpx solid #d7d8da;
 	z-index: 999;
 }
 .search-icon {
-	position: absolute;
-	top: 12rpx;
-	left: 4%;
-	width: 44rpx;
-	height: 44rpx;
+	width: 36rpx;
+	height: 36rpx;
 }
 .search input {
-	color: #a4a4a4;
-	background-color: rgba(160, 160, 160, 0.4);
-	border-radius: 100rpx;
-	padding: 10rpx 0 10rpx 12%;
+	width: 20%;
+	color: #707070;
+	margin-left: 10rpx;
+	padding: 10rpx 0 10rpx 0;
 }
 .placeholder {
-	color: #a4a4a4;
+	color: #707070;
 }
 .teng-options-grid {
 	background-color: #fff;
 }
 .swiper-box {
-	height: 440rpx;
+	height: 480rpx;
 }
-.uni-swiper-msg {
+.i-swiper-msg {
 	border-top: 2rpx solid #f4f4f4;
+}
+.i-swiper-msg-icon {
+	width: 180rpx;
+	height: 80rpx;
+	margin-right: 20rpx;
 }
 .uni-swiper-wrapper {
 	position: relative;

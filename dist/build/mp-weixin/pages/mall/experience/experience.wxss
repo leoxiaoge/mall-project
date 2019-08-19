@@ -13,7 +13,7 @@
 	width: 100%;
 }
 .nav-left {
-	width: 25%;
+	width: 24%;
 	border-right: solid 1px #ededed;
 }
 .nav-left-item {
@@ -35,7 +35,7 @@
 	background-color: #f3f4f3;
 }
 .nav-right {
-	width: 75%;
+	width: 76%;
 }
 .nav-right-item {
 	display: -webkit-box;
@@ -52,8 +52,8 @@
 	        align-items: center;
 	font-size: 28rpx;
 	border-bottom: 2rpx solid #f4f4f4;
-	margin-left: 10rpx;
-	padding: 20rpx 10rpx 20rpx 0;
+	margin-left: 16rpx;
+	padding: 20rpx 20rpx 20rpx 0;
 }
 .teng-item-images {
 	position: relative;

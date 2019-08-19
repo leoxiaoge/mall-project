@@ -405,7 +405,7 @@
 	border-left: 2rpx solid #f4f4f4;
 }
 .btn {
-	font-size: 48rpx;
+	font-size: 44rpx;
 	height: 106rpx;
 	line-height: 98rpx;
 	border-radius: 0;

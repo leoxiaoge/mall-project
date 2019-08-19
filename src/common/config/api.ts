@@ -20,6 +20,8 @@ export const GetWXOpenID = 'API.User.GetWXOpenID' // 获取微信小程序的Ope
 export const GetWxacode = 'API.User.GetWxacode' // 获取个人推广二维码
 export const GetLoginUser = 'API.User.GetLoginUser' // 获取当前登录用户的信息
 export const AddUserFormID = 'API.User.AddUserFormID' // 插入用户FormID
+export const GetUserCommissionList = 'API.User.GetUserCommissionList' // 获取返现列表
+
 
 
 // 订单相关 - Order => 订单相关的接口

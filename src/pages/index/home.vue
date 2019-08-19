@@ -15,13 +15,14 @@
 						<view class="page-section swiper">
 							<view class="page-section-spacing">
 								<swiper
-									class="swiper-box"
+									class="swiper-box round-dot"
 									:indicator-dots="indicatorDots"
 									:autoplay="autoplay"
 									:interval="interval"
 									:duration="duration"
 									:circular="circular"
 									:indicator-active-color="indicatorActiveColor"
+									:easing-function="easing"
 								>
 									<swiper-item v-for="(item, index) in swiper" :key="index">
 										<image :src="item.AdPicUrl" mode="aspectFill" />
@@ -46,8 +47,8 @@
 				</view>
 				<!-- 滚动公告 -->
 				<view class="uni-swiper-msg">
-					<view class="uni-swiper-msg-icon">
-						<image src="/static/icon/icon_notice.png" mode="widthFix" />
+					<view class="i-swiper-msg-icon">
+						<image src="/static/icon/icon_notice.png" mode="aspectFit" />
 					</view>
 					<swiper
 						class="uni-swiper-wrapper"
@@ -61,10 +62,11 @@
 							<swiper-item>
 								<view class="i-item-msg">
 									<view class="teng-notice-content">
-										恭喜
+										<text>恭喜</text>
 										<text class="i-notice-original">{{item.OrderUserNick}}</text>以
 										<text class="i-notice-original">¥{{item.OrderMoney}}</text>
-										元拍得{{item.ProductName}}
+										<text>元拍得</text>
+										<text>{{item.ProductName}}</text>
 									</view>
 								</view>
 							</swiper-item>
@@ -105,10 +107,11 @@ export default Vue.extend({
 		return {
 			indicatorDots: true,
 			autoplay: true,
-			interval: 2000,
+			interval: 5000,
 			duration: 500,
 			circular: true,
 			indicatorActiveColor: "#fe7f00",
+			easing: "easeInOutCubic",
 			multiple: 1,
 			searchIcon: "/static/icon/icon_search.png",
 			productList: [], // 正在竞拍列表
@@ -309,15 +312,17 @@ export default Vue.extend({
 }
 
 .teng-option {
-	background-color: #fff;
+	position: relative;
 }
 
 .teng-options {
-	position: relative;
-	top: -14upx;
+	position: absolute;
+	left: -20%;
+	top: -24upx;
 	background-color: #fff;
-	padding-top: 28upx;
-	border-radius: 50%;
+	width: 140%;
+	height: 80upx;
+	border-radius: 50% / 100% 100% 0 0;
 }
 
 .search-swiper {
@@ -329,27 +334,31 @@ export default Vue.extend({
 	top: 20upx;
 	left: 50%;
 	transform: translate(-50%, 0);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 90%;
+	height: 60upx;
+	background-color: rgba(255, 255, 255, 0.4);
+	border-radius: 100upx;
+	border: 2upx solid #d7d8da;
 	z-index: 999;
 }
 
 .search-icon {
-	position: absolute;
-	top: 12upx;
-	left: 4%;
-	width: 44upx;
-	height: 44upx;
+	width: 36upx;
+	height: 36upx;
 }
 
 .search input {
-	color: #a4a4a4;
-	background-color: rgba(160, 160, 160, 0.4);
-	border-radius: 100upx;
-	padding: 10upx 0 10upx 12%;
+	width: 20%;
+	color: #707070;
+	margin-left: 10upx;
+	padding: 10upx 0 10upx 0;
 }
 
 .placeholder {
-	color: #a4a4a4;
+	color: #707070;
 }
 
 .teng-options-grid {
@@ -357,11 +366,17 @@ export default Vue.extend({
 }
 
 .swiper-box {
-	height: 440upx;
+	height: 480upx;
 }
 
-.uni-swiper-msg {
+.i-swiper-msg {
 	border-top: 2upx solid #f4f4f4;
+}
+
+.i-swiper-msg-icon {
+	width: 180upx;
+	height: 80upx;
+	margin-right: 20upx;
 }
 
 .uni-swiper-wrapper {

@@ -45,6 +45,7 @@
         "myOrder/myOrder",
         "addressShipping/addressShipping",
         "sharePromotion/sharePromotion",
+        "commission/commission",
         "helpAndFeedback/helpAndFeedback",
         "addressUpdate/addressUpdate",
         "orderDryingUpload/orderDryingUpload",

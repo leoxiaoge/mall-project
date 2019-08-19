@@ -44,12 +44,12 @@
 					</view>
 					<view class="order-product-price">
 						<view class="order-product-money">成交价：{{item.OrderMoneys}}</view>
-						<view class="order-product-cost">小计：¥{{item.OrderPrimeCost}}</view>
+						<view class="order-product-cost">小计：¥{{item.OrderMoneys}}</view>
 					</view>
 				</view>
 			</view>
 			<view class="order-product-total">
-				<text>合计：¥{{item.OrderPrimeCost}}</text>
+				<text>合计：¥{{item.OrderMoneys}}</text>
 			</view>
 			<view class="order-information">
 				<view class="order-information-head">
