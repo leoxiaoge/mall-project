@@ -2515,7 +2515,7 @@ swiper[class*="-dot"] .uni-swiper-dots {
 swiper.square-dot .wx-swiper-dot,
 swiper.square-dot .a-swiper-dot,
 swiper.square-dot .uni-swiper-dot {
-	background-color: #ffffff;
+	background-color: rgba(0,0,0,.3);
 	opacity: 0.4;
 	width: 10upx;
 	height: 10upx;
@@ -2533,8 +2533,8 @@ swiper.square-dot .uni-swiper-dot.uni-swiper-dot-active {
 swiper.round-dot .wx-swiper-dot,
 swiper.round-dot .a-swiper-dot,
 swiper.round-dot .uni-swiper-dot {
-	width: 10upx;
-	height: 10upx;
+	width: 16upx;
+	height: 16upx;
 	position: relative;
 	margin: 20upx 10upx !important;
 }

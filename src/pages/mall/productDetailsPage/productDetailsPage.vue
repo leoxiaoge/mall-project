@@ -14,7 +14,7 @@
 						:indicator-active-color="indicatorActiveColor"
 					>
 						<swiper-item v-for="(item, index) in swiper" :key="index">
-							<image :src="item" mode="aspectFill" />
+							<image :src="item" mode="aspectFit" />
 						</swiper-item>
 					</swiper>
 				</view>
@@ -29,17 +29,17 @@
 			</view>
 		</view>
 		<view class="i-product-head">
-			<view
-				class="i-product-title"
-				v-if="active.ActiveNo && activeDetail.ProductTitle"
-			>【{{active.ActiveNo}}期】{{activeDetail.ProductTitle}}</view>
+			<view class="i-product-title" v-if="active.ActiveNo && activeDetail.ProductTitle">
+				<text class="active-no">[{{active.ActiveNo}}期]</text>
+				<text class="i-product-title">{{activeDetail.ProductTitle}}</text>
+			</view>
 			<view class="i-product-name">{{activeDetail.ProductName}}</view>
 		</view>
 		<view v-if="active.PrevActiveMoney">
 			<view class="i-product-last-transaction">
 				<view class="i-product-status">{{active.ActiveTypeName}}</view>
 				<view class="i-product-last-transaction-content">
-					<view class="i-product-last-transaction-text">上期成交：</view>
+					<view class="i-product-last-transaction-text">上期成交:</view>
 					<view class="i-product-last-transaction-price">¥{{active.PrevActiveMoney}}</view>
 				</view>
 			</view>
@@ -83,7 +83,8 @@
 				<view class="i-bill-price">{{item.bill.Price}}</view>
 			</view>
 		</view>
-		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="allActivePath">
+		<view class="i-list-line"></view>
+		<view class="i-product-all-bill i-list-cell-navigate uni-navigate-right" @click="allActivePath">
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">全部出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -1165,6 +1166,12 @@ export default Vue.extend({
 	height: 440upx;
 }
 
+.active-no {
+	color: #4d4d4d;
+	font-weight: 600;
+	margin-right: 10upx;
+}
+
 .i-label-item {
 	display: flex;
 	justify-content: center;
@@ -1183,7 +1190,6 @@ export default Vue.extend({
 	font-size: 32upx;
 	color: #4d4d4d;
 	line-height: 1.2;
-	font-weight: 600;
 }
 
 .i-product-current-bid {
@@ -1243,6 +1249,7 @@ export default Vue.extend({
 
 .i-product-last-transaction {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	margin: 0 30upx;
 }
@@ -1258,17 +1265,19 @@ export default Vue.extend({
 
 .i-product-last-transaction-content {
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 	margin-left: 35upx;
 }
 
 .i-product-last-transaction-text {
 	font-size: 28upx;
+	margin-right: 8upx;
 	color: #000000;
 }
 
 .i-product-last-transaction-price {
-	font-size: 36upx;
+	font-size: 48upx;
+	line-height: 1.2;
 	color: #fe7f00;
 	font-weight: 600;
 }
@@ -1458,6 +1467,25 @@ export default Vue.extend({
 
 .i-product-all-bill {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2upx solid #f4f4f4;
+}
+
+.i-list-line {
+	height: 24upx;
+	background-color: #f4f4f4;
+}
+
+.i-list-cell-navigate {
+	font-size:30upx;
+	padding: 22upx 30upx;
+	line-height: 48upx;
+	position: relative;
+	display: flex;
+	box-sizing: border-box;
+	width: 100%;
+	flex: 1;
 	justify-content: space-between;
 	align-items: center;
 }

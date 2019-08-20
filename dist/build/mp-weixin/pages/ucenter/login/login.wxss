@@ -1,88 +1,91 @@
 
 page {
-    background-color: #fff;
+	background-color: #fff;
 }
 .i-header-logo {
-    padding:  80rpx 0 80rpx 0;
-    text-align: center;
+	padding: 80rpx 0 80rpx 0;
+	text-align: center;
 }
 .i-header-logo image {
-    width: 180rpx;
-    height: 180rpx;
+	width: 180rpx;
+	height: 180rpx;
 }
 .i-border-bottom {
-    border-bottom: 2rpx solid #f4f4f4;
+	border-bottom: 2rpx solid #f4f4f4;
 }
 .i-login-mobile {
-    margin: 0 60rpx;
-    padding: 20rpx 0;
+	margin: 0 60rpx;
+	padding: 20rpx 0;
 }
 .i-login-code {
-    margin: 0 60rpx;
-    padding: 20rpx 0;
+	margin: 0 60rpx;
+	padding: 20rpx 0;
 }
 .i-login-mobile-image {
-    background: url(https://api.tengpaisc.com/Resources/images/icon_login_mobile.png) center no-repeat;
-    background-size: 100%;
-    width: 36rpx;
-    height: 52rpx;
+	background: url(https://api.tengpaisc.com/Resources/images/icon_login_mobile.png)
+		center no-repeat;
+	background-size: 100%;
+	width: 36rpx;
+	height: 52rpx;
 }
 .i-login-code-image {
-    background: url(https://api.tengpaisc.com/Resources/images/icon_login_code.png) center no-repeat;
-    background-size: 100%;
-    width: 36rpx;
-    height: 52rpx;
+	background: url(https://api.tengpaisc.com/Resources/images/icon_login_code.png)
+		center no-repeat;
+	background-size: 100%;
+	width: 36rpx;
+	height: 52rpx;
 }
 .i-login-mobile-input {
-    margin-left: 20rpx;
+	margin-left: 20rpx;
 }
 .i-login-code-input {
-    margin-left: 20rpx;
+	margin-left: 20rpx;
 }
 .i-login-radio {
-    margin: 0 60rpx;
-    padding: 20rpx 0;
+	margin: 0 60rpx;
+	padding: 20rpx 0;
 }
 .radio {
-    padding: 0;
+	padding: 0;
 }
 .protocol-text {
-    color: #fe7f00;
+	color: #fe7f00;
 }
 .i-button-get {
-    background-color: #fff;
-    font-size: 32rpx;
-    color: #fe7f00;
+	background-color: #fff;
+	font-size: 32rpx;
+	color: #fe7f00;
 }
 button:after {
-    content: " ";
-    width: 200%;
-    height: 200%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: none;
-    -webkit-transform: scale(.5);
-    -ms-transform: scale(.5);
-        transform: scale(.5);
-    -webkit-transform-origin: 0 0;
-    -ms-transform-origin: 0 0;
-        transform-origin: 0 0;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-    border-radius: 10px;
+	content: " ";
+	width: 200%;
+	height: 200%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: none;
+	-webkit-transform: scale(0.5);
+	-ms-transform: scale(0.5);
+	    transform: scale(0.5);
+	-webkit-transform-origin: 0 0;
+	-ms-transform-origin: 0 0;
+	    transform-origin: 0 0;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	border-radius: 10px;
 }
-button[disabled]:not([type]), button[disabled][type=default] {
-    color: rgba(0,0,0,.3);
-    background-color: #f4f4f4;
+button[disabled]:not([type]),
+button[disabled][type="default"] {
+	color: rgba(0, 0, 0, 0.3);
+	background-color: #f4f4f4;
 }
 .i-login-button {
-    font-size: 32rpx;
-    line-height: 80rpx;
-    width: 80%;
-    color: #fff;
-    background-color: #fe7f00;
-    border-radius: 100rpx;
-    margin-top: 40rpx;
+	font-size: 32rpx;
+	line-height: 80rpx;
+	width: 80%;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 100rpx;
+	margin-top: 40rpx;
 }
 

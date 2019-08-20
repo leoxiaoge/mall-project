@@ -73,6 +73,7 @@ export default Vue.extend({
 /*每个页面公共css */
 @import "./common/uni.css";
 @import "./common/main.css";
+@import "./common/icon.css";
 
 page {
 	background-color: #f4f4f4;

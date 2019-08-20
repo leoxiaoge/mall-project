@@ -5,9 +5,12 @@
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.ID, item.Active.ID)">
 	        <view class="i-image-view">
-						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFill"></image>
+						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit"></image>
 					</view>
-					<view class="uni-product-title product-title">【{{item.Active.ActiveNo}}期】{{item.ProductTitle}}</view>
+					<view class="uni-product-title product-title">
+						<text class="active-no">[{{item.Active.ActiveNo}}期]</text>
+						<text>{{item.ProductTitle}}</text>
+					</view>
 					<view class="uni-product-price" v-if="item.Active.PrevActiveMoney > 0">
 						<text class="uni-product-text">上期成交：</text>
 						<text class="uni-product-price-original">￥{{item.Active.PrevActiveMoney}}</text>
@@ -122,6 +125,12 @@ export default Vue.extend({
 
 	.i-product-content {
 		border-bottom: 2upx dashed #f4f4f4;
+	}
+
+	.active-no {
+		color: #4d4d4d;
+		font-weight: 600;
+		margin-right: 10upx;
 	}
 
 	.uni-product-button button{

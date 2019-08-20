@@ -49,8 +49,8 @@
 	z-index: 999;
 }
 .search-icon {
-	width: 36rpx;
-	height: 36rpx;
+	width: 28rpx;
+	height: 28rpx;
 }
 .search input {
 	width: 20%;

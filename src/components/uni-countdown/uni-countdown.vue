@@ -131,16 +131,19 @@
 		display: inline-flex;
 		flex-wrap: nowrap;
 		justify-content: center;
+		align-items: center;
 		color: #fe7f00;
+		font-weight: 600;
 		padding: 4upx 20upx;
 		border-radius: 100upx;
-		border: 2upx solid #e8e8e8
+		border: 2upx solid #e8e8e8;
 	}
 
 	.uni-countdown-else {
 		display: inline-flex;
 		flex-wrap: nowrap;
 		justify-content: center;
+		align-items: center;
 		color: #393939;
 		border-radius: 100upx;
 	}

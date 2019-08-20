@@ -346,8 +346,8 @@ export default Vue.extend({
 }
 
 .search-icon {
-	width: 36upx;
-	height: 36upx;
+	width: 28upx;
+	height: 28upx;
 }
 
 .search input {

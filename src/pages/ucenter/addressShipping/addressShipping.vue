@@ -54,6 +54,7 @@ import Vue from "vue";
 import {
 	request,
 	navigateTo,
+	redirectTo,
 	showToast
 } from "@/common/utils/util";
 import {
@@ -163,7 +164,12 @@ export default Vue.extend({
 			console.log(this.orderID);
 			if (this.orderID) {
 				let res: any = await this.orderAddressSubmit();
-				navigateTo("../orderDetail/orderDetail?id=" + this.id + "&OrderID=" + this.orderID);
+				redirectTo(
+					"../orderDetail/orderDetail?id=" +
+						this.id +
+						"&OrderID=" +
+						this.orderID
+				);
 			}
 		},
 		orderAddressSubmit() {
@@ -176,7 +182,7 @@ export default Vue.extend({
 				};
 				request(OrderAddressSubmit, data).then((res: any) => {
 					console.log(res);
-					showToast("订单提交收货地址成功！")
+					showToast("订单提交收货地址成功！");
 					sesolve(res);
 				});
 			});
