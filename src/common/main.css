@@ -302,8 +302,8 @@ radio.olive[checked] .wx-radio-input,
 switch.olive.checked .uni-switch-input,
 checkbox.olive.checked .uni-checkbox-input,
 radio.olive.checked .uni-radio-input {
-	background-color: #8dc63f !important;
-	border-color: #8dc63f !important;
+	background-color: #fe7f00 !important;
+	border-color: #fe7f00 !important;
 	color: #ffffff !important;
 }
 
@@ -319,10 +319,10 @@ checkbox.green.checked .uni-checkbox-input,
 checkbox.checked .uni-checkbox-input,
 radio.green.checked .uni-radio-input,
 radio.checked .uni-radio-input {
-	background-color: #39b54a !important;
-	border-color: #39b54a !important;
+	background-color: #fe7f00 !important;
+	border-color: #fe7f00 !important;
 	color: #ffffff !important;
-	border-color: #39B54A !important;
+	border-color: #fe7f00 !important;
 }
 
 switch.cyan[checked] .wx-switch-input,
@@ -3333,12 +3333,12 @@ scroll-view.cu-steps .cu-item {
 
 .line-olive::after,
 .lines-olive::after {
-	border-color: #8dc63f;
+	border-color: #fe7f00;
 }
 
 .line-green::after,
 .lines-green::after {
-	border-color: #39b54a;
+	border-color: #fe7f00;
 }
 
 .line-cyan::after,
@@ -3407,12 +3407,12 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-olive {
-	background-color: #8dc63f;
+	background-color: #fe7f00;
 	color: #ffffff;
 }
 
 .bg-green {
-	background-color: #39b54a;
+	background-color: #fe7f00;
 	color: #ffffff;
 }
 
@@ -3492,12 +3492,12 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-olive.light {
-	color: #8dc63f;
+	color: #fe7f00;
 	background-color: #e8f4d9;
 }
 
 .bg-green.light {
-	color: #39b54a;
+	color: #fe7f00;
 	background-color: #d7f0dbff;
 }
 
@@ -3547,7 +3547,7 @@ scroll-view.cu-steps .cu-item {
 }
 
 .bg-gradual-green {
-	background-image: linear-gradient(45deg, #39b54a, #8dc63f);
+	background-image: linear-gradient(45deg, #fe7f00, #fe7f00);
 	color: #ffffff;
 }
 
@@ -3830,13 +3830,13 @@ scroll-view.cu-steps .cu-item {
 .text-olive,
 .line-olive,
 .lines-olive {
-	color: #8dc63f;
+	color: #fe7f00;
 }
 
 .text-green,
 .line-green,
 .lines-green {
-	color: #39b54a;
+	color: #fe7f00;
 }
 
 .text-cyan,
