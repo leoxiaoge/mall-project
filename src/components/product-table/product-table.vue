@@ -104,15 +104,21 @@ export default Vue.extend({
 	justify-content: center;
 }
 
+.table {
+	width: 100%;
+}
+
 .table-tr {
 	display: table-row;
+	width: 100%;
 	height: 80rpx;
 }
 
 .table-td {
 	display: table-cell;
-	border: 2upx solid #c9c9c9;
+	border: 2upx solid #dfdfdf;
 	vertical-align: middle;
+	width: 50%;
 	padding: 0 20upx;
 }
 

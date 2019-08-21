@@ -48,6 +48,9 @@ page {
 .radio {
 	padding: 0;
 }
+.protocol-agree {
+  margin-left: 10rpx;
+}
 .protocol-text {
 	color: #fe7f00;
 }

@@ -55,7 +55,7 @@
 	line-height: 1.2;
 }
 .i-product-current-bid {
-	margin: 0 30rpx;
+	margin: 20rpx 30rpx;
 	text-align: center;
 }
 .i-product-current-bid-head {
@@ -380,7 +380,7 @@
 	background-color: #f4f4f4;
 }
 .i-list-cell-navigate {
-	font-size:30rpx;
+	font-size: 30rpx;
 	padding: 22rpx 30rpx;
 	line-height: 48rpx;
 	position: relative;

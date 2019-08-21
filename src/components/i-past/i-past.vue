@@ -19,7 +19,7 @@
 			<view class="past-item-created">
 				<view class="past-item-created-text">{{item.CreatedTime}}</view>
 				<view class="past-item-crested-saved">
-					<text>节省了</text>
+					<text class="past-item-crested-saved-text">节省了</text>
 					<text class="past-item-crested-saved-percentage">{{item.percentage}}%</text>
 				</view>
 			</view>
@@ -71,6 +71,7 @@ export default Vue.extend({
 .past-item-crested-saved {
 	display: flex;
 	justify-content: flex-end;
+	align-items: center;
 }
 
 .past-item-user {
@@ -79,14 +80,21 @@ export default Vue.extend({
 }
 
 .past-item-userface {
+	display: flex;
+	align-items: center;
 	margin: 10upx 20upx;
 }
 
 .past-item-userface image {
-	width: 100upx;
-	height: 100upx;
+	width: 88upx;
+	height: 88upx;
 	border-radius: 50%;
 }
+
+.past-item-crested-saved-text {
+	font-size: 28upx;
+}
+
 .past-item-crested-saved-percentage {
   font-size: 36upx;
   color: #fe7f00;

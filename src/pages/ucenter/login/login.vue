@@ -37,7 +37,7 @@
 				<label class="radio">
 					<radio @click.stop.prevent="radioClick" :checked="checked" :color="color" />
 				</label>
-				<text>我已阅读并同意</text>
+				<text class="protocol-agree">我已阅读并同意</text>
 				<text class="protocol-text" @click="protocol">《腾拍商场购物协议》</text>
 			</radio-group>
 		</view>
@@ -293,6 +293,10 @@ page {
 
 .radio {
 	padding: 0;
+}
+
+.protocol-agree {
+  margin-left: 10upx;
 }
 
 .protocol-text {

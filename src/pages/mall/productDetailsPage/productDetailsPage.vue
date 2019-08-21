@@ -84,7 +84,7 @@
 			</view>
 		</view>
 		<view class="i-list-line"></view>
-		<view class="i-product-all-bill i-list-cell-navigate uni-navigate-right" @click="allActivePath">
+		<view class="i-product-all-bill uni-list-cell-navigate uni-navigate-right" @click="allActivePath">
 			<view class="i-product-all-bill-text">
 				<view class="i-product-all-bill-records">全部出价记录</view>
 				<view class="i-product-all-bill-length">
@@ -153,6 +153,7 @@
 							<block v-if="item.ButtonType === 0 && item.ButtonVisibility">
 								<button
 									class="btn join-btn"
+									:style="'width:'+width+'px'"
 									v-show="!show"
 									@click.stop.prevent="hidePopup(item.ButtonText)"
 								>{{item.ButtonText}}</button>
@@ -189,6 +190,7 @@
 							<block v-if="item.ButtonType === 3 && item.ButtonVisibility">
 								<button
 									class="btn join-btn"
+									:style="'width:'+width+'px'"
 									:disabled="!item.ButtonEnabled"
 									formType="submit"
 									@click.stop.prevent="billTap(item.ButtonText)"
@@ -197,6 +199,7 @@
 							<block v-if="item.ButtonType === 4 && item.ButtonVisibility">
 								<button
 									class="btn join-btn"
+									:style="'width:'+width+'px'"
 									:disabled="!item.ButtonEnabled"
 									formType="submit"
 									@click.stop.prevent="billTap(item.ButtonText)"
@@ -255,37 +258,33 @@ export default Vue.extend({
 			circular: true,
 			indicatorActiveColor: "#fe7f00",
 			disabled: false, // 按钮disabled
-
 			swiper: [], // 产品轮播
-			id: "",
+			id: "", // 商品ID
 			orderID: "", // 订单ID
-			product: "",
+			product: "", // 商品
 			num: "1", // 剩余次数
 			pageID: 1, // 页码
 			pageSize: 10, // 每页条数
 			hasPastNext: false, // 是否还有往期成交下一页
 			hasOrderNext: false, // 是否还有晒单下一页
-
+			width: 0, // 设置系统宽度
 			activeDetail: "", // 活动详情
 			activeShow: false, // 是否有活动内容数据
 			active: [], // 活动内容
 			activeType: 0, // 判断是否是自动举牌还是手工举牌,activeType==0自动，1手工
-
 			tabIndex: 0, // 默认往期成交
 			pastList: [], // 往期成交列表
 			showList: [], // 晒单列表
 			ruleList: "", // 竞拍规则
 			show: false, // 显示弹窗
-
 			label: ["零风险", "正品承诺", "极速发货", "公平公正"],
 			tab: ["往期成交", "分享晒单", "竞拍规则"],
 			src: "/static/icon_experience.png",
 			leading: "/static/icon/icon_leading.png",
-
 			activeID: "", // 活动ID
-			Price: "",
-			msgID: "",
-			msgType: "",
+			Price: "", // 价格
+			msgID: "", // GUID
+			msgType: "", // 消息类型
 			timer: 0, // 计时器
 			newCurrent: "", // 当前出价文字
 			newCurrentBidder: "", // 当前领先出价人文字
@@ -295,7 +294,6 @@ export default Vue.extend({
 			timerDurationTitle: "", // 状态对应要显示的标题
 			onTimerStatus: "", // 活动通知
 			OnTimerDowns: "", // 成交通知
-
 			currSignups: "", // 总已报名份数
 			maxSignups: "", // 总需报名份数
 			signups: "", // 我已报名份数
@@ -304,7 +302,6 @@ export default Vue.extend({
 			myBills: "0", // 我的举牌次数,我的出价记录
 			seqBills: "0", // 剩余可用次数
 			seqBillsShow: false, // 显示剩余举牌次数文字
-
 			seq: "", // 更新我的剩余举牌次数
 			MyBills: "", // 举牌响应消息（包含我的举牌次数、剩余可用次数）
 			SeqBills: "0", // 举牌响应消息（剩余可用次数）
@@ -327,6 +324,8 @@ export default Vue.extend({
 		console.log("options", options);
 		this.id = options.id;
 		this.activeID = options.activeID;
+		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
+		this.width = windowWidth;
 		this.websocket();
 	},
 	onShow() {
@@ -405,11 +404,11 @@ export default Vue.extend({
 		},
 		// 往期成交列表
 		getPastTransactionsList() {
-			let ProductID = this.id;
+			let ActiveID = this.activeID;
 			let PageID = this.pageID;
 			let PageSize = this.pageSize;
 			let data = {
-				ProductID: ProductID,
+				ActiveID: ActiveID,
 				PageID: PageID,
 				PageSize: PageSize
 			};
@@ -664,7 +663,6 @@ export default Vue.extend({
 									this.buttonStateChanged("举牌", "2", true, true);
 							}
 						}
-						this.timerState(null);
 						break;
 					case 3:
 						// 登录响应消息
@@ -802,6 +800,7 @@ export default Vue.extend({
 						//计算剩余时间，并重置剩余时间
 						let dt = new Date();
 						dt.setTime(dt.getTime() + msg.SeqMiniSecounds);
+						console.log("剩余时间", dt);
 						this.timerState(dt);
 						console.log(this.seqTime);
 						// 设置倒计时标题为即将开拍
@@ -975,25 +974,30 @@ export default Vue.extend({
 		onPriceUpdateEvent(startPrice: any, allBills: any, lastBills: any) {
 			// 更新全部举牌次数、我的举牌次数、和最新价格
 			console.log(lastBills);
-			this.allBills = allBills; // '活动总举牌次数：' + allBills + '次'
 			if (lastBills.length > 0) {
+				console.log("oneBills", lastBills);
 				// 有人出价，按最后出价人
-				this.newPrice = `￥${lastBills[0].bill.Price}`;
 				this.newBill = lastBills[0].bill;
 				this.newFace = lastBills[0].face;
 				this.newNick = `领先人：${lastBills[0].nick}`;
 				this.newCity = `${lastBills[0].bill.Province} ${lastBills[0].bill.City}`;
 				this.newCurrentBidder = "当前领先出价人";
+				this.newPrice = `￥${lastBills[0].bill.Price}`;
 				this.newCurrent = "当前出价";
 			} else {
 				// 未有人出价，按起拍价
+				this.newBill = "";
+				this.newFace = "";
+				this.newNick = "";
+				this.newCity = "";
+				this.newCurrentBidder = "";
 				this.newPrice = `￥${startPrice}`;
 				this.newCurrent = "起拍价";
 			}
+			this.allBills = allBills; // '活动总举牌次数：' + allBills + '次'
 			// 更新最近出局人信息
-			if (lastBills.length > 1) {
-				this.lastBills = lastBills.slice(1, 3);
-			}
+			this.lastBills = lastBills.slice(1, 3);
+			console.log(this.lastBills);
 		},
 		formSubmit(e: any) {
 			let formId = e.detail.formId;
@@ -1074,10 +1078,9 @@ export default Vue.extend({
 			}
 		},
 		// 下面处理倒计时的显示，实际上时间是由服务器webSocket返回的
-		seqDisplay() {
-			let seqTime: any = this.seqTime;
+		seqDisplay(time: any) {
 			let date: any = new Date();
-			let between: number = seqTime - date;
+			let between: number = time - date;
 			let sec: number = Math.floor(between / 1000);
 			let hours: any = Math.floor(Math.floor(sec / 60) / 60) % 24;
 			let days = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
@@ -1109,16 +1112,16 @@ export default Vue.extend({
 			}
 		},
 		// 倒计时
-		timerState(type: any) {
-			if (type === null) {
+		timerState(time: any) {
+			if (time === null) {
 				clearInterval(this.timer);
 				return;
 			}
-			if (!(type instanceof Date)) {
+			if (!(time instanceof Date)) {
 				console.error("传入日期时间格式不正确！");
 				return;
 			}
-			if (type.getTime() < new Date().getTime()) {
+			if (time.getTime() < new Date().getTime()) {
 				// 时间错误，时间必须是未来的日期时间
 				console.error("设置倒计时器无效，日期时间必须是未来的时间！");
 				return;
@@ -1126,7 +1129,7 @@ export default Vue.extend({
 			// 清除旧的倒计时器
 			clearInterval(this.timer);
 			this.timer = setInterval(() => {
-				this.seqDisplay();
+				this.seqDisplay(time);
 			}, 100);
 		},
 		// 下面是生成随机GUID的函数
@@ -1193,7 +1196,7 @@ export default Vue.extend({
 }
 
 .i-product-current-bid {
-	margin: 0 30upx;
+	margin: 20upx 30upx;
 	text-align: center;
 }
 
@@ -1388,7 +1391,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	width: 100%;
 }
 
 .i-placard-item {
@@ -1407,7 +1409,6 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	width: 60%;
 	padding-left: 30upx;
 }
 
@@ -1478,7 +1479,7 @@ export default Vue.extend({
 }
 
 .i-list-cell-navigate {
-	font-size:30upx;
+	font-size: 30upx;
 	padding: 22upx 30upx;
 	line-height: 48upx;
 	position: relative;

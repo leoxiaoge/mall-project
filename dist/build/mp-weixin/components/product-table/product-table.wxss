@@ -9,14 +9,19 @@
 	    -ms-flex-pack: center;
 	        justify-content: center;
 }
+.table {
+	width: 100%;
+}
 .table-tr {
 	display: table-row;
+	width: 100%;
 	height: 80rpx;
 }
 .table-td {
 	display: table-cell;
-	border: 2rpx solid #c9c9c9;
+	border: 2rpx solid #dfdfdf;
 	vertical-align: middle;
+	width: 50%;
 	padding: 0 20rpx;
 }
 .table-text {
