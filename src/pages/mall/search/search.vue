@@ -23,7 +23,7 @@
 import Vue from "vue";
 import { request, navigateTo, showToast } from "@/common/utils/util";
 import { ProductSearchListGet } from "@/common/config/api";
-import iSearch from "@/components/search/search.vue";
+import iSearch from "@/components/i-search/i-search.vue";
 import iNo from "@/components/u-no/u-no.vue";
 import productList from "@/components/product-search-list/product-search-list.vue";
 export default Vue.extend({
@@ -89,6 +89,8 @@ export default Vue.extend({
 			this.productList = this.productList.concat(productList);
 			if (this.productList.length <= 0) {
 				this.noShow = true;
+			} else {
+				this.noShow = false;
 			}
 		},
 		getProductSearchList(pageNum: number, pageSize: number) {
