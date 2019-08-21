@@ -121,11 +121,9 @@ export default Vue.extend({
 			swiperGridWidth: "100%",
 			swiper: [],
 			LastTranActiveList: [], // 最新成交列表
-
 			PageCount: 1,
 			pageNum: 1,
 			pageSize: 10,
-
 			list: [
 				{
 					image: "/static/icon_experience.png",
@@ -166,7 +164,6 @@ export default Vue.extend({
 	onShow() {
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
-			console.log(mescroll);
 			this.downCallback(mescroll);
 		}
 	},
@@ -189,9 +186,7 @@ export default Vue.extend({
 					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
 					mescroll.endSuccess(curPageData.length);
 					//设置列表数据
-					console.log(curPageData);
 					if (mescroll.num == 1) this.productList = []; //如果是第一页需手动制空列表
-					console.log("productListIng", this.productList);
 					this.productList = this.productList.concat(curPageData); //追加新数据
 				},
 				() => {
@@ -209,14 +204,12 @@ export default Vue.extend({
 			successCallback: any,
 			errorCallback: any
 		) {
-			console.log(pageNum, pageSize);
 			try {
 				let productList: any = await this.getHomeProductListIng(
 					pageNum,
 					pageSize
 				);
 				this.getHomeProductList();
-				console.log("data", this.productList);
 				//联网成功的回调
 				successCallback && successCallback(productList);
 			} catch (e) {
@@ -229,7 +222,6 @@ export default Vue.extend({
 				AdName: "首页头部轮播"
 			};
 			request(AdsListGet, data).then((res: any) => {
-				console.log(res);
 				this.swiper = res.AdsList[0].AdsViewList;
 			});
 		},
@@ -237,7 +229,6 @@ export default Vue.extend({
 		getLastTransactionList() {
 			let data = {};
 			request(LastTransactionListGet, data).then((res: any) => {
-				console.log(res);
 				this.LastTranActiveList = res.LastTranActiveList;
 				if (res.LastTranActiveList.length >= 2) {
 					this.multiple = 2;
@@ -255,11 +246,9 @@ export default Vue.extend({
 				};
 				request(HomeProductListGet, data)
 					.then((res: any) => {
-						console.log(res.ProductList);
 						sesolve(res.ProductList);
 					})
 					.catch((err: any) => {
-						console.log(err);
 						let mescroll: any = this.mescroll;
 						mescroll.endErr();
 					});
@@ -274,7 +263,6 @@ export default Vue.extend({
 				SearchType: "home1"
 			};
 			request(HomeProductListGet, data).then((res: any) => {
-				console.log(res.ProductList);
 				if (pageNum === 1) {
 					this.productListIng = [];
 				}
