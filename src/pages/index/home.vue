@@ -230,6 +230,9 @@ export default Vue.extend({
 			let data = {};
 			request(LastTransactionListGet, data).then((res: any) => {
 				this.LastTranActiveList = res.LastTranActiveList;
+				this.LastTranActiveList.map((item: any) => {
+					item.OrderUserNick = decodeURIComponent(item.OrderUserNick);
+				});
 				if (res.LastTranActiveList.length >= 2) {
 					this.multiple = 2;
 				}
@@ -267,6 +270,9 @@ export default Vue.extend({
 					this.productListIng = [];
 				}
 				this.productListIng = this.productListIng.concat(res.ProductList);
+				this.productListIng.map((item: any) => {
+					item.Active.LastBillUserName = decodeURIComponent(item.Active.LastBillUserName)
+				})
 				this.PageCount = res.PageCount;
 			});
 		},

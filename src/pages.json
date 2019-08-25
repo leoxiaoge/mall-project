@@ -36,7 +36,23 @@
 		{
 			"path": "pages/index/ucenter",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "我的",
+				// #ifndef APP-PLUS
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"fontSrc": "/static/uni.ttf",
+								"text": "\ue537",
+								"width": "40px",
+								"fontSize": "28px",
+								"color": "#fff",
+								"background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
+				// #endif
 			}
 		}
 	],
@@ -247,7 +263,23 @@
 					"style": {
 						"navigationBarTitleText": "用户协议"
 					}
+				},
+				// #ifndef APP-PLUS
+				{
+					"path": "setting/setting",
+					"style": {
+						"navigationBarTitleText": "设置"
+					}
+				},
+				// #endif
+				// #ifndef APP-PLUS
+				{
+					"path": "settingUserNick/settingUserNick",
+					"style": {
+						"navigationBarTitleText": "昵称"
+					}
 				}
+				// #endif
 			]
 		}
 	],

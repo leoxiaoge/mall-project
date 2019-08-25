@@ -270,7 +270,6 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	width: 100%;
 }
 .i-placard-item {
 	display: -webkit-box;
@@ -304,7 +303,6 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	width: 60%;
 	padding-left: 30rpx;
 }
 .i-placard-remaining {

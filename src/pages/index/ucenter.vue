@@ -8,8 +8,8 @@
 				</view>
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
-				<view class="userInfo-userFace" @click="clear">
-					<img :src="userInfo.userFace" />
+				<view class="userInfo-userFace">
+					<image :src="userFace" mode="widthFix" />
 				</view>
 				<!-- #endif -->
 			</view>
@@ -20,7 +20,7 @@
 					<!-- #endif -->
 					<!-- #ifndef MP-WEIXIN -->
 					<view class="userInfo-userNick">
-						<text>{{userInfo.userNick}}</text>
+						<text>{{userNick}}</text>
 					</view>
 					<!-- #endif -->
 				</view>
@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, defaultShowModal } from "@/common/utils/util";
+import { request, navigateTo, showToast, defaultShowModal } from "@/common/utils/util";
 import { GetLoginUser } from "@/common/config/api";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
 import uniList from "@/components/uni-list/uni-list.vue";
@@ -100,6 +100,8 @@ export default Vue.extend({
 		return {
 			sessionkey: "",
 			userInfo: "",
+			userFace: "",
+			userNick: "",
 			Integrals: "",
 			lists: [
 				{
@@ -169,11 +171,16 @@ export default Vue.extend({
 	onShow() {
 		this.useInfo();
 	},
+	onNavigationBarButtonTap(e: any) {
+		navigateTo("/pages/ucenter/setting/setting");
+	},
 	methods: {
 		async useInfo() {
 			this.sessionkey = uni.getStorageSync("SessionKey");
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
+			this.userFace = userInfo.userFace;
+			this.userNick = decodeURIComponent(userInfo.userNick);
 			if (userInfo.Integrals) {
 				uni.showTabBarRedDot({
 					index: 3
@@ -231,8 +238,11 @@ export default Vue.extend({
 			defaultShowModal(content).then((res: any) => {
 				if (res.confirm) {
 					console.log("用户点击确定");
-					uni.removeStorageSync("SessionKey");
-					uni.removeStorageSync("UserInfo");
+					try {
+						uni.clearStorageSync();
+					} catch (e) {
+						showToast("退出登录失败");
+					}
 					this.sessionkey = "";
 					this.userInfo = "";
 				} else if (res.cancel) {

@@ -110,6 +110,7 @@ export default Vue.extend({
 						orderList.map((item: any) => {
 							item.UpdatedTime = formatTime(new Date(item.Updated));
 							item.CreatedTime = formatTime(new Date(item.Created));
+							item.UserNick = decodeURIComponent(item.UserNick);
 						});
 						sesolve(orderList);
 					})

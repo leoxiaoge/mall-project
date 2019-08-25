@@ -16,9 +16,10 @@
 			<block v-for="(item,index2) in activeList" :key="index2">
 				<media-list
 					:options="item"
-					:show-status="true"
+					:status-done="item.statusDone"
+					:status-flow="item.statusFlow"
 					@close="close(index1,index2)"
-					@click="goDetail(item)"
+					@click="productDetailsTo(item.ID, item.Active.ID)"
 				></media-list>
 			</block>
 		</mescroll-uni>
@@ -54,7 +55,7 @@ export default Vue.extend({
 				},
 				{
 					id: "2",
-					name: "全部",
+					name: "我的参与",
 					type: "3"
 				}
 			]
@@ -96,11 +97,8 @@ export default Vue.extend({
 			successCallback: any,
 			errorCallback: any
 		) {
-			console.log(pageNum, pageSize);
 			try {
 				let activeList: any = await this.getActiveList(pageNum, pageSize);
-				this.activeList = activeList;
-				console.log("data", this.activeList);
 				//联网成功的回调
 				successCallback && successCallback(activeList);
 			} catch (e) {
@@ -128,23 +126,24 @@ export default Vue.extend({
 			});
 		},
 		async tapTab(e: any) {
-			console.log(e);
 			let type = e;
 			let mescroll: any = this.mescroll;
 			this.ListType = type;
 			this.downCallback(mescroll);
 		},
-		goDetail(e: any) {
-			uni.navigateTo({
-				url: "/pages/template/tabbar/detail/detail?title=" + e.title
-			});
+		productDetailsTo(id: any, activeID: any) {
+			navigateTo(
+				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
+					id +
+					"&activeID=" +
+					activeID
+			);
 		}
 	}
 });
 </script>
 
 <style>
-
 .uni-tab-bar-loading {
 	text-align: center;
 	font-size: 28upx;
@@ -177,8 +176,8 @@ export default Vue.extend({
 .product-item .name {
 	position: absolute;
 	top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);	
+	left: 50%;
+	transform: translate(-50%, -50%);
 	font-weight: 600;
 }
 
@@ -189,8 +188,8 @@ export default Vue.extend({
 .active .line {
 	position: absolute;
 	bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
+	left: 50%;
+	transform: translate(-50%, 0);
 	width: 100upx;
 	height: 6upx;
 	background-color: #fe7f00;

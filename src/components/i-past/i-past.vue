@@ -10,7 +10,7 @@
 						<text>成交人：</text>
 						<text>{{item.UserNick}}</text>
 					</view>
-					<view class="past-item-text">
+					<view class="past-item-moneys">
 						<text>成交价：</text>
 						<text>¥{{item.OrderMoneys}}</text>
 					</view>
@@ -41,7 +41,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {};
-  },
+	},
 	methods: {}
 });
 </script>
@@ -62,10 +62,18 @@ export default Vue.extend({
 
 .past-item-usernick {
 	max-width: 280upx;
-	overflow: hidden; 
-	white-space: nowrap; 
-	-o-text-overflow: ellipsis; 
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
 	text-overflow: ellipsis;
+}
+
+.past-item-usernick text {
+	font-size: 28upx;
+}
+
+.past-item-moneys text {
+	font-size: 28upx;
 }
 
 .past-item-crested-saved {
@@ -91,12 +99,20 @@ export default Vue.extend({
 	border-radius: 50%;
 }
 
+.past-item-created-text {
+	font-size: 28upx;
+	line-height: 1.8;
+	color: #949494;
+}
+
 .past-item-crested-saved-text {
 	font-size: 28upx;
+	line-height: 1.6;
 }
 
 .past-item-crested-saved-percentage {
-  font-size: 36upx;
-  color: #fe7f00;
+	font-size: 34upx;
+	line-height: 1.2;
+	color: #fe7f00;
 }
 </style>

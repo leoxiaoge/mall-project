@@ -186,7 +186,7 @@ export default Vue.extend({
 			// let Mobile = '13723750893';
 			let LoginCode = this.LoginCode;
 			let wxFace = this.wxFace;
-			let wxNick = this.wxNick;
+			let wxNick = encodeURIComponent(this.wxNick);
 			let refUserID = this.refUserID;
 			if (uni.getStorageSync("scene")) {
 				refUserID = uni.getStorageSync("scene");

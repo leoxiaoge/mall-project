@@ -1,8 +1,9 @@
 <template>
 	<view class="content">
-		<view class="uni-padding-wrap i-kong">
+		<view class="parse">
 			<uParse :content="article" @preview="preview" @navigate="navigate" />
 		</view>
+		<view class="i-kong"></view>
 		<view class="mask-show" :class="(show?'show':'hide')">
 			<view class="mask" @click="hide" @touchmove.stop.prevent="moveHandle" />
 			<view class="exchange">
@@ -64,6 +65,7 @@ import {
 	request,
 	navigateTo,
 	showToast,
+	showModal,
 	defaultShowModal
 } from "@/common/utils/util";
 import {
@@ -91,7 +93,6 @@ export default Vue.extend({
 	onLoad(options: any) {
 		this.id = options.id;
 		this.integrals = options.integrals;
-		console.log("onLoad", options);
 	},
 	onShow() {
 		this.getProduct();
@@ -117,11 +118,7 @@ export default Vue.extend({
 		},
 		navigate(href: any, e: any) {
 			// 如允许点击超链接跳转，则应该打开一个新页面，并传入href，由新页面内嵌webview组件负责显示该链接内容
-			console.log("href: " + href);
-			uni.showModal({
-				content: "点击链接为：" + href,
-				showCancel: false
-			});
+			showModal("点击链接为：" + href);
 		},
 		isShow() {
 			this.show = true;
@@ -153,7 +150,6 @@ export default Vue.extend({
 			if (!AddressID) {
 				let msg: string = "你还没有默认地址，请点击确定去填写地址信息！";
 				defaultShowModal(msg).then((res: any) => {
-					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");
 						navigateTo("../../ucenter/addressShipping/addressShipping");
@@ -170,7 +166,6 @@ export default Vue.extend({
 				this.show = false;
 				let content: string = "兑换成功，请点击确定查看订单！";
 				defaultShowModal(content).then((res: any) => {
-					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");
 						let status = "-1";
@@ -179,7 +174,6 @@ export default Vue.extend({
 						console.log("用户点击取消");
 					}
 				});
-				console.log(res);
 			});
 		},
 		hide() {

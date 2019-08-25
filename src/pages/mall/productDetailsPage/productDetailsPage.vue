@@ -322,18 +322,18 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("options", options);
+		this.UserID = uni.getStorageSync("UserInfo").ID;
+		this.websocket();
 		this.id = options.id;
 		this.activeID = options.activeID;
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
 		this.width = windowWidth;
-		this.websocket();
 	},
 	onShow() {
 		this.UserID = uni.getStorageSync("UserInfo").ID;
-		console.log(this.UserID);
+		this.websocket();
 		this.getActiveByID();
 		this.getPastTransactionsList();
-		this.websocket();
 	},
 	onHide() {
 		uni.hideToast();
@@ -421,6 +421,7 @@ export default Vue.extend({
 						100
 					).toFixed(2);
 					item.CreatedTime = formatTime(new Date(item.Created));
+					item.UserNick = decodeURIComponent(item.UserNick);
 				});
 				if (res.PageCount <= PageID) {
 					this.hasPastNext = true;
@@ -779,7 +780,7 @@ export default Vue.extend({
 							this.newPrice = `￥${msg.Bills[0].Price}`;
 							this.newBill = msg.Bills[0].bill;
 							this.newFace = msg.Bills[0].bill.face;
-							this.newNick = `领先人：${msg.Bills[0].nick}`;
+							this.newNick = `领先人：${decodeURIComponent(msg.Bills[0].nick)}`;
 						}
 						// 更新最近出局人信息
 						if (msg.Bills.length > 1) {
@@ -979,8 +980,8 @@ export default Vue.extend({
 				// 有人出价，按最后出价人
 				this.newBill = lastBills[0].bill;
 				this.newFace = lastBills[0].face;
-				this.newNick = `领先人：${lastBills[0].nick}`;
-				this.newCity = `${lastBills[0].bill.Province} ${lastBills[0].bill.City}`;
+				this.newNick = `领先人：${decodeURIComponent(lastBills[0].nick)}`;
+				this.newCity = `${lastBills[0].bill.Province}`;
 				this.newCurrentBidder = "当前领先出价人";
 				this.newPrice = `￥${lastBills[0].bill.Price}`;
 				this.newCurrent = "当前出价";
@@ -997,6 +998,9 @@ export default Vue.extend({
 			this.allBills = allBills; // '活动总举牌次数：' + allBills + '次'
 			// 更新最近出局人信息
 			this.lastBills = lastBills.slice(1, 3);
+			this.lastBills.map((item: any) => {
+				item.nick = decodeURIComponent(item.nick);
+			});
 			console.log(this.lastBills);
 		},
 		formSubmit(e: any) {

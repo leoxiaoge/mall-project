@@ -10,9 +10,16 @@
 				</view>
 			</view>
 			<view class="teng-share-content">
+				<!-- #ifndef APP-PLUS -->
 				<view class="teng-share-code" @click="preview(code, code)">
 					<img :src="code" />
 				</view>
+				<!-- #endif -->
+				<!-- #ifdef APP-PLUS -->
+				<view class="teng-share-code" @click="preview(url + code, url + code)">
+					<img :src="url + code" />
+				</view>
+				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="teng-share-list">
 					<view class="teng-share-text">
@@ -31,20 +38,25 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, previewImage } from "@/common/utils/util";
-import { GetWxacode, GetSystemConfig } from "@/common/config/api";
+import { request, navigateTo, previewImage, upload } from "@/common/utils/util";
+import {
+	GetWxacode,
+	GetSystemConfig,
+	OrderDryingUpload
+} from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
 			commissionValue: "",
 			code: [],
+			url: "https://api.tengpaisc.com",
 			commission: "/static/icon/icon_commission.png",
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
 	},
 	onLoad(options: any) {
-		this.getWxacode();
 		this.getSystemConfig();
+		this.uploadImage();
 	},
 	onShareAppMessage(res) {
 		if (res.from === "button") {
@@ -56,17 +68,35 @@ export default Vue.extend({
 		};
 	},
 	methods: {
-		getWxacode() {
-			let data = {};
-			request(GetWxacode, data).then((res: any) => {
-				this.code = res.CodeValue;
-			});
-		},
-		getSystemConfig() {
+		async getSystemConfig() {
+			// #ifndef APP-PLUS
+			let res: any = await this.getWxacode();
+			this.code = res.CodeValue;
 			let data = {};
 			request(GetSystemConfig, data).then((res: any) => {
-				this.commissionValue = res.ConfigValue.CommissionValue
+				this.commissionValue = res.ConfigValue.CommissionValue;
 			});
+			// #endif
+		},
+		getWxacode() {
+			return new Promise((sesolve, reject) => {
+				let data = {};
+				request(GetWxacode, data).then((res: any) => {
+					sesolve(res);
+				});
+			});
+		},
+		async uploadImage() {
+			// #ifdef APP-PLUS
+			let data = {};
+			let res: any = await this.getWxacode();
+			let filePath: any = res.CodeValue;
+			upload(OrderDryingUpload, data, filePath).then((res: any) => {
+				console.log(res);
+				let data = JSON.parse(res);
+				this.code = data.PicUrl;
+			});
+			// #endif
 		},
 		preview(current: any, urls: any) {
 			urls = [urls];
@@ -74,7 +104,7 @@ export default Vue.extend({
 			previewImage(current, urls);
 		},
 		commissionTo() {
-			navigateTo("../commission/commission")
+			navigateTo("../commission/commission");
 		}
 	}
 });

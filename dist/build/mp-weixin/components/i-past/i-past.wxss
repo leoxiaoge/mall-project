@@ -20,10 +20,16 @@
 }
 .past-item-usernick {
 	max-width: 280rpx;
-	overflow: hidden; 
-	white-space: nowrap; 
-	-o-text-overflow: ellipsis; 
+	overflow: hidden;
+	white-space: nowrap;
+	-o-text-overflow: ellipsis;
 	text-overflow: ellipsis;
+}
+.past-item-usernick text {
+	font-size: 28rpx;
+}
+.past-item-moneys text {
+	font-size: 28rpx;
 }
 .past-item-crested-saved {
 	display: -webkit-box;
@@ -65,11 +71,18 @@
 	height: 88rpx;
 	border-radius: 50%;
 }
+.past-item-created-text {
+	font-size: 28rpx;
+	line-height: 1.8;
+	color: #949494;
+}
 .past-item-crested-saved-text {
 	font-size: 28rpx;
+	line-height: 1.6;
 }
 .past-item-crested-saved-percentage {
-  font-size: 36rpx;
-  color: #fe7f00;
+	font-size: 34rpx;
+	line-height: 1.2;
+	color: #fe7f00;
 }
 

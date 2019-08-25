@@ -49,7 +49,9 @@
         "helpAndFeedback/helpAndFeedback",
         "addressUpdate/addressUpdate",
         "orderDryingUpload/orderDryingUpload",
-        "protocol/protocol"
+        "protocol/protocol",
+        "setting/setting",
+        "settingUserNick/settingUserNick"
       ]
     }
   ],
@@ -104,6 +106,5 @@
       "provider": "wx069ba97219f66d99"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

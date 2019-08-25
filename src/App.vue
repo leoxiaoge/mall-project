@@ -36,12 +36,10 @@ export default Vue.extend({
     // #endif
 		// #ifdef MP-WEIXIN
 		const updateManager: any = uni.getUpdateManager();
-
 		updateManager.onCheckForUpdate((res: any) => {
 			// 请求完新版本信息的回调
 			console.log(res.hasUpdate);
 		});
-
 		updateManager.onUpdateReady((res: any) => {
 			uni.showModal({
 				title: "更新提示",
@@ -54,7 +52,6 @@ export default Vue.extend({
 				}
 			});
 		});
-
 		updateManager.onUpdateFailed((res: any) => {
 			// 新的版本下载失败
 		});

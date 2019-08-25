@@ -55,6 +55,7 @@ import {
 	request,
 	navigateTo,
 	redirectTo,
+	defaultShowModal,
 	showToast
 } from "@/common/utils/util";
 import {
@@ -87,8 +88,10 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("onLoad", options);
-		this.disabled = options.disabled;
 		this.id = options.id;
+		if (options.disabled) {
+			this.disabled = options.disabled;
+		}
 		this.orderID = options.orderID;
 	},
 	onShow() {
@@ -122,8 +125,8 @@ export default Vue.extend({
 			});
 		},
 		// 编辑收货地址
-		editAddress(id: any) {
-			navigateTo("../addressUpdate/addressUpdate?id=" + id);
+		editAddress(addressID: any) {
+			navigateTo("../addressUpdate/addressUpdate?addressID=" + addressID);
 		},
 		// 删除收货地址
 		deleteAddress(isDefault: any, id: any) {
@@ -139,7 +142,6 @@ export default Vue.extend({
 							AddressID: AddressID
 						};
 						request(UserAddressDelete, data).then((res: any) => {
-							console.log(res);
 							showToast("删除成功！");
 							this.getUserAddressList();
 							if (isDefault === 1) {
@@ -154,14 +156,16 @@ export default Vue.extend({
 		},
 		// 添加地址
 		addAddress() {
-			let id = 0;
-			navigateTo("../addressUpdate/addressUpdate?id=" + id);
+			let id = this.id;
+			let addressID = 0;
+			let disabled = this.disabled;
+			let orderID = this.orderID;
+			navigateTo("../addressUpdate/addressUpdate?addressID=" + addressID + "&disabled=" + disabled + "&orderID=" + orderID + "&id=" + id);
 		},
 		// 设置存储地址
 		async setAddress(id: string) {
 			uni.setStorageSync("addressID", id);
 			this.addressID = id;
-			console.log(this.orderID);
 			if (this.orderID) {
 				let res: any = await this.orderAddressSubmit();
 				redirectTo(
@@ -181,7 +185,6 @@ export default Vue.extend({
 					AddressID: AddressID
 				};
 				request(OrderAddressSubmit, data).then((res: any) => {
-					console.log(res);
 					showToast("订单提交收货地址成功！");
 					sesolve(res);
 				});

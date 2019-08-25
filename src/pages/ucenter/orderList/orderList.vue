@@ -194,13 +194,16 @@ export default Vue.extend({
 			console.log("action", e);
 			switch (e) {
 				case "填写地址":
+					let id = this.id;
 					let disabled: boolean = true;
 					let orderID = this.orderID;
 					navigateTo(
 						"../addressShipping/addressShipping?disabled=" +
 							disabled +
 							"&orderID=" +
-							orderID
+							orderID +
+							"&id=" +
+							id
 					);
 					break;
 				case "确认收货":

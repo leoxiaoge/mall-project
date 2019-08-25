@@ -4,13 +4,13 @@
 			<view class="i-notice-list" v-for="(item, index) in lastTranActiveList" :key="index">
 				<view class="i-notice-head">
 					<view class="i-notice-name">
-						<text class="i-notice-content">
+						<view class="i-notice-content">
 							<text>恭喜</text>
-							<text class="i-notice-original">{{item.OrderUserNick}}</text>
+							<text class="i-notice-original i-notice-original-user">{{item.OrderUserNick}}</text>
 							<text>以</text>
 							<text class="i-notice-original">¥{{item.OrderMoney}}</text>
 							<text>元拍得</text>
-						</text>
+						</view>
 					</view>
 					<view class="i-notice-time">{{item.time}}</view>
 				</view>
@@ -104,6 +104,7 @@ export default Vue.extend({
 						let lastTranActiveList = res.LastTranActiveList;
 						lastTranActiveList.map((item: any) => {
 							item.time = formatTime(new Date(item.ActiveEndTime));
+							item.OrderUserNick = decodeURIComponent(item.OrderUserNick);
 						});
 						sesolve(lastTranActiveList);
 					})
@@ -134,9 +135,25 @@ page {
 	justify-items: flex-start;
 }
 
+.i-notice-content {
+	display: flex;
+	align-items: center;
+}
+
 .i-notice-original {
 	color: #fe7f00;
 	font-weight: 600;
+}
+
+.i-notice-original-user {
+	max-width: 160upx;
+	line-height: 1.2;
+	word-break: break-all;
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
 }
 
 .i-notice-title {

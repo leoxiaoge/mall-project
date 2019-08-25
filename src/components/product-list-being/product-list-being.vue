@@ -92,7 +92,7 @@ export default Vue.extend({
 	methods: {
 		productDetailsTo(id: any, activeID: any) {
 			navigateTo(
-				"../mall/productDetailsPage/productDetailsPage?id=" +
+				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
 					id +
 					"&activeID=" +
 					activeID

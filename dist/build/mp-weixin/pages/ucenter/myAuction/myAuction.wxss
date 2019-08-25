@@ -26,10 +26,10 @@
 .product-item .name {
 	position: absolute;
 	top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);	
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	    -ms-transform: translate(-50%, -50%);
+	        transform: translate(-50%, -50%);
 	font-weight: 600;
 }
 .active .name {
@@ -38,10 +38,10 @@
 .active .line {
 	position: absolute;
 	bottom: 0;
-  left: 50%;
-  -webkit-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
-          transform: translate(-50%, 0);
+	left: 50%;
+	-webkit-transform: translate(-50%, 0);
+	    -ms-transform: translate(-50%, 0);
+	        transform: translate(-50%, 0);
 	width: 100rpx;
 	height: 6rpx;
 	background-color: #fe7f00;

@@ -97,11 +97,10 @@ export const request = async (api: any, data: any) => {
         } else {
           reject(res.errMsg)
         }
-        uni.stopPullDownRefresh()
       },
       fail: (err: any) => {
         reject(err)
-        showToast("网络出错!")
+        showToast("网络异常!")
       },
       complete: () => {
         // #ifdef APP-PLUS
@@ -110,6 +109,7 @@ export const request = async (api: any, data: any) => {
         // #ifdef MP-WEIXIN || H5
         uni.hideNavigationBarLoading()
         // #endif
+        uni.stopPullDownRefresh()
       }
     })
   })
@@ -128,7 +128,7 @@ export const upload = async (api: any, data: any, filePath: any) => {
       },
       fail(err: any) {
         reject(err)
-        showToast("网络出错!")
+        showToast("网络异常!")
       }
     })
   })
