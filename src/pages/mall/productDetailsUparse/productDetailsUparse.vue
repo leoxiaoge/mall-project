@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import { ProductGet } from "@/common/config/api";
 import uParse from "@/components/uParse/src/wxParse.vue";
 export default Vue.extend({
@@ -25,6 +25,9 @@ export default Vue.extend({
 		this.id = options.id;
 		this.getProduct();
 		console.log("onLoad", options);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getProduct() {

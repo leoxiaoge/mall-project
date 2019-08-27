@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import {
 	ProductCategoryListGet,
 	ProductExchangeListGet,
@@ -80,6 +80,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.useInfo();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		async useInfo() {

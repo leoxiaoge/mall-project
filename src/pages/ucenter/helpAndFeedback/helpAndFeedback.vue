@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import { HelpContactListGet, HelpListGet } from "@/common/config/api";
 import uniCollapse from "@/components/uni-collapse/uni-collapse.vue";
 import uniCollapseItem from "@/components/uni-collapse-item/uni-collapse-item.vue";
@@ -85,6 +85,9 @@ export default Vue.extend({
 		this.getHelpContactList();
 		this.getHelpList();
 		console.log("onLoad", options);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getHelpContactList() {

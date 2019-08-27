@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast, defaultShowModal } from "@/common/utils/util";
+import { request, navigateTo, showToast, defaultShowModal, onShareAppMessage } from "@/common/utils/util";
 import { GetLoginUser } from "@/common/config/api";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
 import uniList from "@/components/uni-list/uni-list.vue";
@@ -170,6 +170,9 @@ export default Vue.extend({
 	onLoad() {},
 	onShow() {
 		this.useInfo();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	onNavigationBarButtonTap(e: any) {
 		navigateTo("/pages/ucenter/setting/setting");

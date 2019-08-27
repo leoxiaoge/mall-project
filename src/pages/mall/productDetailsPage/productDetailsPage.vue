@@ -224,7 +224,8 @@ import {
 	showToast,
 	showModal,
 	showErrorToast,
-	defaultShowModal
+	defaultShowModal,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	ProductGet,
@@ -372,6 +373,9 @@ export default Vue.extend({
 				}
 				break;
 		}
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		// 获取活动详情
@@ -633,7 +637,19 @@ export default Vue.extend({
 						// 报名响应消息
 						if (msg.IsError) {
 							if (this.UserID) {
-								showToast("报名失败：" + msg.ErrMsg);
+								if (msg.ErrMsg.indexOf("帐户余额不足") == -1) {
+									showToast("报名失败：" + msg.ErrMsg);
+								} else {
+									let content: string = msg.ErrMsg;
+									defaultShowModal(content).then((res: any) => {
+										if (res.confirm) {
+											console.log("用户点击确定");
+											navigateTo("../../ucenter/recharge/recharge");
+										} else if (res.cancel) {
+											console.log("用户点击取消");
+										}
+									});
+								}
 							} else {
 								let content: string = "你暂未登录，请点击确定去登录！";
 								defaultShowModal(content).then((res: any) => {

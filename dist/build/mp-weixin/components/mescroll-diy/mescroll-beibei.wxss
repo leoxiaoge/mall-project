@@ -133,9 +133,9 @@ page {
 	min-width: 200rpx;
 	padding: 18rpx;
 	font-size: 28rpx;
-	border: 1rpx solid #E04B28;
+	border: 1rpx solid #fe7f00;
 	border-radius: 60rpx;
-	color: #E04B28;
+	color: #fe7f00;
 }
 .mescroll-empty .empty-btn:active {
 	opacity: .75;
@@ -198,6 +198,9 @@ page {
 		opacity: 0;
 }
 }
+.mescroll-uni-bg {
+	background-color: #fff;
+}
 
 /*下拉刷新--标语*/
 .mescroll-downwarp .downwarp-slogan{
@@ -217,7 +220,7 @@ page {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-image: url(http://www.mescroll.com/img/beibei/mescroll-progress.png);
+	background-image: url(https://api.tengpaisc.com/upload/guidang/icon_downwarp.png);
 	-webkit-transition: all 300ms;
 	-o-transition: all 300ms;
 	transition: all 300ms;
@@ -229,7 +232,7 @@ page {
 	width: 32rpx;
 	height: 32rpx;
 	border-radius: 50%;
-    border: 2rpx solid #FF8095;
+    border: 2rpx solid #fe7f00;
     border-bottom-color: transparent;
 }
 
@@ -245,18 +248,19 @@ page {
 	-webkit-animation: animMascot .6s steps(1,end) infinite;
 	animation: animMascot .6s steps(1,end) infinite;
 }
-@-webkit-keyframes animMascot {
-0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
-25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
-50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
-75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
-100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+
+/* @-webkit-keyframes animMascot {
+	0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+	25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
+	50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
+	75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
+	100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
 }
 @keyframes animMascot {
-0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
-25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
-50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
-75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
-100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
-}
+	0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+	25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
+	50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
+	75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
+	100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+} */
 

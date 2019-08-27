@@ -99,7 +99,7 @@
 	width: 120rpx;
 	height: 100rpx;
 }
-.order-product-image ._img {
+.swiper-box {
 	width: 100%;
 	height: 100%;
 }

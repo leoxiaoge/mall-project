@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<page-head :title="title"></page-head>
-		<view class="uni-product-list">
+		<view class="product-list">
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
@@ -106,6 +106,10 @@ export default Vue.extend({
 </script>
 
 <style>
+.product-list {
+	background-color: #fff;
+}
+
 .teng-image-view {
 	height: 140upx;
 	margin: 12upx 0;

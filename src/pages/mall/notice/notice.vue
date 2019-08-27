@@ -25,7 +25,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, formatTime } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	formatTime,
+	onShareAppMessage
+} from "@/common/utils/util";
 import { LastTransactionListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
@@ -52,6 +57,9 @@ export default Vue.extend({
 	},
 	onLoad(options) {
 		console.log(options);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		// 下拉刷新的回调

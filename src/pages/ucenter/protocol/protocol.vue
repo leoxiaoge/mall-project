@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { showModal } from "@/common/utils/util";
+import { showModal, onShareAppMessage } from "@/common/utils/util";
 import uParse from "@/components/uParse/src/wxParse.vue";
 var htmlString = `
 <h2 style="text-align: center">用户协议</h2>
@@ -100,6 +100,9 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("onLoad", options);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		preview(src: any, e: any) {

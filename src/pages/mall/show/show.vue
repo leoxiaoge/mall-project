@@ -47,7 +47,8 @@ import {
 	request,
 	navigateTo,
 	formatTime,
-	previewImage
+	previewImage,
+	onShareAppMessage
 } from "@/common/utils/util";
 import { OrderDryingListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
@@ -60,6 +61,9 @@ export default Vue.extend({
 			mescroll: [],
 			orderList: []
 		};
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		// 下拉刷新的回调
@@ -121,8 +125,13 @@ export default Vue.extend({
 			});
 		},
 		productDetailsTo(id: any, activeID: any) {
-			navigateTo('../productDetailsPage/productDetailsPage?id=' + id + '&activeID='+ activeID)
-    },
+			navigateTo(
+				"../productDetailsPage/productDetailsPage?id=" +
+					id +
+					"&activeID=" +
+					activeID
+			);
+		},
 		preview(current: any, urls: any) {
 			previewImage(current, urls);
 		}

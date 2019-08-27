@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import { MyActiveList } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import mediaList from "@/components/media-list/media-list.vue";
@@ -62,6 +62,9 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
+	},
 	methods: {
 		/*下拉刷新的回调 */
 		downCallback(mescroll: any) {

@@ -40,7 +40,8 @@ import {
 	showToast,
 	defaultShowModal,
 	upload,
-	previewImage
+	previewImage,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	GetLoginUser,
@@ -67,6 +68,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.useInfo();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		async useInfo() {

@@ -11,7 +11,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	showToast,
+	onShareAppMessage
+} from "@/common/utils/util";
 import { GetLoginUser, UpdateUserInfo } from "@/common/config/api";
 export default Vue.extend({
 	data() {
@@ -21,6 +26,9 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		this.useInfo();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		async useInfo() {
@@ -35,10 +43,10 @@ export default Vue.extend({
 					sesolve(res.UserInfo);
 				});
 			});
-    },
-    blur(e: any) {
-      this.userNick = e.target.value;
-    },
+		},
+		blur(e: any) {
+			this.userNick = e.target.value;
+		},
 		save() {
 			let UserNick = encodeURIComponent(this.userNick);
 			if (!UserNick) {

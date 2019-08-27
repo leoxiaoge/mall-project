@@ -32,7 +32,18 @@
 			</view>
 			<view class="order-product">
 				<view class="order-product-image">
-					<img :src="item.ProductPicList" />
+					<swiper
+						class="swiper-box"
+						:indicator-dots="indicatorDots"
+						:autoplay="autoplay"
+						:interval="interval"
+						:duration="duration"
+						:circular="circular"
+					>
+						<swiper-item v-for="(i, index) in item.ProductPicList" :key="index">
+							<image :src="i" mode="aspectFill" />
+						</swiper-item>
+					</swiper>
 				</view>
 				<view class="order-product-content">
 					<view class="order-product-head">
@@ -118,7 +129,8 @@ import {
 	navigateTo,
 	formatTime,
 	showToast,
-	showModal
+	showModal,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	OrderListGet,
@@ -135,6 +147,11 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			indicatorDots: false,
+			autoplay: false,
+			interval: 5000,
+			duration: 500,
+			circular: true,
 			active: 0,
 			id: "",
 			orderID: "", // 订单ID
@@ -153,6 +170,9 @@ export default Vue.extend({
 		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
 		// #endif
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getOrderList() {
@@ -355,7 +375,7 @@ export default Vue.extend({
 	width: 120upx;
 	height: 100upx;
 }
-.order-product-image img {
+.swiper-box {
 	width: 100%;
 	height: 100%;
 }

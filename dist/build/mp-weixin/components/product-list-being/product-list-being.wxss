@@ -1,4 +1,7 @@
 
+.product-list {
+	background-color: #fff;
+}
 .teng-image-view {
 	height: 140rpx;
 	margin: 12rpx 0;

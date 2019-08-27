@@ -3,7 +3,7 @@
 		<mescroll-uni @down="downCallback" @up="upCallback">
 			<view class="commission-list" v-for="(item, index) in commissionList" :key="index">
 				<view class="commission-created">{{item.CreatedDateTime}}</view>
-        <view class="commission-money">{{item.CommissionMoneyText}}</view>
+				<view class="commission-money">{{item.CommissionMoneyText}}</view>
 			</view>
 		</mescroll-uni>
 	</view>
@@ -11,24 +11,27 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, formatTime } from "@/common/utils/util";
+import { request, formatTime, onShareAppMessage } from "@/common/utils/util";
 import { GetUserCommissionList } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
-  components: {
+	components: {
 		MescrollUni
 	},
 	data() {
 		return {
-      commissionList: [],
-      mescroll: null
+			commissionList: [],
+			mescroll: null
 		};
 	},
 	onLoad(options: any) {
 		console.log("onLoad", options);
 	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
+	},
 	methods: {
-    // 下拉刷新的回调
+		// 下拉刷新的回调
 		downCallback(mescroll: any) {
 			mescroll.optUp.page.size = 20;
 			this.mescroll = mescroll;
@@ -74,10 +77,10 @@ export default Vue.extend({
 				};
 				request(GetUserCommissionList, data)
 					.then((res: any) => {
-            let commissionList = res.CommissionList;
-            commissionList.map((item: any) => {
-              item.CreatedDateTime = formatTime(new Date(item.CreatedDate));
-              item.CommissionMoneyText = `+${item.CommissionMoney}`
+						let commissionList = res.CommissionList;
+						commissionList.map((item: any) => {
+							item.CreatedDateTime = formatTime(new Date(item.CreatedDate));
+							item.CommissionMoneyText = `+${item.CommissionMoney}`;
 						});
 						sesolve(commissionList);
 					})
@@ -93,26 +96,26 @@ export default Vue.extend({
 
 <style>
 .content {
-  background-color: #fff;
+	background-color: #fff;
 }
 
 .commission-list {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2upx solid #e1e1e1;
-  margin: 0 30upx;
-  padding: 30upx 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 2upx solid #e1e1e1;
+	margin: 0 30upx;
+	padding: 30upx 0;
 }
 
 .commission-created {
-  font-size: 30upx;
-  color: #616161;
+	font-size: 30upx;
+	color: #616161;
 }
 
 .commission-money {
-  font-size: 32upx;
-  font-weight: 600;
-  color: #fa7d00;
+	font-size: 32upx;
+	font-weight: 600;
+	color: #fa7d00;
 }
 </style>

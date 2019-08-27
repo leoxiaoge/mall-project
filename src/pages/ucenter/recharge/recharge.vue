@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { request, navigateTo, showModal } from "@/common/utils/util";
+import { request, navigateTo, showModal, onShareAppMessage } from "@/common/utils/util";
 import {
 	PayMoneyListGet,
 	PayMoneySubmit,
@@ -92,8 +92,10 @@ export default {
 	},
 	onLoad: function() {
 		this.getPayMoneyList();
-
 		this.getProvider();
+	},
+	onShareAppMessage(e) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getProvider() {

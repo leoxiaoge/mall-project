@@ -66,7 +66,8 @@ import {
 	navigateTo,
 	showToast,
 	showModal,
-	defaultShowModal
+	defaultShowModal,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	ProductGet,
@@ -96,6 +97,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.getProduct();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		async getProduct() {

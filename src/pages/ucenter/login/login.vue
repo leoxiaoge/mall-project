@@ -65,7 +65,8 @@ import {
 	request,
 	navigateTo,
 	navigateBack,
-	showToast
+	showToast,
+	onShareAppMessage
 } from "@/common/utils/util";
 import { UserLogin, GetLoginCode, GetWXOpenID } from "@/common/config/api";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
@@ -98,6 +99,9 @@ export default Vue.extend({
 	onUnload() {
 		let interval: any = this.interval;
 		clearInterval(interval);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		...mapMutations(["login"]),

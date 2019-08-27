@@ -64,7 +64,8 @@ import {
 	request,
 	navigateTo,
 	redirectTo,
-	showToast
+	showToast,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	UserAddressListGet,
@@ -106,6 +107,9 @@ export default Vue.extend({
 		this.orderID = options.orderID;
 		this.addressID = options.addressID;
 		this.getUserAddressList();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getUserAddressList() {

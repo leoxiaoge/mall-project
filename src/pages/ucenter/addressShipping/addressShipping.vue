@@ -56,7 +56,8 @@ import {
 	navigateTo,
 	redirectTo,
 	defaultShowModal,
-	showToast
+	showToast,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	UserAddressListGet,
@@ -96,6 +97,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.getUserAddressList();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getUserAddressList() {
@@ -160,7 +164,16 @@ export default Vue.extend({
 			let addressID = 0;
 			let disabled = this.disabled;
 			let orderID = this.orderID;
-			navigateTo("../addressUpdate/addressUpdate?addressID=" + addressID + "&disabled=" + disabled + "&orderID=" + orderID + "&id=" + id);
+			navigateTo(
+				"../addressUpdate/addressUpdate?addressID=" +
+					addressID +
+					"&disabled=" +
+					disabled +
+					"&orderID=" +
+					orderID +
+					"&id=" +
+					id
+			);
 		},
 		// 设置存储地址
 		async setAddress(id: string) {

@@ -139,9 +139,9 @@ page {
 	min-width: 200upx;
 	padding: 18upx;
 	font-size: 28upx;
-	border: 1upx solid #E04B28;
+	border: 1upx solid #fe7f00;
 	border-radius: 60upx;
-	color: #E04B28;
+	color: #fe7f00;
 }
 
 .mescroll-empty .empty-btn:active {

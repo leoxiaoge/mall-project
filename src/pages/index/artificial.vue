@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import {
 	HomeProductListGet,
 	ProductCategoryListGet,
@@ -88,6 +88,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.getCategory();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		scroll(e: any) {

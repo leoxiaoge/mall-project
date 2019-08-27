@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
+import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import { HomeProductListGet, ProductCategoryListGet, ProductPaiListGet } from "@/common/config/api";
 export default Vue.extend({
 	data() {
@@ -79,6 +79,9 @@ export default Vue.extend({
 		let windowHeight: any = uni.getSystemInfoSync().windowHeight;
 		this.height = windowHeight;
 		this.getCategory();
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		scroll(e: any) {

@@ -1,31 +1,31 @@
 
 .content {
-  background-color: #fff;
+	background-color: #fff;
 }
 .commission-list {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border-bottom: 2rpx solid #e1e1e1;
-  margin: 0 30rpx;
-  padding: 30rpx 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	border-bottom: 2rpx solid #e1e1e1;
+	margin: 0 30rpx;
+	padding: 30rpx 0;
 }
 .commission-created {
-  font-size: 30rpx;
-  color: #616161;
+	font-size: 30rpx;
+	color: #616161;
 }
 .commission-money {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #fa7d00;
+	font-size: 32rpx;
+	font-weight: 600;
+	color: #fa7d00;
 }
 

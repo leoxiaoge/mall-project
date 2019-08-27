@@ -2,25 +2,22 @@
 	<view class="mescroll-uni-warp">
 		<scroll-view :id="viewId" class="mescroll-uni" :class="{'mescroll-uni-fixed':fixed}" :style="{'padding-top':padTop,'padding-bottom':padBottom,'top':fixedTop,'bottom':fixedBottom}" :scroll-top="scrollTop" :scroll-with-animation="scrollAnim" @scroll="scroll" @touchstart="touchstartEvent" @touchmove="touchmoveEvent" @touchend="touchendEvent" @touchcancel="touchendEvent" :scroll-y='scrollAble' :throttle="mescroll.optUp.onScroll==null" :enable-back-to-top="true">
 			<!-- 下拉加载区域 -->
-			<view v-if="mescroll.optDown.use" class="mescroll-downwarp" :style="{'height': downHight, 'transition': supplyHeight}">
+			<view v-if="mescroll.optDown.use" class="mescroll-downwarp mescroll-uni-bg" :style="{'height': downHight, 'transition': supplyHeight}">
 				<view class="downwarp-content">
-					<image class="downwarp-slogan" src="http://www.mescroll.com/img/beibei/mescroll-slogan.jpg?v=1" mode="widthFix"/>
+					<image class="downwarp-slogan" src="https://api.tengpaisc.com/upload/guidang/icon_slogan.png" mode="widthFix"/>
 					<view v-if="!isDownLoading" class="downwarp-progress" :style="{'transform':downRotate, 'transition': supplyAll}"></view>
 					<view v-if="isDownLoading" class="downwarp-loading mescroll-rotate"></view>
 					<view class="downwarp-mascot"></view>
 				</view>
 			</view>
-		
 			<!-- 列表内容 -->
 			<slot></slot>
-
 			<!-- 空布局 -->
 			<view v-if="isShowEmpty" class="mescroll-empty" :class="{'empty-fixed':optEmpty.fixed}" :style="{'z-index':optEmpty.zIndex,'top':optEmpty.top}">
 				<image v-if="optEmpty.icon" class="empty-icon" :src="optEmpty.icon" mode="widthFix" />
 				<view v-if="optEmpty.tip" class="empty-tip">{{optEmpty.tip}}</view>
 				<view v-if="optEmpty.btnText" class="empty-btn" @click="emptyClick">{{optEmpty.btnText}}</view>
 			</view>
-
 			<!-- 上拉加载区域 -->
 			<view v-if="mescroll.optUp.use" class="mescroll-upwarp">
 				<!-- 加载中.. -->
@@ -32,7 +29,6 @@
 				<view v-if="!isDownLoading && isUpNoMore" class="upwarp-nodata">{{mescroll.optUp.textNoMore}}</view>
 			</view>
 		</scroll-view>
-		
 		<!-- 回到顶部按钮 (fixed元素,需写在scroll-view外面,防止滚动的时候抖动)-->
 		<image v-if="mescroll.optUp.toTop.src" class="mescroll-totop" :class="{'mescroll-fade-in':isShowToTop}" :src="mescroll.optUp.toTop.src" mode="widthFix" @click="toTopClick" />
 	</view>
@@ -292,7 +288,9 @@
 
 <style>
 	@import "../mescroll-uni/mescroll-uni.css";
-	
+	.mescroll-uni-bg {
+		background-color: #fff;
+	}
 	/*下拉刷新--标语*/
 	.mescroll-downwarp .downwarp-slogan{
 		display: block;
@@ -310,7 +308,7 @@
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: center;
-		background-image: url(http://www.mescroll.com/img/beibei/mescroll-progress.png);
+		background-image: url(https://api.tengpaisc.com/upload/guidang/icon_downwarp.png);
 		-webkit-transition: all 300ms;
 		transition: all 300ms;
 	}
@@ -320,7 +318,7 @@
 		width: 32upx;
 		height: 32upx;
 		border-radius: 50%;
-	    border: 2upx solid #FF8095;
+	    border: 2upx solid #fe7f00;
 	    border-bottom-color: transparent;
 	}
 	/*下拉刷新--吉祥物*/
@@ -335,7 +333,7 @@
 		-webkit-animation: animMascot .6s steps(1,end) infinite;
 		animation: animMascot .6s steps(1,end) infinite;
 	}
-	@-webkit-keyframes animMascot {
+	/* @-webkit-keyframes animMascot {
 		0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
 		25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
 		50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
@@ -348,5 +346,5 @@
 		50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
 		75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
 		100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
-	}
+	} */
 </style>

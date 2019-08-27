@@ -84,7 +84,12 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, formatTime } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	formatTime,
+	onShareAppMessage
+} from "@/common/utils/util";
 import {
 	AdsListGet,
 	LastTransactionListGet,
@@ -150,11 +155,17 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
+		let sessionKey: any = uni.getStorageSync("SessionKey");
+		let userInfo: any = uni.getStorageSync("UserInfo");
+		if (options.id) {
+			let scene = options.id;
+			if (!sessionKey && !userInfo) {
+				uni.setStorageSync("scene", scene);
+			}
+		}
 		if (options.scene) {
 			let scene = decodeURIComponent(options.scene);
 			console.log("scene:" + scene);
-			let sessionKey: any = uni.getStorageSync("SessionKey");
-			let userInfo: any = uni.getStorageSync("UserInfo");
 			if (!sessionKey && !userInfo) {
 				// 如果用户未登录，则保存scene
 				uni.setStorageSync("scene", scene);
@@ -166,6 +177,9 @@ export default Vue.extend({
 			let mescroll = this.mescroll;
 			this.downCallback(mescroll);
 		}
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		/*下拉刷新的回调 */
@@ -271,8 +285,10 @@ export default Vue.extend({
 				}
 				this.productListIng = this.productListIng.concat(res.ProductList);
 				this.productListIng.map((item: any) => {
-					item.Active.LastBillUserName = decodeURIComponent(item.Active.LastBillUserName)
-				})
+					item.Active.LastBillUserName = decodeURIComponent(
+						item.Active.LastBillUserName
+					);
+				});
 				this.PageCount = res.PageCount;
 			});
 		},

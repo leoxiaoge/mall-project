@@ -64,7 +64,8 @@ import {
 	request,
 	navigateTo,
 	showToast,
-	defaultShowModal
+	defaultShowModal,
+	onShareAppMessage
 } from "@/common/utils/util";
 import {
 	OrderDryingUpload,
@@ -98,6 +99,9 @@ export default Vue.extend({
 		this.orderID = options.OrderID;
 		this.getProduct();
 		console.log("onLoad", options);
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		getProduct() {

@@ -38,7 +38,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, previewImage, upload } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	previewImage,
+	upload,
+	onShareAppMessage
+} from "@/common/utils/util";
 import {
 	GetWxacode,
 	GetSystemConfig,
@@ -58,14 +64,8 @@ export default Vue.extend({
 		this.getSystemConfig();
 		this.uploadImage();
 	},
-	onShareAppMessage(res) {
-		if (res.from === "button") {
-			console.log(res.target);
-		}
-		return {
-			title: "腾拍商场",
-			path: "/pages/index/home"
-		};
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		async getSystemConfig() {

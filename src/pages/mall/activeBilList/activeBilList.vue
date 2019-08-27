@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, defaultShowModal } from "@/common/utils/util";
+import { request, navigateTo, defaultShowModal, onShareAppMessage } from "@/common/utils/util";
 import { ActiveBillListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
@@ -47,6 +47,9 @@ export default Vue.extend({
 		console.log("onLoad", options);
 		this.activeID = options.activeID;
 		this.userID = options.userID;
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		// 下拉刷新的回调

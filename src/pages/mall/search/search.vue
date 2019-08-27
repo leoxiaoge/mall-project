@@ -21,7 +21,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	showToast,
+	onShareAppMessage
+} from "@/common/utils/util";
 import { ProductSearchListGet } from "@/common/config/api";
 import iSearch from "@/components/i-search/i-search.vue";
 import iNo from "@/components/u-no/u-no.vue";
@@ -59,6 +64,9 @@ export default Vue.extend({
 			this.pageNum++;
 			this.getListDataFromNet();
 		}
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		blur(e: any) {

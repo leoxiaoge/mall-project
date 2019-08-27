@@ -28,7 +28,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast, showModal } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	showToast,
+	showModal,
+	onShareAppMessage
+} from "@/common/utils/util";
 import {
 	OrderListGet,
 	OrderPay,
@@ -99,6 +105,9 @@ export default Vue.extend({
 			let mescroll: any = this.mescroll;
 			this.downCallback(mescroll);
 		}
+	},
+	onShareAppMessage(e: any) {
+		return onShareAppMessage(e);
 	},
 	methods: {
 		// 点击选项卡
