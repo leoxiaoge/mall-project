@@ -1,7 +1,65 @@
 <template>
 	<view class="content">
 		<page-head :title="title"></page-head>
-		<view class="product-list">
+		<view class="product-list" v-if="product.length == 1">
+			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
+				<view class="product-item-one" v-for="(item,index) in product" :key="index">
+					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
+						<view class="teng-image-view teng-image-one">
+							<image class="uni-product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+						</view>
+						<view class="product-price-title">
+							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+						</view>
+						<view class="product-price">
+							<view class="product-price-text">￥{{item.ProductPrice}}</view>
+						</view>
+						<view class="product-price">
+							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
+						</view>
+					</view>
+					<view class="uni-product-time">
+						<!-- 倒计时 -->
+						<uni-countdown
+							:original="true"
+							:hour="item.Active.hour"
+							:minute="item.Active.minute"
+							:second="item.Active.second"
+						/>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		<view class="product-list" v-else-if="product.length == 2">
+			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
+				<view class="product-item-two" v-for="(item,index) in product" :key="index">
+					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
+						<view class="teng-image-view teng-image-two">
+							<image class="uni-product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+						</view>
+						<view class="product-price-title">
+							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+						</view>
+						<view class="product-price">
+							<view class="product-price-text">￥{{item.ProductPrice}}</view>
+						</view>
+						<view class="product-price">
+							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
+						</view>
+					</view>
+					<view class="uni-product-time">
+						<!-- 倒计时 -->
+						<uni-countdown
+							:original="true"
+							:hour="item.Active.hour"
+							:minute="item.Active.minute"
+							:second="item.Active.second"
+						/>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		<view class="product-list" v-else>
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
@@ -116,6 +174,18 @@ export default Vue.extend({
 	padding: 0 30upx;
 }
 
+.teng-image-one {
+	height: 280upx;
+	margin: 12upx 0;
+	padding: 0 30upx;
+}
+
+.teng-image-two {
+	height: 200upx;
+	margin: 12upx 0;
+	padding: 0 30upx;
+}
+
 .scroll-list {
 	white-space: nowrap;
 }
@@ -125,6 +195,26 @@ export default Vue.extend({
 	padding-left: 20upx;
 	overflow: hidden;
 	width: 33.33%;
+	background-color: #fff;
+	padding-bottom: 20upx;
+}
+
+.product-item-one {
+	display: inline-block;
+	padding-left: 160upx;
+	padding-right: 160upx;
+	overflow: hidden;
+	width: 100%;
+	background-color: #fff;
+	padding-bottom: 20upx;
+}
+
+.product-item-two {
+	display: inline-block;
+	padding-left: 20upx;
+	padding-right: 20upx;
+	overflow: hidden;
+	width: 50%;
 	background-color: #fff;
 	padding-bottom: 20upx;
 }

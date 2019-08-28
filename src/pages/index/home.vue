@@ -87,6 +87,7 @@ import Vue from "vue";
 import {
 	request,
 	navigateTo,
+	showErrorToast,
 	formatTime,
 	onShareAppMessage
 } from "@/common/utils/util";
@@ -100,6 +101,8 @@ import showTips from "@/components/redflower-showTips/redflower-showTips.vue";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
 import productListBeing from "@/components/product-list-being/product-list-being.vue";
 import productList from "@/components/product-list/product-list.vue";
+let socketOpen: boolean = false;
+let socketMsgQueue: any = [];
 export default Vue.extend({
 	components: {
 		MescrollUni,
@@ -172,6 +175,9 @@ export default Vue.extend({
 			}
 		}
 	},
+	onReady() {
+		this.websocket();
+	},
 	onShow() {
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
@@ -182,6 +188,76 @@ export default Vue.extend({
 		return onShareAppMessage(e);
 	},
 	methods: {
+		websocket() {
+			uni.connectSocket({
+				url: "wss://websocket.tengpaisc.com"
+			});
+			uni.onSocketOpen((res: any) => {
+				console.log("WebSocket连接已打开！");
+				uni.hideLoading();
+				socketOpen = true;
+				for (let i = 0; i < socketMsgQueue.length; i++) {
+					this.sendSocketMessage(socketMsgQueue[i]);
+				}
+				socketMsgQueue = [];
+				this.msgSubscribe();
+			});
+			uni.onSocketError(res => {
+				console.log(res);
+				console.log("WebSocket连接打开失败，请检查！");
+				// 断线调用函数
+				showErrorToast("断线重连中...");
+				this.websocket();
+			});
+			this.onSocketMessage();
+		},
+		sendSocketMessage(msg: any) {
+			let data: string = JSON.stringify(msg);
+			console.log("发送数据", socketOpen, msg);
+			if (socketOpen) {
+				uni.sendSocketMessage({
+					data: data
+				});
+			} else {
+				socketMsgQueue.push(msg);
+			}
+		},
+		onSocketMessage() {
+			return new Promise((sesolve, reject) => {
+				uni.onSocketMessage((res: any) => {
+					console.log("收到服务器内容：" + res.data);
+					let msg = JSON.parse(res.data);
+					console.log(msg);
+					sesolve(msg);
+				});
+			});
+		},
+		// 发送对该活动的消息订阅
+		async msgSubscribe() {
+			let GUID: any = await this.GUID();
+			let ActiveID = "";
+			let url = "/Actives/" + ActiveID + "/";
+			let msgTime = formatTime(new Date());
+			let reqSubscribe = {
+				Subscribe: url,
+				msgID: GUID,
+				msgType: 0,
+				msgTime: msgTime
+			};
+			this.sendSocketMessage(reqSubscribe);
+		},
+		// 下面是生成随机GUID的函数
+		GUID() {
+			return new Promise((sesolve, reject) => {
+				let guid = "";
+				for (let i = 1; i <= 32; i++) {
+					let n = Math.floor(Math.random() * 16.0).toString(16);
+					guid += n;
+					if (i == 8 || i == 12 || i == 16 || i == 20) guid += "-";
+				}
+				sesolve(guid);
+			});
+		},
 		/*下拉刷新的回调 */
 		downCallback(mescroll: any) {
 			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )

@@ -323,8 +323,6 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("options", options);
-		this.UserID = uni.getStorageSync("UserInfo").ID;
-		this.websocket();
 		this.id = options.id;
 		this.activeID = options.activeID;
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
@@ -332,6 +330,7 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.UserID = uni.getStorageSync("UserInfo").ID;
+		uni.closeSocket();
 		this.websocket();
 		this.getActiveByID();
 		this.getPastTransactionsList();
@@ -535,7 +534,6 @@ export default Vue.extend({
 			});
 			uni.onSocketOpen((res: any) => {
 				console.log("WebSocket连接已打开！");
-				uni.hideLoading();
 				socketOpen = true;
 				for (let i = 0; i < socketMsgQueue.length; i++) {
 					this.sendSocketMessage(socketMsgQueue[i]);

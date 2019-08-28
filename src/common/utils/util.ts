@@ -63,16 +63,16 @@ export const processing = (api: any, data: any) => {
 
 export const request = async (api: any, data: any) => {
   let handle: any = await processing(api, data);
-  // #ifdef APP-PLUS
-  plus.nativeUI.showWaiting('加载中…');
-  // #endif
-  // #ifdef MP-WEIXIN || H5
-  uni.showLoading({
-    title: '加载中'
-  })
-  uni.showNavigationBarLoading()
-  // #endif
   return new Promise((resolve, reject) => {
+    // #ifdef APP-PLUS
+    plus.nativeUI.showWaiting('加载中…');
+    // #endif
+    // #ifdef MP-WEIXIN || H5
+    uni.showLoading({
+      title: '加载中'
+    })
+    uni.showNavigationBarLoading()
+    // #endif
     uni.request({
       url: handle.url,
       data: handle.postdata,
