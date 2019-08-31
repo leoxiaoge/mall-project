@@ -4,28 +4,31 @@
 		<view class="product-list" v-if="product.length == 1">
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item-one" v-for="(item,index) in product" :key="index">
-					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
+					<view class="product-item-flex" @click="productDetailsTo(item.ID, item.Active.ID)">
 						<view class="teng-image-view teng-image-one">
-							<image class="uni-product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="product-image-one img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
-						<view class="product-price-title">
-							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+						<view class="product-content">
+							<view class="product-price-title">
+								<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+							</view>
+							<view class="product-prices">
+								<view class="product-prices-text">￥{{item.ProductPrice}}</view>
+								<view class="product-current-bid">当前出价</view>
+							</view>
+							<view class="product-prices">
+								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
+							</view>
+							<view class="product-times">
+								<!-- 倒计时 -->
+								<uni-countdown
+									:original="true"
+									:hour="item.Active.hour"
+									:minute="item.Active.minute"
+									:second="item.Active.second"
+								/>
+							</view>
 						</view>
-						<view class="product-price">
-							<view class="product-price-text">￥{{item.ProductPrice}}</view>
-						</view>
-						<view class="product-price">
-							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
-						</view>
-					</view>
-					<view class="uni-product-time">
-						<!-- 倒计时 -->
-						<uni-countdown
-							:original="true"
-							:hour="item.Active.hour"
-							:minute="item.Active.minute"
-							:second="item.Active.second"
-						/>
 					</view>
 				</view>
 			</scroll-view>
@@ -35,7 +38,7 @@
 				<view class="product-item-two" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
 						<view class="teng-image-view teng-image-two">
-							<image class="uni-product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
@@ -47,7 +50,7 @@
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 						</view>
 					</view>
-					<view class="uni-product-time">
+					<view class="product-time">
 						<!-- 倒计时 -->
 						<uni-countdown
 							:original="true"
@@ -64,7 +67,7 @@
 				<view class="product-item" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
 						<view class="teng-image-view">
-							<image class="uni-product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
@@ -76,7 +79,7 @@
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 						</view>
 					</view>
-					<view class="uni-product-time">
+					<view class="product-time">
 						<!-- 倒计时 -->
 						<uni-countdown
 							:original="true"
@@ -132,17 +135,6 @@ export default Vue.extend({
 				item.Active.hour = hours;
 				item.Active.minute = minutes;
 				item.Active.second = seconds;
-				console.log(
-					" 相差 " +
-						days +
-						"天 " +
-						hours +
-						"小时 " +
-						minutes +
-						" 分钟" +
-						seconds +
-						" 秒"
-				);
 			});
 			return list;
 		}
@@ -174,8 +166,32 @@ export default Vue.extend({
 	padding: 0 30upx;
 }
 
+.product-content {
+	width: 65%;
+}
+
+.product-prices {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.product-prices-text {
+	font-weight: 600;
+}
+
+.product-current-bid {
+	margin-left: 8upx;
+}
+
+.product-image-one {
+	width: 100%;
+	height: 180upx;
+}
+
 .teng-image-one {
-	height: 280upx;
+	width: 35%;
+	height: 100%;
 	margin: 12upx 0;
 	padding: 0 30upx;
 }
@@ -184,6 +200,11 @@ export default Vue.extend({
 	height: 200upx;
 	margin: 12upx 0;
 	padding: 0 30upx;
+}
+
+.product-item-flex {
+	display: flex;
+	justify-content: flex-start;
 }
 
 .scroll-list {
@@ -201,8 +222,7 @@ export default Vue.extend({
 
 .product-item-one {
 	display: inline-block;
-	padding-left: 160upx;
-	padding-right: 160upx;
+	padding: 40upx 30upx;
 	overflow: hidden;
 	width: 100%;
 	background-color: #fff;
@@ -229,13 +249,20 @@ export default Vue.extend({
 	padding: 0 20upx;
 }
 
-.uni-product-time {
+.product-user-text {
+	line-height: 2.2;
+}
+
+.product-times {
+	margin-top: 10upx;
+}
+
+.product-time {
 	text-align: center;
 }
 
-.img {
+.image {
 	width: 100%;
 	height: 100%;
-	margin: 10upx 0;
 }
 </style>

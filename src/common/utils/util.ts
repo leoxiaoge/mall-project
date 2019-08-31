@@ -67,10 +67,12 @@ export const request = async (api: any, data: any) => {
     // #ifdef APP-PLUS
     plus.nativeUI.showWaiting('加载中…');
     // #endif
-    // #ifdef MP-WEIXIN || H5
+    // #ifdef H5
     uni.showLoading({
       title: '加载中'
     })
+    // #endif
+    // #ifdef MP-WEIXIN
     uni.showNavigationBarLoading()
     // #endif
     uni.request({
@@ -82,9 +84,6 @@ export const request = async (api: any, data: any) => {
       },
       success: (res: any) => {
         if (res.statusCode == 200) {
-          // #ifdef MP-WEIXIN || H5
-          uni.hideLoading()
-          // #endif
           if (res.data.IsError) {
             if (res.data.ErrCode == "Missing_Session") {
               redirectTo("../../ucenter/login/login")
@@ -106,7 +105,10 @@ export const request = async (api: any, data: any) => {
         // #ifdef APP-PLUS
         plus.nativeUI.closeWaiting()
         // #endif
-        // #ifdef MP-WEIXIN || H5
+        // #ifdef H5
+        uni.hideLoading()
+        // #endif
+        // #ifdef MP-WEIXIN
         uni.hideNavigationBarLoading()
         // #endif
         uni.stopPullDownRefresh()

@@ -129,6 +129,8 @@ export default Vue.extend({
 			swiperGridWidth: "100%",
 			swiper: [],
 			LastTranActiveList: [], // 最新成交列表
+			activeids: [], // 发送订阅消息活动列表ID
+			isReseMode: false, // 订阅消息是否清空
 			PageCount: 1,
 			pageNum: 1,
 			pageSize: 10,
@@ -175,14 +177,18 @@ export default Vue.extend({
 			}
 		}
 	},
-	onReady() {
-		this.websocket();
-	},
 	onShow() {
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
 			this.downCallback(mescroll);
 		}
+		this.websocket();
+	},
+	onHide() {
+		uni.closeSocket();
+	},
+	onUnload() {
+		uni.closeSocket();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
@@ -200,7 +206,6 @@ export default Vue.extend({
 					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];
-				this.msgSubscribe();
 			});
 			uni.onSocketError(res => {
 				console.log(res);
@@ -223,46 +228,71 @@ export default Vue.extend({
 			}
 		},
 		onSocketMessage() {
-			return new Promise((sesolve, reject) => {
-				uni.onSocketMessage((res: any) => {
-					console.log("收到服务器内容：" + res.data);
-					let msg = JSON.parse(res.data);
-					console.log(msg);
-					sesolve(msg);
-				});
+			uni.onSocketMessage((res: any) => {
+				console.log("收到服务器内容：" + res.data);
+				let msg = JSON.parse(res.data);
+				console.log(msg);
+				this.proccessMsg(msg);
 			});
 		},
 		// 发送对该活动的消息订阅
-		async msgSubscribe() {
-			let GUID: any = await this.GUID();
-			let ActiveID = "";
-			let url = "/Actives/" + ActiveID + "/";
+		msgSubscribe(e: any) {
+			let Activeids = e;
 			let msgTime = formatTime(new Date());
+			let isReseMode = this.isReseMode;
 			let reqSubscribe = {
-				Subscribe: url,
-				msgID: GUID,
-				msgType: 0,
-				msgTime: msgTime
+				msgType: 20,
+				msgTime: msgTime,
+				isReseMode: isReseMode,
+				Activeids: Activeids
 			};
 			this.sendSocketMessage(reqSubscribe);
 		},
-		// 下面是生成随机GUID的函数
-		GUID() {
-			return new Promise((sesolve, reject) => {
-				let guid = "";
-				for (let i = 1; i <= 32; i++) {
-					let n = Math.floor(Math.random() * 16.0).toString(16);
-					guid += n;
-					if (i == 8 || i == 12 || i == 16 || i == 20) guid += "-";
+		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
+		async proccessMsg(e: any) {
+			let msg: any = e;
+			let msgType = msg.msgType;
+			console.log(msg.ActiveID);
+			if (msg == null) {
+				return;
+			}
+			try {
+				switch (msgType) {
+					case 21:
+						this.productListIng.map((item: any) => {
+							if (msg.ActiveID === item.Active.ID) {
+								if (msg.LastBill) {
+									item.Active.LastBillUserName = decodeURIComponent(msg.LastBill.nick);
+									item.Active.LastBillUserFace = msg.LastBill.face;
+								}
+								item.ProductPrice = msg.Price;
+								item.Active.StartCountCown = msg.SeqMiniSeconds;
+								item.Status = msg.Status;
+							}
+						});
+						this.productList.map((item: any) => {
+							if (msg.ActiveID === item.Active.ID) {
+								if (msg.LastBill) {
+									item.Active.LastBillUserName = decodeURIComponent(msg.LastBill.nick);
+									item.Active.LastBillUserFace = msg.LastBill.face;
+								}
+								item.ProductPrice = msg.Price;
+								item.Active.StartCountCown = msg.SeqMiniSeconds;
+								item.Status = msg.Status;
+							}
+						});
+						break;
 				}
-				sesolve(guid);
-			});
+			} catch (e) {
+				console.error("处理消息出错：" + e);
+			}
 		},
 		/*下拉刷新的回调 */
 		downCallback(mescroll: any) {
 			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
 			this.getAdsList();
 			this.getLastTransactionList();
+			this.isReseMode = true;
 			this.mescroll = mescroll;
 			mescroll.resetUpScroll();
 		},
@@ -278,6 +308,9 @@ export default Vue.extend({
 					//设置列表数据
 					if (mescroll.num == 1) this.productList = []; //如果是第一页需手动制空列表
 					this.productList = this.productList.concat(curPageData); //追加新数据
+					let Activeids = this.productList;
+					let data: any = Activeids.map((item: any) => item.Active.ID);
+					this.msgSubscribe(data);
 				},
 				() => {
 					//联网失败的回调,隐藏下拉刷新的状态
@@ -365,7 +398,10 @@ export default Vue.extend({
 						item.Active.LastBillUserName
 					);
 				});
+				let Activeids = this.productListIng;
+				let data: any = Activeids.map((item: any) => item.Active.ID);
 				this.PageCount = res.PageCount;
+				this.msgSubscribe(data);
 			});
 		},
 		lower(e: any) {

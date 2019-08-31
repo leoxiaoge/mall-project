@@ -7,8 +7,36 @@
 	margin: 12rpx 0;
 	padding: 0 30rpx;
 }
+.product-content {
+	width: 65%;
+}
+.product-prices {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.product-prices-text {
+	font-weight: 600;
+}
+.product-current-bid {
+	margin-left: 8rpx;
+}
+.product-image-one {
+	width: 100%;
+	height: 180rpx;
+}
 .teng-image-one {
-	height: 280rpx;
+	width: 35%;
+	height: 100%;
 	margin: 12rpx 0;
 	padding: 0 30rpx;
 }
@@ -16,6 +44,16 @@
 	height: 200rpx;
 	margin: 12rpx 0;
 	padding: 0 30rpx;
+}
+.product-item-flex {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
 }
 .scroll-list {
 	white-space: nowrap;
@@ -30,8 +68,7 @@
 }
 .product-item-one {
 	display: inline-block;
-	padding-left: 160rpx;
-	padding-right: 160rpx;
+	padding: 40rpx 30rpx;
 	overflow: hidden;
 	width: 100%;
 	background-color: #fff;
@@ -54,12 +91,17 @@
 	line-height: 1.8;
 	padding: 0 20rpx;
 }
-.uni-product-time {
+.product-user-text {
+	line-height: 2.2;
+}
+.product-times {
+	margin-top: 10rpx;
+}
+.product-time {
 	text-align: center;
 }
-.img {
+.image {
 	width: 100%;
 	height: 100%;
-	margin: 10rpx 0;
 }
 
