@@ -908,13 +908,13 @@ radio-group label, checkbox-group label{
 }
 
 .uni-product {
-	width: calc(50% - 2px);
-  padding: 20upx 10upx;
+	width: calc(50% - 1px);
+  padding: 20upx 20upx;
 	display: flex;
 	justify-content: space-between;
 	flex-direction: column;
 	background-color: #fff;
-	margin: 2upx;
+	margin: 0.5px;
 }
 
 .image-view {

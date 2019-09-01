@@ -41,6 +41,7 @@ import {
 	defaultShowModal,
 	upload,
 	previewImage,
+	navigateBack,
 	onShareAppMessage
 } from "@/common/utils/util";
 import {
@@ -135,8 +136,8 @@ export default Vue.extend({
 				UserFace: UserFace
 			};
 			request(UpdateUserInfo, data).then((res: any) => {
-        showToast("更换头像成功！");
-        this.showPopup = !this.showPopup;
+				showToast("更换头像成功！");
+				this.showPopup = !this.showPopup;
 			});
 		},
 		userNickClick() {
@@ -148,6 +149,7 @@ export default Vue.extend({
 				if (res.confirm) {
 					console.log("用户点击确定");
 					try {
+						navigateBack(1);
 						uni.clearStorageSync();
 					} catch (e) {
 						showToast("退出登录失败");
@@ -196,13 +198,13 @@ export default Vue.extend({
 }
 
 .signBtn {
-  color: #7a7a7a;
-  background-color: #fff;
+	color: #7a7a7a;
+	background-color: #fff;
 }
 
 .popup-bottom {
 	width: 90%;
-	opacity: .9;
+	opacity: 0.9;
 }
 
 .popup-bottom button {
@@ -210,13 +212,13 @@ export default Vue.extend({
 }
 
 .previewImageFull {
-  border-top-left-radius: 10upx;
-  border-top-right-radius: 10upx;
+	border-top-left-radius: 10upx;
+	border-top-right-radius: 10upx;
 }
 
 .chooseImageAlbum {
-  border-bottom-left-radius: 10upx;
-  border-bottom-right-radius: 10upx;
+	border-bottom-left-radius: 10upx;
+	border-bottom-right-radius: 10upx;
 }
 
 .cancel {
@@ -225,6 +227,6 @@ export default Vue.extend({
 }
 
 .cancel button {
-  border-radius: 10upx;
+	border-radius: 10upx;
 }
 </style>

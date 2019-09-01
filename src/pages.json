@@ -37,8 +37,8 @@
 			"path": "pages/index/ucenter",
 			"style": {
 				"navigationBarTitleText": "我的",
-				// #ifndef APP-PLUS
 				"app-plus": {
+					// #ifdef APP-PLUS || H5
 					"titleNView": {
 						"buttons": [
 							{
@@ -51,8 +51,8 @@
 							}
 						]
 					}
+					// #endif
 				}
-				// #endif
 			}
 		}
 	],
@@ -264,22 +264,18 @@
 						"navigationBarTitleText": "用户协议"
 					}
 				},
-				// #ifndef APP-PLUS
 				{
 					"path": "setting/setting",
 					"style": {
 						"navigationBarTitleText": "设置"
 					}
 				},
-				// #endif
-				// #ifndef APP-PLUS
 				{
 					"path": "settingUserNick/settingUserNick",
 					"style": {
 						"navigationBarTitleText": "昵称"
 					}
 				}
-				// #endif
 			]
 		}
 	],

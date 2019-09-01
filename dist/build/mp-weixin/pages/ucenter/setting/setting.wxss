@@ -45,29 +45,29 @@
 	margin-top: 20rpx;
 }
 .signBtn {
-  color: #7a7a7a;
-  background-color: #fff;
+	color: #7a7a7a;
+	background-color: #fff;
 }
 .popup-bottom {
 	width: 90%;
-	opacity: .9;
+	opacity: 0.9;
 }
 .popup-bottom button {
 	color: #7a7a7a;
 }
 .previewImageFull {
-  border-top-left-radius: 10rpx;
-  border-top-right-radius: 10rpx;
+	border-top-left-radius: 10rpx;
+	border-top-right-radius: 10rpx;
 }
 .chooseImageAlbum {
-  border-bottom-left-radius: 10rpx;
-  border-bottom-right-radius: 10rpx;
+	border-bottom-left-radius: 10rpx;
+	border-bottom-right-radius: 10rpx;
 }
 .cancel {
 	margin-top: 20rpx;
 	margin-bottom: 20rpx;
 }
 .cancel button {
-  border-radius: 10rpx;
+	border-radius: 10rpx;
 }
 

@@ -205,6 +205,7 @@ export default Vue.extend({
 .product-item-flex {
 	display: flex;
 	justify-content: flex-start;
+	align-items: center;
 }
 
 .scroll-list {

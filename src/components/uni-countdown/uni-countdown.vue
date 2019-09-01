@@ -145,7 +145,9 @@
 		justify-content: center;
 		align-items: center;
 		color: #393939;
+		font-weight: 600;
 		border-radius: 100upx;
+		margin-left: 8upx;
 	}
 
 	.uni-countdown__splitor {

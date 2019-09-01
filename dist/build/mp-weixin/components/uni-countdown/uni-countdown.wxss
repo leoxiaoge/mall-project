@@ -39,7 +39,9 @@
 	    -ms-flex-align: center;
 	        align-items: center;
 	color: #393939;
+	font-weight: 600;
 	border-radius: 100rpx;
+	margin-left: 8rpx;
 }
 .uni-countdown__splitor {
 	color: #fe7f00;

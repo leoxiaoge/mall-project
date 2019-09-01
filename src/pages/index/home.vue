@@ -252,7 +252,6 @@ export default Vue.extend({
 		async proccessMsg(e: any) {
 			let msg: any = e;
 			let msgType = msg.msgType;
-			console.log(msg.ActiveID);
 			if (msg == null) {
 				return;
 			}

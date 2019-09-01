@@ -1221,8 +1221,8 @@ radio-group label, checkbox-group label{
 	        flex-direction: row;
 }
 .uni-product {
-	width: calc(50% - 2px);
-  padding: 20rpx 10rpx;
+	width: calc(50% - 1px);
+  padding: 20rpx 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -1237,7 +1237,7 @@ radio-group label, checkbox-group label{
 	    -ms-flex-direction: column;
 	        flex-direction: column;
 	background-color: #fff;
-	margin: 2rpx;
+	margin: 0.5px;
 }
 .image-view {
     /* height: 330upx; */

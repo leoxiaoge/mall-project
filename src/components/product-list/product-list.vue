@@ -22,7 +22,7 @@
 				<view class="uni-product-prompt">
 					<view class="uni-product-time">
 						<!-- 倒计时 -->
-						<text class="uni-product-away">离开拍</text>
+						<text class="uni-product-away">距离开拍</text>
 						<uni-countdown
 							:hour="item.Active.hour"
 							:minute="item.Active.minute"
@@ -122,12 +122,6 @@ export default Vue.extend({
 </script>
 
 <style>
-.uni-product-prompt {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-top: 14upx;
-}
 
 .i-image-view {
 	margin: 8upx 0;
