@@ -13,7 +13,7 @@
 								<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
 							</view>
 							<view class="product-prices">
-								<view class="product-prices-text">￥{{item.ProductPrice}}</view>
+								<view class="product-prices-text">￥{{item.Price}}</view>
 								<view class="product-current-bid">当前出价</view>
 							</view>
 							<view class="product-prices">

@@ -264,7 +264,8 @@ export default Vue.extend({
 									item.Active.LastBillUserName = decodeURIComponent(msg.LastBill.nick);
 									item.Active.LastBillUserFace = msg.LastBill.face;
 								}
-								item.ProductPrice = msg.Price;
+								
+								item.Price = msg.Price;
 								item.Active.StartCountCown = msg.SeqMiniSeconds;
 								item.Status = msg.Status;
 							}
@@ -275,11 +276,13 @@ export default Vue.extend({
 									item.Active.LastBillUserName = decodeURIComponent(msg.LastBill.nick);
 									item.Active.LastBillUserFace = msg.LastBill.face;
 								}
-								item.ProductPrice = msg.Price;
+								item.Price = msg.Price;
 								item.Active.StartCountCown = msg.SeqMiniSeconds;
 								item.Status = msg.Status;
 							}
 						});
+						this.productListIng = JSON.parse(JSON.stringify(this.productListIng));
+						this.productList = JSON.parse(JSON.stringify(this.productList));
 						break;
 				}
 			} catch (e) {

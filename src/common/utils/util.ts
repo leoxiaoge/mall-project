@@ -286,7 +286,7 @@ export const previewImage = (current: any, urls: any) => {
 export const onShareAppMessage = (e: any) => {
   let userInfo: any = uni.getStorageSync("UserInfo");
   let id = userInfo.ID;
-  let title = `腾拍商场`
+  let title = `腾拍商城`
   let path = "/pages/index/home?id=" + id
   return {
     title: title,
