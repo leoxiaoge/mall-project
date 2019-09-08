@@ -110,7 +110,6 @@ export default Vue.extend({
 
 .table-tr {
 	display: table-row;
-	width: 100%;
 	height: 80rpx;
 }
 
@@ -118,14 +117,14 @@ export default Vue.extend({
 	display: table-cell;
 	border: 2upx solid #dfdfdf;
 	vertical-align: middle;
-	width: 50%;
+	width: 375upx;
 	padding: 0 20upx;
 }
 
 .table-text {
 	display: flex;
 	align-items: center;
-	margin-left: 20upx;
+	margin-left: 8upx;
 }
 
 .table-content image {
@@ -146,6 +145,6 @@ export default Vue.extend({
 .table-text-content-item {
 	font-size: 28upx;
 	color: #4d4d4d;
-	margin-left: 20upx;
+	margin-left: 10upx;
 }
 </style>

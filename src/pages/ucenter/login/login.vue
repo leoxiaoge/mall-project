@@ -187,7 +187,6 @@ export default Vue.extend({
 		},
 		async userLogin() {
 			let Mobile = this.Mobile;
-			// let Mobile = '13723750893';
 			let LoginCode = this.LoginCode;
 			let wxFace = this.wxFace;
 			let wxNick = encodeURIComponent(this.wxNick);

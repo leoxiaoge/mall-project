@@ -35,6 +35,10 @@
 			</view>
 			<view class="i-product-name">{{activeDetail.ProductName}}</view>
 		</view>
+		<view class="i-product-price" v-if="activeDetail.ProductPrice">
+			<text>市场价：</text>
+			<text class="i-product-price-text">¥{{activeDetail.ProductPrice}}</text>
+		</view>
 		<view v-if="active.PrevActiveMoney">
 			<view class="i-product-last-transaction">
 				<view class="i-product-status">{{active.ActiveTypeName}}</view>
@@ -325,6 +329,9 @@ export default Vue.extend({
 		console.log("options", options);
 		this.id = options.id;
 		this.activeID = options.activeID;
+		this.UserID = uni.getStorageSync("UserInfo").ID;
+		uni.closeSocket();
+		this.websocket();
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
 		this.width = windowWidth;
 	},
@@ -1204,13 +1211,24 @@ export default Vue.extend({
 }
 
 .i-product-head {
-	padding: 20upx 30upx;
+	padding: 20upx 30upx 4upx 30upx;
 }
 
 .i-product-title {
 	font-size: 32upx;
 	color: #4d4d4d;
 	line-height: 1.2;
+}
+
+.i-product-price {
+	margin: 0 30upx;
+	line-height: 1.2;
+}
+
+.i-product-price-text {
+	font-size: 36upx;
+	color: #fe7f00;
+	text-decoration: line-through;
 }
 
 .i-product-current-bid {

@@ -91,7 +91,7 @@ export default Vue.extend({
 				} catch (e) {
 					console.error("处理消息出错：" + e);
 				}
-				let date: number = item.Active.StartCountCown;
+				let date: number = item.Active.SeqMiniSeconds;
 				let day: any = date / (1000 * 60 * 60 * 24);
 				let days = parseInt(day);
 				let hour: any = (date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);

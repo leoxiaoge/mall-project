@@ -14,14 +14,13 @@
 }
 .table-tr {
 	display: table-row;
-	width: 100%;
 	height: 80rpx;
 }
 .table-td {
 	display: table-cell;
 	border: 2rpx solid #dfdfdf;
 	vertical-align: middle;
-	width: 50%;
+	width: 375rpx;
 	padding: 0 20rpx;
 }
 .table-text {
@@ -33,7 +32,7 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
-	margin-left: 20rpx;
+	margin-left: 8rpx;
 }
 .table-content image {
 	width: 44rpx;
@@ -56,6 +55,6 @@
 .table-text-content-item {
 	font-size: 28rpx;
 	color: #4d4d4d;
-	margin-left: 20rpx;
+	margin-left: 10rpx;
 }
 

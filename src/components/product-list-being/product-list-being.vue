@@ -10,9 +10,11 @@
 						</view>
 						<view class="product-content">
 							<view class="product-price-title">
-								<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+								<view class="product-active-text">
+									<text>{{item.ProductTitle}}</text>
+								</view>
 							</view>
-							<view class="product-prices">
+							<view class="product-prices" v-if="item.Price != undefined">
 								<view class="product-prices-text">￥{{item.Price}}</view>
 								<view class="product-current-bid">当前出价</view>
 							</view>
@@ -41,7 +43,7 @@
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
 						<view class="product-price-title">
-							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
 						<view class="product-price">
 							<view class="product-price-text">￥{{item.ProductPrice}}</view>
@@ -70,7 +72,7 @@
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
 						<view class="product-price-title">
-							<view class="product-active-text uni-ellipsis">{{item.ProductTitle}}</view>
+							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
 						<view class="product-price">
 							<view class="product-price-text">￥{{item.ProductPrice}}</view>
@@ -116,13 +118,15 @@ export default Vue.extend({
 		}
 	},
 	data() {
-		return {};
+		return {
+			productList: []
+		};
 	},
 	computed: {
 		product() {
 			let list: any = this.options;
 			list.map((item: any) => {
-				let date: number = item.Active.StartCountCown;
+				let date: number = item.Active.SeqMiniSeconds;
 				let day: any = date / (1000 * 60 * 60 * 24);
 				let days = parseInt(day);
 				let hour: any = (date % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
@@ -214,11 +218,10 @@ export default Vue.extend({
 
 .product-item {
 	display: inline-block;
-	padding-left: 20upx;
 	overflow: hidden;
 	width: 33.33%;
 	background-color: #fff;
-	padding-bottom: 20upx;
+	padding: 20upx 16upx;
 }
 
 .product-item-one {
@@ -238,6 +241,12 @@ export default Vue.extend({
 	width: 50%;
 	background-color: #fff;
 	padding-bottom: 20upx;
+}
+
+.product-active-text {
+	overflow: hidden; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
 }
 
 .product-price {

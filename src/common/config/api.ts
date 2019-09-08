@@ -52,3 +52,4 @@ export const HelpListGet = 'API.Operate.HelpListGet' // 获取帮助列表
 export const PayMoneyListGet = 'API.Operate.PayMoneyListGet' // 获取充值金额列表
 export const PayMoneySubmit = 'API.Operate.PayMoneySubmit' // 充值提交接口
 export const GetSystemConfig = 'API.Operate.GetSystemConfig' // 获取系统配置参数
+export const GetShareTitle = 'API.Operate.GetShareTitle' // 随机获取一个分享标题

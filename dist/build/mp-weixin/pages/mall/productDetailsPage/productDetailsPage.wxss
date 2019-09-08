@@ -47,12 +47,21 @@
 	margin: 0 10rpx;
 }
 .i-product-head {
-	padding: 20rpx 30rpx;
+	padding: 20rpx 30rpx 4rpx 30rpx;
 }
 .i-product-title {
 	font-size: 32rpx;
 	color: #4d4d4d;
 	line-height: 1.2;
+}
+.i-product-price {
+	margin: 0 30rpx;
+	line-height: 1.2;
+}
+.i-product-price-text {
+	font-size: 36rpx;
+	color: #fe7f00;
+	text-decoration: line-through;
 }
 .i-product-current-bid {
 	margin: 20rpx 30rpx;

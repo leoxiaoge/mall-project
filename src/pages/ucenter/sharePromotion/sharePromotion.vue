@@ -6,7 +6,7 @@
 					<image :src="commission" />
 				</view>
 				<view class="teng-share-head-text">
-					<text>成功邀请好友消费即可获得佣金{{commissionValue}}%的提成</text>
+					<text>{{shareTitle}}</text>
 				</view>
 			</view>
 			<view class="teng-share-content">
@@ -48,12 +48,14 @@ import {
 import {
 	GetWxacode,
 	GetSystemConfig,
+	GetShareTitle,
 	OrderDryingUpload
 } from "@/common/config/api";
 export default Vue.extend({
 	data() {
 		return {
 			commissionValue: "",
+			shareTitle: "",
 			code: [],
 			url: "https://api.tengpaisc.com",
 			commission: "/static/icon/icon_commission.png",
@@ -61,22 +63,29 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
-		this.getSystemConfig();
 		this.uploadImage();
+	},
+	onShow() {
+		this.getSystemConfig();
+		this.getShareTitle();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},
 	methods: {
 		async getSystemConfig() {
-			// #ifndef APP-PLUS
 			let res: any = await this.getWxacode();
 			this.code = res.CodeValue;
 			let data = {};
 			request(GetSystemConfig, data).then((res: any) => {
 				this.commissionValue = res.ConfigValue.CommissionValue;
 			});
-			// #endif
+		},
+		getShareTitle() {
+			let data = {};
+			request(GetShareTitle, data).then((res: any) => {
+				this.shareTitle = res.ShareTitle;
+			});
 		},
 		getWxacode() {
 			return new Promise((sesolve, reject) => {
@@ -100,7 +109,6 @@ export default Vue.extend({
 		},
 		preview(current: any, urls: any) {
 			urls = [urls];
-			console.log(urls);
 			previewImage(current, urls);
 		},
 		commissionTo() {

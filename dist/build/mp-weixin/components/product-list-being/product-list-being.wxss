@@ -64,11 +64,10 @@
 }
 .product-item {
 	display: inline-block;
-	padding-left: 20rpx;
 	overflow: hidden;
 	width: 33.33%;
 	background-color: #fff;
-	padding-bottom: 20rpx;
+	padding: 20rpx 16rpx;
 }
 .product-item-one {
 	display: inline-block;
@@ -86,6 +85,12 @@
 	width: 50%;
 	background-color: #fff;
 	padding-bottom: 20rpx;
+}
+.product-active-text {
+	overflow: hidden; 
+	white-space: nowrap; 
+	-o-text-overflow: ellipsis; 
+	   text-overflow: ellipsis;
 }
 .product-price {
 	text-align: center;
