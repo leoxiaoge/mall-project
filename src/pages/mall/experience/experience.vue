@@ -44,7 +44,10 @@
 								</block>
 							</view>
 							<view class="teng-jion-btn">
-								<button class="btn teng-btn" @click="productDetailsTo(item.ID, item.Active.ID)">{{item.activeButton}}</button>
+								<button
+									class="btn teng-btn"
+									@click="productDetailsTo(item.ID, item.Active.ID)"
+								>{{item.activeButton}}</button>
 							</view>
 						</view>
 					</view>
@@ -57,8 +60,16 @@
 <script lang="ts">
 import Vue from "vue";
 import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
-import { HomeProductListGet, ProductCategoryListGet, ProductPaiListGet } from "@/common/config/api";
+import {
+	HomeProductListGet,
+	ProductCategoryListGet,
+	ProductPaiListGet
+} from "@/common/config/api";
+import noTuned from "@/components/no-tuned/no-tuned.vue";
 export default Vue.extend({
+	components: {
+		noTuned
+	},
 	data() {
 		return {
 			categoryList: [],
@@ -137,7 +148,12 @@ export default Vue.extend({
 			}
 		},
 		productDetailsTo(id: any, activeID: any) {
-			navigateTo("../../mall/productDetailsPage/productDetailsPage?id=" + id + '&activeID=' + activeID);
+			navigateTo(
+				"../../mall/productDetailsPage/productDetailsPage?id=" +
+					id +
+					"&activeID=" +
+					activeID
+			);
 		}
 	}
 });

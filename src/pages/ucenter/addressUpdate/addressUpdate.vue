@@ -79,7 +79,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			id: "",
+			productID: "",
 			saveButton: "保存",
 			disabled: false,
 			orderID: "",
@@ -98,7 +98,7 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("onLoad", JSON.parse(options.disabled));
-		this.id = options.id;
+		this.productID = options.productID;
 		let disabled = JSON.parse(options.disabled);
 		if (disabled) {
 			this.disabled = disabled;
@@ -227,8 +227,8 @@ export default Vue.extend({
 			request(OrderAddressSubmit, data).then((res: any) => {
 				showToast("订单提交收货地址成功！");
 				redirectTo(
-					"../orderDetail/orderDetail?id=" +
-						this.id +
+					"../orderDetail/orderDetail?productID=" +
+						this.productID +
 						"&OrderID=" +
 						this.orderID
 				);

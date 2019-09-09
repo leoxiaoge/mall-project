@@ -153,7 +153,7 @@ export default Vue.extend({
 			duration: 500,
 			circular: true,
 			active: 0,
-			id: "",
+			productID: "",
 			orderID: "", // 订单ID
 			PayTypeID: 1, // 支付类型ID 微信小程序支付传1
 			icon: "",
@@ -162,7 +162,7 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
-		this.id = options.id;
+		this.productID = options.productID;
 		this.orderID = options.OrderID;
 	},
 	onShow() {
@@ -243,7 +243,7 @@ export default Vue.extend({
 				case "晒单":
 					navigateTo(
 						"../orderDryingUpload/orderDryingUpload?id=" +
-							this.id +
+							this.productID +
 							"&OrderID=" +
 							this.orderID
 					);

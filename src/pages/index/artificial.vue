@@ -19,6 +19,7 @@
 				:style="'height:'+height+'px'"
 				scroll-with-animation
 			>
+			  <no-tuned :thumb="thumb" :height="height" v-if="subCategoryList.length == 0" />
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
 					<view class="teng-item-images">
 						<image class="nav-right-item-image" :src="item.ProductPicList[0]" />
@@ -65,7 +66,11 @@ import {
 	ProductCategoryListGet,
 	ProductPaiListGet
 } from "@/common/config/api";
+import noTuned from "@/components/no-tuned/no-tuned.vue";
 export default Vue.extend({
+	components: {
+		noTuned
+	},
 	data() {
 		return {
 			categoryList: [],
@@ -79,7 +84,8 @@ export default Vue.extend({
 			pageSize: 10,
 			pageCount: 1,
 			statusIconDone: "/static/icon/icon_done.png",
-			statusIconFlow: "/static/icon/icon_flow.png"
+			statusIconFlow: "/static/icon/icon_flow.png",
+			thumb: "/static/img/no_tuned.jpg"
 		};
 	},
 	onLoad() {

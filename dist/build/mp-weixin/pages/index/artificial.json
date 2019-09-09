@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "人工举牌",
-  "usingComponents": {}
+  "usingComponents": {
+    "no-tuned": "/components/no-tuned/no-tuned"
+  }
 }

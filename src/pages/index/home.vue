@@ -25,7 +25,7 @@
 									:easing-function="easing"
 								>
 									<swiper-item v-for="(item, index) in swiper" :key="index">
-										<image :src="item.AdPicUrl" mode="aspectFill" />
+										<image :src="item.AdPicUrl" mode="aspectFill" @click="productDetailsTo(item.AdLinkUrl, item.AdParaments)" />
 									</swiper-item>
 								</swiper>
 							</view>
@@ -216,9 +216,6 @@ export default Vue.extend({
 					//设置列表数据
 					if (mescroll.num == 1) this.productList = []; //如果是第一页需手动制空列表
 					this.productList = this.productList.concat(curPageData); //追加新数据
-					let activeidsing: any = this.productList;
-					let data: any = activeidsing.map((item: any) => item.Active.ID);
-					this.msgSubscribe(data);
 				},
 				() => {
 					//联网失败的回调,隐藏下拉刷新的状态
@@ -279,6 +276,9 @@ export default Vue.extend({
 				};
 				request(HomeProductListGet, data)
 					.then((res: any) => {
+						let activeidsing: any = res.ProductList;
+						let data: any = activeidsing.map((item: any) => item.Active.ID);
+						this.msgSubscribe(data);
 						sesolve(res.ProductList);
 					})
 					.catch((err: any) => {
@@ -331,7 +331,6 @@ export default Vue.extend({
 				socketMsgQueue = [];
 			});
 			uni.onSocketError(res => {
-				console.log(res);
 				console.log("WebSocket连接打开失败，请检查！");
 				// 断线调用函数
 				showErrorToast("断线重连中...");
@@ -428,6 +427,12 @@ export default Vue.extend({
 		listClick(item: any) {
 			let navigate = `../mall/${item.navigateTo}/${item.navigateTo}`;
 			navigateTo(navigate);
+		},
+		//轮播跳转详情页
+		productDetailsTo(AdLinkUrl: string, AdParaments: string) {
+			navigateTo(
+				`${AdLinkUrl}?${AdParaments}`
+			);
 		}
 	}
 });

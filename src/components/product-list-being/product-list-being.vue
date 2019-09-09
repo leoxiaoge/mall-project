@@ -4,7 +4,7 @@
 		<view class="product-list" v-if="product.length == 1">
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item-one" v-for="(item,index) in product" :key="index">
-					<view class="product-item-flex" @click="productDetailsTo(item.ID, item.Active.ID)">
+					<view class="product-item-flex" @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-one">
 							<image class="product-image-one img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
@@ -144,11 +144,9 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		productDetailsTo(id: any, activeID: any) {
+		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
-					id +
-					"&activeID=" +
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
 					activeID
 			);
 		},

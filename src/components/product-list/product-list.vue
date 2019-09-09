@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
 			<view class="uni-product" v-for="(item,index) in product" :key="index">
-				<view class="i-product-content" @click="productDetailsTo(item.ID, item.Active.ID)">
+				<view class="i-product-content" @click="productDetailsTo(item.Active.ID)">
 					<view class="i-image-view">
 						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit" />
 					</view>
@@ -109,11 +109,9 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		productDetailsTo(id: any, activeID: any) {
+		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
-					id +
-					"&activeID=" +
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
 					activeID
 			);
 		}

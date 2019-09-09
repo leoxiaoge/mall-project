@@ -11,7 +11,7 @@
 						<view class="teng-show-time">{{item.UpdatedTime}}</view>
 					</view>
 				</view>
-				<view class="teng-show-order" @click="productDetailsTo(item.ProductID, item.ActiveID)">
+				<view class="teng-show-order" @click="productDetailsTo(item.ActiveID)">
 					<view class="teng-show-order-images">
 						<image :src="item.ProductPicList[0]" />
 					</view>
@@ -124,11 +124,9 @@ export default Vue.extend({
 					});
 			});
 		},
-		productDetailsTo(id: any, activeID: any) {
+		productDetailsTo(activeID: any) {
 			navigateTo(
-				"../productDetailsPage/productDetailsPage?id=" +
-					id +
-					"&activeID=" +
+				"../productDetailsPage/productDetailsPage?activeID=" +
 					activeID
 			);
 		},

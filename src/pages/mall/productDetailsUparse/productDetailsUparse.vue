@@ -17,12 +17,12 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			id: "",
+			productID: "",
 			article: ""
 		};
 	},
 	onLoad(options: any) {
-		this.id = options.id;
+		this.productID = options.productID;
 		this.getProduct();
 		console.log("onLoad", options);
 	},
@@ -31,7 +31,7 @@ export default Vue.extend({
 	},
 	methods: {
 		getProduct() {
-			let ProductID = this.id;
+			let ProductID = this.productID;
 			let data = {
 				ProductID: ProductID
 			};

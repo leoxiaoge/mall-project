@@ -78,7 +78,7 @@ export default Vue.extend({
 		return {
 			chosen: "",
 			order: [],
-			id: "",
+			productID: "",
 			orderID: "",
 			comment: "",
 			commentPic: "",
@@ -95,7 +95,7 @@ export default Vue.extend({
 	},
 	components: { robbyImageUpload },
 	onLoad(options: any) {
-		this.id = options.id;
+		this.productID = options.productID;
 		this.orderID = options.OrderID;
 		this.getProduct();
 		console.log("onLoad", options);

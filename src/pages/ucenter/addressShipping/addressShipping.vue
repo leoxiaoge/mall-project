@@ -74,7 +74,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			id: "",
+			productID: "",
 			orderID: "",
 			addressID: "",
 			addressList: [], // 用户收货地址列表
@@ -89,7 +89,7 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("onLoad", options);
-		this.id = options.id;
+		this.productID = options.productID;
 		if (options.disabled) {
 			this.disabled = options.disabled;
 		}
@@ -160,7 +160,7 @@ export default Vue.extend({
 		},
 		// 添加地址
 		addAddress() {
-			let id = this.id;
+			let productID = this.productID;
 			let addressID = 0;
 			let disabled = this.disabled;
 			let orderID = this.orderID;
@@ -171,8 +171,8 @@ export default Vue.extend({
 					disabled +
 					"&orderID=" +
 					orderID +
-					"&id=" +
-					id
+					"&productID=" +
+					productID
 			);
 		},
 		// 设置存储地址
@@ -183,7 +183,7 @@ export default Vue.extend({
 				let res: any = await this.orderAddressSubmit();
 				redirectTo(
 					"../orderDetail/orderDetail?id=" +
-						this.id +
+						this.productID +
 						"&OrderID=" +
 						this.orderID
 				);

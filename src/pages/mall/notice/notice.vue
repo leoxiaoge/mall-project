@@ -122,11 +122,9 @@ export default Vue.extend({
 					});
 			});
 		},
-		productDetailsTo(id: any, activeID: any) {
+		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
-					id +
-					"&activeID=" +
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
 					activeID
 			);
 		}

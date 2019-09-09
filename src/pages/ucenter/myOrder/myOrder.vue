@@ -79,7 +79,7 @@ export default Vue.extend({
 			let UserInfo: any = uni.getStorageSync("UserInfo");
 			let UserID = UserInfo.ID;
 			if (!UserID) {
-				navigateTo("../../ucenter/login/login")
+				navigateTo("../../ucenter/login/login");
 				return;
 			}
 			return new Promise((sesolve, reject) => {

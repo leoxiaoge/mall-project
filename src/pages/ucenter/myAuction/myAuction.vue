@@ -19,7 +19,7 @@
 					:status-done="item.statusDone"
 					:status-flow="item.statusFlow"
 					@close="close(index1,index2)"
-					@click="productDetailsTo(item.ID, item.Active.ID)"
+					@click="productDetailsTo(item.Active.ID)"
 				></media-list>
 			</block>
 		</mescroll-uni>
@@ -134,12 +134,9 @@ export default Vue.extend({
 			this.ListType = type;
 			this.downCallback(mescroll);
 		},
-		productDetailsTo(id: any, activeID: any) {
+		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?id=" +
-					id +
-					"&activeID=" +
-					activeID
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
 		}
 	}

@@ -53,7 +53,7 @@ export default Vue.extend({
 			current: "",
 			OrderStatus: "",
 			orderList: [], // 订单列表
-			id: "", // 选择产品ID
+			productID: "", // 选择产品ID
 			orderID: "", // 选择订单ID
 			PayTypeID: 1, // 支付类型ID 微信小程序支付传1
 			tabBars: [
@@ -197,13 +197,13 @@ export default Vue.extend({
 			this.orderID = e;
 		},
 		product(e: any) {
-			this.id = e;
+			this.productID = e;
 		},
 		async action(e: any) {
 			console.log("action", e);
 			switch (e) {
 				case "填写地址":
-					let id = this.id;
+					let productID = this.productID;
 					let disabled: boolean = true;
 					let orderID = this.orderID;
 					navigateTo(
@@ -211,8 +211,8 @@ export default Vue.extend({
 							disabled +
 							"&orderID=" +
 							orderID +
-							"&id=" +
-							id
+							"&productID=" +
+							productID
 					);
 					break;
 				case "确认收货":
@@ -241,14 +241,14 @@ export default Vue.extend({
 		goDetail(e: any) {
 			console.log(e);
 			navigateTo(
-				"../orderDetail/orderDetail?id=" + e.ID + "&OrderID=" + e.OrderID
+				"../orderDetail/orderDetail?productID=" + e.ID + "&OrderID=" + e.OrderID
 			);
 		},
 		// 晒单上传
 		goOrderDrying(e: any) {
 			console.log(e);
 			navigateTo(
-				"../orderDryingUpload/orderDryingUpload?id=" +
+				"../orderDryingUpload/orderDryingUpload?productID=" +
 					e.ID +
 					"&OrderID=" +
 					e.OrderID

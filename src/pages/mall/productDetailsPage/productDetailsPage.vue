@@ -264,7 +264,7 @@ export default Vue.extend({
 			indicatorActiveColor: "#fe7f00",
 			disabled: false, // 按钮disabled
 			swiper: [], // 产品轮播
-			id: "", // 商品ID
+			productID: "", // 商品ID
 			orderID: "", // 订单ID
 			product: "", // 商品
 			num: "1", // 剩余次数
@@ -327,7 +327,6 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		console.log("options", options);
-		this.id = options.id;
 		this.activeID = options.activeID;
 		this.UserID = uni.getStorageSync("UserInfo").ID;
 		uni.closeSocket();
@@ -440,7 +439,7 @@ export default Vue.extend({
 		},
 		// 获取用户晒单列表
 		getOrderDryingList() {
-			let ProductID = this.id;
+			let ProductID = this.productID;
 			let PageID = this.pageID;
 			let PageSize = this.pageSize;
 			let data = {
@@ -497,6 +496,7 @@ export default Vue.extend({
 			this.activeShow = true;
 			this.activeType = res.Active.ActiveType;
 			this.activeID = res.Active.ID;
+			this.productID = res.ID;
 		},
 		tolowerShow(e: any) {
 			console.log("tolowerShow", e);
@@ -532,8 +532,8 @@ export default Vue.extend({
 		},
 		// 产品详情
 		productDetailsUparsePath() {
-			let id = this.id;
-			navigateTo("../productDetailsUparse/productDetailsUparse?id=" + id);
+			let productID = this.productID;
+			navigateTo("../productDetailsUparse/productDetailsUparse?productID=" + productID);
 		},
 		websocket() {
 			uni.connectSocket({
@@ -1083,13 +1083,13 @@ export default Vue.extend({
 					break;
 				case "填写收货地址":
 					let disabled = true;
-					let id = this.id;
+					let productID = this.productID;
 					let OrderID = this.orderID;
 					navigateTo(
 						"/pages/ucenter/addressShipping/addressShipping?disabled=" +
 							disabled +
-							"&id=" +
-							id +
+							"&productID=" +
+							productID +
 							"&orderID=" +
 							OrderID
 					);
