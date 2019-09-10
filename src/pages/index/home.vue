@@ -25,7 +25,11 @@
 									:easing-function="easing"
 								>
 									<swiper-item v-for="(item, index) in swiper" :key="index">
-										<image :src="item.AdPicUrl" mode="aspectFill" @click="productDetailsTo(item.AdLinkUrl, item.AdParaments)" />
+										<image
+											:src="item.AdPicUrl"
+											mode="aspectFill"
+											@click="productDetailsTo(item.ID, item.AdLinkUrl, item.AdParaments)"
+										/>
 									</swiper-item>
 								</swiper>
 							</view>
@@ -75,9 +79,9 @@
 					<view class="notice-more" @click="noticeList">更多</view>
 				</view>
 				<!-- 正在竞拍 -->
-				<product-list-being :options="productListIngs" @lower="lower" />
+				<product-list-being :options="productListIngs" @lower="lower" v-if="productListIngs" />
 				<!-- 即将开拍 -->
-				<product-list :options="productLists" />
+				<product-list :options="productLists" v-if="productLists" />
 			</view>
 		</mescroll-uni>
 	</view>
@@ -162,6 +166,7 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
+		this.websocket();
 		let sessionKey: any = uni.getStorageSync("SessionKey");
 		let userInfo: any = uni.getStorageSync("UserInfo");
 		if (options.id) {
@@ -180,12 +185,11 @@ export default Vue.extend({
 		}
 	},
 	onShow() {
+		this.websocket();
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
 			this.downCallback(mescroll);
 		}
-		this.getHomeProductList();
-		this.websocket();
 	},
 	onUnload() {
 		uni.closeSocket();
@@ -206,7 +210,6 @@ export default Vue.extend({
 		/*上拉加载的回调: mescroll携带page的参数, 其中num:当前页 从1开始, size:每页数据条数,默认10 */
 		upCallback(mescroll: any) {
 			//联网加载数据
-			this.isReseMode = false;
 			this.getListDataFromNet(
 				mescroll.num,
 				mescroll.size,
@@ -216,6 +219,7 @@ export default Vue.extend({
 					//设置列表数据
 					if (mescroll.num == 1) this.productList = []; //如果是第一页需手动制空列表
 					this.productList = this.productList.concat(curPageData); //追加新数据
+					this.isReseMode = false;
 				},
 				() => {
 					//联网失败的回调,隐藏下拉刷新的状态
@@ -233,10 +237,13 @@ export default Vue.extend({
 			errorCallback: any
 		) {
 			try {
-				let productList: any = await this.getHomeProductListIng(
-					pageNum,
-					pageSize
-				);
+				let dataIng: any = await this.getHomeProductListIng(pageNum, pageSize);
+				let productList = dataIng.productList;
+				let dataMsgIng = dataIng.data;
+				this.msgSubscribe(dataMsgIng);
+				let dataMsg: any = await this.getHomeProductList();
+				this.msgSubscribe(dataMsg);
+				this.onSocketMessage();
 				//联网成功的回调
 				successCallback && successCallback(productList);
 			} catch (e) {
@@ -268,7 +275,7 @@ export default Vue.extend({
 		// 首页获取正在竞拍与即将开拍的商品列表
 		// 查询类型 : home1=首页的正在竞拍列表, home2=首页的即将开拍列表
 		getHomeProductListIng(pageNum: number, pageSize: number) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize,
@@ -276,10 +283,9 @@ export default Vue.extend({
 				};
 				request(HomeProductListGet, data)
 					.then((res: any) => {
-						let activeidsing: any = res.ProductList;
-						let data: any = activeidsing.map((item: any) => item.Active.ID);
-						this.msgSubscribe(data);
-						sesolve(res.ProductList);
+						let productList: any = res.ProductList;
+						let data: any = productList.map((item: any) => item.Active.ID);
+						resolve({ productList, data });
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;
@@ -288,27 +294,29 @@ export default Vue.extend({
 			});
 		},
 		getHomeProductList() {
-			let pageNum = this.pageNum;
-			let pageSize = this.pageSize;
-			let data = {
-				PageID: pageNum,
-				PageSize: pageSize,
-				SearchType: "home1"
-			};
-			request(HomeProductListGet, data).then((res: any) => {
-				if (pageNum === 1) {
-					this.productListIng = [];
-				}
-				this.productListIng = this.productListIng.concat(res.ProductList);
-				this.productListIng.map((item: any) => {
-					item.Active.LastBillUserName = decodeURIComponent(
-						item.Active.LastBillUserName
-					);
+			return new Promise((resolve, reject) => {
+				let pageNum = this.pageNum;
+				let pageSize = this.pageSize;
+				let data = {
+					PageID: pageNum,
+					PageSize: pageSize,
+					SearchType: "home1"
+				};
+				request(HomeProductListGet, data).then((res: any) => {
+					if (pageNum === 1) {
+						this.productListIng = [];
+					}
+					this.productListIng = this.productListIng.concat(res.ProductList);
+					this.productListIng.map((item: any) => {
+						item.Active.LastBillUserName = decodeURIComponent(
+							item.Active.LastBillUserName
+						);
+					});
+					this.PageCount = res.PageCount;
+					let activeids: any = this.productListIng;
+					let data: any = activeids.map((item: any) => item.Active.ID);
+					resolve(data);
 				});
-				let activeids: any = this.productListIng;
-				let data: any = activeids.map((item: any) => item.Active.ID);
-				this.PageCount = res.PageCount;
-				this.msgSubscribe(data);
 			});
 		},
 		lower(e: any) {
@@ -336,7 +344,6 @@ export default Vue.extend({
 				showErrorToast("断线重连中...");
 				this.websocket();
 			});
-			this.onSocketMessage();
 		},
 		sendSocketMessage(msg: any) {
 			let data: string = JSON.stringify(msg);
@@ -371,7 +378,7 @@ export default Vue.extend({
 			this.sendSocketMessage(reqSubscribe);
 		},
 		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
-		async proccessMsg(e: any) {
+		proccessMsg(e: any) {
 			let msg: any = e;
 			let msgType = msg.msgType;
 			if (msg == null) {
@@ -380,7 +387,8 @@ export default Vue.extend({
 			try {
 				switch (msgType) {
 					case 21:
-						this.productListIng.map((item: any) => {
+						let productListIng = this.productListIng;
+						productListIng.map((item: any) => {
 							if (msg.ActiveID === item.Active.ID) {
 								if (msg.LastBill) {
 									item.Active.LastBillUserName = decodeURIComponent(
@@ -393,7 +401,8 @@ export default Vue.extend({
 								item.Status = msg.Status;
 							}
 						});
-						this.productList.map((item: any) => {
+						let productList: any = this.productList;
+						productList.map((item: any) => {
 							if (msg.ActiveID === item.Active.ID) {
 								if (msg.LastBill) {
 									item.Active.LastBillUserName = decodeURIComponent(
@@ -406,10 +415,12 @@ export default Vue.extend({
 								item.Status = msg.Status;
 							}
 						});
-						this.productListIngs = JSON.parse(
-							JSON.stringify(this.productListIng)
+						let productListIngsdata = JSON.parse(
+							JSON.stringify(productListIng)
 						);
-						this.productLists = JSON.parse(JSON.stringify(this.productList));
+						this.productListIngs = productListIngsdata;
+						let productListsdata = JSON.parse(JSON.stringify(productList));
+						this.productLists = productListsdata;
 						console.log(this.productListIngs, this.productLists);
 						break;
 				}
@@ -429,10 +440,12 @@ export default Vue.extend({
 			navigateTo(navigate);
 		},
 		//轮播跳转详情页
-		productDetailsTo(AdLinkUrl: string, AdParaments: string) {
-			navigateTo(
-				`${AdLinkUrl}?${AdParaments}`
-			);
+		productDetailsTo(id: any, adLinkUrl: string, adParaments: string) {
+			if (adLinkUrl && adParaments) {
+				navigateTo(`${adLinkUrl}?${adParaments}`);
+			} else {
+				navigateTo(`${adLinkUrl}?id=${id}`);
+			}
 		}
 	}
 });

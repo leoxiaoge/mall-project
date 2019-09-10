@@ -105,6 +105,8 @@ export default Vue.extend({
 				item.Active.minute = minutes;
 				item.Active.second = seconds;
 			});
+			list = JSON.parse(JSON.stringify(list));
+			console.log("list", list);
 			return list;
 		}
 	},

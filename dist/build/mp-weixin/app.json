@@ -19,7 +19,8 @@
         "productDetailsPage/productDetailsPage",
         "productDetailsUparse/productDetailsUparse",
         "exchangeDetails/exchangeDetails",
-        "search/search"
+        "search/search",
+        "advertisingPage/advertisingPage"
       ]
     },
     {

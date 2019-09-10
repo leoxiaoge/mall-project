@@ -102,7 +102,3 @@
 		}
 	};
 </script>
-
-<style>
-@import "./../wxParse.css";
-</style>

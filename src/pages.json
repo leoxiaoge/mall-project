@@ -152,6 +152,12 @@
 					"style": {
 						"navigationBarTitleText": "搜索"
 					}
+				},
+				{
+					"path": "advertisingPage/advertisingPage",
+					"style": {
+						"navigationBarTitleText": "活动"
+					}
 				}
 			]
 		},

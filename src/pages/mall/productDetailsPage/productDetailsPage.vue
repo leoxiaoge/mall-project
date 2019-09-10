@@ -533,7 +533,9 @@ export default Vue.extend({
 		// 产品详情
 		productDetailsUparsePath() {
 			let productID = this.productID;
-			navigateTo("../productDetailsUparse/productDetailsUparse?productID=" + productID);
+			navigateTo(
+				"../productDetailsUparse/productDetailsUparse?productID=" + productID
+			);
 		},
 		websocket() {
 			uni.connectSocket({
@@ -1102,40 +1104,6 @@ export default Vue.extend({
 					break;
 			}
 		},
-		// 下面处理倒计时的显示，实际上时间是由服务器webSocket返回的
-		seqDisplay(time: any) {
-			let date: any = new Date();
-			let between: number = time - date;
-			let sec: number = Math.floor(between / 1000);
-			let hours: any = Math.floor(Math.floor(sec / 60) / 60) % 24;
-			let days = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
-			let minutes: any = Math.floor(sec / 60) % 60;
-			let seconds: any = sec % 60;
-			let minisec: number = Math.floor(between / 100) % 10;
-			if (seconds <= 0) {
-				this.times = "";
-			} else {
-				if (hours < 10) {
-					hours = "0" + hours;
-				}
-				if (minutes < 10) {
-					minutes = "0" + minutes;
-				}
-				if (seconds < 10) {
-					seconds = "0" + seconds;
-				}
-				let times =
-					(days > 0 ? days + "天" : "") +
-					hours +
-					":" +
-					minutes +
-					":" +
-					seconds +
-					"." +
-					minisec;
-				this.times = times;
-			}
-		},
 		// 倒计时
 		timerState(time: any) {
 			if (time === null) {
@@ -1156,6 +1124,40 @@ export default Vue.extend({
 			this.timer = setInterval(() => {
 				this.seqDisplay(time);
 			}, 100);
+		},
+		// 下面处理倒计时的显示，实际上时间是由服务器webSocket返回的
+		seqDisplay(time: any) {
+			let date: any = new Date();
+			let between: number = time - date;
+			let sec: number = Math.floor(between / 1000);
+			let hours: number = Math.floor(Math.floor(sec / 60) / 60) % 24;
+			let days = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
+			let minutes: number = Math.floor(sec / 60) % 60;
+			let seconds: number = sec % 60;
+			let minisec: number = Math.floor(between / 100) % 10;
+			if (seconds <= 0) {
+				this.times = "";
+			} else {
+				if (hours < 10) {
+					hours = 0 + hours;
+				}
+				if (minutes < 10) {
+					minutes = 0 + minutes;
+				}
+				if (seconds < 10) {
+					seconds = 0 + seconds;
+				}
+				let times =
+					(days > 0 ? days + "天" : "") +
+					hours +
+					":" +
+					minutes +
+					":" +
+					seconds +
+					"." +
+					minisec;
+				this.times = times;
+			}
 		},
 		// 下面是生成随机GUID的函数
 		GUID() {
@@ -1227,7 +1229,7 @@ export default Vue.extend({
 
 .i-product-price-text {
 	font-size: 36upx;
-	color: #fe7f00;
+	color: #7a7a7a;
 	text-decoration: line-through;
 }
 

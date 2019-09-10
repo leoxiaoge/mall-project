@@ -60,7 +60,7 @@
 }
 .i-product-price-text {
 	font-size: 36rpx;
-	color: #fe7f00;
+	color: #7a7a7a;
 	text-decoration: line-through;
 }
 .i-product-current-bid {

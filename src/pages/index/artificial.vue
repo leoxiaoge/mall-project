@@ -85,7 +85,7 @@ export default Vue.extend({
 			pageCount: 1,
 			statusIconDone: "/static/icon/icon_done.png",
 			statusIconFlow: "/static/icon/icon_flow.png",
-			thumb: "/static/img/no_tuned.jpg"
+			thumb: "/static/img/no_tuned.png"
 		};
 	},
 	onLoad() {
