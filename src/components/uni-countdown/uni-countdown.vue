@@ -78,7 +78,7 @@ export default {
 			seconds: 0
 		};
 	},
-	created: function(e) {
+	mounted() {
 		this.seconds = this.toSeconds(
 			this.day,
 			this.hour,

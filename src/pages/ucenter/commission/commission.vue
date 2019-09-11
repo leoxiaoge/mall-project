@@ -1,11 +1,31 @@
 <template>
 	<view class="content">
-		<mescroll-uni @down="downCallback" @up="upCallback">
+		<view class="mention-msg">
+			<view class="mention">
+				<image class="icon" :src="icon" mode="aspectFit" />
+				<view class="mention-msg-text">满100元以上可联系客服申请提现</view>
+			</view>
+			<view class="mention" v-if="noMentionMoney">
+				<view class="mention-money-msg">待提现：</view>
+				<view class="mention-money-no">{{noMentionMoney}}</view>
+			</view>
+		</view>
+		<mescroll-uni top="75" bottom="120" @down="downCallback" @up="upCallback">
 			<view class="commission-list" v-for="(item, index) in commissionList" :key="index">
-				<view class="commission-created">{{item.CreatedDateTime}}</view>
-				<view class="commission-money">{{item.CommissionMoneyText}}</view>
+				<view class="commission-created">
+					<view class="commission-refUserNick">{{item.RefUserNick}}</view>
+					<view class="commission-createdDateTime">{{item.CreatedDateTime}}</view>
+				</view>
+				<view class="commission-money">
+					<text class="commission-money-text" :class="{'commission-money-bg':item.Status == 0}">{{item.CommissionMoneyText}}</text>
+					<text class="commission-status-name" :class="{'commission-status-bg':item.Status == 0}">{{item.StatusName}}</text>
+				</view>
 			</view>
 		</mescroll-uni>
+		<view class="mention-bottom" v-if="mentionMoney">
+			<view class="mention-bottom-text">累计已提现金额：</view>
+			<view class="mention-bottom-money">{{mentionMoney}}</view>
+		</view>
 	</view>
 </template>
 
@@ -21,6 +41,9 @@ export default Vue.extend({
 	data() {
 		return {
 			commissionList: [],
+			noMentionMoney: "", // 待返现总金额
+			mentionMoney: "", // 已返现总金额
+			icon: "/static/icon/icon_broadcast.png",
 			mescroll: null
 		};
 	},
@@ -81,7 +104,10 @@ export default Vue.extend({
 						commissionList.map((item: any) => {
 							item.CreatedDateTime = formatTime(new Date(item.CreatedDate));
 							item.CommissionMoneyText = `+${item.CommissionMoney}`;
+							item.RefUserNick = `(${decodeURIComponent(item.RefUserNick)})`;
 						});
+						this.noMentionMoney = `¥${res.NoMentionMoney}`;
+						this.mentionMoney = `¥${res.MentionMoney}`;
 						sesolve(commissionList);
 					})
 					.catch((err: any) => {
@@ -99,6 +125,45 @@ export default Vue.extend({
 	background-color: #fff;
 }
 
+.mention-msg {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 75upx;
+	background-color: #f0f0f0;
+	padding: 0 30upx;
+}
+
+.mention {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.icon {
+	width: 32upx;
+	height: 32upx;
+}
+
+.mention-msg-text {
+	font-size: 24upx;
+	color: #767676;
+	margin-left: 8upx;
+}
+
+.mention-money-msg {
+	font-size: 24upx;
+	line-height: 1.6;
+	color: #767676;
+}
+
+.mention-money-no {
+	font-size: 48upx;
+	line-height: 1.6;
+	color: #fe7f00;
+	font-weight: 600;
+}
+
 .commission-list {
 	display: flex;
 	justify-content: space-between;
@@ -113,9 +178,61 @@ export default Vue.extend({
 	color: #616161;
 }
 
+.commission-createdDateTime {
+	font-size: 28upx;
+	color: #616161;
+}
+
+.commission-refUserNick {
+	font-size: 28upx;
+	color: #db8f42;
+	margin-left: 8upx;
+}
+
 .commission-money {
 	font-size: 32upx;
-	font-weight: 600;
 	color: #fa7d00;
+}
+
+.commission-money-text {
+	margin-right: 12upx;
+}
+
+.commission-status-name {
+	font-size: 20upx;
+	color: #fff;
+	background-color: #b3b3b3;
+	border-radius: 8upx;
+	padding: 8upx 12upx;
+}
+
+.commission-money-bg {
+	color: #fa7d00;
+}
+
+.commission-status-bg {
+	background-color: #fe7f00;
+}
+
+.mention-bottom {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 100upx;
+	display: flex;
+	align-items: center;
+	padding: 0 30upx;
+	border-top: 2upx solid #cdcdcd;
+	z-index: 999;
+}
+
+.mention-bottom-text {
+	font-size: 30upx;
+	color: #888888;
+}
+
+.mention-bottom-money {
+	font-size: 48upx;
+	color: #fe7f00;
 }
 </style>

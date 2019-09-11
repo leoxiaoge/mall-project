@@ -185,7 +185,6 @@ export default Vue.extend({
 		}
 	},
 	onShow() {
-		this.websocket();
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
 			this.downCallback(mescroll);
@@ -237,13 +236,12 @@ export default Vue.extend({
 			errorCallback: any
 		) {
 			try {
+				this.getHomeProductList();
 				let dataIng: any = await this.getHomeProductListIng(pageNum, pageSize);
 				let productList = dataIng.productList;
 				let dataMsgIng = dataIng.data;
 				this.msgSubscribe(dataMsgIng);
-				let dataMsg: any = await this.getHomeProductList();
-				this.msgSubscribe(dataMsg);
-				this.onSocketMessage();
+				this.proccessMsg();
 				//联网成功的回调
 				successCallback && successCallback(productList);
 			} catch (e) {
@@ -294,29 +292,27 @@ export default Vue.extend({
 			});
 		},
 		getHomeProductList() {
-			return new Promise((resolve, reject) => {
-				let pageNum = this.pageNum;
-				let pageSize = this.pageSize;
-				let data = {
-					PageID: pageNum,
-					PageSize: pageSize,
-					SearchType: "home1"
-				};
-				request(HomeProductListGet, data).then((res: any) => {
-					if (pageNum === 1) {
-						this.productListIng = [];
-					}
-					this.productListIng = this.productListIng.concat(res.ProductList);
-					this.productListIng.map((item: any) => {
-						item.Active.LastBillUserName = decodeURIComponent(
-							item.Active.LastBillUserName
-						);
-					});
-					this.PageCount = res.PageCount;
-					let activeids: any = this.productListIng;
-					let data: any = activeids.map((item: any) => item.Active.ID);
-					resolve(data);
+			let pageNum = this.pageNum;
+			let pageSize = this.pageSize;
+			let data = {
+				PageID: pageNum,
+				PageSize: pageSize,
+				SearchType: "home1"
+			};
+			request(HomeProductListGet, data).then((res: any) => {
+				if (pageNum === 1) {
+					this.productListIng = [];
+				}
+				this.productListIng = this.productListIng.concat(res.ProductList);
+				this.productListIng.map((item: any) => {
+					item.Active.LastBillUserName = decodeURIComponent(
+						item.Active.LastBillUserName
+					);
 				});
+				this.PageCount = res.PageCount;
+				let activeids: any = this.productListIng;
+				let data: any = activeids.map((item: any) => item.Active.ID);
+				this.msgSubscribe(data);
 			});
 		},
 		lower(e: any) {
@@ -357,11 +353,13 @@ export default Vue.extend({
 			}
 		},
 		onSocketMessage() {
-			uni.onSocketMessage((res: any) => {
-				console.log("收到服务器内容：" + res.data);
-				let msg = JSON.parse(res.data);
-				console.log(msg);
-				this.proccessMsg(msg);
+			return new Promise((resolve, reject) => {
+				uni.onSocketMessage((res: any) => {
+					console.log("收到服务器内容：" + res.data);
+					let msg = JSON.parse(res.data);
+					console.log(msg);
+					resolve(msg);
+				});
 			});
 		},
 		// 发送对该活动的消息订阅
@@ -378,8 +376,8 @@ export default Vue.extend({
 			this.sendSocketMessage(reqSubscribe);
 		},
 		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
-		proccessMsg(e: any) {
-			let msg: any = e;
+		async proccessMsg() {
+			let msg: any = await this.onSocketMessage();
 			let msgType = msg.msgType;
 			if (msg == null) {
 				return;
@@ -443,8 +441,6 @@ export default Vue.extend({
 		productDetailsTo(id: any, adLinkUrl: string, adParaments: string) {
 			if (adLinkUrl && adParaments) {
 				navigateTo(`${adLinkUrl}?${adParaments}`);
-			} else {
-				navigateTo(`${adLinkUrl}?id=${id}`);
 			}
 		}
 	}

@@ -105,7 +105,6 @@ page {
 .container {
 	box-sizing: border-box;
 	background-color: #fff;
-	font-family: PingFangSC-Light, helvetica, "Heiti SC";
 	position: relative;
 }
 
@@ -120,7 +119,6 @@ navigator {
 
 view,
 text {
-	font-family: PingFangSC-Light, helvetica, "Heiti SC";
 	color: #333;
 }
 
