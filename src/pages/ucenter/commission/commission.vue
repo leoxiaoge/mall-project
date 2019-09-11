@@ -11,14 +11,22 @@
 			</view>
 		</view>
 		<mescroll-uni top="75" bottom="120" @down="downCallback" @up="upCallback">
-			<view class="commission-list" v-for="(item, index) in commissionList" :key="index">
-				<view class="commission-created">
-					<view class="commission-refUserNick">{{item.RefUserNick}}</view>
-					<view class="commission-createdDateTime">{{item.CreatedDateTime}}</view>
-				</view>
-				<view class="commission-money">
-					<text class="commission-money-text" :class="{'commission-money-bg':item.Status == 0}">{{item.CommissionMoneyText}}</text>
-					<text class="commission-status-name" :class="{'commission-status-bg':item.Status == 0}">{{item.StatusName}}</text>
+			<view class="content">
+				<view class="commission-list" v-for="(item, index) in commissionList" :key="index">
+					<view class="commission-created">
+						<view class="commission-refUserNick">{{item.RefUserNick}}</view>
+						<view class="commission-createdDateTime">{{item.CreatedDateTime}}</view>
+					</view>
+					<view class="commission-money">
+						<text
+							class="commission-money-text"
+							:class="{'commission-money-bg':item.Status == 0}"
+						>{{item.CommissionMoneyText}}</text>
+						<text
+							class="commission-status-name"
+							:class="{'commission-status-bg':item.Status == 0}"
+						>{{item.StatusName}}</text>
+					</view>
 				</view>
 			</view>
 		</mescroll-uni>
@@ -171,6 +179,10 @@ export default Vue.extend({
 	border-bottom: 2upx solid #e1e1e1;
 	margin: 0 30upx;
 	padding: 30upx 0;
+}
+
+.commission-list:last-child {
+	border-bottom: none;
 }
 
 .commission-created {
