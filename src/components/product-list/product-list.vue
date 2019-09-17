@@ -23,14 +23,10 @@
 					<view class="uni-product-time">
 						<!-- 倒计时 -->
 						<text class="uni-product-away">距离开拍</text>
-						<uni-countdown
-							:hour="item.Active.hour"
-							:minute="item.Active.minute"
-							:second="item.Active.minute"
-						/>
+						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.ID, item.Active.ID)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsTo(item.Active.ID)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -104,16 +100,18 @@ export default Vue.extend({
 				item.Active.hour = hours;
 				item.Active.minute = minutes;
 				item.Active.second = seconds;
+				item.seconds =
+					days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60 + seconds;
 			});
 			list = JSON.parse(JSON.stringify(list));
+			console.log("list", list);
 			return list;
 		}
 	},
 	methods: {
 		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
-					activeID
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
 		}
 	}
@@ -121,7 +119,6 @@ export default Vue.extend({
 </script>
 
 <style>
-
 .i-image-view {
 	margin: 8upx 0;
 	padding: 0 8upx;

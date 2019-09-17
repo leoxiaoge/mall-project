@@ -329,24 +329,18 @@ export default Vue.extend({
 		console.log("options", options);
 		this.activeID = options.activeID;
 		this.UserID = uni.getStorageSync("UserInfo").ID;
-		uni.closeSocket();
 		this.websocket();
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
 		this.width = windowWidth;
 	},
 	onShow() {
 		this.UserID = uni.getStorageSync("UserInfo").ID;
-		uni.closeSocket();
 		this.websocket();
 		this.getActiveByID();
 		this.getPastTransactionsList();
 	},
 	onHide() {
-		uni.hideToast();
 		uni.closeSocket();
-		uni.onSocketClose(res => {
-			console.log("WebSocket 已关闭！");
-		});
 	},
 	onUnload() {
 		uni.hideToast();
@@ -356,7 +350,6 @@ export default Vue.extend({
 		});
 	},
 	onPullDownRefresh() {
-		uni.closeSocket();
 		uni.onSocketClose(res => {
 			console.log("WebSocket 已关闭！");
 		});
@@ -1128,34 +1121,37 @@ export default Vue.extend({
 		// 下面处理倒计时的显示，实际上时间是由服务器webSocket返回的
 		seqDisplay(time: any) {
 			let date: any = new Date();
-			let between: number = time - date;
-			let sec: number = Math.floor(between / 1000);
-			let hours: number = Math.floor(Math.floor(sec / 60) / 60) % 24;
-			let days = Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
-			let minutes: number = Math.floor(sec / 60) % 60;
-			let seconds: number = sec % 60;
-			let minisec: number = Math.floor(between / 100) % 10;
+			let between: any = time - date;
+			let sec: any = Math.floor(between / 1000);
+			let hours: any = Math.floor(Math.floor(sec / 60) / 60) % 24;
+			let days: any =
+				Math.floor(Math.floor(Math.floor(sec / 60) / 60) / 24) % 30;
+			let minutes: any = Math.floor(sec / 60) % 60;
+			let seconds: any = sec % 60;
+			let minisec: any = Math.floor(between / 100) % 10;
 			if (seconds <= 0) {
 				this.times = "";
 			} else {
 				if (hours < 10) {
-					hours = 0 + hours;
+					hours = "0" + hours;
 				}
 				if (minutes < 10) {
-					minutes = 0 + minutes;
+					minutes = "0" + minutes;
 				}
 				if (seconds < 10) {
-					seconds = 0 + seconds;
+					seconds = "0" + seconds;
 				}
-				let times =
-					(days > 0 ? days + "天" : "") +
-					hours +
-					":" +
-					minutes +
-					":" +
-					seconds +
-					"." +
-					minisec;
+				hours = +hours + days * 24;
+				let times = hours + ":" + minutes + ":" + seconds + "." + minisec;
+				// let times =
+				// 	(days > 0 ? days + "天" : "") +
+				// 	hours +
+				// 	":" +
+				// 	minutes +
+				// 	":" +
+				// 	seconds +
+				// 	"." +
+				// 	minisec;
 				this.times = times;
 			}
 		},

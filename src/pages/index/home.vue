@@ -79,9 +79,9 @@
 					<view class="notice-more" @click="noticeList">更多</view>
 				</view>
 				<!-- 正在竞拍 -->
-				<product-list-being :options="productListIngs" @lower="lower" v-if="productListIngs" />
+				<product-list-being :options="productListIng" @lower="lower" />
 				<!-- 即将开拍 -->
-				<product-list :options="productLists" v-if="productLists" />
+				<product-list :options="productList" />
 			</view>
 		</mescroll-uni>
 	</view>
@@ -128,8 +128,6 @@ export default Vue.extend({
 			searchIcon: "/static/icon/icon_search.png",
 			productList: [], // 正在竞拍列表
 			productListIng: [], // 即将开拍列表
-			productListIngs: [],
-			productLists: [],
 			productListData: [], // 正在竞拍新列表
 			swiperGridHeight: "0px",
 			swiperGridWidth: "100%",
@@ -185,10 +183,15 @@ export default Vue.extend({
 		}
 	},
 	onShow() {
+		this.websocket();
+		this.getHomeProductList();
 		if (this.mescroll) {
 			let mescroll = this.mescroll;
 			this.downCallback(mescroll);
 		}
+	},
+	onHide() {
+		uni.closeSocket();
 	},
 	onUnload() {
 		uni.closeSocket();
@@ -197,6 +200,104 @@ export default Vue.extend({
 		return onShareAppMessage(e);
 	},
 	methods: {
+		websocket() {
+			uni.connectSocket({
+				url: "wss://websocket.tengpaisc.com"
+			});
+			uni.onSocketOpen((res: any) => {
+				console.log("WebSocket连接已打开！");
+				uni.hideLoading();
+				socketOpen = true;
+				for (let i = 0; i < socketMsgQueue.length; i++) {
+					this.sendSocketMessage(socketMsgQueue[i]);
+				}
+				socketMsgQueue = [];
+			});
+			uni.onSocketError(res => {
+				console.log("WebSocket连接打开失败，请检查！");
+				// 断线调用函数
+				showErrorToast("断线重连中...");
+				this.websocket();
+			});
+			this.onSocketMessage();
+		},
+		sendSocketMessage(msg: any) {
+			let data: string = JSON.stringify(msg);
+			console.log("发送数据", socketOpen, msg);
+			if (socketOpen) {
+				uni.sendSocketMessage({
+					data: data
+				});
+			} else {
+				socketMsgQueue.push(msg);
+			}
+		},
+		onSocketMessage() {
+			uni.onSocketMessage((res: any) => {
+				console.log("收到服务器内容：" + res.data);
+				let msg: any = JSON.parse(res.data);
+				let msgType = msg.msgType;
+				if (msg == null) {
+					return;
+				}
+				try {
+					switch (msgType) {
+						case 21:
+							this.productListIng.map((item: any) => {
+								if (msg.ActiveID === item.Active.ID) {
+									if (msg.LastBill) {
+										item.Active.LastBillUserName = decodeURIComponent(
+											msg.LastBill.nick
+										);
+										item.Active.LastBillUserFace = msg.LastBill.face;
+									}
+									item.Price = msg.Price;
+									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
+									item.Status = msg.Status;
+								}
+							});
+							this.productList.map((item: any) => {
+								if (msg.ActiveID === item.Active.ID) {
+									if (msg.LastBill) {
+										item.Active.LastBillUserName = decodeURIComponent(
+											msg.LastBill.nick
+										);
+										item.Active.LastBillUserFace = msg.LastBill.face;
+									}
+									item.Price = msg.Price;
+									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
+									item.Status = msg.Status;
+								}
+							});
+							let productListIngs = JSON.parse(
+								JSON.stringify(this.productListIng)
+							);
+							this.productListIng = productListIngs;
+							let productLists = JSON.parse(
+								JSON.stringify(this.productList)
+							);
+							this.productList = productLists;
+							// console.log(this.productListIng, this.productList);
+							break;
+					}
+				} catch (e) {
+					console.error("处理消息出错：" + e);
+				}
+			});
+		},
+		// 发送对该活动的消息订阅
+		msgSubscribe(e: any) {
+			let Activeids = e;
+			let msgTime = formatTime(new Date());
+			let isReseMode = this.isReseMode;
+			let reqSubscribe = {
+				msgType: 20,
+				msgTime: msgTime,
+				isReseMode: isReseMode,
+				Activeids: Activeids
+			};
+			this.sendSocketMessage(reqSubscribe);
+		},
 		/*下拉刷新的回调 */
 		downCallback(mescroll: any) {
 			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
@@ -236,12 +337,10 @@ export default Vue.extend({
 			errorCallback: any
 		) {
 			try {
-				this.getHomeProductList();
 				let dataIng: any = await this.getHomeProductListIng(pageNum, pageSize);
 				let productList = dataIng.productList;
 				let dataMsgIng = dataIng.data;
 				this.msgSubscribe(dataMsgIng);
-				this.proccessMsg();
 				//联网成功的回调
 				successCallback && successCallback(productList);
 			} catch (e) {
@@ -319,111 +418,6 @@ export default Vue.extend({
 			if (this.pageNum < this.PageCount) {
 				this.pageNum++;
 				this.getHomeProductList();
-			}
-		},
-		websocket() {
-			uni.connectSocket({
-				url: "wss://websocket.tengpaisc.com"
-			});
-			uni.onSocketOpen((res: any) => {
-				console.log("WebSocket连接已打开！");
-				uni.hideLoading();
-				socketOpen = true;
-				for (let i = 0; i < socketMsgQueue.length; i++) {
-					this.sendSocketMessage(socketMsgQueue[i]);
-				}
-				socketMsgQueue = [];
-			});
-			uni.onSocketError(res => {
-				console.log("WebSocket连接打开失败，请检查！");
-				// 断线调用函数
-				showErrorToast("断线重连中...");
-				this.websocket();
-			});
-		},
-		sendSocketMessage(msg: any) {
-			let data: string = JSON.stringify(msg);
-			console.log("发送数据", socketOpen, msg);
-			if (socketOpen) {
-				uni.sendSocketMessage({
-					data: data
-				});
-			} else {
-				socketMsgQueue.push(msg);
-			}
-		},
-		onSocketMessage() {
-			return new Promise((resolve, reject) => {
-				uni.onSocketMessage((res: any) => {
-					console.log("收到服务器内容：" + res.data);
-					let msg = JSON.parse(res.data);
-					console.log(msg);
-					resolve(msg);
-				});
-			});
-		},
-		// 发送对该活动的消息订阅
-		msgSubscribe(e: any) {
-			let Activeids = e;
-			let msgTime = formatTime(new Date());
-			let isReseMode = this.isReseMode;
-			let reqSubscribe = {
-				msgType: 20,
-				msgTime: msgTime,
-				isReseMode: isReseMode,
-				Activeids: Activeids
-			};
-			this.sendSocketMessage(reqSubscribe);
-		},
-		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
-		async proccessMsg() {
-			let msg: any = await this.onSocketMessage();
-			let msgType = msg.msgType;
-			if (msg == null) {
-				return;
-			}
-			try {
-				switch (msgType) {
-					case 21:
-						let productListIng = this.productListIng;
-						productListIng.map((item: any) => {
-							if (msg.ActiveID === item.Active.ID) {
-								if (msg.LastBill) {
-									item.Active.LastBillUserName = decodeURIComponent(
-										msg.LastBill.nick
-									);
-									item.Active.LastBillUserFace = msg.LastBill.face;
-								}
-								item.Price = msg.Price;
-								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-								item.Status = msg.Status;
-							}
-						});
-						let productList: any = this.productList;
-						productList.map((item: any) => {
-							if (msg.ActiveID === item.Active.ID) {
-								if (msg.LastBill) {
-									item.Active.LastBillUserName = decodeURIComponent(
-										msg.LastBill.nick
-									);
-									item.Active.LastBillUserFace = msg.LastBill.face;
-								}
-								item.Price = msg.Price;
-								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-								item.Status = msg.Status;
-							}
-						});
-						let productListIngsdata = JSON.parse(
-							JSON.stringify(productListIng)
-						);
-						this.productListIngs = productListIngsdata;
-						let productListsdata = JSON.parse(JSON.stringify(productList));
-						this.productLists = productListsdata;
-						console.log(this.productListIngs, this.productLists);
-						break;
-				}
-			} catch (e) {
-				console.error("处理消息出错：" + e);
 			}
 		},
 		noticeList() {

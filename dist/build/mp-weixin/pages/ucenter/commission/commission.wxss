@@ -70,6 +70,9 @@
 	margin: 0 30rpx;
 	padding: 30rpx 0;
 }
+.commission-list:last-child {
+	border-bottom: none;
+}
 .commission-created {
 	font-size: 30rpx;
 	color: #616161;

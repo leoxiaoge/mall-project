@@ -23,12 +23,7 @@
 							</view>
 							<view class="product-times">
 								<!-- 倒计时 -->
-								<uni-countdown
-									:original="true"
-									:hour="item.Active.hour"
-									:minute="item.Active.minute"
-									:second="item.Active.second"
-								/>
+								<uni-countdown :original="true" :seconds="item.seconds" />
 							</view>
 						</view>
 					</view>
@@ -38,7 +33,7 @@
 		<view class="product-list" v-else-if="product.length == 2">
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item-two" v-for="(item,index) in product" :key="index">
-					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
+					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-two">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
@@ -54,12 +49,7 @@
 					</view>
 					<view class="product-time">
 						<!-- 倒计时 -->
-						<uni-countdown
-							:original="true"
-							:hour="item.Active.hour"
-							:minute="item.Active.minute"
-							:second="item.Active.second"
-						/>
+						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
 				</view>
 			</scroll-view>
@@ -67,7 +57,7 @@
 		<view class="product-list" v-else>
 			<scroll-view scroll-x class="scroll-list" @scrolltolower="scrolltolower">
 				<view class="product-item" v-for="(item,index) in product" :key="index">
-					<view class @click="productDetailsTo(item.ID, item.Active.ID)">
+					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
 						</view>
@@ -83,12 +73,7 @@
 					</view>
 					<view class="product-time">
 						<!-- 倒计时 -->
-						<uni-countdown
-							:original="true"
-							:hour="item.Active.hour"
-							:minute="item.Active.minute"
-							:second="item.Active.second"
-						/>
+						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
 				</view>
 			</scroll-view>
@@ -118,9 +103,7 @@ export default Vue.extend({
 		}
 	},
 	data() {
-		return {
-			productList: []
-		};
+		return {};
 	},
 	computed: {
 		product() {
@@ -139,6 +122,8 @@ export default Vue.extend({
 				item.Active.hour = hours;
 				item.Active.minute = minutes;
 				item.Active.second = seconds;
+				item.seconds =
+					days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60 + seconds;
 			});
 			list = JSON.parse(JSON.stringify(list));
 			return list;
@@ -147,8 +132,7 @@ export default Vue.extend({
 	methods: {
 		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
-					activeID
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
 		},
 		scrolltolower() {
@@ -243,8 +227,8 @@ export default Vue.extend({
 }
 
 .product-active-text {
-	overflow: hidden; 
-	white-space: nowrap; 
+	overflow: hidden;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 }
 

@@ -1,32 +1,28 @@
 <template>
 	<view>
-		<view class="uni-countdown" v-if="original">
+		<view :class="original?'uni-countdown':'uni-countdown-else'">
 			<view
 				v-if="showDay"
-				:style="{borderColor:borderColor, color:color, background:backgroundColor}"
 				class="uni-countdown__number"
+				:class="{'countdown-color':original}"
 			>{{ d }}</view>
-			<view v-if="showDay" :style="{color:splitorColor}" class="uni-countdown__splitor">天</view>
-			<view class="uni-countdown__number">{{ h }}</view>
-			<view class="uni-countdown__splitor">{{ showColon ? ':' : '时' }}</view>
-			<view class="uni-countdown__number">{{ i }}</view>
-			<view class="uni-countdown__splitor">{{ showColon ? ':' : '分' }}</view>
-			<view class="uni-countdown__number">{{ s }}</view>
-			<view v-if="!showColon" :style="{color:splitorColor}" class="uni-countdown__splitor">秒</view>
-		</view>
-		<view class="uni-countdown-else" v-else>
+			<view v-if="showDay" class="uni-countdown__splitor" :class="{'countdown-color':original}">天</view>
+			<view class="uni-countdown__number" :class="{'countdown-color':original}">{{ h }}</view>
 			<view
-				v-if="showDay"
-				:style="{borderColor:borderColor, color:color, background:backgroundColor}"
-				class="uni-countdown__number"
-			>{{ d }}</view>
-			<view v-if="showDay" :style="{color:splitorColor}" class="uni-countdown__splitor">天</view>
-			<view class="uni-countdown__number-else">{{ h }}</view>
-			<view class="uni-countdown__splitors">{{ showColon ? ':' : '时' }}</view>
-			<view class="uni-countdown__number-else">{{ i }}</view>
-			<view class="uni-countdown__splitors">{{ showColon ? ':' : '分' }}</view>
-			<view class="uni-countdown__number-else">{{ s }}</view>
-			<view v-if="!showColon" :style="{color:splitorColor}" class="uni-countdown__splitor">秒</view>
+				class="uni-countdown__splitor"
+				:class="{'countdown-color':original}"
+			>{{ showColon ? ':' : '时' }}</view>
+			<view class="uni-countdown__number" :class="{'countdown-color':original}">{{ i }}</view>
+			<view
+				class="uni-countdown__splitor"
+				:class="{'countdown-color':original}"
+			>{{ showColon ? ':' : '分' }}</view>
+			<view class="uni-countdown__number" :class="{'countdown-color':original}">{{ s }}</view>
+			<view
+				v-if="!showColon"
+				class="uni-countdown__splitor"
+				:class="{'countdown-color':original}"
+			>秒</view>
 		</view>
 	</view>
 </template>
@@ -46,23 +42,7 @@ export default {
 			type: Boolean,
 			default: true
 		},
-		splitorColor: {
-			type: String,
-			default: "#000000"
-		},
-		day: {
-			type: Number,
-			default: 0
-		},
-		hour: {
-			type: Number,
-			default: 0
-		},
-		minute: {
-			type: Number,
-			default: 0
-		},
-		second: {
+		seconds: {
 			type: Number,
 			default: 0
 		}
@@ -75,26 +55,26 @@ export default {
 			i: "00",
 			s: "00",
 			leftTime: 0,
-			seconds: 0
+			secondes: 0
 		};
 	},
-	mounted() {
-		this.seconds = this.toSeconds(
-			this.day,
-			this.hour,
-			this.minute,
-			this.second
-		);
-		console.log("this.seconds", this.seconds);
-		this.countDown();
-		this.timer = setInterval(() => {
-			this.seconds--;
-			if (this.seconds < 0) {
-				this.timeUp();
-				return;
+	watch: {
+		seconds(newVal, oldVal) {
+			console.log(newVal, oldVal)
+			clearInterval(this.timer);
+			if (newVal) {
+				this.secondes = newVal;
 			}
 			this.countDown();
-		}, 1000);
+			this.timer = setInterval(() => {
+				this.secondes--;
+				if (this.secondes < 0) {
+					this.timeUp();
+					return;
+				}
+				this.countDown();
+			}, 1000);
+		}
 	},
 	beforeDestroy() {
 		clearInterval(this.timer);
@@ -108,7 +88,7 @@ export default {
 			this.$emit("timeup");
 		},
 		countDown() {
-			let seconds = this.seconds;
+			let seconds = this.secondes;
 			let [day, hour, minute, second] = [0, 0, 0, 0];
 			if (seconds > 0) {
 				day = Math.floor(seconds / (60 * 60 * 24));
@@ -134,6 +114,7 @@ export default {
 			if (second < 10) {
 				second = "0" + second;
 			}
+			hour = + hour + day * 24;
 			this.d = day;
 			this.h = hour;
 			this.i = minute;
@@ -169,7 +150,6 @@ export default {
 }
 
 .uni-countdown__splitor {
-	color: #fe7f00;
 	justify-content: center;
 	line-height: 44upx;
 	padding: 0 5upx;
@@ -181,14 +161,9 @@ export default {
 	justify-content: center;
 	height: 44upx;
 	font-size: 30upx;
-	color: #fe7f00;
 }
 
-.uni-countdown__number-else {
-	line-height: 44upx;
-	justify-content: center;
-	height: 44upx;
-	font-size: 30upx;
-	color: #393939;
+.countdown-color {
+	color: #fe7f00;
 }
 </style>

@@ -145,7 +145,8 @@ export const showErrorToast = (msg: any) => {
   // #ifdef MP-WEIXIN || H5
   uni.showToast({
     title: msg,
-    image: '/static/icon_error.png'
+    image: '/static/icon_error.png',
+    duration: 1000
   })
   // #endif
 }

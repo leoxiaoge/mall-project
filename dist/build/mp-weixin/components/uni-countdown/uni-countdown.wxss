@@ -44,7 +44,6 @@
 	margin-left: 8rpx;
 }
 .uni-countdown__splitor {
-	color: #fe7f00;
 	-webkit-box-pack: center;
 	-webkit-justify-content: center;
 	    -ms-flex-pack: center;
@@ -61,16 +60,8 @@
 	        justify-content: center;
 	height: 44rpx;
 	font-size: 30rpx;
-	color: #fe7f00;
 }
-.uni-countdown__number-else {
-	line-height: 44rpx;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	    -ms-flex-pack: center;
-	        justify-content: center;
-	height: 44rpx;
-	font-size: 30rpx;
-	color: #393939;
+.countdown-color {
+	color: #fe7f00;
 }
 
