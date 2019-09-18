@@ -543,6 +543,7 @@ export default Vue.extend({
 				socketMsgQueue = [];
 				this.msgSubscribe();
 				this.reqLogin();
+				this.onSocketMessage();
 			});
 			uni.onSocketError(res => {
 				console.log(res);
@@ -551,7 +552,6 @@ export default Vue.extend({
 				showErrorToast("断线重连中...");
 				this.websocket();
 			});
-			this.onSocketMessage();
 		},
 		sendSocketMessage(msg: any) {
 			let data: string = JSON.stringify(msg);

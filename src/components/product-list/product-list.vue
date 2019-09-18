@@ -104,7 +104,6 @@ export default Vue.extend({
 					days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60 + seconds;
 			});
 			list = JSON.parse(JSON.stringify(list));
-			console.log("list", list);
 			return list;
 		}
 	},

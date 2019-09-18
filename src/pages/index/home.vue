@@ -209,9 +209,11 @@ export default Vue.extend({
 				uni.hideLoading();
 				socketOpen = true;
 				for (let i = 0; i < socketMsgQueue.length; i++) {
+					console.log("失败重新发送数据")
 					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];
+				this.onSocketMessage();
 			});
 			uni.onSocketError(res => {
 				console.log("WebSocket连接打开失败，请检查！");
@@ -219,7 +221,6 @@ export default Vue.extend({
 				showErrorToast("断线重连中...");
 				this.websocket();
 			});
-			this.onSocketMessage();
 		},
 		sendSocketMessage(msg: any) {
 			let data: string = JSON.stringify(msg);
@@ -277,7 +278,6 @@ export default Vue.extend({
 								JSON.stringify(this.productList)
 							);
 							this.productList = productLists;
-							// console.log(this.productListIng, this.productList);
 							break;
 					}
 				} catch (e) {
