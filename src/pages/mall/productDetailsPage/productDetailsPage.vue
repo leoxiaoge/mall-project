@@ -563,9 +563,8 @@ export default Vue.extend({
 		onSocketMessage() {
 			return new Promise((sesolve, reject) => {
 				uni.onSocketMessage((res: any) => {
-					console.log("收到服务器内容：" + res.data);
 					let msg = JSON.parse(res.data);
-					console.log("数据", msg);
+					console.log("收到服务器内容：", msg);
 					this.proccessMsg();
 					sesolve(msg);
 				});
@@ -1012,7 +1011,6 @@ export default Vue.extend({
 			this.lastBills.map((item: any) => {
 				item.nick = decodeURIComponent(item.nick);
 			});
-			console.log(this.lastBills);
 		},
 		formSubmit(e: any) {
 			let formId = e.detail.formId;
