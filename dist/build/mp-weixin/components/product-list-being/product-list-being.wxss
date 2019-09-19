@@ -23,6 +23,7 @@
 	-webkit-align-items: center;
 	    -ms-flex-align: center;
 	        align-items: center;
+	color: #4d4d4d;
 }
 .product-prices-text {
 	font-weight: 600;

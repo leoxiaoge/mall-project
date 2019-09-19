@@ -161,6 +161,7 @@ export default Vue.extend({
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	color: #4d4d4d;
 }
 
 .product-prices-text {

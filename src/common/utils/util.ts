@@ -146,7 +146,7 @@ export const showErrorToast = (msg: any) => {
   uni.showToast({
     title: msg,
     image: '/static/icon_error.png',
-    duration: 1000
+    duration: 2000
   })
   // #endif
 }

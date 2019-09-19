@@ -1,11 +1,7 @@
 <template>
 	<view>
 		<view :class="original?'uni-countdown':'uni-countdown-else'">
-			<view
-				v-if="showDay"
-				class="uni-countdown__number"
-				:class="{'countdown-color':original}"
-			>{{ d }}</view>
+			<view v-if="showDay" class="uni-countdown__number" :class="{'countdown-color':original}">{{ d }}</view>
 			<view v-if="showDay" class="uni-countdown__splitor" :class="{'countdown-color':original}">天</view>
 			<view class="uni-countdown__number" :class="{'countdown-color':original}">{{ h }}</view>
 			<view
@@ -18,11 +14,7 @@
 				:class="{'countdown-color':original}"
 			>{{ showColon ? ':' : '分' }}</view>
 			<view class="uni-countdown__number" :class="{'countdown-color':original}">{{ s }}</view>
-			<view
-				v-if="!showColon"
-				class="uni-countdown__splitor"
-				:class="{'countdown-color':original}"
-			>秒</view>
+			<view v-if="!showColon" class="uni-countdown__splitor" :class="{'countdown-color':original}">秒</view>
 		</view>
 	</view>
 </template>
@@ -60,7 +52,6 @@ export default {
 	},
 	watch: {
 		seconds(newVal, oldVal) {
-			console.log(newVal, oldVal)
 			clearInterval(this.timer);
 			if (newVal) {
 				this.secondes = newVal;
@@ -114,7 +105,7 @@ export default {
 			if (second < 10) {
 				second = "0" + second;
 			}
-			hour = + hour + day * 24;
+			hour = +hour + day * 24;
 			this.d = day;
 			this.h = hour;
 			this.i = minute;

@@ -164,7 +164,6 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
-		this.websocket();
 		let sessionKey: any = uni.getStorageSync("SessionKey");
 		let userInfo: any = uni.getStorageSync("UserInfo");
 		if (options.id) {
@@ -209,7 +208,6 @@ export default Vue.extend({
 				uni.hideLoading();
 				socketOpen = true;
 				for (let i = 0; i < socketMsgQueue.length; i++) {
-					console.log("失败重新发送数据")
 					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];

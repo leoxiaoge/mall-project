@@ -326,10 +326,7 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
-		console.log("options", options);
 		this.activeID = options.activeID;
-		this.UserID = uni.getStorageSync("UserInfo").ID;
-		this.websocket();
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
 		this.width = windowWidth;
 	},
@@ -383,7 +380,6 @@ export default Vue.extend({
 				ActiveID: ActiveID
 			};
 			request(GetActiveByID, data).then((res: any) => {
-				console.log("活动详情", res);
 				this.activities(res.ActiveDetail);
 			});
 		},
@@ -569,7 +565,7 @@ export default Vue.extend({
 				uni.onSocketMessage((res: any) => {
 					console.log("收到服务器内容：" + res.data);
 					let msg = JSON.parse(res.data);
-					console.log(msg);
+					console.log("数据", msg);
 					this.proccessMsg();
 					sesolve(msg);
 				});
@@ -607,6 +603,18 @@ export default Vue.extend({
 				msgTime: msgTime
 			};
 			this.sendSocketMessage(reqSubscribe);
+		},
+		async init() {
+			let GUID: any = await this.GUID();
+			let msgTime = formatTime(new Date());
+			let initMsg = {
+				ActiveID: this.activeID,
+				UserID: this.UserID,
+				msgID: GUID,
+				msgType: 6,
+				msgTime: msgTime
+			};
+			this.sendSocketMessage(initMsg);
 		},
 		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
 		async proccessMsg() {
@@ -698,14 +706,7 @@ export default Vue.extend({
 							// 登录成功，提示用户
 							this.UserID = msg.UserID;
 						}
-						let initMsg = {
-							ActiveID: this.activeID,
-							UserID: this.UserID,
-							msgID: GUID,
-							msgType: 6,
-							msgTime: msgTime
-						};
-						this.sendSocketMessage(initMsg);
+						this.init();
 						break;
 					case 4:
 						// 托管响应
@@ -747,7 +748,6 @@ export default Vue.extend({
 						}
 						// 处理按钮的初始状态列表
 						this.buttonsEvent(msg.ButtonsList);
-						console.log(this.seqBillsShow);
 						// 更新最近出价人列表信息，更新全部举牌次数、我的举牌次数、和最新价格
 						this.onPriceUpdateEvent &&
 							this.onPriceUpdateEvent(msg.Price, msg.AllBills, msg.LastBills);
@@ -817,9 +817,7 @@ export default Vue.extend({
 						//计算剩余时间，并重置剩余时间
 						let dt = new Date();
 						dt.setTime(dt.getTime() + msg.SeqMiniSecounds);
-						console.log("剩余时间", dt);
 						this.timerState(dt);
-						console.log(this.seqTime);
 						// 设置倒计时标题为即将开拍
 						this.timerDurationTitle = "开拍准备";
 						// 隐藏掉报名按钮
@@ -930,14 +928,12 @@ export default Vue.extend({
 						break;
 				}
 			} catch (e) {
-				console.error("处理消息出错：");
-				console.error(e);
+				console.error("处理消息出错：" + e);
 			}
 		},
 
 		// 定义按钮处理函数
 		buttonStateChanged(text: any, type: any, isDisplay: any, isEnabled: any) {
-			console.log("按钮处理", text, type, isDisplay, isEnabled);
 			this.buttonsList.map((item: any, i: any, value: any) => {
 				value[type].ButtonText = text;
 				value[type].ButtonVisibility = isDisplay;
@@ -990,7 +986,6 @@ export default Vue.extend({
 		// 更新价格事件
 		onPriceUpdateEvent(startPrice: any, allBills: any, lastBills: any) {
 			// 更新全部举牌次数、我的举牌次数、和最新价格
-			console.log(lastBills);
 			if (lastBills.length > 0) {
 				console.log("oneBills", lastBills);
 				// 有人出价，按最后出价人
