@@ -463,4 +463,9 @@
 	border: none;
 	border-radius: 0;
 }
+button[disabled]:not([type]),
+button[disabled][type="default"] {
+	color: #fff;
+	background-color: #c0c0c0;
+}
 

@@ -350,7 +350,6 @@ export default Vue.extend({
 		uni.onSocketClose(res => {
 			console.log("WebSocket 已关闭！");
 		});
-		this.websocket();
 		this.getActiveByID();
 	},
 	onReachBottom() {
@@ -561,13 +560,10 @@ export default Vue.extend({
 			}
 		},
 		onSocketMessage() {
-			return new Promise((sesolve, reject) => {
-				uni.onSocketMessage((res: any) => {
-					let msg = JSON.parse(res.data);
-					console.log("收到服务器内容：", msg);
-					this.proccessMsg();
-					sesolve(msg);
-				});
+			uni.onSocketMessage((res: any) => {
+				let msg = JSON.parse(res.data);
+				console.log("收到服务器内容：", msg);
+				this.proccessMsg(msg);
 			});
 		},
 		// 向服务器发送登录请求
@@ -616,11 +612,10 @@ export default Vue.extend({
 			this.sendSocketMessage(initMsg);
 		},
 		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
-		async proccessMsg() {
+		async proccessMsg(msg: any) {
 			let GUID: any = await this.GUID();
 			let dt = new Date();
 			let msgTime = formatTime(new Date());
-			let msg: any = await this.onSocketMessage();
 			let msgType = msg.msgType;
 			this.msgType = msgType;
 			console.log(msgType);
@@ -633,8 +628,6 @@ export default Vue.extend({
 						// 订阅响应消息
 						if (msg.IsError) {
 							showToast("订阅失败：" + msg.ErrMsg);
-						} else {
-							showToast(msg.ErrMsg);
 						}
 						break;
 					case 1:
@@ -769,10 +762,18 @@ export default Vue.extend({
 						this.buttonStateChanged &&
 							this.buttonStateChanged("填写收货地址", "3", false, false);
 						if (msg.AllSignups === msg.MaxSignups) {
-							this.buttonStateChanged &&
-								this.buttonStateChanged("举牌", "2", true, true);
-							this.buttonStateChanged &&
-								this.buttonStateChanged("托管", "1", true, true);
+							// 如果活动为手工举牌，显示举牌按钮
+							if (this.activeType === 0) {
+								this.buttonStateChanged &&
+									this.buttonStateChanged("举牌", "2", true, false);
+								this.buttonStateChanged &&
+									this.buttonStateChanged("托管", "1", true, false);
+							} else {
+								this.buttonStateChanged &&
+									this.buttonStateChanged("举牌", "2", true, true);
+								this.buttonStateChanged &&
+									this.buttonStateChanged("托管", "1", true, true);
+							}
 							// 已满员，隐藏掉报名按钮
 							this.buttonStateChanged &&
 								this.buttonStateChanged("报名", "0", false, false);
@@ -933,13 +934,18 @@ export default Vue.extend({
 
 		// 定义按钮处理函数
 		buttonStateChanged(text: any, type: any, isDisplay: any, isEnabled: any) {
+			this.buttonsList = JSON.parse(JSON.stringify(this.buttonsList));
 			this.buttonsList.map((item: any, i: any, value: any) => {
 				value[type].ButtonText = text;
 				value[type].ButtonVisibility = isDisplay;
 				value[type].ButtonEnabled = isEnabled;
 				if (item.ButtonType === 1 && item.ButtonVisibility) {
 					this.seqBillsShow = true;
-				} else {
+				} else if (item.ButtonType === 2 && item.ButtonVisibility) {
+					this.seqBillsShow = true;
+				} else if (item.ButtonType === 3 && item.ButtonVisibility) {
+					this.seqBillsShow = false;
+				} else if (item.ButtonType === 4 && item.ButtonVisibility) {
 					this.seqBillsShow = false;
 				}
 			});
@@ -948,7 +954,7 @@ export default Vue.extend({
 
 		// 处理按列表事件
 		buttonsEvent(event: any) {
-			this.buttonsList = event;
+			this.buttonsList = JSON.parse(JSON.stringify(event));
 			this.buttonsList.map((item: any, i: any, value: any) => {
 				if (item.ButtonType === 1 && item.ButtonVisibility) {
 					this.seqBillsShow = true;
@@ -1136,15 +1142,6 @@ export default Vue.extend({
 				}
 				hours = +hours + days * 24;
 				let times = hours + ":" + minutes + ":" + seconds + "." + minisec;
-				// let times =
-				// 	(days > 0 ? days + "天" : "") +
-				// 	hours +
-				// 	":" +
-				// 	minutes +
-				// 	":" +
-				// 	seconds +
-				// 	"." +
-				// 	minisec;
 				this.times = times;
 			}
 		},
@@ -1568,5 +1565,11 @@ export default Vue.extend({
 .btn:after {
 	border: none;
 	border-radius: 0;
+}
+
+button[disabled]:not([type]),
+button[disabled][type="default"] {
+	color: #fff;
+	background-color: #c0c0c0;
 }
 </style>

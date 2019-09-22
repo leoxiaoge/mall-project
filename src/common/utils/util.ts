@@ -99,7 +99,7 @@ export const request = async (api: any, data: any) => {
       },
       fail: (err: any) => {
         reject(err)
-        showToast("网络异常!")
+        showToast("网络异常，请重试!")
       },
       complete: () => {
         // #ifdef APP-PLUS
@@ -130,7 +130,7 @@ export const upload = async (api: any, data: any, filePath: any) => {
       },
       fail(err: any) {
         reject(err)
-        showToast("网络异常!")
+        showToast("网络异常，请重试!")
       }
     })
   })

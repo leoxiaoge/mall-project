@@ -183,11 +183,6 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.websocket();
-		this.getHomeProductList();
-		if (this.mescroll) {
-			let mescroll = this.mescroll;
-			this.downCallback(mescroll);
-		}
 	},
 	onHide() {
 		uni.closeSocket();
@@ -211,6 +206,11 @@ export default Vue.extend({
 					this.sendSocketMessage(socketMsgQueue[i]);
 				}
 				socketMsgQueue = [];
+				this.getHomeProductList();
+				if (this.mescroll) {
+					let mescroll = this.mescroll;
+					this.downCallback(mescroll);
+				}
 				this.onSocketMessage();
 			});
 			uni.onSocketError(res => {
@@ -272,9 +272,7 @@ export default Vue.extend({
 								JSON.stringify(this.productListIng)
 							);
 							this.productListIng = productListIngs;
-							let productLists = JSON.parse(
-								JSON.stringify(this.productList)
-							);
+							let productLists = JSON.parse(JSON.stringify(this.productList));
 							this.productList = productLists;
 							break;
 					}
@@ -285,6 +283,7 @@ export default Vue.extend({
 		},
 		// 发送对该活动的消息订阅
 		msgSubscribe(e: any) {
+			console.log("发送对该活动的消息订阅");
 			let Activeids = e;
 			let msgTime = formatTime(new Date());
 			let isReseMode = this.isReseMode;

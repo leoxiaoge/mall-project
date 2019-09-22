@@ -23,6 +23,7 @@
 				:style="'height:'+(height - 50)+'px'"
 				scroll-with-animation
 			>
+				<no-tuned :thumb="thumb" :height="height" v-if="subCategoryList.length == 0" />
 				<view class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
 					<view class="teng-item-images">
 						<image class="nav-right-item-image" :src="item.ProductPicList[0]" />
@@ -56,7 +57,11 @@ import {
 	ProductExchangeListGet,
 	GetLoginUser
 } from "@/common/config/api";
+import noTuned from "@/components/no-tuned/no-tuned.vue";
 export default Vue.extend({
+	components: {
+		noTuned
+	},
 	data() {
 		return {
 			integrals: 0,
@@ -70,7 +75,8 @@ export default Vue.extend({
 			pageNum: 0,
 			pageSize: 10,
 			pageCount: 1,
-			statusIcon: "/static/icon/icon_done.png"
+			statusIcon: "/static/icon/icon_done.png",
+			thumb: "/static/img/no_tuned.png"
 		};
 	},
 	onLoad() {
@@ -174,7 +180,7 @@ export default Vue.extend({
 
 .integrals-text {
 	font-size: 32upx;
-	color: 5e5e5e;
+	color: 55ee5e;
 	margin-left: 30upx;
 }
 
