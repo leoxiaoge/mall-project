@@ -32,8 +32,7 @@
 	</view>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import {
 	request,
 	navigateTo,
@@ -51,7 +50,7 @@ import {
 } from "@/common/config/api";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
 import iPopupToggle from "@/components/i-popup-toggle/i-popup-toggle.vue";
-export default Vue.extend({
+export default {
 	components: {
 		uniIcon,
 		iPopupToggle
@@ -61,6 +60,7 @@ export default Vue.extend({
 			userInfo: "",
 			userNick: "",
 			userFace: "",
+			imageSrc: "",
 			showPopup: false
 		};
 	},
@@ -70,12 +70,12 @@ export default Vue.extend({
 	onShow() {
 		this.useInfo();
 	},
-	onShareAppMessage(e: any) {
+	onShareAppMessage(e) {
 		return onShareAppMessage(e);
 	},
 	methods: {
 		async useInfo() {
-			let userInfo: any = await this.getLoginUser();
+			let userInfo = await this.getLoginUser();
 			this.userInfo = userInfo;
 			this.userFace = userInfo.userFace;
 			this.userNick = decodeURIComponent(userInfo.userNick);
@@ -84,7 +84,7 @@ export default Vue.extend({
 		getLoginUser() {
 			return new Promise((sesolve, reject) => {
 				let data = {};
-				request(GetLoginUser, data).then((res: any) => {
+				request(GetLoginUser, data).then(res => {
 					uni.setStorageSync("UserInfo", res.UserInfo);
 					sesolve(res.UserInfo);
 				});
@@ -96,56 +96,103 @@ export default Vue.extend({
 		togglePopup() {
 			this.showPopup = !this.showPopup;
 		},
-		preview(current: any, urls: any) {
+		preview(current, urls) {
 			urls = [urls];
 			previewImage(current, urls);
 		},
 		chooseImageCamera() {
 			uni.chooseImage({
 				count: 1,
-				sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-				sourceType: ["camera"], // 使用相机
-				success: (res: any) => {
-					let filePath = JSON.stringify(res.tempFilePaths[0]);
-					this.uploadImage(filePath);
+				sizeType: ["original", "compressed"],
+				sourceType: ["camera"],
+				success: res => {
+					var imageSrc = res.tempFilePaths[0];
+					uni.uploadFile({
+						url: "https://unidemo.dcloud.net.cn/upload",
+						filePath: imageSrc,
+						fileType: "image",
+						name: "data",
+						success: res => {
+							console.log("uploadImage success, res is:", res);
+							uni.showToast({
+								title: "上传成功",
+								icon: "success",
+								duration: 1000
+							});
+							this.imageSrc = imageSrc;
+							console.log(this.imageSrc);
+							this.uploadImage();
+						},
+						fail: err => {
+							console.log("uploadImage fail", err);
+							uni.showModal({
+								content: err.errMsg,
+								showCancel: false
+							});
+						}
+					});
+				},
+				fail: err => {
+					console.log("chooseImage fail", err);
 				}
 			});
 		},
 		chooseImageAlbum() {
 			uni.chooseImage({
 				count: 1,
-				sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-				sourceType: ["album"], // 从相册选择
-				success: (res: any) => {
-					let filePath = JSON.stringify(res.tempFilePaths[0]);
-					this.uploadImage(filePath);
+				sizeType: ["original", "compressed"],
+				sourceType: ["album"],
+				success: res => {
+					var imageSrc = res.tempFilePaths[0];
+					uni.uploadFile({
+						url: "https://unidemo.dcloud.net.cn/upload",
+						filePath: imageSrc,
+						fileType: "image",
+						name: "data",
+						success: res => {
+							console.log("uploadImage success, res is:", res);
+							showToast("上传成功")
+							this.imageSrc = imageSrc;
+							console.log(this.imageSrc);
+							this.uploadImage();
+						},
+						fail: err => {
+							console.log("uploadImage fail", err);
+							showToast(err.errMsg)
+						}
+					});
+				},
+				fail: err => {
+					console.log("chooseImage fail", err);
 				}
 			});
 		},
-		uploadImage(filePath: any) {
+		uploadImage() {
+			let filePath = this.imageSrc;
 			let data = {};
-			upload(OrderDryingUpload, data, filePath).then((res: any) => {
+			upload(OrderDryingUpload, data, filePath).then(res => {
 				let data = JSON.parse(res);
 				let picUrl = data.PicUrl;
 				this.updateUserInfo(picUrl);
 			});
 		},
-		updateUserInfo(event: any) {
+		updateUserInfo(event) {
 			let UserFace = event;
 			let data = {
 				UserFace: UserFace
 			};
-			request(UpdateUserInfo, data).then((res: any) => {
+			request(UpdateUserInfo, data).then(res => {
 				showToast("更换头像成功！");
 				this.showPopup = !this.showPopup;
+				this.useInfo();
 			});
 		},
 		userNickClick() {
 			navigateTo("../settingUserNick/settingUserNick");
 		},
 		clear() {
-			let content: string = "是否确定退出登录？";
-			defaultShowModal(content).then((res: any) => {
+			let content = "是否确定退出登录？";
+			defaultShowModal(content).then(res => {
 				if (res.confirm) {
 					console.log("用户点击确定");
 					try {
@@ -160,7 +207,7 @@ export default Vue.extend({
 			});
 		}
 	}
-});
+};
 </script>
 
 <style>
