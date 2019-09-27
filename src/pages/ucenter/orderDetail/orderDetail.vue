@@ -274,7 +274,7 @@ export default Vue.extend({
 				signType: "MD5",
 				paySign: paymentData.paySign,
 				success() {
-					showToast("充值成功！!");
+					showToast("支付成功！!");
 					that.getOrderList();
 				},
 				fail() {
