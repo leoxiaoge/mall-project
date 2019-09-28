@@ -452,10 +452,10 @@ export default Vue.extend({
 
 .teng-options {
 	position: absolute;
-	top: -40upx;
+	top: -32upx;
 	background-color: #fff;
 	width: 100%;
-	height: 40upx;
+	height: 32upx;
 	border-radius: 50% / 80% 80% 0 0;
 }
 
