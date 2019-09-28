@@ -452,12 +452,11 @@ export default Vue.extend({
 
 .teng-options {
 	position: absolute;
-	left: -20%;
-	top: -24upx;
+	top: -40upx;
 	background-color: #fff;
-	width: 140%;
-	height: 80upx;
-	border-radius: 50% / 100% 100% 0 0;
+	width: 100%;
+	height: 40upx;
+	border-radius: 50% / 80% 80% 0 0;
 }
 
 .search-swiper {

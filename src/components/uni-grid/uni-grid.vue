@@ -1,7 +1,7 @@
 <template>
 	<view :class="{'uni-grid-no-border':!showBorder,'uni-grid-no-out-border':showBorder && !showOutBorder}" class="uni-grid">
 		<view v-for="(items,i) in gridGroup" :key="i" class="uni-grid__flex">
-			<view v-for="(item,index) in items" :hover-start-time="20" :hover-stay-time="70" :key="index" :class="[index == columnNum ? 'uni-grid-item-last' : '','uni-grid-item-' + type]" :style="{visibility:item.seize ? 'hidden' : 'inherit'}" class="uni-grid-item" hover-class="uni-grid-item-hover" @click="onClick(items,index)">
+			<view v-for="(item,index) in items" :hover-start-time="20" :hover-stay-time="70" :key="index" :class="[index == columnNum ? 'uni-grid-item-last' : '','uni-grid-item-' + type]" :style="{visibility:item.seize ? 'hidden' : 'inherit'}" class="uni-grid-item" @click="onClick(items,index)">
 				<view v-if="!item.seize" class="uni-grid-item__content">
 					<image :src="item.image" class="uni-grid-item-image" />
 					<text class="uni-grid-item-text">{{ item.text }}</text>
@@ -90,7 +90,6 @@
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		/* background-color: #fff; */
 	}
 
 	.uni-grid__flex {
@@ -146,10 +145,6 @@
 		font-size: 32upx;
 		color: #646464;
 		margin-top: 12upx
-	}
-
-	.uni-grid-item-hover {
-		background-color: #f1f1f1
 	}
 
 	.uni-grid-item-image {

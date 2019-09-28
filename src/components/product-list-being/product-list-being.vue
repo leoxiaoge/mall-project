@@ -14,11 +14,11 @@
 									<text>{{item.ProductTitle}}</text>
 								</view>
 							</view>
-							<view class="product-prices" v-if="item.Price">
+							<view class="product-prices" v-if="item.Price != undefined">
 								<view class="product-prices-text">￥{{item.Price}}</view>
 								<view class="product-current-bid">当前出价</view>
 							</view>
-							<view class="product-prices">
+							<view class="product-prices" v-if="item.Active.LastBillUserName">
 								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 							</view>
 							<view class="product-times">
@@ -40,7 +40,7 @@
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-price" v-if="item.Price">
+						<view class="product-price" v-if="item.Price != undefined">
 							<view class="product-price-text">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price">
@@ -64,7 +64,7 @@
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-price" v-if="item.Price">
+						<view class="product-price" v-if="item.Price != undefined">
 							<view class="product-price-text">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price">

@@ -25,12 +25,16 @@ import {
 	request,
 	navigateTo,
 	showToast,
+	showErrorToast,
+	formatTime,
 	onShareAppMessage
 } from "@/common/utils/util";
 import { ProductSearchListGet } from "@/common/config/api";
 import iSearch from "@/components/i-search/i-search.vue";
 import iNo from "@/components/u-no/u-no.vue";
 import productList from "@/components/product-search-list/product-search-list.vue";
+let socketOpen: boolean = false;
+let socketMsgQueue: any = [];
 export default Vue.extend({
 	components: {
 		iSearch,
@@ -46,6 +50,7 @@ export default Vue.extend({
 			productList: [],
 			focus: false,
 			noShow: false,
+			isReseMode: false,
 			thumb: "http://www.mescroll.com/img/mescroll-empty.png?v=1",
 			title: "暂无搜索数据",
 			iconSrc: {
@@ -59,6 +64,15 @@ export default Vue.extend({
 	onLoad(options) {
 		console.log("onLoad", options);
 	},
+	onShow() {
+		this.websocket();
+	},
+	onHide() {
+		uni.closeSocket();
+	},
+	onUnload() {
+		uni.closeSocket();
+	},
 	onReachBottom() {
 		if (this.pageNum < this.pageCount) {
 			this.pageNum++;
@@ -69,6 +83,86 @@ export default Vue.extend({
 		return onShareAppMessage(e);
 	},
 	methods: {
+		websocket() {
+			uni.connectSocket({
+				url: "wss://websocket.tengpaisc.com"
+			});
+			uni.onSocketOpen((res: any) => {
+				console.log("WebSocket连接已打开！");
+				uni.hideLoading();
+				socketOpen = true;
+				for (let i = 0; i < socketMsgQueue.length; i++) {
+					this.sendSocketMessage(socketMsgQueue[i]);
+				}
+				socketMsgQueue = [];
+				this.onSocketMessage();
+			});
+			uni.onSocketError(res => {
+				console.log("WebSocket连接打开失败，请检查！");
+				// 断线调用函数
+				showErrorToast("断线重连中...");
+				this.websocket();
+			});
+		},
+		sendSocketMessage(msg: any) {
+			let data: string = JSON.stringify(msg);
+			console.log("发送数据", socketOpen, msg);
+			if (socketOpen) {
+				uni.sendSocketMessage({
+					data: data
+				});
+			} else {
+				socketMsgQueue.push(msg);
+			}
+		},
+		onSocketMessage() {
+			uni.onSocketMessage((res: any) => {
+				let msg: any = JSON.parse(res.data);
+				console.log("收到服务器内容：" + res.data);
+				let msgType = msg.msgType;
+				if (msg == null) {
+					return;
+				}
+				try {
+					switch (msgType) {
+						case 21:
+							this.productList.map((item: any) => {
+								if (msg.ActiveID === item.Active.ID) {
+									if (msg.LastBill) {
+										item.Active.LastBillUserName = decodeURIComponent(
+											msg.LastBill.nick
+										);
+										item.Active.LastBillUserFace = msg.LastBill.face;
+									}
+									item.Price = msg.Price;
+									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
+									item.Status = msg.Status;
+								}
+							});
+							let productLists = JSON.parse(JSON.stringify(this.productList));
+							this.productList = productLists;
+							console.log(this.productList);
+							break;
+					}
+				} catch (e) {
+					console.error("处理消息出错：" + e);
+				}
+			});
+		},
+		// 发送对该活动的消息订阅
+		msgSubscribe(e: any) {
+			console.log("发送对该活动的消息订阅");
+			let Activeids = e;
+			let msgTime = formatTime(new Date());
+			let isReseMode = this.isReseMode;
+			let reqSubscribe = {
+				msgType: 20,
+				msgTime: msgTime,
+				isReseMode: isReseMode,
+				Activeids: Activeids
+			};
+			this.sendSocketMessage(reqSubscribe);
+		},
 		blur(e: any) {
 			this.keyword = e;
 			this.pageNum = 1;
@@ -93,6 +187,8 @@ export default Vue.extend({
 			let pageNum = this.pageNum;
 			let pageSize = this.pageSize;
 			let productList: any = await this.getProductSearchList(pageNum, pageSize);
+			let data: any = productList.map((item: any) => item.Active.ID);
+			this.msgSubscribe(data);
 			if (this.pageNum == 1) this.productList = [];
 			this.productList = this.productList.concat(productList);
 			if (this.productList.length <= 0) {

@@ -11,7 +11,6 @@
 	-webkit-flex-direction: column;
 	    -ms-flex-direction: column;
 	        flex-direction: column;
-	/* background-color: #fff; */
 }
 .uni-grid__flex {
 	display: -webkit-box;
@@ -95,9 +94,6 @@
 	font-size: 32rpx;
 	color: #646464;
 	margin-top: 12rpx
-}
-.uni-grid-item-hover {
-	background-color: #f1f1f1
 }
 .uni-grid-item-image {
 	width: 88rpx;

@@ -2536,7 +2536,7 @@ swiper.round-dot .uni-swiper-dot {
 	width: 16upx;
 	height: 16upx;
 	position: relative;
-	margin: 20upx 10upx !important;
+	margin: 36upx 10upx !important;
 }
 
 swiper.round-dot .wx-swiper-dot.wx-swiper-dot-active::after,

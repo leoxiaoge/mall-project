@@ -21,8 +21,10 @@
 				<view class="show-item-comment">
 					<text>{{item.OrderComment.Comment}}</text>
 				</view>
-				<view class="show-item-image" v-for="(i, index) in item.ProductPicList" :key="index">
-					<image :src="i" @click="preview(i, item.ProductPicList)" />
+				<view class="show-item-images">
+					<view class="show-item-image" v-for="(i, index) in item.ProductPicList" :key="index">
+						<image :src="i" @click="preview(i, item.ProductPicList)" />
+					</view>
 				</view>
 			</view>
 		</view>
@@ -46,10 +48,10 @@ export default Vue.extend({
 		return {};
 	},
 	methods: {
-    preview(current: any, urls: any) {
+		preview(current: any, urls: any) {
 			previewImage(current, urls);
 		}
-  }
+	}
 });
 </script>
 
@@ -88,8 +90,14 @@ export default Vue.extend({
 	color: #333232;
 }
 
+.show-item-images {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
 .show-item-image image {
-	width: 140upx;
-	height: 140upx;
+	width: 180upx;
+	height: 180upx;
 }
 </style>
