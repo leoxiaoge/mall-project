@@ -71,11 +71,17 @@
             "nodeModules": true
         },
         "plugins": {
+            "myPlugin": {
+                "version": "1.0.8",
+                "provider": "wx8c631f7e9f2465e1"
+            },
             "WechatSI": {
                 "version": "0.3.1",
                 "provider": "wx069ba97219f66d99"
             }
-        }
+        },
+        "requiredBackgroundModes": ["audio"],
+        "sitemapLocation": "sitemap.json"
     },
     "mp-alipay": {
         "usingComponents": true
@@ -86,11 +92,11 @@
     "mp-toutiao": {
         "usingComponents": true
     },
-    "h5" : {
-        "template" : "template.h5.html",
-        "router" : {
-            "mode" : "history",
-            "base" : "/h5/"
+    "h5": {
+        "template": "template.h5.html",
+        "router": {
+            "mode": "history",
+            "base": "/h5/"
         }
     },
     "networkTimeout": {

@@ -42,8 +42,8 @@
 					"titleNView": {
 						"buttons": [
 							{
-								"fontSrc": "/static/uni.ttf",
-								"text": "\ue534",
+								"fontSrc": "/static/font/iconfont.ttf",
+								"text": "\ue899",
 								"width": "40px",
 								"fontSize": "28px",
 								"color": "#fff",
@@ -138,7 +138,7 @@
 				{
 					"path": "productDetailsUparse/productDetailsUparse",
 					"style": {
-						"navigationBarTitleText": "竞拍详情"
+						"navigationBarTitleText": "商品详情"
 					}
 				},
 				{

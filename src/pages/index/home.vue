@@ -456,7 +456,7 @@ export default Vue.extend({
 	background-color: #fff;
 	width: 100%;
 	height: 32upx;
-	border-radius: 50% / 80% 80% 0 0;
+	border-radius: 50% / 100% 100% 0 0;
 }
 
 .search-swiper {

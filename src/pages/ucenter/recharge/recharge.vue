@@ -36,29 +36,46 @@
 			</radio-group>
 		</view>
 		<!-- #endif -->
-		<view class="teng-recharge-bottom teng-flex-between">
-			<view class="teng-recharge-total-price">
-				<text>支付金额：</text>
-				<text class="teng-recharge-total-price-number">¥{{payMoney}}</text>
+		<!-- #ifdef MP-WEIXIN -->
+		<form @submit="formSubmit" report-submit="true" report-submit-timeout="“2”">
+			<!-- #endif -->
+			<view class="teng-recharge-bottom teng-flex-between">
+				<view class="teng-recharge-total-price">
+					<text>支付金额：</text>
+					<text class="teng-recharge-total-price-number">¥{{payMoney}}</text>
+				</view>
+				<!-- #ifdef MP-WEIXIN -->
+				<button
+					class="btn payment-btn bg-gradual-orange"
+					formType="submit"
+					@click="payment"
+					:loading="loading"
+				>支付</button>
+				<!-- #endif -->
+				<!-- #ifdef H5 -->
+				<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
+				<!-- #endif -->
+				<!-- #ifdef APP-PLUS -->
+				<button class="btn payment-btn bg-gradual-orange" @click="requestPayment" :loading="loading">支付</button>
+				<!-- #endif -->
 			</view>
 			<!-- #ifdef MP-WEIXIN -->
-			<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
-			<!-- #endif -->
-			<!-- #ifdef H5 -->
-			<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
-			<!-- #endif -->
-      <!-- #ifdef APP-PLUS -->
-			<button class="btn payment-btn bg-gradual-orange" @click="requestPayment" :loading="loading">支付</button>
-			<!-- #endif -->
-		</view>
+		</form>
+		<!-- #endif -->
 	</view>
 </template>
 
 <script>
-import { request, navigateTo, showModal, onShareAppMessage } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	showModal,
+	onShareAppMessage
+} from "@/common/utils/util";
 import {
 	PayMoneyListGet,
 	PayMoneySubmit,
+	AddUserFormID,
 	GetWXOpenID
 } from "@/common/config/api";
 export default {
@@ -74,13 +91,13 @@ export default {
 					name: "微信",
 					id: "wxpay",
 					value: "wxpay",
-					icon: "/static/icon/icon_wxpay.png",
+					icon: "/static/icon/icon_wxpay.png"
 				},
 				{
 					name: "支付宝",
 					id: "alipay",
 					value: "alipay",
-					icon: "/static/icon/icon_alipay.png",
+					icon: "/static/icon/icon_alipay.png"
 				}
 			],
 			payList: [],
@@ -199,6 +216,16 @@ export default {
 				});
 			});
 		},
+		// 小程序消息模版FormID
+		formSubmit(e) {
+			let formId = e.detail.formId;
+			let data = {
+				FormID: formId
+			};
+			request(AddUserFormID, data).then(res => {
+				console.log(res);
+			});
+		},
 		// 支付API
 		async payMoneySubmit() {
 			let OpenID = await this.getWXOpenID();
@@ -234,7 +261,7 @@ export default {
 				orderInfo: orderInfo.data,
 				success: e => {
 					console.log("success", e);
-					showToast("充值成功！")
+					showToast("充值成功！");
 				},
 				fail: e => {
 					console.log("fail", e);
@@ -361,7 +388,7 @@ page {
 	align-items: center;
 }
 
-.payment-method-icon img{
+.payment-method-icon img {
 	width: 64upx;
 	height: 64upx;
 }
