@@ -18,7 +18,10 @@
 					</view>
 					<view class="teng-order-text">
 						<view class="teng-order-title teng-flex-between">
-							<view class="teng-order-name">{{options.ProductName}}</view>
+							<view class="teng-order-name">
+								<text class="active-no">[{{options.Active.ActiveNo}}期]</text>
+								<text>{{options.ProductName}}</text>
+							</view>
 							<view class="teng-order-num">x1</view>
 						</view>
 						<view class="teng-order-body">
@@ -99,6 +102,12 @@ page {
 	background-color: #fff;
 }
 
+.active-no {
+	color: #4d4d4d;
+	font-weight: 600;
+	margin-right: 10upx;
+}
+
 .teng-order-body {
 	display: flex;
 	justify-content: flex-start;
@@ -145,7 +154,7 @@ page {
 	-o-text-overflow: ellipsis;
 	text-overflow: ellipsis;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
+	-webkit-line-clamp: 2;
 }
 
 .teng-order-num {

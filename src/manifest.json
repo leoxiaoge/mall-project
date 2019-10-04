@@ -96,7 +96,7 @@
         "template": "template.h5.html",
         "router": {
             "mode": "history",
-            "base": "/h5/"
+            "base": "/"
         }
     },
     "networkTimeout": {

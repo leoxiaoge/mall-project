@@ -840,7 +840,7 @@ export default Vue.extend({
 							this.buttonStateChanged("参与下一期", "4", false, false);
 						break;
 					case 10:
-						// 活动正式开始，但是目前尚未有人出价，所以收到此消息，先停止计时器，并显示为 “等待先手”
+						// 活动正式开始，但是目前尚未有人出价，所以收到此消息，先停止计时器，并显示为 “等待首牌”
 						this.timerDurationTitle = "正在竟拍";
 						this.times = "等待首牌";
 						this.SeqBills = msg.SeqBills;
@@ -1128,7 +1128,7 @@ export default Vue.extend({
 			let minutes: any = Math.floor(sec / 60) % 60;
 			let seconds: any = sec % 60;
 			let minisec: any = Math.floor(between / 100) % 10;
-			if (seconds <= 0) {
+			if (seconds < 0) {
 				this.times = "";
 			} else {
 				if (hours < 10) {
