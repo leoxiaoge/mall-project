@@ -53,7 +53,7 @@
 				>支付</button>
 				<!-- #endif -->
 				<!-- #ifdef H5 -->
-				<button class="btn payment-btn bg-gradual-orange" @click="payment" :loading="loading">支付</button>
+				<button class="btn payment-btn bg-gradual-orange" @click="paymentH5" :loading="loading">支付</button>
 				<!-- #endif -->
 				<!-- #ifdef APP-PLUS -->
 				<button class="btn payment-btn bg-gradual-orange" @click="requestPayment" :loading="loading">支付</button>
@@ -194,6 +194,13 @@ export default {
 				}
 			});
 		},
+		// #ifdef H5
+		async paymentH5() {
+			this.loading = true;
+			let payment = await this.payMoneySubmit();
+			let paymentData = JSON.parse(payment);
+		},
+		// #endif
 		// 获取OpenID
 		getWXOpenID() {
 			return new Promise((sesolve, reject) => {

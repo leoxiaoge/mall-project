@@ -664,6 +664,8 @@ export default Vue.extend({
 							// 更新我的报名信息事件
 							this.onUpdateMySignups &&
 								this.onUpdateMySignups(msg.Signups, msg.SeqSignups);
+							// 剩余举牌次数
+							this.SeqBills = msg.SeqBills;
 							showToast(msg.ErrMsg);
 						}
 						break;
