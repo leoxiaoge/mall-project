@@ -16,8 +16,8 @@
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef APP-PLUS -->
-				<view class="teng-share-code" @click="preview(url + code, url + code)">
-					<img :src="url + code" />
+				<view class="teng-share-code">
+					<img :src="code" />
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
@@ -62,9 +62,7 @@ export default Vue.extend({
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
 	},
-	onLoad(options: any) {
-		this.uploadImage();
-	},
+	onLoad(options: any) {},
 	onShow() {
 		this.getSystemConfig();
 		this.getShareTitle();
@@ -94,18 +92,6 @@ export default Vue.extend({
 					sesolve(res);
 				});
 			});
-		},
-		async uploadImage() {
-			// #ifdef APP-PLUS
-			let data = {};
-			let res: any = await this.getWxacode();
-			let filePath: any = res.CodeValue;
-			upload(OrderDryingUpload, data, filePath).then((res: any) => {
-				console.log(res);
-				let data = JSON.parse(res);
-				this.code = data.PicUrl;
-			});
-			// #endif
 		},
 		preview(current: any, urls: any) {
 			urls = [urls];
