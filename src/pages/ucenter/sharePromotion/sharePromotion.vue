@@ -57,7 +57,6 @@ export default Vue.extend({
 			commissionValue: "",
 			shareTitle: "",
 			code: [],
-			url: "https://api.tengpaisc.com",
 			commission: "/static/icon/icon_commission.png",
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
