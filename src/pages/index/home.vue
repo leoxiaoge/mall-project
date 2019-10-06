@@ -455,7 +455,7 @@ export default Vue.extend({
 	top: -32upx;
 	background-color: #fff;
 	width: 100%;
-	height: 32upx;
+	height: 36upx;
 	border-radius: 50% / 100% 100% 0 0;
 }
 
