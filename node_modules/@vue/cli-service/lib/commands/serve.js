@@ -23,7 +23,8 @@ module.exports = (api, options) => {
       '--host': `specify host (default: ${defaults.host})`,
       '--port': `specify port (default: ${defaults.port})`,
       '--https': `use https (default: ${defaults.https})`,
-      '--public': `specify the public network URL for the HMR client`
+      '--public': `specify the public network URL for the HMR client`,
+      '--skip-plugins': `comma-separated list of plugin names to skip for this run`
     }
   }, async function serve (args) {
     info('Starting development server...')
@@ -51,7 +52,7 @@ module.exports = (api, options) => {
     validateWebpackConfig(webpackConfig, api, options)
 
     // load user devServer options with higher priority than devServer
-    // in webpck config
+    // in webpack config
     const projectDevServerOptions = Object.assign(
       webpackConfig.devServer || {},
       options.devServer
@@ -105,7 +106,7 @@ module.exports = (api, options) => {
         // explicitly configured via devServer.public
         ? `?${publicUrl}/sockjs-node`
         : isInContainer
-          // can't infer public netowrk url if inside a container...
+          // can't infer public network url if inside a container...
           // use client-side inference (note this would break with non-root publicPath)
           ? ``
           // otherwise infer the url

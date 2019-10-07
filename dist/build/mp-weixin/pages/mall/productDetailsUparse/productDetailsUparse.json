@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "竞拍详情",
+  "navigationBarTitleText": "商品详情",
   "usingComponents": {
     "u-parse": "/components/uParse/src/wxParse"
   }

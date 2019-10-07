@@ -19,6 +19,11 @@ page {
 .list-cell {
 	background-color: #fff;
 }
+.active-no {
+	color: #4d4d4d;
+	font-weight: 600;
+	margin-right: 10rpx;
+}
 .teng-order-body {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -64,7 +69,7 @@ page {
 	-o-text-overflow: ellipsis;
 	text-overflow: ellipsis;
 	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 1;
+	-webkit-line-clamp: 2;
 }
 .teng-order-num {
 	font-size: 32rpx;
