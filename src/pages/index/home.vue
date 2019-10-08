@@ -6,12 +6,10 @@
 		<mescroll-uni @down="downCallback" @up="upCallback">
 			<view class="content">
 				<view class="search-swiper">
-					<!-- #ifdef MP-WEIXIN -->
 					<view class="search" @click="search">
 						<image class="search-icon" :src="searchIcon" />
 						<input placeholder="搜索好物" placeholder-class="placeholder" disabled="true" />
 					</view>
-					<!-- #endif -->
 					<!-- 轮播 -->
 					<view class="i-padding-wrap">
 						<view class="page-section swiper">
@@ -422,20 +420,9 @@ export default Vue.extend({
 		noticeList() {
 			navigateTo("../mall/notice/notice");
 		},
-		// #ifdef MP-WEIXIN
 		search() {
 			navigateTo("../mall/search/search");
 		},
-		// #endif
-		/**
-		 * 当 searchInput 配置 disabled 为 true 时触发
-		 */
-		// #ifndef MP-WEIXIN
-		onNavigationBarSearchInputClicked(e: any) {
-			console.log("事件执行了", e);
-			navigateTo("../mall/search/search");
-		},
-		// #endif
 		// grid页面
 		listClick(item: any) {
 			let navigate = `../mall/${item.navigateTo}/${item.navigateTo}`;

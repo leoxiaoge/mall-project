@@ -1,8 +1,1 @@
-
-page {
-	background-color: #fff;
-}
-.search {
-	margin: 20rpx 20rpx 0 20rpx;
-}
-
+page{background-color:#fff}.search{margin:20rpx 20rpx 0 20rpx}

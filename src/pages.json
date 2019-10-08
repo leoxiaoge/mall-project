@@ -17,17 +17,7 @@
 			"style": {
 				"navigationBarTitleText": "腾拍商城",
 				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"titleColor": "#fff",
-						"backgroundColor": "#fe7f00",
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px",
-							"placeholder": "请输入搜索词",
-							"disabled": true
-						}
-					}
+					"bounce": "none"
 				}
 			}
 		},
