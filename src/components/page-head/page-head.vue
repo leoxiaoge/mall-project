@@ -1,6 +1,6 @@
 <template name="page-head">
-	<view class="uni-page-head">
-		<view class="uni-page-head-title">{{title}}</view>
+	<view class="page-head">
+		<view class="page-head-title">{{title}}</view>
 	</view>
 </template>
 <script lang="ts">
@@ -15,3 +15,20 @@ export default Vue.extend({
 	}
 });
 </script>
+<style>
+.page-head {
+	padding: 4upx;
+	text-align: center;
+}
+
+.page-head-title {
+	display: inline-block;
+	padding: 0 40upx;
+	font-size: 36upx;
+	font-weight: 600;
+	height: 88upx;
+	line-height: 88upx;
+	color: #3e3e3e;
+	box-sizing: border-box;
+}
+</style>
