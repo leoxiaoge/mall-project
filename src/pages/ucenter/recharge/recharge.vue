@@ -197,8 +197,27 @@ export default {
 		// #ifdef H5
 		async paymentH5() {
 			this.loading = true;
-			let payment = await this.payMoneySubmit();
+			let payment = await this.payMoneySubmitH5();
+			console.log("payment", payment);
 			let paymentData = JSON.parse(payment);
+			let mweb_url = paymentData.mweb_url;
+			// window.location.href = mweb_url;
+		},
+		// #endif
+		// #ifdef H5
+		async payMoneySubmitH5() {
+			return new Promise((sesolve, reject) => {
+				let MoneyID = this.moneyID;
+				let PayTypeID = this.payTypeID;
+				let data = {
+					MoneyID: MoneyID,
+					PayTypeID: PayTypeID
+				};
+				request(PayMoneySubmit, data).then(res => {
+					console.log(res);
+					sesolve(res.PayParam);
+				});
+			});
 		},
 		// #endif
 		// 获取OpenID
