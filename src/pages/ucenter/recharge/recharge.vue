@@ -201,7 +201,7 @@ export default {
 			console.log("payment", payment);
 			let paymentData = JSON.parse(payment);
 			let mweb_url = paymentData.mweb_url;
-			// window.location.href = mweb_url;
+			window.location.href = mweb_url;
 		},
 		// #endif
 		// #ifdef H5
