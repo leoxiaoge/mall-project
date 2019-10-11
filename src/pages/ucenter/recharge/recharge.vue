@@ -78,7 +78,9 @@ import {
 	AddUserFormID,
 	GetWXOpenID
 } from "@/common/config/api";
+// #ifdef H5
 import wx from "jweixin-module"; // 微信公众号（H5）JSSDK
+// #endif
 export default {
 	data() {
 		return {
