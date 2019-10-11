@@ -71,6 +71,20 @@ Md5.hashStr(password);
 
 结果 ： 4297f44b13955235245b2497399d7a93
 
+使用微信支付
+
+一.NPM安装方式
+
+npm install jweixin-module --save
+
+二.下载使用方式
+
+下载地址：https://unpkg.com/jweixin-module@1.4.1/out/index.js
+
+JS-SDK说明文档
+
+https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html
+
 运行项目 推荐使用 yarn serve 或者 npm run dev:h5
 
 #运行并发布

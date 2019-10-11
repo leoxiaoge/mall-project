@@ -28,7 +28,7 @@
 										<image
 											:src="item.AdPicUrl"
 											mode="aspectFill"
-											@click="productDetailsTo(item.ID, item.AdLinkUrl, item.AdParaments)"
+											@click="swiperDetailsTo(item.ID, item.AdLinkUrl, item.AdParaments)"
 										/>
 									</swiper-item>
 								</swiper>
@@ -65,7 +65,7 @@
 						<block v-for="(item, index) in LastTranActiveList" :key="index">
 							<swiper-item>
 								<view class="i-item-msg">
-									<view class="teng-notice-content">
+									<view class="teng-notice-content" @click="productDetailsTo(item.ID)">
 										<text>恭喜</text>
 										<text class="i-notice-original">{{item.OrderUserNick}}</text>以
 										<text class="i-notice-original">¥{{item.OrderMoney}}</text>
@@ -429,10 +429,16 @@ export default Vue.extend({
 			navigateTo(navigate);
 		},
 		//轮播跳转详情页
-		productDetailsTo(id: any, adLinkUrl: string, adParaments: string) {
+		swiperDetailsTo(id: any, adLinkUrl: string, adParaments: string) {
 			if (adLinkUrl && adParaments) {
 				navigateTo(`${adLinkUrl}?${adParaments}`);
 			}
+		},
+		productDetailsTo(activeID: string) {
+			navigateTo(
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
+					activeID
+			);
 		}
 	}
 });

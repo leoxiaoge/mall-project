@@ -6,8 +6,8 @@
 				<view class="i-comment-title">{{item.ProductName}}</view>
 				<view class="i-comment-comment">{{item.OrderComment.Comment}}</view>
 				<view class="i-comment-pic">
-					<view class="i-comment-pic-item" v-for="(i, index) in item.ProductPicList" :key="index">
-						<img :src="i" @click="preview(i, item.ProductPicList)" />
+					<view class="i-comment-pic-item" v-for="(i, index) in item.OrderComment.CommentPicList" :key="index">
+						<img :src="i" @click="preview(i, item.OrderComment.CommentPicList)" :mode="center" />
 					</view>
 				</view>
 			</view>
@@ -141,13 +141,12 @@ export default Vue.extend({
 }
 
 .i-comment-pic-item {
-	width: calc(33.33% - 2px);
-	margin: 20upx;
-	padding: 20upx;
+	width: calc(33.33% - 16px);
+	margin: 8px;
 }
 
 .i-comment-pic-item img {
-	width: 162upx;
-	height: 162upx;
+	width: 100%;
+	height: 180upx;
 }
 </style>

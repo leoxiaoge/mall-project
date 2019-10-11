@@ -31,6 +31,7 @@
     "@dcloudio/uni-mp-weixin": "*",
     "cross-env": "^6.0.3",
     "flyio": "^0.6.2",
+    "jweixin-module": "^1.4.1",
     "regenerator-runtime": "^0.12.1",
     "ts-md5": "^1.2.6",
     "vue": "^2.6.10",

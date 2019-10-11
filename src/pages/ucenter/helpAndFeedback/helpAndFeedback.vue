@@ -11,6 +11,7 @@
 						<view class="teng-contact-time">服务时间：{{item.ContactWorkTime}}</view>
 					</view>
 				</view>
+				<!-- #ifndef H5 -->
 				<view class="teng-contact">
 					<text
 						class="teng-contact-copy"
@@ -28,6 +29,7 @@
 						@click="setClipboard(item.ContactText)"
 					>复制号码</text>
 				</view>
+				<!-- #endif -->
 			</view>
 		</view>
 		<uni-collapse :accordion="true">

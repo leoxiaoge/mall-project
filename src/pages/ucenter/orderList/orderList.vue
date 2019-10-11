@@ -271,7 +271,8 @@ export default Vue.extend({
 		async payment() {
 			let payment: any = await this.payMoneySubmit();
 			let paymentData = JSON.parse(payment);
-			let mescroll: any = this.mescroll;
+			let productID = this.productID;
+			let OrderID = this.orderID;
 			uni.requestPayment({
 				timeStamp: paymentData.timeStamp,
 				nonceStr: paymentData.nonceStr,
@@ -280,7 +281,12 @@ export default Vue.extend({
 				paySign: paymentData.paySign,
 				success() {
 					showToast("支付成功！!");
-					mescroll.resetUpScroll();
+					navigateTo(
+						"../orderDetail/orderDetail?productID=" +
+							productID +
+							"&OrderID=" +
+							OrderID
+					);
 				},
 				fail() {
 					showModal("支付失败，用户取消支付!");

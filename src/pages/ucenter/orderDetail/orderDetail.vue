@@ -72,9 +72,11 @@
 						<text>订单编号：{{item.OrderID}}</text>
 						<text></text>
 					</view>
+					<!-- #ifndef H5 -->
 					<view class="order-information-copy" @click="setClipboard(item.OrderID)">
 						<text>复制</text>
 					</view>
+					<!-- #endif -->
 				</view>
 				<view class="order-information-item">
 					<text>创建时间：</text>

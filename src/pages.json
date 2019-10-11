@@ -16,6 +16,9 @@
 			"path": "pages/index/home",
 			"style": {
 				"navigationBarTitleText": "腾拍商城",
+				// #ifdef H5
+				"navigationStyle": "custom",
+				// #endif
 				"app-plus": {
 					"bounce": "none"
 				}

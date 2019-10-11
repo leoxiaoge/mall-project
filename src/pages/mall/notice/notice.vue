@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<mescroll-uni @down="downCallback" @up="upCallback">
-			<view class="i-notice-list" v-for="(item, index) in lastTranActiveList" :key="index" @click="productDetailsTo(item.ProductID, item.ID)">
+			<view class="i-notice-list" v-for="(item, index) in lastTranActiveList" :key="index" @click="productDetailsTo(item.ID)">
 				<view class="i-notice-head">
 					<view class="i-notice-name">
 						<view class="i-notice-content">
