@@ -197,6 +197,19 @@ export default {
 				}
 			});
 		},
+		// 公众号JDK获取OpenID
+		getJDKWXOpenID() {
+			return new Promise((sesolve, reject) => {
+				let appid = "wxfac027a100a54887";
+				window.location.replace(
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
+						appid +
+						"&redirect_uri=" +
+						encodeURIComponent(location.href) +
+						"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+				);
+			});
+		},
 		// #ifdef H5
 		async paymentH5() {
 			this.loading = true;
@@ -227,24 +240,45 @@ export default {
 					}
 				});
 			} else {
-				window.location.href = mweb_url;
+				let redirect_url = `https://m.tengpaisc.com/pages/ucenter/rechargeSuccessful/rechargeSuccessful`;
+				let url = `${mweb_url}&redirect_url=${redirect_url}`;
+				window.location.href = url;
 			}
 		},
 		// #endif
 		// #ifdef H5
 		async payMoneySubmitH5() {
-			return new Promise((sesolve, reject) => {
-				let MoneyID = this.moneyID;
-				let PayTypeID = this.payTypeID;
-				let data = {
-					MoneyID: MoneyID,
-					PayTypeID: PayTypeID
-				};
-				request(PayMoneySubmit, data).then(res => {
-					console.log(res);
-					sesolve(res.PayParam);
+			let ua = window.navigator.userAgent.toLowerCase();
+			console.log(ua.match(/MicroMessenger/i) == "micromessenger")
+			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				let OpenID = await this.getJDKWXOpenID();
+				return new Promise((sesolve, reject) => {
+					let MoneyID = this.moneyID;
+					let PayTypeID = this.payTypeID;
+					let data = {
+						MoneyID: MoneyID,
+						PayTypeID: PayTypeID,
+						OpenID: OpenID
+					};
+					request(PayMoneySubmit, data).then(res => {
+						console.log(res);
+						sesolve(res.PayParam);
+					});
 				});
-			});
+			} else {
+				return new Promise((sesolve, reject) => {
+					let MoneyID = this.moneyID;
+					let PayTypeID = this.payTypeID;
+					let data = {
+						MoneyID: MoneyID,
+						PayTypeID: PayTypeID
+					};
+					request(PayMoneySubmit, data).then(res => {
+						console.log(res);
+						sesolve(res.PayParam);
+					});
+				});
+			}
 		},
 		// #endif
 		// 获取OpenID

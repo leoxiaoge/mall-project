@@ -198,24 +198,38 @@ export default Vue.extend({
 				IsDefault = 0;
 			}
 			if (this.disabled) {
-				this.orderAddressSubmit();
-				return;
+				let data = {
+					AddressID: AddressID,
+					realName: realName,
+					Mobile: Mobile,
+					Province: Province,
+					City: City,
+					Area: Area,
+					Address: Address,
+					ZipCode: ZipCode,
+					IsDefault: IsDefault
+				};
+				request(UserAddressUpdate, data).then((res: any) => {
+					console.log(res)
+					this.orderAddressSubmit();
+				});
+			} else {
+				let data = {
+					AddressID: AddressID,
+					realName: realName,
+					Mobile: Mobile,
+					Province: Province,
+					City: City,
+					Area: Area,
+					Address: Address,
+					ZipCode: ZipCode,
+					IsDefault: IsDefault
+				};
+				request(UserAddressUpdate, data).then((res: any) => {
+					showToast("保存成功！");
+					redirectTo("../addressShipping/addressShipping");
+				});
 			}
-			let data = {
-				AddressID: AddressID,
-				realName: realName,
-				Mobile: Mobile,
-				Province: Province,
-				City: City,
-				Area: Area,
-				Address: Address,
-				ZipCode: ZipCode,
-				IsDefault: IsDefault
-			};
-			request(UserAddressUpdate, data).then((res: any) => {
-				showToast("保存成功！");
-				redirectTo("../addressShipping/addressShipping");
-			});
 		},
 		orderAddressSubmit() {
 			let OrderID = this.orderID;

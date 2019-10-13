@@ -160,6 +160,7 @@
 									:style="'width:'+width+'px'"
 									v-show="!show"
 									@click.stop.prevent="hidePopup(item.ButtonText)"
+									formType="submit"
 								>{{item.ButtonText}}</button>
 								<i-popup
 									:disabled="item.ButtonEnabled"
@@ -179,8 +180,8 @@
 								<button
 									class="btn i-placard-button i-placard-active"
 									:disabled="!item.ButtonEnabled"
-									formType="submit"
 									@click.stop.prevent="billTap(item.ButtonText)"
+									formType="submit"
 								>{{item.ButtonText}}</button>
 							</block>
 							<block v-if="item.ButtonType === 2 && item.ButtonVisibility">
@@ -297,8 +298,6 @@ export default Vue.extend({
 			price: "", // 最新价格
 			lastBills: [], // 出价列表
 			timerDurationTitle: "", // 状态对应要显示的标题
-			onTimerStatus: "", // 活动通知
-			OnTimerDowns: "", // 成交通知
 			currSignups: "", // 总已报名份数
 			maxSignups: "", // 总需报名份数
 			signups: "", // 我已报名份数
@@ -439,6 +438,7 @@ export default Vue.extend({
 				if (PageID === 1) this.showList = [];
 				this.showList = this.showList.concat(res.OrderList);
 				this.showList.map((item: any) => {
+					item.UserNick = decodeURIComponent(item.UserNick);
 					item.SendGoodsDateTime = formatTime(new Date(item.SendGoodsDate));
 				});
 				if (res.PageCount <= PageID) {
@@ -569,7 +569,12 @@ export default Vue.extend({
 		// 向服务器发送登录请求
 		async reqLogin() {
 			let GUID: any = await this.GUID();
-			const Appkey = "3957399";
+			// #ifdef MP-WEIXIN
+			var Appkey = "3957399";
+			// #endif
+			// #ifdef H5
+			var Appkey = "1867997";
+			// #endif
 			const SessionKey = uni.getStorageSync("SessionKey");
 			let ActiveID = this.activeID;
 			let UserID = this.UserID;
@@ -681,6 +686,7 @@ export default Vue.extend({
 								this.buttonStateChanged &&
 									this.buttonStateChanged("举牌", "2", true, true);
 							}
+							this.SeqBills = msg.SeqBills;
 						}
 						break;
 					case 3:
@@ -731,8 +737,9 @@ export default Vue.extend({
 							this.times = msg.TimerDurationText;
 						}
 						// 倒计时显示文本
-						// 判断是否需要倒计时，如果不需要则清除倒计时器
+						// 判断是否需要倒计时，如果不需要则清除倒计时器,不显示times
 						if (msg.TimerDurationValue === 0) {
+							this.times = "";
 							this.timerState(null);
 						} else {
 							let dt = new Date();
@@ -912,9 +919,11 @@ export default Vue.extend({
 						}
 						break;
 					case 12:
+						// 解除托管
+						break;
+					case 13:
 						// 活动流拍通知
-						this.onTimerStatus = "活动流拍";
-						this.OnTimerDowns = "-";
+						this.timerDurationTitle = "活动流拍";
 						// 隐藏掉其它按钮
 						this.buttonStateChanged &&
 							this.buttonStateChanged("报名", "0", false, false);
@@ -1021,6 +1030,7 @@ export default Vue.extend({
 			});
 		},
 		formSubmit(e: any) {
+			console.log("formId", e);
 			let formId = e.detail.formId;
 			let data = {
 				FormID: formId

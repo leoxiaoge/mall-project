@@ -150,7 +150,7 @@ export default Vue.extend({
 					console.log(res);
 					if (res.confirm) {
 						console.log("用户点击确定");
-						navigateTo("../../ucenter/orderList/orderList");
+						navigateTo("../../ucenter/myOrder/myOrder");
 					} else if (res.cancel) {
 						console.log("用户点击取消");
 					}

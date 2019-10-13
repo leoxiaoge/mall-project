@@ -12,13 +12,12 @@
 					</view>
 				</button>
 				<view class="i-address-bottom i-flex-between">
-					<view class="i-address-default i-flex">
+					<view class="i-address-default i-flex" @click="setDefaultAddress(item.ID)">
 						<view class="i-address-icon">
 							<uni-icon
 								:type="type"
 								:color="item.IsDefault === 1?'#fe7f00':'#8f8f94'"
 								size="28"
-								@click="setDefaultAddress(item.ID)"
 							/>
 						</view>
 						<view class="i-address-default-text">设为默认</view>

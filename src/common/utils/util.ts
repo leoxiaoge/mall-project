@@ -19,18 +19,15 @@ export const processing = (api: any, data: any) => {
   return new Promise((resolve, reject) => {
     try {
       const sessionkey = uni.getStorageSync('SessionKey')
-      let Appkey = ""
-      let AppSecert = ""
-      let url = ""
       // #ifdef MP-WEIXIN
-      Appkey = "3957399",
-        AppSecert = "2d2c443086630f6c2c804d11983729c8",
-        // #endif
-        // #ifdef H5
-        Appkey = "1867997",
-        AppSecert = "96cb2f0ecd873d8b6440807f1680a420",
-        // #endif
-        url = "https://api.tengpaisc.com/Rest.ashx"
+      var Appkey = "3957399"
+      var AppSecert = "2d2c443086630f6c2c804d11983729c8"
+      // #endif
+      // #ifdef H5
+      var Appkey = "1867997"
+      var AppSecert = "96cb2f0ecd873d8b6440807f1680a420"
+      // #endif
+      var url = "https://api.tengpaisc.com/Rest.ashx"
       let paramkey = Object.keys(data),
         paramdata = "",
         sign = ""
