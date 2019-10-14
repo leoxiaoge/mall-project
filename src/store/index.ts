@@ -73,6 +73,38 @@ const store = new Vuex.Store({
 					})
 				}
 			})
+		},
+		// #endif
+		// #ifdef H5
+		getUserOpenIdH5: async function ({
+			commit,
+			state
+		}) {
+			return await new Promise((resolve, reject) => {
+				if (state.openid) {
+					resolve(state.openid)
+				} else {
+					const url = window.location.search;
+					console.log("url", url);
+					var theRequest: any = new Object();
+					if (url.indexOf("?") != -1) {
+						var str = url.substr(1);
+						var strs = str.split("&");
+						for (var i = 0; i < strs.length; i++) {
+							theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+						}
+					}
+					let JSCode = theRequest
+					let data = {
+						JSCode: JSCode
+					};
+					request(GetWXOpenID, data).then((res: any) => {
+						console.log(res);
+						commit('setOpenid', res.OpenID)
+						resolve(res.OpenID);
+					});
+				}
+			})
 		}
 		// #endif
 	}

@@ -34,14 +34,11 @@
 					</view>
 				</view>
 			</view>
-			<view class="i-address-toast">
-				<text>最多可添加5个地址</text>
-			</view>
 		</view>
 		<view class="i-uno" v-if="isData">
 			<u-no :title="noTitle" :thumb="noIcon"></u-no>
 		</view>
-		<view class="i-add-button i-button" v-if="isMaxData">
+		<view class="i-add-button i-button">
 			<view class="i-height"></view>
 			<button class="btn" @click="addAddress">添加地址</button>
 		</view>
@@ -83,7 +80,6 @@ export default Vue.extend({
 			noTitle: "您还没有可以用收货地址喔~",
 			noIcon: "/static/icon/icon_no_address.png",
 			isData: false, // 是否有数据
-			isMaxData: false // 最多5个
 		};
 	},
 	onLoad(options: any) {
@@ -106,12 +102,6 @@ export default Vue.extend({
 			request(UserAddressListGet, data).then((res: any) => {
 				console.log(res);
 				this.addressList = res.AddressList;
-				if (res.AddressList.length <= 0) {
-					this.isData = true;
-				}
-				if (res.AddressList.length <= 4) {
-					this.isMaxData = true;
-				}
 			});
 		},
 		// 设置当前收货地址为默认的
@@ -243,11 +233,6 @@ page {
 
 .i-address-operating {
 	color: #727272;
-}
-
-.i-address-toast {
-	text-align: center;
-	padding-bottom: 15upx;
 }
 
 .i-address-edit text {

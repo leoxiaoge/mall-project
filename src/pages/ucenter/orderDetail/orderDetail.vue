@@ -142,6 +142,9 @@ import {
 } from "@/common/config/api";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
 import uniSteps from "@/components/uni-steps/uni-steps.vue";
+// #ifdef H5
+import wx from "jweixin-module"; // 微信公众号（H5）JSSDK
+// #endif
 export default Vue.extend({
 	components: {
 		uniIcon,
@@ -239,9 +242,16 @@ export default Vue.extend({
 						this.getOrderList();
 					}
 					break;
+				// #ifdef MP-WEIXIN
 				case "去支付":
 					this.payment();
 					break;
+				// #endif
+				// #ifdef H5
+				case "去支付":
+					this.paymentH5();
+					break;
+				// #endif
 				case "晒单":
 					navigateTo(
 						"../orderDryingUpload/orderDryingUpload?id=" +
@@ -283,6 +293,70 @@ export default Vue.extend({
 					showModal("支付失败，用户取消支付!");
 				}
 			});
+		},
+		async paymentH5() {
+			let payment: any = await this.payMoneySubmitH5();
+			console.log("payment", payment);
+			let paymentData = JSON.parse(payment);
+			let mweb_url = paymentData.mweb_url;
+			let ua: any = window.navigator.userAgent.toLowerCase();
+			console.log("判断浏览器的UserAgent", ua.match(/MicroMessenger/i));
+			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				console.log(paymentData);
+				console.log(paymentData.timeStamp);
+				wx.chooseWXPay({
+					timestamp: paymentData.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+					nonceStr: paymentData.nonceStr, // 支付签名随机串，不长于 32 位
+					package: paymentData.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+					signType: "MD5", // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+					paySign: paymentData.paySign, // 支付签名
+					success: (res: any) => {
+						// 支付成功后的回调函数
+						showToast("充值成功！");
+					},
+					fail: (res: any) => {
+						showModal("支付失败，用户取消支付！");
+					},
+					complete: () => {}
+				});
+			} else {
+				let redirect_url = `https://m.tengpaisc.com/pages/ucenter/rechargeSuccessful/rechargeSuccessful`;
+				let url = `${mweb_url}&redirect_url=${redirect_url}`;
+				window.location.href = url;
+			}
+		},
+		async payMoneySubmitH5() {
+			let ua: any = window.navigator.userAgent.toLowerCase();
+			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
+			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				let OpenID = this.$store.state.openid;
+				let OrderID = this.orderID;
+				let PayTypeID = this.PayTypeID;
+				return new Promise((resolve, reject) => {
+					let data = {
+						OrderID: OrderID,
+						PayTypeID: PayTypeID,
+						OpenID: OpenID
+					};
+					request(OrderPay, data).then((res: any) => {
+						console.log(res);
+						resolve(res.PayParam);
+					});
+				});
+			} else {
+				return new Promise((resolve, reject) => {
+					let OrderID = this.orderID;
+					let PayTypeID = this.PayTypeID;
+					let data = {
+						OrderID: OrderID,
+						PayTypeID: PayTypeID
+					};
+					request(OrderPay, data).then((res: any) => {
+						console.log(res);
+						resolve(res.PayParam);
+					});
+				});
+			}
 		},
 		// 支付API
 		async payMoneySubmit() {

@@ -1,9 +1,6 @@
 // 以下是业务服务器API地址
 export const url = 'https://api.tengpaisc.com/'
 
-export const IndexUrl = 'API.Agents.AgentAppVersionGet'
-export const GoodsList = 'API.Agents.AgentAppVersionGet'
-
 // 首页相关 - Home => 首页相关的接口
 export const AdsListGet = 'API.Home.AdsListGet' // 获取广告位列表
 
