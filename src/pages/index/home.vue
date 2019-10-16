@@ -300,7 +300,7 @@ export default Vue.extend({
 			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
 			this.getAdsList();
 			this.pageNum = 1;
-			this.getHomeProductList()
+			this.getHomeProductList();
 			this.getLastTransactionList();
 			this.isReseMode = true;
 			this.mescroll = mescroll;
@@ -438,8 +438,7 @@ export default Vue.extend({
 		},
 		productDetailsTo(activeID: string) {
 			navigateTo(
-				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" +
-					activeID
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
 		}
 	}

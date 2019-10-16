@@ -642,9 +642,7 @@ export default Vue.extend({
 						// 报名响应消息
 						if (msg.IsError) {
 							if (this.UserID) {
-								if (msg.ErrMsg.indexOf("帐户余额不足") == -1) {
-									showToast("报名失败：" + msg.ErrMsg);
-								} else {
+								if (msg.ErrMsg.includes("帐户余额不足")) {
 									let content: string = msg.ErrMsg;
 									defaultShowModal(content).then((res: any) => {
 										if (res.confirm) {
@@ -654,6 +652,8 @@ export default Vue.extend({
 											console.log("用户点击取消");
 										}
 									});
+								} else {
+									showToast("报名失败：" + msg.ErrMsg);
 								}
 							} else {
 								let content: string = "你暂未登录，请点击确定去登录！";

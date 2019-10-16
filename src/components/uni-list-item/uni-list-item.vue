@@ -32,8 +32,8 @@
 
 <script>
 import { request, navigateTo } from "@/common/utils/util";
-import uniIcon from "../uni-icon/uni-icon.vue";
-import uniBadge from "../uni-badge/uni-badge.vue";
+import uniIcon from "@/components/uni-icon/uni-icon.vue";
+import uniBadge from "@/components/uni-badge/uni-badge.vue";
 export default {
 	name: "UniListItem",
 	components: {

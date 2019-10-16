@@ -197,43 +197,6 @@ export default {
 				}
 			});
 		},
-		// 公众号JDK获取OpenID
-		getJDKWXOpenID() {
-			return new Promise((resolve, reject) => {
-				let appid = "wxe6bee6124bdf2d63";
-				console.log(location.href);
-				window.location.replace(
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
-						appid +
-						"&redirect_uri=" +
-						encodeURIComponent(location.href) +
-						"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-				);
-			});
-		},
-		// 获取href的query,获取code,用于微信登录
-		getWXOpenIDH5() {
-			this.getJDKWXOpenID();
-			return new Promise((resolve, reject) => {
-				const url = window.location.search;
-				var theRequest = new Object();
-				if (url.indexOf("?") != -1) {
-					var str = url.substr(1);
-					var strs = str.split("&");
-					for (var i = 0; i < strs.length; i++) {
-						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-					}
-				}
-				let JSCode = theRequest
-				let data = {
-					JSCode: JSCode
-				};
-				request(GetWXOpenID, data).then(res => {
-					console.log(res);
-					resolve(res.OpenID);
-				});
-			});
-		},
 		// #ifdef H5
 		async paymentH5() {
 			this.loading = true;
@@ -275,7 +238,8 @@ export default {
 			let ua = window.navigator.userAgent.toLowerCase();
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
-				let OpenID = await this.getWXOpenIDH5();
+				let OpenID = this.$store.state.openid;
+				console.log(OpenID);
 				return new Promise((resolve, reject) => {
 					let MoneyID = this.moneyID;
 					let PayTypeID = this.payTypeID;

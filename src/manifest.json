@@ -94,6 +94,17 @@
     },
     "h5": {
         "template": "template.h5.html",
+        "devServer": {
+			"https": false,
+			"disableHostCheck": true
+        },
+        "optimization": {
+            "prefetch": true,
+            "preload": true,
+            "treeShaking": {
+                "enable": true
+            }
+        },
         "router": {
             "mode": "history",
             "base": "/"

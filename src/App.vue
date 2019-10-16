@@ -58,6 +58,7 @@ export default Vue.extend({
 		// #endif
 	},
 	onShow() {
+		this.$store.dispatch("getJDKWXOpenID");
 		console.log("App Show");
 	},
 	onHide() {
