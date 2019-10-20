@@ -306,13 +306,23 @@ export default Vue.extend({
 			let payment: any = await this.payMoneySubmitH5();
 			console.log("payment", payment);
 			let paymentData = JSON.parse(payment);
+			let productID = this.productID;
+			let OrderID = this.orderID;
 			let mweb_url = paymentData.mweb_url;
 			let ua: any = window.navigator.userAgent.toLowerCase();
 			console.log("判断浏览器的UserAgent", ua.match(/MicroMessenger/i));
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
 				console.log(paymentData);
-				console.log(paymentData.timeStamp);
+				wx.config({
+					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					appId: paymentData.appId, // 必填，公众号的唯一标识
+					timestamp: paymentData.timestamp, // 必填，生成签名的时间戳
+					nonceStr: paymentData.nonceStr, // 必填，生成签名的随机串
+					signature: paymentData.signature, // 必填，签名，见附录1   https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+					jsApiList: ["chooseWXPay"] //['chooseWXPay'] // getBrandWCPayquest 必填，需要使用的JS接口列表，这里只写支付的
+				});
 				wx.chooseWXPay({
+					appId: paymentData.appId,
 					timestamp: paymentData.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
 					nonceStr: paymentData.nonceStr, // 支付签名随机串，不长于 32 位
 					package: paymentData.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
@@ -320,7 +330,13 @@ export default Vue.extend({
 					paySign: paymentData.paySign, // 支付签名
 					success: (res: any) => {
 						// 支付成功后的回调函数
-						showToast("充值成功！");
+						showToast("支付成功！!");
+						navigateTo(
+							"../orderDetail/orderDetail?productID=" +
+								productID +
+								"&OrderID=" +
+								OrderID
+						);
 					},
 					fail: (res: any) => {
 						showModal("支付失败，用户取消支付！");

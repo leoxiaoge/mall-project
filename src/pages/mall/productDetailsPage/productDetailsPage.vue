@@ -1009,9 +1009,15 @@ export default Vue.extend({
 				this.newFace = lastBills[0].face;
 				this.newNick = `领先人：${decodeURIComponent(lastBills[0].nick)}`;
 				this.newCity = `${lastBills[0].bill.Province}`;
-				this.newCurrentBidder = "当前领先出价人";
 				this.newPrice = `￥${lastBills[0].bill.Price}`;
-				this.newCurrent = "当前出价";
+				let active: any = this.active;
+				if (active.ActiveStatus === 4) {
+					this.newCurrent = "本期成交";
+					this.newCurrentBidder = "本期成交人";
+				} else {
+					this.newCurrent = "当前出价";
+					this.newCurrentBidder = "当前领先出价人";
+				}
 			} else {
 				// 未有人出价，按起拍价
 				this.newBill = "";

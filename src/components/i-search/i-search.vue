@@ -510,7 +510,7 @@ export default {
 			});
 		}
 	},
-	// #ifdef  MP-WEIXIN
+	// #ifdef MP-WEIXIN
 	onReady() {
 		if (this.iconSrc.voice) {
 			const plugin = requirePlugin("WechatSI");
