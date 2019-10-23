@@ -42,6 +42,7 @@
         "orderList/orderList",
         "orderDetail/orderDetail",
         "recharge/recharge",
+        "rechargeSuccessful/rechargeSuccessful",
         "myAuction/myAuction",
         "myOrder/myOrder",
         "addressShipping/addressShipping",

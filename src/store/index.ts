@@ -33,7 +33,7 @@ const store = new Vuex.Store({
 			state.openid = null;
 		},
 		setCode(state, code) {
-			state.openid = code;
+			state.code = code;
 		},
 		setOpenid(state, openid) {
 			state.openid = openid;
@@ -92,7 +92,7 @@ const store = new Vuex.Store({
 					let redirect_uri = encodeURIComponent(location.href);
 					let code = getUrlParam("code");
 					console.log(code);
-					if (code == null || code === "") {
+					if (!code && !state.openid) {
 						window.location.replace(
 							"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
 							appid +
@@ -101,16 +101,18 @@ const store = new Vuex.Store({
 							"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
 						);
 					}
-					let JSCode = code;
-					commit('setCode', JSCode);
-					let data = {
-						JSCode: JSCode
-					};
-					request(GetWXOpenID, data).then((res: any) => {
-						console.log(res);
-						commit('setOpenid', res.OpenID);
-						resolve(res.OpenID);
-					});
+					if (code) {
+						let JSCode = code;
+						commit('setCode', JSCode);
+						let data = {
+							JSCode: JSCode
+						};
+						request(GetWXOpenID, data).then((res: any) => {
+							console.log(res);
+							commit('setOpenid', res.OpenID);
+							resolve(res.OpenID);
+						});
+					}
 				}
 			})
 		}

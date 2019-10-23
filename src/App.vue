@@ -56,8 +56,6 @@ export default Vue.extend({
 			// 新的版本下载失败
 		});
 		// #endif
-	},
-	onReady() {
 		this.$store.dispatch("getJDKWXOpenID");
 	},
 	onShow() {
