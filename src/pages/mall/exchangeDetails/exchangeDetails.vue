@@ -14,28 +14,22 @@
 					<view class="exchange-model-head">
 						<text>订单信息确认</text>
 					</view>
-					<view
-						class="exchange-model-address"
-						v-for="(item, index) in addressList"
-						:key="index"
-						@click="addressClick"
-					>
-						<view class="exchange-model-address-body">
+					<view class="exchange-model-address" @click="addressClick">
+						<view class="exchange-model-address-body" v-if="addressList">
 							<view class="exchange-model-address-user">
-								<text>{{item.realName}}</text>
-								<text class="exchange-model-mobile">{{item.Mobile}}</text>
+								<text>{{addressList.realName}}</text>
+								<text class="exchange-model-mobile">{{addressList.Mobile}}</text>
 							</view>
 							<view class="exchange-model-address-list">
-								<text>{{item.Province}}</text>
-								<text>{{item.City}}</text>
-								<text>{{item.Area}}</text>
-								<text>{{item.Address}}</text>
+								<text>{{addressList.Province}}</text>
+								<text>{{addressList.City}}</text>
+								<text>{{addressList.Area}}</text>
+								<text>{{addressList.Address}}</text>
 							</view>
 						</view>
-						<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
-					</view>
-					<view class="exchange-model-address" @click="addressClick" v-if="addressList.length <= 0">
-						<view class="exchange-model-address-body"></view>
+						<view class="exchange-model-address-body" v-else>
+							<text>请填写地址</text>
+						</view>
 						<view class="exchange-model-arrow uni-icon uni-icon-arrowright"></view>
 					</view>
 					<view class="exchange-model-integrals">
@@ -83,16 +77,18 @@ export default Vue.extend({
 	data() {
 		return {
 			id: "",
+			productID: "",
 			addressID: "",
 			article: "",
 			integrals: "",
 			userInfo: "",
-			addressList: [],
+			addressList: "",
 			show: false
 		};
 	},
 	onLoad(options: any) {
 		this.id = options.id;
+		this.productID = options.productID;
 		this.integrals = options.integrals;
 	},
 	onShow() {
@@ -103,7 +99,7 @@ export default Vue.extend({
 	},
 	methods: {
 		async getProduct() {
-			let ProductID = this.id;
+			let ProductID = this.productID;
 			let data = {
 				ProductID: ProductID
 			};
@@ -114,7 +110,7 @@ export default Vue.extend({
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
 			let address: any = await this.getUserAddressList();
-			this.addressList = address.AddressList;
+			this.addressList = address;
 		},
 		preview(src: any, e: any) {
 			// do something
@@ -144,7 +140,14 @@ export default Vue.extend({
 					AddressID: AddressID
 				};
 				request(UserAddressListGet, data).then((res: any) => {
-					resolve(res);
+					console.log(res.AddressList);
+					let addressList = res.AddressList;
+					addressList.map((item: any) => {
+						console.log(item);
+						if (item.IsDefault === 1) {
+							resolve(item);
+						}
+					});
 				});
 			});
 		},
@@ -187,9 +190,8 @@ export default Vue.extend({
 			this.show = false;
 		},
 		addressClick() {
-			let disabled: boolean = true;
 			navigateTo(
-				"../../ucenter/addressShipping/addressShipping?disabled=" + disabled
+				"../../ucenter/addressShipping/addressShipping"
 			);
 		}
 	}

@@ -51,11 +51,9 @@ export default {
 		};
 	},
 	watch: {
-		seconds(newVal, oldVal) {
+		seconds(val) {
 			clearInterval(this.timer);
-			if (newVal) {
-				this.secondes = newVal;
-			}
+			this.secondes = val;
 			this.countDown();
 			this.timer = setInterval(() => {
 				this.secondes--;

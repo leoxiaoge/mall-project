@@ -275,6 +275,13 @@ export default Vue.extend({
 							let productLists = JSON.parse(JSON.stringify(this.productList));
 							this.productList = productLists;
 							break;
+						case 22:
+							// 活动结束重新刷新列表
+							if (this.mescroll) {
+								let mescroll = this.mescroll;
+								this.downCallback(mescroll);
+							}
+							break;
 					}
 				} catch (e) {
 					console.error("处理消息出错：" + e);

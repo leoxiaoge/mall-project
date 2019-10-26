@@ -66,7 +66,7 @@
 				{
 					"path": "areward/areward",
 					"style": {
-						"navigationBarTitleText": "模版"
+						"navigationBarTitleText": "模块"
 					}
 				},
 				{
@@ -204,7 +204,25 @@
 				{
 					"path": "orderDetail/orderDetail",
 					"style": {
-						"navigationBarTitleText": "订单详情"
+						"navigationBarTitleText": "订单详情",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{

@@ -73,14 +73,7 @@ export default Vue.extend({
 		options: {
 			type: Object,
 			default() {
-				return {
-					ActiveStartPrice: "",
-					ActiveIncreaseRange: "",
-					ActiveCardNumbers: "",
-					ActiveDuration: "",
-					ActiveMaxBuys: "",
-					ActiveVirtualCoins: ""
-				};
+				return [];
 			}
 		}
 	},

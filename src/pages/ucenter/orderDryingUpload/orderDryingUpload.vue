@@ -41,6 +41,7 @@
 			<robby-image-upload
 				v-model="imageData"
 				:showUploadProgress="show"
+				:value="value"
 				:limit="limit"
 				:form-data="formData"
 				@delete="deleteImage"
@@ -86,6 +87,7 @@ export default Vue.extend({
 			enableAdd: false,
 			enableDrag: false,
 			show: true,
+			value: [],
 			limit: 9,
 			imageData: [],
 			formData: {

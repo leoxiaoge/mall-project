@@ -176,6 +176,9 @@ export default Vue.extend({
 		this.$store.dispatch("getUserOpenId");
 		// #endif
 	},
+	onPullDownRefresh() {
+		this.getOrderList();
+	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},

@@ -38,7 +38,7 @@
 							<view class="teng-jion-btn">
 								<button
 									class="btn teng-btn"
-									@click="exchangeDetailsTo(item.Exchange.ID, item.Exchange.Integrals)"
+									@click="exchangeDetailsTo(item.Exchange.ID, item.Exchange.ProductID, item.Exchange.Integrals)"
 								>马上兑换</button>
 							</view>
 						</view>
@@ -155,10 +155,12 @@ export default Vue.extend({
 				}
 			}
 		},
-		exchangeDetailsTo(id: any, integrals: any) {
+		exchangeDetailsTo(id: string, productID: string, integrals: string) {
 			navigateTo(
 				"../exchangeDetails/exchangeDetails?id=" +
 					id +
+					"&productID=" +
+					productID +
 					"&integrals=" +
 					integrals
 			);

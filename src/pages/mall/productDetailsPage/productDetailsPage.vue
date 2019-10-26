@@ -868,8 +868,13 @@ export default Vue.extend({
 							// 启用举牌、托管按钮
 							this.buttonStateChanged &&
 								this.buttonStateChanged("举牌", "2", true, true);
-							this.buttonStateChanged &&
-								this.buttonStateChanged("托管", "1", true, true);
+							if (msg.IsTap) {
+								this.buttonStateChanged &&
+									this.buttonStateChanged("取消托管", "1", true, false);
+							} else {
+								this.buttonStateChanged &&
+									this.buttonStateChanged("托管", "1", true, false);
+							}
 						}
 						// 隐藏掉报名、填写地址、参与下一期按钮
 						this.buttonStateChanged &&

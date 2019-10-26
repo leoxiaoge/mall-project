@@ -1,8 +1,8 @@
 <template>
 	<view class="imageUploadContainer">
 		<view class="imageUploadList">
-			<view class="imageItem" v-bind:key="index" v-for="(path,index) in value">
-				<image :src="path" :class="{'dragging':isDragging(index)}" draggable="true" @tap="previewImage" :data-index="index" @touchstart="start" @touchmove="move" @touchend="stop"></image>
+			<view class="imageItem" v-bind:key="index" v-for="(path,index) in picUrl">
+				<image :src="url + path" :class="{'dragging':isDragging(index)}" draggable="true" @tap="previewImage" :data-index="index" @touchstart="start" @touchmove="move" @touchend="stop"></image>
 				<view v-if="isShowDel" class="imageDel" @tap="deleteImage" :data-index="index">x</view>
 			</view>
 			<view v-if="isShowAdd" class="imageUpload" @tap="selectImage">
@@ -22,7 +22,22 @@
   import { OrderDryingUpload } from "@/common/config/api";
 	export default {
 		name:'robby-image-upload',
-		props: ['value','enableDel','enableAdd','enableDrag','formData','limit','fileKeyName','showUploadProgress'],
+		props: {
+		  value: {
+				type: Array,
+				default () {
+					return []
+				}
+			},
+			enableDel: {
+				type: Boolean,
+				default: true
+			},
+			enableAdd: {
+				type: Boolean,
+				default: true
+			}
+	  },
 		data() {
 			return {
 				imageBasePos:{
@@ -40,6 +55,7 @@
 				dragIndex: null,
 				targetImageIndex: null,
 				picUrl: [],
+				url: "https://api.tengpaisc.com",
 				imageUpload: "/static/icon/icon_image_upload.png"
 			}
 		},
@@ -81,8 +97,7 @@
 				_self = this
 				if(!_self.value){
 					_self.value = []
-				} 
-				
+				}
 				uni.chooseImage({
 					count: _self.limit ? (_self.limit - _self.value.length) : 999,
 					success: (e) => {
@@ -129,7 +144,6 @@
 				var deletedImagePath = this.value[imageIndex]
 				this.value.splice(imageIndex, 1) 
 				this.picUrl.splice(imageIndex, 1)
-				
 				this.$emit('delete',{
 					currentImage: deletedImagePath,
 					allImages: this.picUrl
@@ -138,11 +152,13 @@
 			},
 			previewImage: function(e){
 				var imageIndex = e.currentTarget.dataset.index
+				let current = this.value[imageIndex]
+				let urls = this.value
 				uni.previewImage({
-					current: this.value[imageIndex],
+					current: current,
 					indicator: "number",
 					loop: "true",
-					urls:this.value
+					urls: urls
 				})
 			},
 			initImageBasePos: function(){

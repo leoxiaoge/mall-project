@@ -101,6 +101,9 @@ export default Vue.extend({
 		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
 		// #endif
+		document.body.addEventListener("touchmove", (e: any) => {
+			document.body.scrollTop = 0;
+		});
 	},
 	onShow() {
 		if (this.mescroll) {
@@ -461,6 +464,7 @@ page {
 	line-height: 98upx;
 	background-color: #fff;
 	border-bottom: 2upx solid #f4f4f4;
+	z-index: 999;
 }
 .scroll-view-list {
 	width: 100%;

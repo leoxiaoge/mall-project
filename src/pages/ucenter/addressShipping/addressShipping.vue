@@ -102,6 +102,9 @@ export default Vue.extend({
 			request(UserAddressListGet, data).then((res: any) => {
 				console.log(res);
 				this.addressList = res.AddressList;
+				if (res.AddressList <= 0) {
+					this.isData = true;
+				}
 			});
 		},
 		// 设置当前收货地址为默认的
