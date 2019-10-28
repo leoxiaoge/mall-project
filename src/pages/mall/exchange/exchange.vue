@@ -155,10 +155,10 @@ export default Vue.extend({
 				}
 			}
 		},
-		exchangeDetailsTo(id: string, productID: string, integrals: string) {
+		exchangeDetailsTo(exchangeID: string, productID: string, integrals: string) {
 			navigateTo(
-				"../exchangeDetails/exchangeDetails?id=" +
-					id +
+				"../exchangeDetails/exchangeDetails?exchangeID=" +
+					exchangeID +
 					"&productID=" +
 					productID +
 					"&integrals=" +

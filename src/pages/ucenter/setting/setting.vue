@@ -70,6 +70,9 @@ export default {
 	onShow() {
 		this.useInfo();
 	},
+	onPullDownRefresh() {
+		this.useInfo();
+	},
 	onShareAppMessage(e) {
 		return onShareAppMessage(e);
 	},

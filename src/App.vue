@@ -58,34 +58,6 @@ export default Vue.extend({
 		// #endif
 		this.$store.dispatch("getJDKWXOpenID");
 	},
-	onReady() {
-		// JavaScript禁止IOS微信浏览器下拉回弹
-		// 优点：支持局部滚动；缺点：浏览器本身超出页面出现的滚动被禁用掉了，需要改为局部滚动，且局部滚动的地方需要加“scroll”的class
-		var overscroll = (el: any) => {
-			el.addEventListener("touchstart", () => {
-				var top = el.scrollTop;
-				var totalScroll = el.scrollHeight;
-				var currentScroll = top + el.offsetHeight;
-				if (top === 0) {
-					el.scrollTop = 1;
-				} else if (currentScroll === totalScroll) {
-					el.scrollTop = top - 1;
-				}
-			});
-			el.addEventListener("touchmove", (evt: any) => {
-				if (el.offsetHeight < el.scrollHeight) {
-					evt._isScroller = true;
-				}
-			});
-		};
-		overscroll(document.querySelector(".scroll")); //哪里需要可以局部滚动，添加一个“scroll”的class
-		document.body.addEventListener("touchmove", (e: any) => {
-			if (!e._isScroller) {
-				e.preventDefault();
-			}
-			document.body.scrollTop = 0;
-		});
-	},
 	onShow() {
 		console.log("App Show");
 	},

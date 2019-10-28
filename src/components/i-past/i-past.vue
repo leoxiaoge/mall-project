@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="past-item" v-for="(item, index) in options" :key="index">
+		<view class="past-item" v-for="(item, index) in options" :key="index" @click="productDetailsTo(item.ActiveID)">
 			<view class="past-item-user">
 				<view class="past-item-userface">
 					<image :src="item.UserFace" />
@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { request, navigateTo } from "@/common/utils/util";
 export default Vue.extend({
 	name: "iPast",
 	props: {
@@ -42,7 +43,13 @@ export default Vue.extend({
 	data() {
 		return {};
 	},
-	methods: {}
+	methods: {
+		productDetailsTo(activeID: string) {
+			navigateTo(
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
+			);
+		}
+	}
 });
 </script>
 

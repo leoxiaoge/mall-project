@@ -93,6 +93,9 @@ export default Vue.extend({
 	onShow() {
 		this.getUserAddressList();
 	},
+	onPullDownRefresh() {
+		this.getUserAddressList();
+	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},

@@ -23,8 +23,13 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		this.productID = options.productID;
-		this.getProduct();
 		console.log("onLoad", options);
+	},
+	onShow() {
+		this.getProduct();
+	},
+	onPullDownRefresh() {
+		this.getProduct();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);

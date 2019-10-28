@@ -158,29 +158,6 @@ export default {
 	methods: {
 		//注册列表滚动事件,用于下拉刷新
 		scroll(e) {
-			var overscroll = function(el) {
-				el.addEventListener("touchstart", function() {
-					var top = el.scrollTop;
-					var totalScroll = el.scrollHeight;
-					var currentScroll = top + el.offsetHeight;
-					if (top === 0) {
-						el.scrollTop = 1;
-					} else if (currentScroll === totalScroll) {
-						el.scrollTop = top - 1;
-					}
-				});
-				el.addEventListener("touchmove", function(evt) {
-					if (el.offsetHeight < el.scrollHeight) {
-						evt._isScroller = true;
-					}
-				});
-			};
-			overscroll(document.querySelector(".scroll")); //哪里需要可以局部滚动，添加一个“scroll”的class
-			document.body.addEventListener("touchmove", function(evt) {
-				if (!evt._isScroller) {
-					evt.preventDefault();
-				}
-			});
 			this.mescroll.scroll(e.detail, () => {
 				this.$emit("scroll", this.mescroll); // 此时可直接通过 this.mescroll.scrollTop获取滚动条位置; this.mescroll.isScrollUp获取是否向上滑动
 			});

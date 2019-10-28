@@ -88,6 +88,10 @@ export default Vue.extend({
 		this.getHelpList();
 		console.log("onLoad", options);
 	},
+	onPullDownRefresh() {
+		this.getHelpContactList();
+		this.getHelpList();
+	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},

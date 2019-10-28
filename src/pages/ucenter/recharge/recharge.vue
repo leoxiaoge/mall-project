@@ -115,6 +115,10 @@ export default {
 		this.getPayMoneyList();
 		this.getProvider();
 	},
+	onPullDownRefresh() {
+		this.getPayMoneyList();
+		this.getProvider();
+	},
 	onShareAppMessage(e) {
 		return onShareAppMessage(e);
 	},

@@ -66,6 +66,10 @@ export default Vue.extend({
 		this.getSystemConfig();
 		this.getShareTitle();
 	},
+	onPullDownRefresh() {
+		this.getSystemConfig();
+		this.getShareTitle();
+	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},

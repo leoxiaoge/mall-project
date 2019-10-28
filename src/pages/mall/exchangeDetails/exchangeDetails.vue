@@ -15,16 +15,16 @@
 						<text>订单信息确认</text>
 					</view>
 					<view class="exchange-model-address" @click="addressClick">
-						<view class="exchange-model-address-body" v-if="addressList">
+						<view class="exchange-model-address-body" v-if="address">
 							<view class="exchange-model-address-user">
-								<text>{{addressList.realName}}</text>
-								<text class="exchange-model-mobile">{{addressList.Mobile}}</text>
+								<text>{{address.realName}}</text>
+								<text class="exchange-model-mobile">{{address.Mobile}}</text>
 							</view>
 							<view class="exchange-model-address-list">
-								<text>{{addressList.Province}}</text>
-								<text>{{addressList.City}}</text>
-								<text>{{addressList.Area}}</text>
-								<text>{{addressList.Address}}</text>
+								<text>{{address.Province}}</text>
+								<text>{{address.City}}</text>
+								<text>{{address.Area}}</text>
+								<text>{{address.Address}}</text>
 							</view>
 						</view>
 						<view class="exchange-model-address-body" v-else>
@@ -76,22 +76,25 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			id: "",
+			exchangeID: "",
 			productID: "",
 			addressID: "",
 			article: "",
 			integrals: "",
 			userInfo: "",
-			addressList: "",
+			address: "",
 			show: false
 		};
 	},
 	onLoad(options: any) {
-		this.id = options.id;
+		this.exchangeID = options.exchangeID;
 		this.productID = options.productID;
 		this.integrals = options.integrals;
 	},
 	onShow() {
+		this.getProduct();
+	},
+	onPullDownRefresh() {
 		this.getProduct();
 	},
 	onShareAppMessage(e: any) {
@@ -106,11 +109,17 @@ export default Vue.extend({
 			request(ProductGet, data).then((res: any) => {
 				this.article = res.Product.ProductDesc;
 			});
-			this.addressID = uni.getStorageSync("addressID");
+			let addressID: any = uni.getStorageSync("addressID");
 			let userInfo: any = await this.getLoginUser();
 			this.userInfo = userInfo;
-			let address: any = await this.getUserAddressList();
-			this.addressList = address;
+			let addressList: any = await this.getUserAddressList();
+			this.address = addressList;
+			if (addressList) {
+				this.addressID = addressList.ID;
+			}
+			if (addressID) {
+				this.addressID = addressID;
+			}
 		},
 		preview(src: any, e: any) {
 			// do something
@@ -152,7 +161,7 @@ export default Vue.extend({
 			});
 		},
 		exchangeSubmit() {
-			let ExchangeID = this.id;
+			let ExchangeID = this.exchangeID;
 			let AddressID = this.addressID;
 			if (!AddressID) {
 				let msg: string = "你还没有默认地址，请点击确定去填写地址信息！";
@@ -190,9 +199,7 @@ export default Vue.extend({
 			this.show = false;
 		},
 		addressClick() {
-			navigateTo(
-				"../../ucenter/addressShipping/addressShipping"
-			);
+			navigateTo("../../ucenter/addressShipping/addressShipping");
 		}
 	}
 });

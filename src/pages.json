@@ -141,13 +141,55 @@
 				{
 					"path": "productDetailsUparse/productDetailsUparse",
 					"style": {
-						"navigationBarTitleText": "商品详情"
+						"navigationBarTitleText": "商品详情",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"titleNView": {
+								"type": "transparent"
+							},
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
 					"path": "exchangeDetails/exchangeDetails",
 					"style": {
-						"navigationBarTitleText": "兑换"
+						"navigationBarTitleText": "兑换",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"titleNView": {
+								"type": "transparent"
+							},
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
@@ -228,7 +270,25 @@
 				{
 					"path": "recharge/recharge",
 					"style": {
-						"navigationBarTitleText": "充值"
+						"navigationBarTitleText": "充值",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
@@ -258,13 +318,49 @@
 				{
 					"path": "addressShipping/addressShipping",
 					"style": {
-						"navigationBarTitleText": "收货地址"
+						"navigationBarTitleText": "收货地址",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
 					"path": "sharePromotion/sharePromotion",
 					"style": {
-						"navigationBarTitleText": "赚取佣金"
+						"navigationBarTitleText": "赚取佣金",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
@@ -276,7 +372,25 @@
 				{
 					"path": "helpAndFeedback/helpAndFeedback",
 					"style": {
-						"navigationBarTitleText": "帮助与反馈"
+						"navigationBarTitleText": "帮助与反馈",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
@@ -300,7 +414,25 @@
 				{
 					"path": "setting/setting",
 					"style": {
-						"navigationBarTitleText": "设置"
+						"navigationBarTitleText": "设置",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{

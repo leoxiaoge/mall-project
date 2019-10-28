@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "搜索",
+  "usingComponents": {
+    "i-search": "/components/i-search/i-search",
+    "i-no": "/components/u-no/u-no",
+    "product-list": "/components/product-search-list/product-search-list"
+  }
+}

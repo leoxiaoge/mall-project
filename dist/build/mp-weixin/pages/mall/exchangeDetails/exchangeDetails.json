@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "兑换",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
   "usingComponents": {
     "u-parse": "/components/uParse/src/wxParse"
   }
