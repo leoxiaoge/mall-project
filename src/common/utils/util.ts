@@ -27,6 +27,10 @@ export const processing = (api: any, data: any) => {
       var Appkey = "1867997"
       var AppSecert = "96cb2f0ecd873d8b6440807f1680a420"
       // #endif
+      // #ifdef APP-PLUS
+      var Appkey = "1867997"
+      var AppSecert = "96cb2f0ecd873d8b6440807f1680a420"
+      // #endif
       var url = "https://api.tengpaisc.com/Rest.ashx"
       let paramkey = Object.keys(data),
         paramdata = "",

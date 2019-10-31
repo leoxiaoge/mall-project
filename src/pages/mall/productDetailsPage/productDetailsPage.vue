@@ -575,6 +575,9 @@ export default Vue.extend({
 			// #ifdef H5
 			var Appkey = "1867997";
 			// #endif
+			// #ifdef APP-PLUS
+			var Appkey = "1867997";
+			// #endif
 			const SessionKey = uni.getStorageSync("SessionKey");
 			let ActiveID = this.activeID;
 			let UserID = this.UserID;

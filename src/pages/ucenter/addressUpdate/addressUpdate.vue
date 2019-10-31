@@ -97,12 +97,13 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
-		console.log("onLoad", JSON.parse(options.disabled));
 		this.productID = options.productID;
-		let disabled = JSON.parse(options.disabled);
-		if (disabled) {
-			this.disabled = disabled;
-			this.saveButton = "订单提交地址";
+		if (options.disabled) {
+			let disabled = JSON.parse(options.disabled);
+			if (disabled) {
+				this.disabled = disabled;
+				this.saveButton = "订单提交地址";
+			}
 		}
 		this.orderID = options.orderID;
 		this.addressID = options.addressID;
@@ -210,7 +211,7 @@ export default Vue.extend({
 					IsDefault: IsDefault
 				};
 				request(UserAddressUpdate, data).then((res: any) => {
-					console.log(res)
+					console.log(res);
 					this.orderAddressSubmit();
 				});
 			} else {
