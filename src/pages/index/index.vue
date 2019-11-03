@@ -147,7 +147,7 @@ page,
   transform: translateX(-50%);
   bottom: 80upx;
 	color: #fff;
-	background: linear-gradient(45deg, #eba866, #fe7f00);;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
   padding: 0 40upx;
 }
 

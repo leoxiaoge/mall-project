@@ -79,9 +79,9 @@
 					<view class="notice-more" @click="noticeList">更多</view>
 				</view>
 				<!-- 正在竞拍 -->
-				<product-list-being :options="productListIng" @lower="lower" />
+				<product-list-being :options="productListIngData" @lower="lower" />
 				<!-- 即将开拍 -->
-				<product-list :options="productList" />
+				<product-list :options="productListData" />
 			</view>
 		</mescroll-uni>
 	</view>
@@ -128,6 +128,7 @@ export default Vue.extend({
 			searchIcon: "/static/icon/icon_search.png",
 			productList: [], // 正在竞拍列表
 			productListIng: [], // 即将开拍列表
+			productListIngData: [], // 正在竞拍新列表
 			productListData: [], // 正在竞拍新列表
 			swiperGridHeight: "0px",
 			swiperGridWidth: "100%",
@@ -271,9 +272,9 @@ export default Vue.extend({
 							let productListIngs = JSON.parse(
 								JSON.stringify(this.productListIng)
 							);
-							this.productListIng = productListIngs;
+							this.productListIngData = productListIngs;
 							let productLists = JSON.parse(JSON.stringify(this.productList));
-							this.productList = productLists;
+							this.productListData = productLists;
 							break;
 						case 22:
 							// 活动结束重新刷新列表

@@ -2,10 +2,15 @@
 	<view class="content">
 		<page-head :title="title"></page-head>
 		<view class="uni-product-list">
-			<view class="uni-product" v-for="(item,index) in product" :key="index">
+			<view class="uni-product product-item" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.Active.ID)">
 					<view class="i-image-view">
 						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit" />
+						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
+						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+					</view>
+					<view class="teng-active-type-name">
+						<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
 					</view>
 					<view class="uni-product-title product-title">
 						<text class="active-no">[{{item.Active.ActiveNo}}期]</text>
@@ -57,7 +62,9 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			activeStatus: "马上参与"
+			activeStatus: "马上参与",
+			statusIconDone: "/static/icon/icon_done.png",
+			statusIconFlow: "/static/icon/icon_flow.png"
 		};
 	},
 	computed: {
@@ -118,6 +125,10 @@ export default Vue.extend({
 </script>
 
 <style>
+.product-item {
+	position: relative;
+}
+
 .i-image-view {
 	margin: 8upx 0;
 	padding: 0 8upx;
@@ -126,6 +137,29 @@ export default Vue.extend({
 .i-product-image {
 	height: 320upx;
 	border-radius: 8upx;
+}
+
+.teng-order-show-status {
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 100upx;
+	height: 100upx;
+}
+
+.teng-active-type-name {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
+	border-radius: 0 100upx 100upx 0;
+	padding: 0 16upx;
+}
+
+.teng-active-type-name-text {
+	font-size: 28upx;
+	line-height: 1.8;
+	color: #fff;
 }
 
 .uni-product-price {

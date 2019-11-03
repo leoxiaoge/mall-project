@@ -7,6 +7,11 @@
 					<view class="product-item-flex" @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-one">
 							<image class="product-image-one img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+						</view>
+						<view class="teng-active-type-name">
+							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
 						</view>
 						<view class="product-content">
 							<view class="product-price-title">
@@ -36,6 +41,11 @@
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-two">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+						</view>
+						<view class="teng-active-type-name">
+							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
@@ -60,6 +70,11 @@
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+						</view>
+						<view class="teng-active-type-name">
+							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
@@ -103,7 +118,10 @@ export default Vue.extend({
 		}
 	},
 	data() {
-		return {};
+		return {
+			statusIconDone: "/static/icon/icon_done.png",
+			statusIconFlow: "/static/icon/icon_flow.png"
+		};
 	},
 	computed: {
 		product() {
@@ -225,6 +243,29 @@ export default Vue.extend({
 	width: 50%;
 	background-color: #fff;
 	padding-bottom: 20upx;
+}
+
+.teng-order-show-status {
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 100upx;
+	height: 100upx;
+}
+
+.teng-active-type-name {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
+	border-radius: 0 100upx 100upx 0;
+	padding: 0 16upx 0 10upx;
+}
+
+.teng-active-type-name-text {
+	font-size: 24upx;
+	line-height: 1.8;
+	color: #fff;
 }
 
 .product-active-text {
