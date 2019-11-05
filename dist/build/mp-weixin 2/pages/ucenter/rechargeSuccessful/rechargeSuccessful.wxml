@@ -1,0 +1,1 @@
+<view class="content"><image class="pay" src="https://api.tengpaisc.com/upload/icon_pay.png"></image><view><text class="title">{{title}}</text></view></view>

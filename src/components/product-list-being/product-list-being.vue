@@ -257,14 +257,16 @@ export default Vue.extend({
 	position: absolute;
 	left: 0;
 	top: 0;
+	line-height: 1.6;
 	background: linear-gradient(45deg, #eba866, #fe7f00);
 	border-radius: 0 100upx 100upx 0;
-	padding: 0 16upx 0 10upx;
+	opacity: .8;
+	padding: 0 12upx 0 8upx;
 }
 
 .teng-active-type-name-text {
 	font-size: 24upx;
-	line-height: 1.8;
+	line-height: 1.4;
 	color: #fff;
 }
 

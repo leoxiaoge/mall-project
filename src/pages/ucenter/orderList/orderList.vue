@@ -101,9 +101,11 @@ export default Vue.extend({
 		// #ifdef MP-WEIXIN
 		this.$store.dispatch("getUserOpenId");
 		// #endif
+		// #ifdef H5
 		document.body.addEventListener("touchmove", (e: any) => {
 			document.body.scrollTop = 0;
 		});
+		// #endif
 	},
 	onShow() {
 		if (this.mescroll) {

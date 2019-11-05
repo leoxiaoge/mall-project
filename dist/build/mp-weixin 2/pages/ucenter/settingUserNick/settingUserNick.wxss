@@ -1,0 +1,19 @@
+
+.userInfo {
+	background-color: #fff;
+}
+.input {
+	height: 88rpx;
+	background-color: #fff;
+	padding: 0 30rpx;
+}
+.save-in {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+.saveBtn {
+	color: #fff;
+	background-color: #fd7f00;
+}
+

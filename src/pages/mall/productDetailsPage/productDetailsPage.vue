@@ -39,10 +39,10 @@
 			<text>市场价：</text>
 			<text class="i-product-price-text">¥{{activeDetail.ProductPrice}}</text>
 		</view>
-		<view v-if="active.PrevActiveMoney">
+		<view>
 			<view class="i-product-last-transaction">
 				<view class="i-product-status">{{active.ActiveTypeName}}</view>
-				<view class="i-product-last-transaction-content">
+				<view class="i-product-last-transaction-content" v-if="active.PrevActiveMoney">
 					<view class="i-product-last-transaction-text">上期成交:</view>
 					<view class="i-product-last-transaction-price">¥{{active.PrevActiveMoney}}</view>
 				</view>
@@ -1236,7 +1236,7 @@ export default Vue.extend({
 
 .i-product-price {
 	margin: 0 30upx;
-	line-height: 1.2;
+	line-height: 1.8;
 }
 
 .i-product-price-text {

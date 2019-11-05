@@ -1,0 +1,163 @@
+
+.page-body {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.nav {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	width: 100%;
+}
+.nav-left {
+	width: 24%;
+	border-right: solid 1px #ededed;
+}
+.nav-left-item {
+	height: 100rpx;
+	border-bottom: solid 1px #ededed;
+	font-size: 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	background-color: #f3f4f3;
+}
+.nav-right {
+	width: 76%;
+}
+.nav-right-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	font-size: 28rpx;
+	border-bottom: 2rpx solid #f4f4f4;
+	margin-left: 16rpx;
+	padding: 20rpx 20rpx 20rpx 0;
+}
+.teng-item-images {
+	position: relative;
+	padding-right: 8rpx;
+}
+.nav-right-item-image {
+	width: 120rpx;
+	height: 120rpx;
+	border-radius: 8rpx;
+}
+.teng-order-show-status {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 80rpx;
+	height: 80rpx;
+}
+.active {
+	color: #fe7f00;
+	background-color: #e4e4e4;
+}
+.teng-content {
+	width: 100%;
+}
+.teng-title {
+	word-break: break-all;
+	display: -webkit-box;
+	overflow: hidden;
+	line-height: 1.5;
+	-o-text-overflow: ellipsis;
+	   text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+}
+.teng-title {
+	font-size: 28rpx;
+	line-height: 1.6;
+	color: #757575;
+}
+.teng-type {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+}
+.teng-type-item {
+	display: inline-block;
+	overflow: hidden;
+}
+.teng-type-text {
+	font-size: 24rpx;
+	line-height: 1.6;
+	text-align: center;
+	margin-right: 10rpx;
+	padding: 2rpx 10rpx;
+	color: #fe7f00;
+	border: 2rpx solid #fe7f00;
+	border-radius: 100rpx;
+}
+.teng-footer {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.teng-pirce {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.teng-pirce-text {
+	font-size: 24rpx;
+	color: #333;
+}
+.teng-price-number {
+	font-size: 32rpx;
+	color: #fe7f00;
+}
+.teng-btn {
+	font-size: 24rpx;
+	line-height: 2.4;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 100rpx;
+	margin: 0;
+}
+
