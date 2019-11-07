@@ -1,1 +1,0 @@
-<view class="no"><image style="{{('height:'+height+'px')}}" src="{{thumb}}" mode="aspectFit"></image></view>

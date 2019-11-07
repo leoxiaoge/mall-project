@@ -35,7 +35,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="textarea">
+			<view class="textarea" v-if="textarea">
 				<textarea placeholder="说说你的喜悦心情吧！" @blur="bindTextAreaBlur" />
 			</view>
 			<robby-image-upload
@@ -87,6 +87,7 @@ export default Vue.extend({
 			enableAdd: false,
 			enableDrag: false,
 			show: true,
+			textarea: false,
 			value: [],
 			limit: 9,
 			imageData: [],
@@ -114,6 +115,7 @@ export default Vue.extend({
 			request(OrderListGet, data).then((res: any) => {
 				console.log(res);
 				this.order = res.OrderList;
+				this.textarea = true;
 			});
 		},
 		deleteImage(e: any) {

@@ -3,7 +3,7 @@
 		<view class="imageUploadList">
 			<view class="imageItem" v-bind:key="index" v-for="(path,index) in picUrl">
 				<image :src="url + path" :class="{'dragging':isDragging(index)}" draggable="true" @tap="previewImage" :data-index="index" @touchstart="start" @touchmove="move" @touchend="stop"></image>
-				<view v-if="isShowDel" class="imageDel" @tap="deleteImage" :data-index="index">x</view>
+				<view v-if="isShowDel" class="imageDel" @click.stop.prevent="deleteImage" :data-index="index">x</view>
 			</view>
 			<view v-if="isShowAdd" class="imageUpload" @tap="selectImage">
 				<view class="upload">
@@ -286,9 +286,9 @@
 		left: 120upx;
 		bottom: 165upx;
 		background-color: rgba(0,0,0,0.5);
-		width: 36upx;
+		width: 44upx;
 		text-align: center;
-		line-height: 35upx;
+		line-height: 44upx;
 		border-radius: 17upx;
 		color: white;
 		font-size: 30upx;

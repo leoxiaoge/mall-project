@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "我的竞拍",
-  "usingComponents": {
-    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei",
-    "media-list": "/components/media-list/media-list"
-  }
-}
