@@ -158,7 +158,7 @@
 	line-height: 80rpx;
 }
 .i-textarea textarea {
-	width: 94%;
+	width: 100%;
 	height: 260rpx;
 	border: 2rpx solid #f4f4f4;
 	border-radius: 4rpx;
@@ -175,15 +175,16 @@
 	        justify-content: center;
 }
 .i-feedback-button {
-	width: 220rpx;
-	height: 68rpx;
-	line-height: 68rpx;
+	width: 80%;
+	height: 72rpx;
+	line-height: 72rpx;
 	font-size: 36rpx;
 	text-align: center;
 	border-radius: 60rpx;
 	border: none;
 	color: #fff;
-	background-color: #fe7f00;
+	background: -o-linear-gradient(45deg, #eba866, #fe7f00);
+	background: linear-gradient(45deg, #eba866, #fe7f00);
 	margin: 20rpx 0 40rpx 0;
 }
 

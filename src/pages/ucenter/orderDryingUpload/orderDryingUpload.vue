@@ -103,6 +103,9 @@ export default Vue.extend({
 		this.getProduct();
 		console.log("onLoad", options);
 	},
+	onPullDownRefresh() {
+		this.getProduct();
+	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
 	},

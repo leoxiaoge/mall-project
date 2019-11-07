@@ -27,9 +27,9 @@
 	left: 120rpx;
 	bottom: 165rpx;
 	background-color: rgba(0,0,0,0.5);
-	width: 36rpx;
+	width: 44rpx;
 	text-align: center;
-	line-height: 35rpx;
+	line-height: 44rpx;
 	border-radius: 17rpx;
 	color: white;
 	font-size: 30rpx;

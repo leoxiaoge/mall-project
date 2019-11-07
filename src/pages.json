@@ -402,7 +402,25 @@
 				{
 					"path": "orderDryingUpload/orderDryingUpload",
 					"style": {
-						"navigationBarTitleText": "晒单评价"
+						"navigationBarTitleText": "晒单评价",
+						"enablePullDownRefresh": true,
+						"onReachBottomDistance": 100,
+						"app-plus": {
+							"bounce": "none",
+							"pullToRefresh": {
+								"support": true,
+								"color": "#fe7f00",
+								"contentdown": {
+									"caption": "下拉刷新"
+								},
+								"contentover": {
+									"caption": "释放可刷新"
+								},
+								"contentrefresh": {
+									"caption": "正在刷新"
+								}
+							}
+						}
 					}
 				},
 				{
