@@ -278,7 +278,7 @@ export default Vue.extend({
 }
 
 .i-textarea textarea {
-	width: 94%;
+	width: 100%;
 	height: 260upx;
 	border: 2upx solid #f4f4f4;
 	border-radius: 4upx;
@@ -291,15 +291,15 @@ export default Vue.extend({
 }
 
 .i-feedback-button {
-	width: 220upx;
-	height: 68upx;
-	line-height: 68upx;
+	width: 80%;
+	height: 72upx;
+	line-height: 72upx;
 	font-size: 36upx;
 	text-align: center;
 	border-radius: 60upx;
 	border: none;
 	color: #fff;
-	background-color: #fe7f00;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
 	margin: 20upx 0 40upx 0;
 }
 </style>

@@ -4,7 +4,7 @@
 			<view class="teng-contact-list" v-for="(item, index) in contactList" :key="index">
 				<view class="teng-contact-view">
 					<view class="teng-contact-view-image">
-						<image :src="item.ContactIcon" />
+						<image :src="item.ContactIcon" mode="aspectFit" />
 					</view>
 					<view class="teng-contact-text">
 						<view class="teng-contact-name">{{item.ContactName}}:{{item.ContactText}}</view>
@@ -41,11 +41,11 @@
 			>
 				<view class="teng-help-list" v-for="(item, i) in items.HelpDetailList" :key="i">
 					<view class="teng-question teng-help-list-text">
-						<image :src="iconQuestion" />
+						<image :src="iconQuestion" mode="aspectFit" />
 						<text>{{item.Question}}</text>
 					</view>
 					<view class="teng-answe teng-help-list-text">
-						<image :src="iconAnswe" />
+						<image :src="iconAnswe" mode="aspectFit" />
 						<text>{{item.Answe}}</text>
 					</view>
 				</view>

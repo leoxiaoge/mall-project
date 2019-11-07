@@ -1,34 +1,36 @@
 <template>
 	<view class="mescroll-uni-warp">
 		<scroll-view :id="viewId" class="mescroll-uni" :class="{'mescroll-uni-fixed':fixed}" :style="{'padding-top':padTop,'padding-bottom':padBottom,'top':fixedTop,'bottom':fixedBottom}" :scroll-top="scrollTop" :scroll-with-animation="scrollAnim" @scroll="scroll" @touchstart="touchstartEvent" @touchmove="touchmoveEvent" @touchend="touchendEvent" @touchcancel="touchendEvent" :scroll-y='scrollAble' :throttle="mescroll.optUp.onScroll==null" :enable-back-to-top="true">
-			<!-- 下拉加载区域 -->
-			<view v-if="mescroll.optDown.use" class="mescroll-downwarp" :style="{'height': downHight, 'transition': supplyHeight}">
-				<view class="downwarp-content">
-					<view v-if="isDownLoading" class="downwarp-progress"></view>
-					<view v-if="!isDownLoading" class="downwarp-arrow" :style="{'transform':downRotate, 'transition': supplyAll}"></view>
-					<view class="downwarp-tip">{{downText}}</view>
+			<view :style="{'transform': translateY, 'transition': transition}">
+				<!-- 下拉加载区域 -->
+				<view v-if="mescroll.optDown.use" class="mescroll-downwarp">
+					<view class="downwarp-content">
+						<view v-if="isDownLoading" class="downwarp-progress"></view>
+						<view v-if="!isDownLoading" class="downwarp-arrow" :style="{'transform':downRotate}"></view>
+						<view class="downwarp-tip">{{downText}}</view>
+					</view>
 				</view>
-			</view>
-
-			<!-- 列表内容 -->
-			<slot></slot>
-
-			<!-- 空布局 -->
-			<view v-if="isShowEmpty" class="mescroll-empty" :class="{'empty-fixed':optEmpty.fixed}" :style="{'z-index':optEmpty.zIndex,'top':optEmpty.top}">
-				<image v-if="optEmpty.icon" class="empty-icon" :src="optEmpty.icon" mode="widthFix" />
-				<view v-if="optEmpty.tip" class="empty-tip">{{optEmpty.tip}}</view>
-				<view v-if="optEmpty.btnText" class="empty-btn" @click="emptyClick">{{optEmpty.btnText}}</view>
-			</view>
-
-			<!-- 上拉加载区域 -->
-			<view v-if="mescroll.optUp.use" class="mescroll-upwarp">
-				<!-- 加载中.. -->
-				<template v-if="isUpLoading">
-					<view class="upwarp-progress mescroll-rotate"></view>
-					<view class="upwarp-tip">{{mescroll.optUp.textLoading}}</view>
-				</template>
-				<!-- 无数据 -->
-				<view v-if="!isDownLoading && isUpNoMore" class="upwarp-nodata">{{mescroll.optUp.textNoMore}}</view>
+				
+				<!-- 列表内容 -->
+				<slot></slot>
+				
+				<!-- 空布局 -->
+				<view v-if="isShowEmpty" class="mescroll-empty" :class="{'empty-fixed':optEmpty.fixed}" :style="{'z-index':optEmpty.zIndex,'top':optEmpty.top}">
+					<image v-if="optEmpty.icon" class="empty-icon" :src="optEmpty.icon" mode="widthFix" />
+					<view v-if="optEmpty.tip" class="empty-tip">{{optEmpty.tip}}</view>
+					<view v-if="optEmpty.btnText" class="empty-btn" @click="emptyClick">{{optEmpty.btnText}}</view>
+				</view>
+				
+				<!-- 上拉加载区域 -->
+				<view v-if="mescroll.optUp.use" class="mescroll-upwarp">
+					<!-- 加载中.. -->
+					<view v-show="isUpLoading">
+						<view class="upwarp-progress mescroll-rotate"></view>
+						<view class="upwarp-tip">{{mescroll.optUp.textLoading}}</view>
+					</view>
+					<!-- 无数据 -->
+					<view v-if="!isDownLoading && isUpNoMore" class="upwarp-nodata">{{mescroll.optUp.textNoMore}}</view>
+				</view>
 			</view>
 		</scroll-view>
 	
@@ -42,7 +44,6 @@
 	import MeScroll from '../mescroll-uni/mescroll-uni.js';
 	// 引入全局配置
 	import GlobalOption from './mescroll-xinlang-option.js';
-
 	export default {
 		data() {
 			return {
@@ -51,7 +52,6 @@
 				downHight: 0, //下拉刷新: 容器高度
 				downRotate: 0, //下拉刷新: 圆形进度条旋转的角度
 				downText: '', //下拉刷新: 提示的文本
-				isAnimSupply: false, //下拉刷新: 是否启用补帧动画
 				isDownReset: false, //下拉刷新: 是否显示重置的过渡动画
 				isDownLoading: false, //下拉刷新: 是否显示加载中
 				isUpLoading: false, // 上拉加载: 是否显示 "加载中..."
@@ -102,12 +102,12 @@
 			optEmpty() {
 				return this.mescroll.optUp.empty
 			},
-			// 补帧动画
-			supplyHeight(){
-				return this.isDownReset ? 'height 300ms' : this.isAnimSupply ? 'height '+this.mescroll.optDown.supply+'ms' : ''
+			// 过渡
+			transition() {
+				return this.isDownReset ? 'transform 300ms' : ''
 			},
-			supplyAll(){
-				return this.isAnimSupply ? 'all '+this.mescroll.optDown.supply+'ms' : ''
+			translateY() {
+				return this.downHight > 0 ? 'translateY(' + this.downHight + 'px)' : '' // transform会使fixed失效,需注意把fixed元素写在mescroll之外
 			}
 		},
 		methods: {
@@ -139,7 +139,7 @@
 				this.mescroll.scrollTo(0, this.mescroll.optUp.toTop.duration); // 执行回到顶部
 				this.$emit('topclick', this.mescroll); // 派发点击回到顶部按钮的回调
 			},
-			// 更新滚动区域的高度
+			// 更新滚动区域的高度 (使内容不满屏和到底,都可继续翻页)
 			setClientHeight(){
 				if(this.mescroll.getClientHeight(true) === 0 && !this.isExec){
 					this.isExec = true; // 避免多次获取
@@ -163,7 +163,6 @@
 		// 使用created初始化mescroll对象; 如果用mounted部分css样式编译到H5会失效
 		created() {
 			let vm = this;
-
 			let diyOption = {
 				// 下拉刷新的配置
 				down: {
@@ -185,14 +184,14 @@
 					},
 					onMoving(mescroll, rate, downHight) {
 						// 下拉过程中的回调,滑动过程一直在执行; rate下拉区域当前高度与指定距离的比值(inOffset: rate<1; outOffset: rate>=1); downHight当前下拉区域的高度
-						vm.downHight = downHight+'px'; // 设置下拉区域的高度 (自定义mescroll组件时,此行不可删)
+						vm.downHight = downHight; // 设置下拉区域的高度 (自定义mescroll组件时,此行不可删)
 					},
 					showLoading(mescroll, downHight) {
 						// 显示下拉刷新进度的回调
 						vm.scrollAble = true; // 开启下拉 (自定义mescroll组件时,此行不可删)
 						vm.isDownReset = true; // 重置高度 (自定义mescroll组件时,此行不可删)
 						vm.isDownLoading = true;// 显示加载中
-						vm.downHight = downHight+'px'; // 设置下拉区域的高度 (自定义mescroll组件时,此行不可删)
+						vm.downHight = downHight; // 设置下拉区域的高度 (自定义mescroll组件时,此行不可删)
 						vm.downText = mescroll.optDown.textLoading; // 设置文本
 						vm.downRotate = 0; // 旋转到0
 					},
@@ -244,7 +243,6 @@
 					}
 				}
 			}
-
 			MeScroll.extend(diyOption, GlobalOption); // 混入全局的配置
 			let myOption = JSON.parse(JSON.stringify({'down': vm.down,'up': vm.up})) // 深拷贝,避免对props的影响
 			MeScroll.extend(myOption, diyOption); // 混入具体界面的配置
@@ -254,7 +252,6 @@
 			vm.mescroll.viewId = vm.viewId; // 附带id
 			// init回调mescroll对象
 			vm.$emit('init', vm.mescroll);
-
 			// 设置高度
 			uni.getSystemInfo({
 				success(res) {
@@ -280,11 +277,6 @@
 					}, t)
 				}
 			})
-			
-			// android小程序touchmove触发频率低,需开启补帧动画
-			// #ifdef MP
-			if(uni.getSystemInfoSync().platform === 'android') vm.isAnimSupply = true;
-			// #endif
 		},
 		mounted() {
 			// 设置容器的高度
