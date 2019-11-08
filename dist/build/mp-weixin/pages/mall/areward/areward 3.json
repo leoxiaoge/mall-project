@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "模块",
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei",
+    "show-tips": "/components/redflower-showTips/redflower-showTips",
+    "uni-grid": "/components/uni-grid/uni-grid",
+    "product-list-being": "/components/product-list-being/product-list-being",
+    "product-list": "/components/product-list/product-list"
+  }
+}
