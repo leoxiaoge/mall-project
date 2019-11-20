@@ -10,24 +10,32 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<view class="teng-active-type-name">
+						<!-- <view class="teng-active-type-name">
 							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>
+						</view>-->
 						<view class="product-content">
 							<view class="product-price-title">
 								<view class="product-active-text">
 									<text>{{item.ProductTitle}}</text>
 								</view>
 							</view>
-							<view class="product-prices" v-if="item.Price != undefined">
+							<view class="product-prices" v-if="item.Status === 4">
+								<view class="product-current-bid">恭喜</view>
+								<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
+								<view class="product-current-bid">已</view>
+								<view class="product-prices-text">{{item.Price}}</view>
+								<view class="product-current-bid">拍得</view>
+							</view>
+							<view class="product-prices" v-if="item.Status !== 4">
 								<view class="product-prices-text">￥{{item.Price}}</view>
 								<view class="product-current-bid">当前出价</view>
 							</view>
-							<view class="product-prices" v-if="item.Active.LastBillUserName">
+							<view class="product-prices" v-if="item.Active.LastBillUserName && item.Status == 4">
 								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 							</view>
 							<view class="product-times">
 								<!-- 倒计时 -->
+								<view class="product-countdown-text">{{item.countdownText}}</view>
 								<uni-countdown :original="true" :seconds="item.seconds" />
 							</view>
 						</view>
@@ -44,13 +52,20 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<view class="teng-active-type-name">
+						<!-- <view class="teng-active-type-name">
 							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>
+						</view>-->
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-price" v-if="item.Price != undefined">
+						<view class="product-prices" v-if="item.Status === 4">
+							<view class="product-current-bid">恭喜</view>
+							<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
+							<view class="product-current-bid">已</view>
+							<view class="product-prices-text">{{item.Price}}</view>
+							<view class="product-current-bid">拍得</view>
+						</view>
+						<view class="product-price" v-if="item.Status != 4">
 							<view class="product-price-text">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price">
@@ -59,6 +74,7 @@
 					</view>
 					<view class="product-time">
 						<!-- 倒计时 -->
+						<view class="product-countdown-text">{{item.countdownText}}</view>
 						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
 				</view>
@@ -73,13 +89,20 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<view class="teng-active-type-name">
+						<!-- <view class="teng-active-type-name">
 							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>
+						</view>-->
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-price" v-if="item.Price != undefined">
+						<view class="product-prices" v-if="item.Status === 4">
+							<view class="product-current-bid">恭喜</view>
+							<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
+							<view class="product-current-bid">已</view>
+							<view class="product-prices-text">{{item.Price}}</view>
+							<view class="product-current-bid">拍得</view>
+						</view>
+						<view class="product-price" v-if="item.Status != 4">
 							<view class="product-price-text">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price">
@@ -88,6 +111,7 @@
 					</view>
 					<view class="product-time">
 						<!-- 倒计时 -->
+						<view class="product-countdown-text">{{item.countdownText}}</view>
 						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
 				</view>
@@ -126,7 +150,15 @@ export default Vue.extend({
 	computed: {
 		product() {
 			let list: any = this.options;
+			console.log(list);
 			list.map((item: any) => {
+				if (item.Status == 0 || item.Status == 1) {
+					item.countdownText = "距离开拍";
+				} else if (item.Status == 2) {
+					item.countdownText = "准备倒计时";
+				} else if (item.Status == 3) {
+					item.countdownText = "落拍倒计时";
+				}
 				let date: number = item.Active.SeqMiniSeconds;
 				let day: any = date / (1000 * 60 * 60 * 24);
 				let days = parseInt(day);
@@ -260,7 +292,7 @@ export default Vue.extend({
 	line-height: 1.6;
 	background: linear-gradient(45deg, #eba866, #fe7f00);
 	border-radius: 0 100upx 100upx 0;
-	opacity: .8;
+	opacity: 0.8;
 	padding: 0 12upx 0 8upx;
 }
 
@@ -291,10 +323,20 @@ export default Vue.extend({
 }
 
 .product-times {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	margin-top: 10upx;
 }
 
+.product-countdown-text {
+	margin-right: 10upx;
+}
+
 .product-time {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	text-align: center;
 }
 

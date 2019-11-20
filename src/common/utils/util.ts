@@ -1,6 +1,26 @@
 import { Md5 } from "ts-md5/dist/md5"
 
-export function formatTime(date: Date): string {
+export function formatTime(data: any): string {
+  let date: any = ""
+  try {
+    const res = uni.getSystemInfoSync()
+    let model: any = res.model
+    if (model.includes("iPhone")) {
+      let datanew = Date.parse(data) - 8 * 3600 * 1000
+      date = new Date(datanew);
+    } else {
+      date = data;
+    }
+    // console.log(res.model)
+    // console.log(res.pixelRatio)
+    // console.log(res.windowWidth)
+    // console.log(res.windowHeight)
+    // console.log(res.language)
+    // console.log(res.version)
+    // console.log(res.platform)
+  } catch (e) {
+    // Do something when catch error
+  }
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()

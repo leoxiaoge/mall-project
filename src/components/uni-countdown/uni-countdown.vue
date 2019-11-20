@@ -51,18 +51,34 @@ export default {
 		};
 	},
 	watch: {
-		seconds(val) {
-			clearInterval(this.timer);
-			this.secondes = val;
-			this.countDown();
-			this.timer = setInterval(() => {
-				this.secondes--;
-				if (this.secondes < 0) {
-					this.timeUp();
-					return;
+		seconds: {
+			handler(newVal, oldVal) {
+				clearInterval(this.timer);
+				if (newVal) {
+					this.secondes = newVal;
+				} else {
+					this.secondes = oldVal;
 				}
+				console.log(this.secondes);
 				this.countDown();
-			}, 1000);
+				this.timer = setInterval(() => {
+					this.secondes--;
+					if (this.secondes < 0) {
+						this.timeUp();
+						return;
+					}
+					this.countDown();
+				}, 1000);
+			},
+			deep: true,
+			immediate: true
+		}
+	},
+	computed: {
+		secondsData() {
+			console.log("this.seconds", this.seconds);
+			let seconds = 100;
+			return seconds;
 		}
 	},
 	beforeDestroy() {

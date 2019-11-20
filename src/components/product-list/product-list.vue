@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<page-head :title="title"></page-head>
-		<view class="uni-product-list">
+		<view class="uni-product-list" v-if="product">
 			<view class="uni-product product-item" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.Active.ID)">
 					<view class="i-image-view">
@@ -9,9 +9,9 @@
 						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 					</view>
-					<view class="teng-active-type-name">
+					<!-- <view class="teng-active-type-name">
 						<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-					</view>
+					</view> -->
 					<view class="uni-product-title product-title">
 						<text class="active-no">[{{item.Active.ActiveNo}}期]</text>
 						<text>{{item.ProductTitle}}</text>

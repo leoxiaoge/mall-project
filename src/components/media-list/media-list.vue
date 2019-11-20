@@ -35,6 +35,7 @@
 							</view>
 							<view class="teng-order-status">{{options.OrderStatusName}}</view>
 						</view>
+						<view class="teng-time">{{options.Active.ShowDate}}</view>
 					</view>
 				</view>
 				<view class="i-order-footer">
@@ -146,7 +147,7 @@ page {
 }
 
 .teng-order-name {
-	font-size: 36upx;
+	font-size: 32upx;
 	color: #757575;
 	display: -webkit-box;
 	overflow: hidden;
@@ -191,6 +192,12 @@ page {
 .teng-order-status {
 	font-size: 28upx;
 	color: #666666;
+}
+
+.teng-time {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 .i-order-footer {

@@ -102,7 +102,7 @@
 	background: -o-linear-gradient(45deg, #eba866, #fe7f00);
 	background: linear-gradient(45deg, #eba866, #fe7f00);
 	border-radius: 0 100rpx 100rpx 0;
-	opacity: .8;
+	opacity: 0.8;
 	padding: 0 12rpx 0 8rpx;
 }
 .teng-active-type-name-text {
@@ -128,9 +128,36 @@
 	line-height: 2.2;
 }
 .product-times {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 	margin-top: 10rpx;
 }
+.product-countdown-text {
+	margin-right: 10rpx;
+}
 .product-time {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: start;
+	-webkit-justify-content: flex-start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 	text-align: center;
 }
 .image {

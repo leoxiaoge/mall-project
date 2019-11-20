@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/home",
     "pages/index/automatic",
+    "pages/index/myAuction",
     "pages/index/artificial",
     "pages/index/ucenter"
   ],
@@ -76,22 +77,16 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/index/automatic",
-        "iconPath": "static/automatic.png",
-        "selectedIconPath": "static/automatic@selected.png",
-        "text": "自动举牌"
-      },
-      {
-        "pagePath": "pages/index/artificial",
+        "pagePath": "pages/index/myAuction",
         "iconPath": "static/artificial.png",
         "selectedIconPath": "static/artificial@selected.png",
-        "text": "人工举牌"
+        "text": "我的参与"
       },
       {
         "pagePath": "pages/index/ucenter",
         "iconPath": "static/my.png",
         "selectedIconPath": "static/my@selected.png",
-        "text": "我的"
+        "text": "个人中心"
       }
     ]
   },

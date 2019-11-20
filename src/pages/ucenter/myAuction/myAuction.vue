@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
+import { request, navigateTo, formatTime, onShareAppMessage } from "@/common/utils/util";
 import { MyActiveList } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import mediaList from "@/components/media-list/media-list.vue";
@@ -84,6 +84,18 @@ export default Vue.extend({
 					//设置列表数据
 					if (mescroll.num == 1) this.activeList = []; //如果是第一页需手动制空列表
 					this.activeList = this.activeList.concat(curPageData); //追加新数据
+					let type = this.ListType;
+					this.activeList.map((item: any) => {
+						if (type == 2) {
+							item.Active.ShowDate = formatTime(
+								new Date(item.Active.MyBillDate)
+							);
+						} else if (type == 3) {
+							item.Active.ShowDate = formatTime(
+								new Date(item.Active.MySignupDate)
+							);
+						}
+					});
 				},
 				() => {
 					//联网失败的回调,隐藏下拉刷新的状态

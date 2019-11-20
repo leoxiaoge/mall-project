@@ -35,13 +35,13 @@
 			</view>
 			<view class="i-product-name">{{activeDetail.ProductName}}</view>
 		</view>
-		<view class="i-product-price" v-if="activeDetail.ProductPrice">
-			<text>市场价：</text>
-			<text class="i-product-price-text">¥{{activeDetail.ProductPrice}}</text>
-		</view>
-		<view>
+		<view class="i-product-last-transaction-flex">
+			<view class="i-product-price" v-if="activeDetail.ProductPrice">
+				<text>市场价：</text>
+				<text class="i-product-price-text">¥{{activeDetail.ProductPrice}}</text>
+			</view>
 			<view class="i-product-last-transaction">
-				<view class="i-product-status">{{active.ActiveTypeName}}</view>
+				<!-- <view class="i-product-status">{{active.ActiveTypeName}}</view> -->
 				<view class="i-product-last-transaction-content" v-if="active.PrevActiveMoney">
 					<view class="i-product-last-transaction-text">上期成交:</view>
 					<view class="i-product-last-transaction-price">¥{{active.PrevActiveMoney}}</view>
@@ -641,7 +641,7 @@ export default Vue.extend({
 					case 1:
 						// 重新置为可用，不管结果如何，因为报名后仍可以继续报名
 						this.buttonStateChanged &&
-							this.buttonStateChanged("报名", "0", true, true);
+							this.buttonStateChanged("已报名", "0", true, true);
 						// 报名响应消息
 						if (msg.IsError) {
 							if (this.UserID) {
@@ -739,7 +739,8 @@ export default Vue.extend({
 						if (this.activeType === 1) {
 							this.times = msg.TimerDurationText;
 						}
-						// 倒计时显示文本
+						// 倒计时显示文本，Status：0表示等待开团，1表示即将成团，2表示准备倒计时，3表示正在竟拍，4表示成功完成（活动结束），5表示活动流拍
+						this.productStatus(msg.Status);
 						// 判断是否需要倒计时，如果不需要则清除倒计时器,不显示times
 						if (msg.TimerDurationValue === 0) {
 							this.times = "";
@@ -774,12 +775,13 @@ export default Vue.extend({
 						this.buttonStateChanged &&
 							this.buttonStateChanged("填写收货地址", "3", false, false);
 						if (msg.AllSignups === msg.MaxSignups) {
+							this.seqBillsShow = true;
 							// 如果活动为手工举牌，显示举牌按钮
 							if (this.activeType === 0) {
 								this.buttonStateChanged &&
-									this.buttonStateChanged("举牌", "2", true, false);
+									this.buttonStateChanged("举牌", "2", false, false);
 								this.buttonStateChanged &&
-									this.buttonStateChanged("托管", "1", true, false);
+									this.buttonStateChanged("托管", "1", false, false);
 							} else {
 								this.buttonStateChanged &&
 									this.buttonStateChanged("举牌", "2", true, true);
@@ -796,11 +798,12 @@ export default Vue.extend({
 								this.buttonStateChanged("托管", "1", false, false);
 							// 还需要继续报名，显示报名按钮
 							this.buttonStateChanged &&
-								this.buttonStateChanged("报名", "0", true, true);
+								this.buttonStateChanged("已报名", "0", true, true);
 						}
 						break;
 					case 8:
 						// 价格更新通知
+						this.seqBillsShow = true;
 						// 更新全部举牌次数、我的举牌次数、和最新价格
 						this.BillStat = "总举牌次数：" + msg.AllBills + "次";
 						// 更新最后出价人信息
@@ -826,25 +829,29 @@ export default Vue.extend({
 							this.onPriceUpdateEvent(msg.Price, msg.AllBills, msg.Bills);
 						break;
 					case 9:
+						// 活动准备时
+						this.seqBillsShow = true;
 						//计算剩余时间，并重置剩余时间
 						let dt = new Date();
 						dt.setTime(dt.getTime() + msg.SeqMiniSecounds);
 						this.timerState(dt);
 						// 设置倒计时标题为即将开拍
-						this.timerDurationTitle = "开拍准备";
+						this.timerDurationTitle = "准备倒计时";
 						// 隐藏掉报名按钮
 						this.buttonStateChanged &&
 							this.buttonStateChanged("报名", "0", false, false);
 						// 禁用举牌、托管按钮，如果活动为手工举牌，显示举牌按钮
 						if (this.activeType === 0) {
 							this.buttonStateChanged &&
-								this.buttonStateChanged("自动举牌中", "2", true, false);
+								this.buttonStateChanged("自动举牌中", "2", false, false);
+							this.buttonStateChanged &&
+								this.buttonStateChanged("托管", "1", false, false);
 						} else {
 							this.buttonStateChanged &&
 								this.buttonStateChanged("举牌", "2", true, false);
+							this.buttonStateChanged &&
+								this.buttonStateChanged("托管", "1", true, false);
 						}
-						this.buttonStateChanged &&
-							this.buttonStateChanged("托管", "1", true, false);
 						// 隐藏其它按钮
 						this.buttonStateChanged &&
 							this.buttonStateChanged("填写收货地址", "3", false, false);
@@ -852,8 +859,9 @@ export default Vue.extend({
 							this.buttonStateChanged("参与下一期", "4", false, false);
 						break;
 					case 10:
+						this.seqBillsShow = true;
 						// 活动正式开始，但是目前尚未有人出价，所以收到此消息，先停止计时器，并显示为 “等待首牌”
-						this.timerDurationTitle = "正在竟拍";
+						this.timerDurationTitle = "落拍到时时";
 						this.times = "等待首牌";
 						this.SeqBills = msg.SeqBills;
 						// 清除计时器
@@ -864,9 +872,9 @@ export default Vue.extend({
 						if (msg.ActiveType === 0) {
 							// 停用其它按钮，仅剩下举牌按钮，且举牌按钮状态显示为自动举牌中
 							this.buttonStateChanged &&
-								this.buttonStateChanged("自动举牌中", "2", true, false);
+								this.buttonStateChanged("自动举牌中", "2", false, false);
 							this.buttonStateChanged &&
-								this.buttonStateChanged("托管", "1", true, false);
+								this.buttonStateChanged("托管", "1", false, false);
 						} else {
 							// 启用举牌、托管按钮
 							this.buttonStateChanged &&
@@ -889,6 +897,7 @@ export default Vue.extend({
 						break;
 					case 11:
 						// 活动结束通知
+						this.seqBillsShow = false;
 						this.timerState(null);
 						this.timerDurationTitle = "活动结束";
 						this.times = "已成交";
@@ -958,15 +967,6 @@ export default Vue.extend({
 				value[type].ButtonText = text;
 				value[type].ButtonVisibility = isDisplay;
 				value[type].ButtonEnabled = isEnabled;
-				if (item.ButtonType === 1 && item.ButtonVisibility) {
-					this.seqBillsShow = true;
-				} else if (item.ButtonType === 2 && item.ButtonVisibility) {
-					this.seqBillsShow = true;
-				} else if (item.ButtonType === 3 && item.ButtonVisibility) {
-					this.seqBillsShow = false;
-				} else if (item.ButtonType === 4 && item.ButtonVisibility) {
-					this.seqBillsShow = false;
-				}
 			});
 			this.buttonsEvent(this.buttonsList);
 		},
@@ -974,17 +974,31 @@ export default Vue.extend({
 		// 处理按列表事件
 		buttonsEvent(event: any) {
 			this.buttonsList = JSON.parse(JSON.stringify(event));
-			this.buttonsList.map((item: any, i: any, value: any) => {
-				if (item.ButtonType === 1 && item.ButtonVisibility) {
-					this.seqBillsShow = true;
-				} else if (item.ButtonType === 2 && item.ButtonVisibility) {
-					this.seqBillsShow = true;
-				} else if (item.ButtonType === 3 && item.ButtonVisibility) {
+		},
+
+		// 当前活动状态
+		productStatus(event: any) {
+			// Status:0表示等待开团，1表示即将成团，2表示准备倒计时，3表示正在竟拍，4表示成功完成（活动结束），5表示活动流拍
+			switch (event) {
+				case 0:
 					this.seqBillsShow = false;
-				} else if (item.ButtonType === 4 && item.ButtonVisibility) {
+					break;
+				case 1:
 					this.seqBillsShow = false;
-				}
-			});
+					break;
+				case 2:
+					this.seqBillsShow = true;
+					break;
+				case 3:
+					this.seqBillsShow = true;
+					break;
+				case 4:
+					this.seqBillsShow = false;
+					break;
+				case 5:
+					this.seqBillsShow = false;
+					break;
+			}
 		},
 
 		// 更新全局报名信息
@@ -1061,6 +1075,9 @@ export default Vue.extend({
 			let GUID: any = await this.GUID();
 			let msgTime = formatTime(new Date());
 			console.log("switch", type);
+			if (type === "已报名") {
+				action = "报名";
+			}
 			switch (action) {
 				case "报名":
 					let SignupMsg = {
@@ -1298,6 +1315,12 @@ export default Vue.extend({
 	font-size: 28upx;
 	font-weight: 600;
 	color: #848484;
+}
+
+.i-product-last-transaction-flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .i-product-last-transaction {

@@ -341,8 +341,11 @@ export default Vue.extend({
 								OrderID
 						);
 					},
-					fail: (res: any) => {
+					cancel: (res: any) => {
 						showModal("支付失败，用户取消支付！");
+					},
+					fail: (res: any) => {
+						showModal("支付失败！");
 					},
 					complete: () => {}
 				});

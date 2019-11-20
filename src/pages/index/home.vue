@@ -136,6 +136,7 @@ export default Vue.extend({
 			LastTranActiveList: [], // 最新成交列表
 			activeids: [], // 发送订阅消息活动列表ID
 			isReseMode: false, // 订阅消息是否清空
+			isRefresh: false, // 是否22刷新
 			PageCount: 1,
 			pageNum: 1,
 			pageSize: 10,
@@ -175,7 +176,6 @@ export default Vue.extend({
 		}
 		if (options.scene) {
 			let scene = decodeURIComponent(options.scene);
-			console.log("scene:" + scene);
 			if (!sessionKey && !userInfo) {
 				// 如果用户未登录，则保存scene
 				uni.setStorageSync("scene", scene);
@@ -236,58 +236,88 @@ export default Vue.extend({
 			uni.onSocketMessage((res: any) => {
 				console.log("收到服务器内容：" + res.data);
 				let msg: any = JSON.parse(res.data);
-				let msgType = msg.msgType;
-				if (msg == null) {
-					return;
-				}
-				try {
-					switch (msgType) {
-						case 21:
-							this.productListIng.map((item: any) => {
-								if (msg.ActiveID === item.Active.ID) {
-									if (msg.LastBill) {
-										item.Active.LastBillUserName = decodeURIComponent(
-											msg.LastBill.nick
-										);
-										item.Active.LastBillUserFace = msg.LastBill.face;
-									}
-									item.Price = msg.Price;
-									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-									item.Status = msg.Status;
-								}
-							});
-							this.productList.map((item: any) => {
-								if (msg.ActiveID === item.Active.ID) {
-									if (msg.LastBill) {
-										item.Active.LastBillUserName = decodeURIComponent(
-											msg.LastBill.nick
-										);
-										item.Active.LastBillUserFace = msg.LastBill.face;
-									}
-									item.Price = msg.Price;
-									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-									item.Status = msg.Status;
-								}
-							});
-							let productListIngs = JSON.parse(
-								JSON.stringify(this.productListIng)
-							);
-							this.productListIngData = productListIngs;
-							let productLists = JSON.parse(JSON.stringify(this.productList));
-							this.productListData = productLists;
-							break;
-						case 22:
-							// 活动结束重新刷新列表
-							if (this.mescroll) {
-								let mescroll = this.mescroll;
-								this.downCallback(mescroll);
-							}
-							break;
-					}
-				} catch (e) {
-					console.error("处理消息出错：" + e);
-				}
+				this.proccessMsg(msg);
 			});
+		},
+		// 处理消息的函数，用于解析从服务器webSocket收到的各种消息
+		proccessMsg(msg: any) {
+			let msgType = msg.msgType;
+			if (msg == null) {
+				return;
+			}
+			try {
+				switch (msgType) {
+					case 21:
+						this.productListIng.map((item: any) => {
+							if (msg.ActiveID === item.Active.ID) {
+								if (msg.LastBill) {
+									item.Active.LastBillUserName = decodeURIComponent(
+										msg.LastBill.nick
+									);
+									item.Active.LastBillUserFace = msg.LastBill.face;
+								}
+								item.Price = msg.Price;
+								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
+								item.Status = msg.Status;
+							}
+						});
+						this.productList.map((item: any) => {
+							if (msg.ActiveID === item.Active.ID) {
+								if (msg.LastBill) {
+									item.Active.LastBillUserName = decodeURIComponent(
+										msg.LastBill.nick
+									);
+									item.Active.LastBillUserFace = msg.LastBill.face;
+								}
+								item.Price = msg.Price;
+								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
+								item.Status = msg.Status;
+							}
+						});
+						let productListIngs = JSON.parse(
+							JSON.stringify(this.productListIng)
+						);
+						this.productListIngData = productListIngs;
+						let productLists = JSON.parse(JSON.stringify(this.productList));
+						this.productListData = productLists;
+						break;
+					case 22:
+						// 活动结束重新刷新列表
+						this.productListIng.map((item: any) => {
+							if (msg.ActiveID === item.Active.ID) {
+								item.Status = msg.Status;
+								if (msg.Status == 4) {
+									item.Active.LastBillUserName = decodeURIComponent(
+										msg.Winer.nick
+									);
+									item.Price = msg.Winer.bill.Price;
+								}
+							}
+						});
+						let productListIngcase = JSON.parse(
+							JSON.stringify(this.productListIng)
+						);
+						this.productListIngData = productListIngcase;
+						if (this.isRefresh) {
+							return;
+						}
+						this.isRefresh = true;
+						setTimeout(() => {
+							this.onRefresh();
+						}, 5000);
+						break;
+				}
+			} catch (e) {
+				console.error("处理消息出错：" + e);
+			}
+		},
+		// 刷新列表数据
+		onRefresh() {
+			this.isRefresh = false;
+			if (this.mescroll) {
+				let mescroll = this.mescroll;
+				this.downCallback(mescroll);
+			}
 		},
 		// 发送对该活动的消息订阅
 		msgSubscribe(e: any) {
