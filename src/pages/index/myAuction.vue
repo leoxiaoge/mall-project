@@ -198,8 +198,8 @@ export default Vue.extend({
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
-	height: 92upx;
-	line-height: 92upx;
+	height: 98upx;
+	line-height: 98upx;
 }
 
 .product-item .name {

@@ -20,8 +20,8 @@
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
-	height: 92rpx;
-	line-height: 92rpx;
+	height: 98rpx;
+	line-height: 98rpx;
 }
 .product-item .name {
 	position: absolute;
