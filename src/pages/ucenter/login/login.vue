@@ -281,6 +281,10 @@ page {
 	height: 52upx;
 }
 
+.i-login-content {
+	width: 65%;
+}
+
 .i-login-mobile-input {
 	margin-left: 20upx;
 }

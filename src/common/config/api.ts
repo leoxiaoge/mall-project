@@ -30,6 +30,7 @@ export const LastTransactionListGet = 'API.Order.LastTransactionListGet' // 获�
 export const OrderExchangeSubmit = 'API.Order.OrderExchangeSubmit' // 积分兑换商品提交订单
 export const OrderPay = 'API.Order.OrderPay' // 订单支付接口
 export const OrderDryingUpload = 'API.Order.OrderDryingUpload' // 晒单上传图片
+export const OrderSummary = 'API.Order.OrderSummary' // 订单数量统计
 
 // 产品活动相关 - Product => 商品与活动相关接口
 export const ProductCategoryListGet = 'API.Product.ProductCategoryListGet' // 获取商品类目列表

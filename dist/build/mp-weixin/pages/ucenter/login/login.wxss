@@ -35,6 +35,9 @@ page {
 	width: 36rpx;
 	height: 52rpx;
 }
+.i-login-content {
+	width: 65%;
+}
 .i-login-mobile-input {
 	margin-left: 20rpx;
 }

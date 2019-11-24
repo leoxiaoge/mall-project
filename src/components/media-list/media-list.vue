@@ -20,7 +20,7 @@
 						<view class="teng-order-title teng-flex-between">
 							<view class="teng-order-name">
 								<text class="active-no">[{{options.Active.ActiveNo}}期]</text>
-								<text>{{options.ProductName}}</text>
+								<text>{{options.ProductTitle}}</text>
 							</view>
 							<view class="teng-order-num">x1</view>
 						</view>

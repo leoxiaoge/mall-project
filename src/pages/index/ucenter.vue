@@ -60,6 +60,7 @@
 					ref="uniGrid"
 					:options="lists"
 					:is-order="true"
+					:is-totals="true"
 					:show-border="false"
 					:show-out-border="false"
 					:column-num="4"
@@ -83,8 +84,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, showToast, defaultShowModal, onShareAppMessage } from "@/common/utils/util";
-import { GetLoginUser } from "@/common/config/api";
+import {
+	request,
+	navigateTo,
+	showToast,
+	defaultShowModal,
+	onShareAppMessage
+} from "@/common/utils/util";
+import { GetLoginUser, OrderSummary } from "@/common/config/api";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
 import uniList from "@/components/uni-list/uni-list.vue";
 import uniListItem from "@/components/uni-list-item/uni-list-item.vue";
@@ -170,6 +177,7 @@ export default Vue.extend({
 	onLoad() {},
 	onShow() {
 		this.useInfo();
+		this.getOrderSummary();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
@@ -194,6 +202,27 @@ export default Vue.extend({
 					item.showBadge = true;
 					item.badgeText = userInfo.Integrals;
 				}
+			});
+		},
+		async getOrderSummary() {
+			let SummaryList: any = await this.orderSummary();
+			let list = this.lists;
+			list.map((item: any) => {
+				SummaryList.map((i: any) => {
+					if (item.status == i.OrderStatus) {
+						item.totals = i.TotalCount;
+					}
+				});
+			});
+			let lists = JSON.parse(JSON.stringify(list));
+			this.lists = lists;
+		},
+		orderSummary() {
+			return new Promise((sesolve, reject) => {
+				let data = {};
+				request(OrderSummary, data).then((res: any) => {
+					sesolve(res.SummaryList);
+				});
 			});
 		},
 		VIPCard() {

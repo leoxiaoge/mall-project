@@ -144,4 +144,15 @@
 	margin-top: 0;
 	margin-left: 12rpx
 }
+.totals {
+	position: absolute;
+	top: 4px;
+	right: 8rpx;
+	color: #fff;
+	background-color: #f37900;
+	border-radius: 100rpx;
+	padding: 0 16rpx;
+	font-size: 32rpx;
+	line-height: 1.8;
+}
 

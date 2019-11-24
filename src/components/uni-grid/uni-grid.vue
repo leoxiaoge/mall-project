@@ -6,6 +6,7 @@
 					<image :src="item.image" class="uni-grid-item-image" />
 					<text class="uni-grid-item-text">{{ item.text }}</text>
 				</view>
+				<view class="totals" v-if="isTotals">{{item.totals}}</view>
 			</view>
 		</view>
 	</view>
@@ -39,6 +40,10 @@
 				default: true
 			},
 			isOrder: { // 是否为订单
+				type: Boolean,
+				default: false
+			},
+			isTotals: { // 是否显示红点数字
 				type: Boolean,
 				default: false
 			}
@@ -204,5 +209,17 @@
 	.uni-grid-item-oblong .uni-grid-item-text {
 		margin-top: 0;
 		margin-left: 12upx
+	}
+
+	.totals {
+		position: absolute;
+		top: 4px;
+		right: 8upx;
+		color: #fff;
+		background-color: #f37900;
+		border-radius: 100upx;
+		padding: 0 16upx;
+		font-size: 32upx;
+		line-height: 1.8;
 	}
 </style>
