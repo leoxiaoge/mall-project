@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "分享晒单",
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei"
+  }
+}

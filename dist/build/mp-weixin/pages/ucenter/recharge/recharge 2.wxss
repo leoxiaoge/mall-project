@@ -1,0 +1,116 @@
+
+page {
+	background-color: #fff;
+}
+.teng-recharge {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: space-around;
+	    -ms-flex-pack: distribute;
+	        justify-content: space-around;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	        flex-wrap: wrap;
+	background-color: #fff;
+	padding: 0 10rpx;
+}
+.teng-recharge-item {
+	width: calc(33.33% - 30rpx);
+	color: #333;
+	background-color: #fff;
+	border-radius: 20rpx;
+	text-align: center;
+	margin-top: 20rpx;
+	padding: 40rpx 0;
+	border: 2rpx solid #f4f4f4;
+}
+.teng-recharge-item-active {
+	color: #fff;
+	background-color: #ff8300;
+}
+.teng-recharge-item-active .teng-recharge-price {
+	color: #fff;
+}
+.teng-recharge-item-active .teng-recharge-description {
+	color: #fff;
+}
+.teng-recharge-price {
+	font-size: 36rpx;
+	color: #333;
+}
+.teng-recharge-description {
+	font-size: 24rpx;
+	color: #5a5a5a;
+}
+.teng-recharge-bottom {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 100rpx;
+	background-color: #f4f4f4;
+}
+.teng-recharge-total-price {
+	font-size: 32rpx;
+	padding: 0 30rpx;
+}
+.teng-recharge-total-price-number {
+	color: #ff0000;
+}
+.payment-method {
+	padding: 30rpx 0;
+}
+.payment-method-head {
+	height: 80rpx;
+	line-height: 80rpx;
+	background-color: #f4f4f4;
+	margin-top: 80rpx;
+	padding: 0 30rpx;
+}
+.payment-method-head text {
+	font-size: 32rpx;
+}
+.payment-method-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.payment-method-icon {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.payment-method-icon ._img {
+	width: 64rpx;
+	height: 64rpx;
+}
+.payment-method-name {
+	margin-left: 20rpx;
+}
+.payment-btn {
+	width: 240rpx;
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	line-height: 100rpx;
+}
+

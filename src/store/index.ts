@@ -91,7 +91,6 @@ const store = new Vuex.Store({
 					let appid = "wxe6bee6124bdf2d63";
 					let redirect_uri = encodeURIComponent(location.href);
 					let code = getUrlParam("code");
-					console.log(code);
 					if (!code && !state.openid) {
 						window.location.replace(
 							"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
@@ -101,7 +100,7 @@ const store = new Vuex.Store({
 							"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
 						);
 					}
-					if (code) {
+					if (code && !state.openid && code !== state.code) {
 						let JSCode = code;
 						commit('setCode', JSCode);
 						let data = {

@@ -6,7 +6,7 @@
 					<image :src="item.image" class="uni-grid-item-image" />
 					<text class="uni-grid-item-text">{{ item.text }}</text>
 				</view>
-				<view class="totals" v-if="isTotals">{{item.totals}}</view>
+				<view class="totals" v-if="isTotals && item.totals > 0">{{item.totals}}</view>
 			</view>
 		</view>
 	</view>

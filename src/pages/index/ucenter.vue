@@ -115,28 +115,32 @@ export default Vue.extend({
 					id: 0,
 					image: "/static/icon/icon_pending_address.png",
 					text: "待填地址",
-					status: "0",
+					status: 0,
+					totals: 0,
 					navigateTo: "orderList"
 				},
 				{
 					id: 1,
 					image: "/static/icon/icon_pending_payment.png",
 					text: "待付款",
-					status: "1",
+					status: 1,
+					totals: 0,
 					navigateTo: "orderList"
 				},
 				{
 					id: 2,
 					image: "/static/icon/icon_pending_receipt.png",
 					text: "待收货",
-					status: "3",
+					status: 3,
+					totals: 0,
 					navigateTo: "orderList"
 				},
 				{
 					id: 3,
 					image: "/static/icon/icon_pending_order.png",
 					text: "待晒单",
-					status: "4",
+					status: 4,
+					totals: 0,
 					navigateTo: "orderList"
 				}
 			],
@@ -178,6 +182,7 @@ export default Vue.extend({
 	onShow() {
 		this.useInfo();
 		this.getOrderSummary();
+		this.empty();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
@@ -206,15 +211,17 @@ export default Vue.extend({
 		},
 		async getOrderSummary() {
 			let SummaryList: any = await this.orderSummary();
-			let list = this.lists;
+			let list: any = JSON.parse(JSON.stringify(this.lists));
+			console.log(list, SummaryList);
 			list.map((item: any) => {
 				SummaryList.map((i: any) => {
-					if (item.status == i.OrderStatus) {
+					if (item.status === i.OrderStatus) {
 						item.totals = i.TotalCount;
 					}
 				});
 			});
 			let lists = JSON.parse(JSON.stringify(list));
+			console.log(lists);
 			this.lists = lists;
 		},
 		orderSummary() {
@@ -272,15 +279,52 @@ export default Vue.extend({
 					console.log("用户点击确定");
 					try {
 						uni.clearStorageSync();
+						this.empty();
 					} catch (e) {
 						showToast("退出登录失败");
 					}
-					this.sessionkey = "";
-					this.userInfo = "";
 				} else if (res.cancel) {
 					console.log("用户点击取消");
 				}
 			});
+		},
+		// 初始化数据
+		empty() {
+			this.userInfo = "";
+			this.lists = [
+				{
+					id: 0,
+					image: "/static/icon/icon_pending_address.png",
+					text: "待填地址",
+					status: 0,
+					totals: 0,
+					navigateTo: "orderList"
+				},
+				{
+					id: 1,
+					image: "/static/icon/icon_pending_payment.png",
+					text: "待付款",
+					status: 1,
+					totals: 0,
+					navigateTo: "orderList"
+				},
+				{
+					id: 2,
+					image: "/static/icon/icon_pending_receipt.png",
+					text: "待收货",
+					status: 3,
+					totals: 0,
+					navigateTo: "orderList"
+				},
+				{
+					id: 3,
+					image: "/static/icon/icon_pending_order.png",
+					text: "待晒单",
+					status: 4,
+					totals: 0,
+					navigateTo: "orderList"
+				}
+			];
 		}
 	}
 });

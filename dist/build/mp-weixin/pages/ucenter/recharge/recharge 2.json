@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "充值",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
+  "usingComponents": {}
+}

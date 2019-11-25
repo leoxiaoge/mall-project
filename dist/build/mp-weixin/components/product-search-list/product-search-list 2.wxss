@@ -1,0 +1,44 @@
+
+.i-image-view {
+	margin: 8rpx 0;
+	padding: 0 8rpx;
+}
+.i-product-image {
+	height: 320rpx;
+	border-radius: 8rpx;
+}
+.uni-product-price {
+	text-align: center;
+}
+.uni-product-away {
+	margin-right: 2rpx;
+}
+.uni-product-time {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	padding-right: 2rpx;
+}
+.i-product-content {
+	border-bottom: 2rpx dashed #f4f4f4;
+}
+.active-no {
+	color: #4d4d4d;
+	font-weight: 600;
+	margin-right: 10rpx;
+}
+.uni-product-button button {
+	margin: 0;
+	padding: 10rpx 14rpx;
+	font-size: 28rpx;
+	line-height: 1.4;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 40rpx;
+}
+
