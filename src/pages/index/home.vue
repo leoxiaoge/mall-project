@@ -301,7 +301,7 @@ export default Vue.extend({
 						if (this.isRefresh) {
 							return;
 						}
-						this.isRefresh = true;
+						this.isRefresh = false;
 						setTimeout(() => {
 							this.onRefresh();
 						}, 5000);
@@ -313,7 +313,7 @@ export default Vue.extend({
 		},
 		// 刷新列表数据
 		onRefresh() {
-			this.isRefresh = false;
+			this.isRefresh = true;
 			if (this.mescroll) {
 				let mescroll = this.mescroll;
 				this.downCallback(mescroll);
