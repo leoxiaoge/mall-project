@@ -100,14 +100,14 @@ const store = new Vuex.Store({
 							"&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
 						);
 					}
-					if (code && !state.openid && code !== state.code) {
+					if (code && !state.openid && code !== uni.getStorageSync("code")) {
 						let JSCode = code;
 						commit('setCode', JSCode);
+						uni.setStorageSync("code", code);
 						let data = {
 							JSCode: JSCode
 						};
 						request(GetWXOpenID, data).then((res: any) => {
-							console.log(res);
 							commit('setOpenid', res.OpenID);
 							resolve(res.OpenID);
 						});

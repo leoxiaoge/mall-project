@@ -180,9 +180,9 @@ export default Vue.extend({
 	},
 	onLoad() {},
 	onShow() {
+		this.empty();
 		this.useInfo();
 		this.getOrderSummary();
-		this.empty();
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
@@ -279,6 +279,7 @@ export default Vue.extend({
 					console.log("用户点击确定");
 					try {
 						uni.clearStorageSync();
+						this.userInfo = "";
 						this.empty();
 					} catch (e) {
 						showToast("退出登录失败");
@@ -290,7 +291,6 @@ export default Vue.extend({
 		},
 		// 初始化数据
 		empty() {
-			this.userInfo = "";
 			this.lists = [
 				{
 					id: 0,
