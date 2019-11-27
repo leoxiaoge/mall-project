@@ -12,12 +12,12 @@
 			<view class="teng-share-content">
 				<!-- #ifndef APP-PLUS -->
 				<view class="teng-share-code" @click="preview(code, code)">
-					<img :src="code" />
+					<img :src="code" v-if="code" mode="widthFix" />
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef APP-PLUS -->
 				<view class="teng-share-code">
-					<img :src="code" />
+					<img :src="code" v-if="code" mode="widthFix" />
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
@@ -56,7 +56,7 @@ export default Vue.extend({
 		return {
 			commissionValue: "",
 			shareTitle: "",
-			code: [],
+			code: "",
 			commission: "/static/icon/icon_commission.png",
 			wechat: "/static/icon/icon_share_wechat.png"
 		};
@@ -143,17 +143,20 @@ export default Vue.extend({
 .teng-share-content {
 	background-color: #fff;
 	padding: 40upx 60upx;
+	height: 680upx;
 }
 
 .teng-share-code {
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	text-align: center;
 	margin: 10upx 0 40upx 0;
 }
 
 .teng-share-code img {
-	width: 500upx;
-	height: 500upx;
+	width: 100%;
+	height: 100%;
 }
 
 .teng-share-list {

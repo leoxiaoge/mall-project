@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "竞拍详情",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 100,
+  "usingComponents": {
+    "i-past": "/components/i-past/i-past",
+    "i-show": "/components/i-show/i-show",
+    "i-rule": "/components/i-rule/i-rule",
+    "i-popup": "/components/i-popup/i-popup",
+    "product-table": "/components/product-table/product-table"
+  }
+}
