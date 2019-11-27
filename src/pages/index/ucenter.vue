@@ -215,6 +215,9 @@ export default Vue.extend({
 			let SummaryList: any = await this.orderSummary();
 			let list: any = JSON.parse(JSON.stringify(this.lists));
 			list.map((item: any) => {
+				item.totals = 0;
+			})
+			list.map((item: any) => {
 				SummaryList.map((i: any) => {
 					if (item.status === i.OrderStatus) {
 						item.totals = i.TotalCount;

@@ -195,7 +195,7 @@ export default {
 					showToast("充值成功！");
 				},
 				fail: res => {
-					showModal("支付失败，用户取消支付！");
+					showToast("支付失败，用户取消支付！");
 				},
 				complete: () => {
 					this.loading = false;
@@ -236,10 +236,10 @@ export default {
 						}
 					},
 					cancel: res => {
-						showModal("支付失败，用户取消支付！");
+						showToast("支付失败，用户取消支付！");
 					},
 					fail: res => {
-						showModal("支付失败！");
+						showToast("支付失败！");
 					},
 					complete: () => {
 						this.loading = false;
@@ -359,7 +359,7 @@ export default {
 				},
 				fail: e => {
 					console.log("fail", e);
-					showModal("支付失败!");
+					showToast("支付失败!");
 				},
 				complete: () => {
 					this.loading = false;

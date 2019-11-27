@@ -303,7 +303,7 @@ export default Vue.extend({
 					);
 				},
 				fail() {
-					showModal("支付失败，用户取消支付!");
+					showToast("支付失败，用户取消支付!");
 				}
 			});
 		},
@@ -342,10 +342,10 @@ export default Vue.extend({
 						);
 					},
 					cancel: (res: any) => {
-						showModal("支付失败，用户取消支付！");
+						showToast("支付失败，用户取消支付！");
 					},
 					fail: (res: any) => {
-						showModal("支付失败！");
+						showToast("支付失败！");
 					},
 					complete: () => {}
 				});

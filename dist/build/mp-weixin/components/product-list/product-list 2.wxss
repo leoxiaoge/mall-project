@@ -1,0 +1,70 @@
+
+.product-item {
+	position: relative;
+}
+.i-image-view {
+	margin: 8rpx 0;
+	padding: 0 8rpx;
+}
+.i-product-image {
+	height: 320rpx;
+	border-radius: 8rpx;
+}
+.teng-order-show-status {
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 100rpx;
+	height: 100rpx;
+}
+.teng-active-type-name {
+	position: absolute;
+	left: 0;
+	top: 0;
+	line-height: 1.6;
+	background: -o-linear-gradient(45deg, #eba866, #fe7f00);
+	background: linear-gradient(45deg, #eba866, #fe7f00);
+	border-radius: 0 100rpx 100rpx 0;
+	opacity: .8;
+	padding: 0 12rpx 0 8rpx;
+}
+.teng-active-type-name-text {
+	font-size: 24rpx;
+	line-height: 1.4;
+	color: #fff;
+}
+.uni-product-price {
+	text-align: center;
+}
+.uni-product-away {
+	margin-right: 2rpx;
+}
+.uni-product-time {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	padding-right: 2rpx;
+}
+.i-product-content {
+	border-bottom: 2rpx dashed #f4f4f4;
+}
+.active-no {
+	color: #4d4d4d;
+	font-weight: 600;
+	margin-right: 10rpx;
+}
+.uni-product-button button {
+	margin: 0;
+	padding: 10rpx 14rpx;
+	font-size: 28rpx;
+	line-height: 1.4;
+	color: #fff;
+	background-color: #fe7f00;
+	border-radius: 40rpx;
+}
+
