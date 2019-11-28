@@ -10,9 +10,6 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<!-- <view class="teng-active-type-name">
-							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>-->
 						<view class="product-content">
 							<view class="product-price-title">
 								<view class="product-active-text">
@@ -52,9 +49,6 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<!-- <view class="teng-active-type-name">
-							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>-->
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
@@ -89,9 +83,6 @@
 							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
 							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
 						</view>
-						<!-- <view class="teng-active-type-name">
-							<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-						</view>-->
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
@@ -279,23 +270,6 @@ export default Vue.extend({
 	top: 10%;
 	width: 100upx;
 	height: 100upx;
-}
-
-.teng-active-type-name {
-	position: absolute;
-	left: 0;
-	top: 0;
-	line-height: 1.6;
-	background: linear-gradient(45deg, #eba866, #fe7f00);
-	border-radius: 0 100upx 100upx 0;
-	opacity: 0.8;
-	padding: 0 12upx 0 8upx;
-}
-
-.teng-active-type-name-text {
-	font-size: 24upx;
-	line-height: 1.4;
-	color: #fff;
 }
 
 .product-active-text {

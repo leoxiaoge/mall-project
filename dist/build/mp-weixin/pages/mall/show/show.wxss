@@ -94,7 +94,8 @@
 	        flex-wrap: wrap;
 }
 .teng-show-content-image {
-	width: 33.33%;
+	width: calc(33.33% - 8px);
+	margin: 0 4px;
 }
 .teng-show-content-image image {
 	height: 200rpx;

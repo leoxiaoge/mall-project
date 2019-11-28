@@ -7,7 +7,7 @@
 				<view class="i-comment-comment">{{item.OrderComment.Comment}}</view>
 				<view class="i-comment-pic">
 					<view class="i-comment-pic-item" v-for="(i, index) in item.OrderComment.CommentPicList" :key="index">
-						<img :src="i" @click="preview(i, item.OrderComment.CommentPicList)" :mode="center" />
+						<image :src="i" @click="preview(i, item.OrderComment.CommentPicList)" mode="aspectFill" />
 					</view>
 				</view>
 			</view>
@@ -141,11 +141,11 @@ export default Vue.extend({
 }
 
 .i-comment-pic-item {
-	width: calc(33.33% - 16px);
-	margin: 8px;
+	width: calc(33.33% - 8px);
+	margin: 0 4px;
 }
 
-.i-comment-pic-item img {
+.i-comment-pic-item image {
 	width: 100%;
 	height: 180upx;
 }

@@ -1,0 +1,1 @@
+<view class="content"><view class="userInfo"><input data-event-opts="{{[['blur',[['blur',['$event']]]]]}}" class="input" value="{{userNick}}" bindblur="__e"/></view><view class="save-in"><button data-event-opts="{{[['tap',[['save',['$event']]]]]}}" class="saveBtn" bindtap="__e">保存</button></view></view>

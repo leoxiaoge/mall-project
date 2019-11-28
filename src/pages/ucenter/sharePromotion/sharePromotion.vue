@@ -12,12 +12,16 @@
 			<view class="teng-share-content">
 				<!-- #ifndef APP-PLUS -->
 				<view class="teng-share-code" @click="preview(code, code)">
-					<img :src="code" v-if="code" mode="widthFix" />
+					<view class="teng-share-code-img">
+						<img :src="code" v-if="code" mode="widthFix" />
+					</view>
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef APP-PLUS -->
 				<view class="teng-share-code">
-					<img :src="code" v-if="code" mode="widthFix" />
+					<view class="teng-share-code-img">
+						<img :src="code" v-if="code" mode="widthFix" />
+					</view>
 				</view>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN -->
@@ -143,7 +147,6 @@ export default Vue.extend({
 .teng-share-content {
 	background-color: #fff;
 	padding: 40upx 60upx;
-	height: 680upx;
 }
 
 .teng-share-code {
@@ -152,6 +155,11 @@ export default Vue.extend({
 	align-items: center;
 	text-align: center;
 	margin: 10upx 0 40upx 0;
+}
+
+.teng-share-code-img {
+	width: 500upx;
+	height: 500upx;
 }
 
 .teng-share-code img {

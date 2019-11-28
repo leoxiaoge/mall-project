@@ -33,7 +33,7 @@
 						v-for="(i, idx) in item.OrderComment.CommentPicList"
 						:key="idx"
 					>
-						<image :src="i" @click="preview(i, item.OrderComment.CommentPicList)" />
+						<image :src="i" @click="preview(i, item.OrderComment.CommentPicList)" mode="aspectFill" />
 					</view>
 				</view>
 			</view>
@@ -223,7 +223,8 @@ export default Vue.extend({
 }
 
 .teng-show-content-image {
-	width: 33.33%;
+	width: calc(33.33% - 8px);
+	margin: 0 4px;
 }
 
 .teng-show-content-image image {

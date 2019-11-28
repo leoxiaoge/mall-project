@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "用户协议",
+  "usingComponents": {
+    "u-parse": "/components/uParse/src/wxParse"
+  }
+}

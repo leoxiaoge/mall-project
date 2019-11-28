@@ -23,7 +23,7 @@
 				></media-list>
 			</block>
 		</mescroll-uni>
-		<view class="i-login" v-else>
+		<view class="i-login" v-if="!sessionkey">
 			<button class="btn i-login-button" @click="loginPath">马上登录</button>
 		</view>
 	</view>
