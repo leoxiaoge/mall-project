@@ -14,6 +14,7 @@ import Vue from "vue";
 import {
 	request,
 	navigateTo,
+	navigateBack,
 	showToast,
 	onShareAppMessage
 } from "@/common/utils/util";
@@ -58,6 +59,7 @@ export default Vue.extend({
 			};
 			request(UpdateUserInfo, data).then((res: any) => {
 				showToast("保存成功！");
+				navigateBack(1);
 			});
 		}
 	}
@@ -76,13 +78,22 @@ export default Vue.extend({
 }
 
 .save-in {
-	position: fixed;
-	bottom: 0;
 	width: 100%;
 }
 
 .saveBtn {
+	position: fixed;
+	bottom: 80upx;
+	left: 50%;
+	right: 50%;
+	transform: translate(-50%, 0);
+	width: 80%;
+	height: 80upx;
+	line-height: 80upx;
+	font-size: 36upx;
+	border-radius: 60upx;
+	border: none;
 	color: #fff;
-	background-color: #fd7f00;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
 }
 </style>

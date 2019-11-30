@@ -248,8 +248,19 @@ export default {
 }
 
 .signBtn {
-	color: #7a7a7a;
-	background-color: #fff;
+	position: fixed;
+	bottom: 80upx;
+	left: 50%;
+	right: 50%;
+	transform: translate(-50%, 0);
+	width: 80%;
+	height: 80upx;
+	line-height: 80upx;
+	font-size: 36upx;
+	border-radius: 60upx;
+	border: none;
+	color: #fff;
+	background: linear-gradient(45deg, #eba866, #fe7f00);
 }
 
 .popup-bottom {

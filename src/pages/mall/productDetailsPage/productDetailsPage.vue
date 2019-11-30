@@ -276,7 +276,7 @@ export default Vue.extend({
 			width: 0, // 设置系统宽度
 			activeDetail: "", // 活动详情
 			activeShow: false, // 是否有活动内容数据
-			active: [], // 活动内容
+			active: "", // 活动内容
 			activeType: 0, // 判断是否是自动举牌还是手工举牌,activeType==0自动，1手工
 			tabIndex: 0, // 默认往期成交
 			pastList: [], // 往期成交列表
