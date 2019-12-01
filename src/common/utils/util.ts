@@ -314,6 +314,18 @@ export const previewImage = (current: any, urls: any) => {
   // #endif
 }
 
+export const vibrateLong = () => {
+  uni.vibrateLong({
+    success: () => {}
+  });
+}
+
+export const vibrateShort = () => {
+  uni.vibrateShort({
+    success: () => {}
+  });
+}
+
 export const onShareAppMessage = (e: any) => {
   let userInfo: any = uni.getStorageSync("UserInfo");
   let id: string = "";

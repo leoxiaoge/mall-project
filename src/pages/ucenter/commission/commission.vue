@@ -3,7 +3,9 @@
 		<view class="mention-msg">
 			<view class="mention">
 				<image class="icon" :src="icon" mode="aspectFit" />
-				<view class="mention-msg-text">满100元以上可联系客服申请提现</view>
+				<view class="box">
+					<view class="mention-msg-text animate">{{notice}}</view>
+				</view>
 			</view>
 			<view class="mention" v-if="noMentionMoney">
 				<view class="mention-money-msg">待提现：</view>
@@ -48,6 +50,7 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			notice: "满100元以上可联系客服申请提现",
 			commissionList: [],
 			noMentionMoney: "", // 待返现总金额
 			mentionMoney: "", // 已返现总金额
@@ -129,6 +132,41 @@ export default Vue.extend({
 </script>
 
 <style>
+.box {
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.animate {
+	font-size: 12px;
+	color: #767676;
+	display: inline-block;
+	white-space: nowrap;
+	animation: 5s wordsLoop linear infinite normal;
+}
+
+@keyframes wordsLoop {
+	0% {
+		transform: translateX(100%);
+		-webkit-transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(-100%);
+		-webkit-transform: translateX(-100%);
+	}
+}
+
+@-webkit-keyframes wordsLoop {
+	0% {
+		transform: translateX(100%);
+		-webkit-transform: translateX(100%);
+	}
+	100% {
+		transform: translateX(-100%);
+		-webkit-transform: translateX(-100%);
+	}
+}
 .content {
 	background-color: #fff;
 }

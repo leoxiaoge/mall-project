@@ -1,4 +1,37 @@
 
+.box {
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.animate {
+	font-size: 12px;
+	color: #767676;
+	display: inline-block;
+	white-space: nowrap;
+	-webkit-animation: 5s wordsLoop linear infinite normal;
+	        animation: 5s wordsLoop linear infinite normal;
+}
+@keyframes wordsLoop {
+0% {
+		transform: translateX(100%);
+		-webkit-transform: translateX(100%);
+}
+100% {
+		transform: translateX(-100%);
+		-webkit-transform: translateX(-100%);
+}
+}
+@-webkit-keyframes wordsLoop {
+0% {
+		transform: translateX(100%);
+		-webkit-transform: translateX(100%);
+}
+100% {
+		transform: translateX(-100%);
+		-webkit-transform: translateX(-100%);
+}
+}
 .content {
 	background-color: #fff;
 }

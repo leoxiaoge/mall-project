@@ -168,6 +168,7 @@
 									:options="active"
 									:buttonText="item.ButtonText"
 									:num="SeqBills"
+									:min="1"
 									:signups="signups"
 									:seqSignups="seqSignups"
 									@change="change"
@@ -226,6 +227,8 @@ import {
 	request,
 	navigateTo,
 	formatTime,
+	vibrateLong,
+	vibrateShort,
 	showToast,
 	showModal,
 	showErrorToast,
@@ -656,7 +659,8 @@ export default Vue.extend({
 										}
 									});
 								} else {
-									showToast("报名失败：" + msg.ErrMsg);
+									// 报名失败
+									showToast(msg.ErrMsg);
 								}
 							} else {
 								let content: string = "你暂未登录，请点击确定去登录！";
@@ -905,6 +909,7 @@ export default Vue.extend({
 						this.newCurrentBidder = "中拍人";
 						// 判断是否当前用户，如果是当前用户，则需要弹出收货地址和订单信息处理界面
 						if (this.UserID === msg.WinsBill.bill.UserID) {
+							vibrateLong(); // 长震动
 							// 当前用户
 							showToast("恭喜，您已中拍！点击确定去填写订单信息吧！");
 							// 隐藏其它按钮

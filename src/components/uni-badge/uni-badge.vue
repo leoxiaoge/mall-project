@@ -37,10 +37,10 @@
 	.uni-badge {
 		font-family: 'Helvetica Neue', Helvetica, sans-serif;
 		box-sizing: border-box;
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 1;
 		display: inline-block;
-		padding: 3px 6px;
+		padding: 5px 8px;
 		color: #333;
 		border-radius: 100px;
 		background-color: #f1f1f1
@@ -54,11 +54,11 @@
 
 	.uni-badge-primary {
 		color: #fff;
-		background-color: #007aff
+		background-color: #f37900
 	}
 
 	.uni-badge-primary.uni-badge-inverted {
-		color: #007aff;
+		color: #f37900;
 		background-color: transparent
 	}
 

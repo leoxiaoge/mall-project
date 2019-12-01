@@ -12,7 +12,7 @@
 					<view class="popus-num-box">
 						<view class="i-numbox">
 							<view
-								:class="{'i-numbox--disabled': inputValue <= min || disabled}"
+								:class="{'i-numbox--disabled': inputValue <= min}"
 								class="i-numbox__minus"
 								@click="calcValue('minus')"
 							>-</view>
@@ -24,7 +24,7 @@
 								@blur="onBlur"
 							/>
 							<view
-								:class="{'i-numbox--disabled': inputValue >= max || disabled}"
+								:class="{'i-numbox--disabled': inputValue >= max}"
 								class="i-numbox__plus"
 								@click="calcValue('plus')"
 							>+</view>
@@ -52,12 +52,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {
-	request
-} from "@/common/utils/util";
-import {
-	AddUserFormID
-} from "@/common/config/api";
+import { request } from "@/common/utils/util";
+import { AddUserFormID } from "@/common/config/api";
 export default Vue.extend({
 	name: "iPopup",
 	props: {
@@ -69,6 +65,14 @@ export default Vue.extend({
 					ActiveCardNumbers: ""
 				};
 			}
+		},
+		min: {
+			type: Number,
+			default: 0
+		},
+		max: {
+			type: Number,
+			default: 100
 		},
 		disabled: {
 			type: Boolean,
@@ -98,8 +102,6 @@ export default Vue.extend({
 	data() {
 		return {
 			inputValue: 1,
-			min: 0,
-			max: 100,
 			numDisabled: false,
 			step: 1,
 			value: ""
