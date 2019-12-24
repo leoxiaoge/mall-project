@@ -22,7 +22,7 @@
 					<text>{{item.OrderComment.Comment}}</text>
 				</view>
 				<view class="show-item-images">
-					<view class="show-item-image" v-for="(i, index) in item.ProductPicList" :key="index">
+					<view class="show-item-image" v-for="(i, idx) in item.ProductPicList" :key="idx">
 						<image :src="i" @click="preview(i, item.ProductPicList)" />
 					</view>
 				</view>

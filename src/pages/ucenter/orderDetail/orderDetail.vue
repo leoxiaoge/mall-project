@@ -40,7 +40,7 @@
 						:duration="duration"
 						:circular="circular"
 					>
-						<swiper-item v-for="(i, index) in item.ProductPicList" :key="index">
+						<swiper-item v-for="(i, idx) in item.ProductPicList" :key="idx">
 							<image :src="i" mode="aspectFill" />
 						</swiper-item>
 					</swiper>

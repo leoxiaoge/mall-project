@@ -25,7 +25,7 @@
 							</view>
 							<view class="product-prices" v-if="item.Status !== 4">
 								<view class="product-current-bid">当前出价</view>
-								<view class="product-prices-text">￥{{item.Price}}</view>
+								<view class="product-prices-text" v-if="item.Price != undefined">￥{{item.Price}}</view>
 							</view>
 							<view class="product-prices" v-if="item.Active.LastBillUserName && item.Status !== 4">
 								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
@@ -60,7 +60,7 @@
 							<view class="product-current-bid">拍得</view>
 						</view>
 						<view class="product-price" v-if="item.Status !== 4">
-							<view class="product-price-text">出价：￥{{item.Price}}</view>
+							<view class="product-price-text" v-if="item.Price != undefined">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price" v-if="item.Active.LastBillUserName && item.Status !== 4">
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
@@ -94,7 +94,7 @@
 							<view class="product-current-bid">拍得</view>
 						</view>
 						<view class="product-price" v-if="item.Status !== 4">
-							<view class="product-price-text">出价：￥{{item.Price}}</view>
+							<view class="product-price-text" v-if="item.Price != undefined">出价：￥{{item.Price}}</view>
 						</view>
 						<view class="product-price" v-if="item.Active.LastBillUserName && item.Status !== 4">
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
