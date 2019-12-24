@@ -105,8 +105,10 @@ export default Vue.extend({
 			request(UserAddressListGet, data).then((res: any) => {
 				console.log(res);
 				this.addressList = res.AddressList;
-				if (res.AddressList <= 0) {
+				if (this.addressList.length <= 0) {
 					this.isData = true;
+				} else {
+					this.isData = false;
 				}
 			});
 		},

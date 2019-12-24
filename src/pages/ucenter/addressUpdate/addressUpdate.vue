@@ -64,6 +64,7 @@ import {
 	request,
 	navigateTo,
 	redirectTo,
+	navigateBack,
 	showToast,
 	onShareAppMessage
 } from "@/common/utils/util";
@@ -228,7 +229,7 @@ export default Vue.extend({
 				};
 				request(UserAddressUpdate, data).then((res: any) => {
 					showToast("保存成功！");
-					redirectTo("../addressShipping/addressShipping");
+					navigateBack(1);
 				});
 			}
 		},
