@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "订单中心",
-  "usingComponents": {
-    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei",
-    "media-list": "/components/order-list/order-list"
-  }
-}

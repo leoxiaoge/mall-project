@@ -20,3 +20,6 @@ iles
 *.njsproj
 *.sln
 *.sw?
+
+# build
+dist

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "我的参与",
-  "usingComponents": {
-    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei",
-    "media-list": "/components/media-list/media-list"
-  }
-}

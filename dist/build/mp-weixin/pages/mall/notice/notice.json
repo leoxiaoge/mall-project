@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "最新成交",
-  "usingComponents": {
-    "mescroll-uni": "/components/mescroll-diy/mescroll-beibei"
-  }
-}
