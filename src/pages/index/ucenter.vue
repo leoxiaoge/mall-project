@@ -180,9 +180,10 @@ export default Vue.extend({
 	},
 	onLoad() {},
 	onShow() {
-		if (!uni.getStorageSync("SessionKey")) {
-			this.empty();
-		}
+		this.useInfo();
+		this.getOrderSummary();
+	},
+	onPullDownRefresh() {
 		this.useInfo();
 		this.getOrderSummary();
 	},
@@ -199,6 +200,9 @@ export default Vue.extend({
 			this.userInfo = userInfo;
 			this.userFace = userInfo.userFace;
 			this.userNick = decodeURIComponent(userInfo.userNick);
+			if (!this.sessionkey) {
+				this.userInfo = "";
+			}
 			if (userInfo.Integrals) {
 				uni.showTabBarRedDot({
 					index: 3
@@ -212,6 +216,7 @@ export default Vue.extend({
 			});
 		},
 		async getOrderSummary() {
+			this.empty();
 			let SummaryList: any = await this.orderSummary();
 			let list: any = JSON.parse(JSON.stringify(this.lists));
 			list.map((item: any) => {
@@ -293,7 +298,6 @@ export default Vue.extend({
 		},
 		// 初始化数据
 		empty() {
-			this.userInfo = "";
 			this.lists = [
 				{
 					id: 0,
