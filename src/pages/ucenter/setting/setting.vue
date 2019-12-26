@@ -3,7 +3,7 @@
 		<view class="list-item userFace" @click="userFaceClick">
 			<view class="list-item-user">头像</view>
 			<view class="list-item-face">
-				<image :src="userFace" />
+				<image :src="userFace" mode="aspectFill" />
 				<uni-icon :size="20" color="#bbb" type="arrowright" />
 			</view>
 		</view>

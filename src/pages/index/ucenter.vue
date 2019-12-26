@@ -9,7 +9,7 @@
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
 				<view class="userInfo-userFace">
-					<image :src="userFace" mode="widthFix" />
+					<image :src="userFace" mode="aspectFill" />
 				</view>
 				<!-- #endif -->
 			</view>
