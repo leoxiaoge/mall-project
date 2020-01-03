@@ -643,8 +643,6 @@ export default Vue.extend({
 						break;
 					case 1:
 						// 重新置为可用，不管结果如何，因为报名后仍可以继续报名
-						this.buttonStateChanged &&
-							this.buttonStateChanged("已报名", "0", true, true);
 						// 报名响应消息
 						if (msg.IsError) {
 							if (this.UserID) {
@@ -676,6 +674,8 @@ export default Vue.extend({
 							// 更新我的报名信息事件
 							this.onUpdateMySignups &&
 								this.onUpdateMySignups(msg.Signups, msg.SeqSignups);
+							this.buttonStateChanged &&
+							  this.buttonStateChanged("已报名", "0", true, true);
 							// 剩余举牌次数
 							this.SeqBills = msg.SeqBills;
 							showToast(msg.ErrMsg);

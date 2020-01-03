@@ -197,12 +197,11 @@ export default Vue.extend({
 		async useInfo() {
 			this.sessionkey = uni.getStorageSync("SessionKey");
 			let userInfo: any = await this.getLoginUser();
-			this.userInfo = userInfo;
-			this.userFace = userInfo.userFace;
-			this.userNick = decodeURIComponent(userInfo.userNick);
-			if (!this.sessionkey) {
-				this.userInfo = "";
+			if (userInfo) {
+				this.userInfo = userInfo;
+				this.userFace = userInfo.userFace;
 			}
+			this.userNick = decodeURIComponent(userInfo.userNick);
 			if (userInfo.Integrals) {
 				uni.showTabBarRedDot({
 					index: 3
@@ -298,6 +297,7 @@ export default Vue.extend({
 		},
 		// 初始化数据
 		empty() {
+			this.userInfo = "";
 			this.lists = [
 				{
 					id: 0,
