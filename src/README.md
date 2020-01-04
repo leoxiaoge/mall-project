@@ -6,6 +6,7 @@
 
 mall-project 是一个标准的 VUE CLI 构建的项目，并提供了涵盖中开发的各类功能和多端需求，下面是整个项目的目录结构。
 
+```
 ┌─components            组件目录
 │  └─comp-a.vue         可复用的a组件
 ├─hybrid                存放本地网页的目录，详见
@@ -21,6 +22,7 @@ mall-project 是一个标准的 VUE CLI 构建的项目，并提供了涵盖中�
 ├─App.vue               应用配置，用来配置App全局样式以及监听 应用生命周期
 ├─manifest.json         配置应用名称、appid、logo、版本等打包信息，详见
 └─pages.json            配置页面路由、导航条、选项卡等页面类信息，详见
+```
 
 #环境安装
 
