@@ -16,7 +16,7 @@
 			<view class="content">
 				<view class="commission-list" v-for="(item, index) in commissionList" :key="index">
 					<view class="commission-created">
-						<view class="commission-refUserNick">{{item.RefUserNick}}</view>
+						<view class="commission-refUserNick">{{item.PayUserNick}}</view>
 						<view class="commission-createdDateTime">{{item.CreatedDateTime}}</view>
 					</view>
 					<view class="commission-money">
