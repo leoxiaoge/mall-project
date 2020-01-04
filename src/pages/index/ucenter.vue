@@ -215,7 +215,7 @@ export default Vue.extend({
 			});
 		},
 		async getOrderSummary() {
-			this.empty();
+			this.listsEmpty();
 			let SummaryList: any = await this.orderSummary();
 			let list: any = JSON.parse(JSON.stringify(this.lists));
 			list.map((item: any) => {
@@ -286,7 +286,8 @@ export default Vue.extend({
 					console.log("用户点击确定");
 					try {
 						uni.clearStorageSync();
-						this.empty();
+						this.userInfoEmpty();
+						this.listsEmpty();
 					} catch (e) {
 						showToast("退出登录失败");
 					}
@@ -296,8 +297,10 @@ export default Vue.extend({
 			});
 		},
 		// 初始化数据
-		empty() {
+		userInfoEmpty() {
 			this.userInfo = "";
+		},
+		listsEmpty() {
 			this.lists = [
 				{
 					id: 0,
