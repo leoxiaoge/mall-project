@@ -313,8 +313,10 @@ export default {
 		// 小程序消息模版FormID
 		formSubmit(e) {
 			let formId = e.detail.formId;
+			let OpenID = this.$store.state.openid;
 			let data = {
-				FormID: formId
+				FormID: formId,
+				OpenID: OpenID
 			};
 			request(AddUserFormID, data).then(res => {
 				console.log(res);

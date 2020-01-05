@@ -1065,8 +1065,10 @@ export default Vue.extend({
 		formSubmit(e: any) {
 			console.log("formId", e);
 			let formId = e.detail.formId;
+			let OpenID = this.$store.state.openid;
 			let data = {
-				FormID: formId
+				FormID: formId,
+				OpenID: OpenID
 			};
 			request(AddUserFormID, data).then((res: any) => {
 				console.log(res);
