@@ -39,7 +39,7 @@
 			<view class="teng-left teng-flex">
 				<text class="icon-gold"></text>
 				<text class="teng-ticket">我的入场券</text>
-				<text class="teng-number">{{userInfo.SeqVirtual}}</text>
+				<text class="teng-number">{{seqVirtual}}</text>
 			</view>
 			<view class="teng-right teng-recharge">
 				<button class="btn" @click="recharge">去充值</button>
@@ -109,6 +109,7 @@ export default Vue.extend({
 			userInfo: "",
 			userFace: "",
 			userNick: "",
+			seqVirtual: "",
 			Integrals: "",
 			lists: [
 				{
@@ -200,6 +201,7 @@ export default Vue.extend({
 			if (userInfo) {
 				this.userInfo = userInfo;
 				this.userFace = userInfo.userFace;
+				this.seqVirtual = userInfo.SeqVirtual;
 			}
 			this.userNick = decodeURIComponent(userInfo.userNick);
 			if (userInfo.Integrals) {
@@ -335,6 +337,13 @@ export default Vue.extend({
 					navigateTo: "orderList"
 				}
 			];
+			this.listItem.map((item: any, i: any) => {
+				if (i === 3) {
+					item.showBadge = true;
+					item.badgeText = 0;
+				}
+			});
+			this.seqVirtual = "";
 		}
 	}
 });

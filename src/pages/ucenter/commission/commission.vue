@@ -116,6 +116,7 @@ export default Vue.extend({
 							item.CreatedDateTime = formatTime(new Date(item.CreatedDate));
 							item.CommissionMoneyText = `+${item.CommissionMoney}`;
 							item.RefUserNick = `(${decodeURIComponent(item.RefUserNick)})`;
+							item.PayUserNick = `(${decodeURIComponent(item.PayUserNick)})`;
 						});
 						this.noMentionMoney = `¥${res.NoMentionMoney}`;
 						this.mentionMoney = `¥${res.MentionMoney}`;
