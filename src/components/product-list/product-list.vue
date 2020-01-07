@@ -5,9 +5,9 @@
 			<view class="uni-product product-item" v-for="(item,index) in product" :key="index">
 				<view class="i-product-content" @click="productDetailsTo(item.Active.ID)">
 					<view class="i-image-view">
-						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit" />
-						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
-						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
+						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
+						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
 					</view>
 					<!-- <view class="teng-active-type-name">
 						<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
