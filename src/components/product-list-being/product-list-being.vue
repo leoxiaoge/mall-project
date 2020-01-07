@@ -45,9 +45,9 @@
 				<view class="product-item-two" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-two">
-							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
-							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
-							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
@@ -79,9 +79,9 @@
 				<view class="product-item" v-for="(item,index) in product" :key="index">
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view">
-							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" />
-							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" />
-							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" />
+							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
