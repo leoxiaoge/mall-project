@@ -25,7 +25,7 @@
 						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.Active.ID)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsTo(item.Active.ID, item.Status)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { request, navigateTo } from "@/common/utils/util";
-import { HomeProductListGet } from "@/common/config/api";
+import { HomeProductListGet, NextActiveGet } from "@/common/config/api";
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue";
 export default Vue.extend({
 	components: {
@@ -101,10 +101,26 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		productDetailsTo(activeID: string) {
+		async productDetailsTo(activeID: string, Status: number) {
+			if (Status === 4) {
+				let nexActive: any = await this.getNextActive(activeID);
+				activeID = nexActive.Active.ID;
+			}
 			navigateTo(
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
+		},
+		// 获取下一期活动
+		getNextActive(activeID: string) {
+			return new Promise((sesolve, reject) => {
+				let ActiveID = activeID;
+				let data = {
+					ActiveID: ActiveID
+				};
+				request(NextActiveGet, data).then((res: any) => {
+					sesolve(res.NexActive);
+				});
+			});
 		}
 	}
 });

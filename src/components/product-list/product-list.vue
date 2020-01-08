@@ -9,9 +9,6 @@
 						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
 						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
 					</view>
-					<!-- <view class="teng-active-type-name">
-						<text class="teng-active-type-name-text">{{item.Active.ActiveTypeName}}</text>
-					</view> -->
 					<view class="uni-product-title product-title">
 						<text class="active-no">[{{item.Active.ActiveNo}}期]</text>
 						<text>{{item.ProductTitle}}</text>
@@ -31,7 +28,7 @@
 						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.Active.ID)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsTo(item.Active.ID, item.Status)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -42,7 +39,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { request, navigateTo } from "@/common/utils/util";
-import { HomeProductListGet } from "@/common/config/api";
+import { HomeProductListGet, NextActiveGet } from "@/common/config/api";
 import pageHead from "@/components/page-head/page-head.vue";
 import uniCountdown from "@/components/uni-countdown/uni-countdown.vue";
 export default Vue.extend({
@@ -115,10 +112,26 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		productDetailsTo(activeID: string) {
+		async productDetailsTo(activeID: string, Status: number) {
+			if (Status === 4) {
+				let nexActive: any = await this.getNextActive(activeID);
+				activeID = nexActive.Active.ID;
+			}
 			navigateTo(
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
+		},
+		// 获取下一期活动
+		getNextActive(activeID: string) {
+			return new Promise((sesolve, reject) => {
+				let ActiveID = activeID;
+				let data = {
+					ActiveID: ActiveID
+				};
+				request(NextActiveGet, data).then((res: any) => {
+					sesolve(res.NexActive);
+				});
+			});
 		}
 	}
 });
@@ -145,23 +158,6 @@ export default Vue.extend({
 	top: 10%;
 	width: 100upx;
 	height: 100upx;
-}
-
-.teng-active-type-name {
-	position: absolute;
-	left: 0;
-	top: 0;
-	line-height: 1.6;
-	background: linear-gradient(45deg, #eba866, #fe7f00);
-	border-radius: 0 100upx 100upx 0;
-	opacity: .8;
-	padding: 0 12upx 0 8upx;
-}
-
-.teng-active-type-name-text {
-	font-size: 24upx;
-	line-height: 1.4;
-	color: #fff;
 }
 
 .uni-product-price {
