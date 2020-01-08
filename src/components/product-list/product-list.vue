@@ -23,7 +23,6 @@
 				</view>
 				<view class="uni-product-prompt">
 					<view class="uni-product-time">
-						<!-- 倒计时 -->
 						<text class="uni-product-away">距离开拍</text>
 						<uni-countdown :seconds="item.seconds" />
 					</view>

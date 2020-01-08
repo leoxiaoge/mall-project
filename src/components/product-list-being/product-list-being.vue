@@ -31,7 +31,6 @@
 								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 							</view>
 							<view class="product-times">
-								<!-- 倒计时 -->
 								<view class="product-countdown-text">{{item.countdownText}}</view>
 								<uni-countdown :original="true" :seconds="item.seconds" />
 							</view>
@@ -67,7 +66,6 @@
 						</view>
 					</view>
 					<view class="product-time">
-						<!-- 倒计时 -->
 						<view class="product-countdown-text">{{item.countdownText}}</view>
 						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
@@ -101,7 +99,6 @@
 						</view>
 					</view>
 					<view class="product-time">
-						<!-- 倒计时 -->
 						<view class="product-countdown-text">{{item.countdownText}}</view>
 						<uni-countdown :original="true" :seconds="item.seconds" />
 					</view>
