@@ -224,6 +224,8 @@ export default Vue.extend({
 				uni.setStorageSync("UserInfo", UserInfo);
 				showToast("登录成功！");
 				navigateBack(1);
+			}).catch((err: any) => {
+				this.loading = false;
 			});
 		},
 		getuserinfo(e: any) {
