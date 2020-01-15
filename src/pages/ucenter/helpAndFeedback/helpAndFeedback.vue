@@ -55,7 +55,7 @@
 			<button class="button" type="button" @click="togglePopup('bottom')">建议反馈</button>
 		</view>
 		<view class="example">
-			<uni-popup :show="type" position="bottom" mode="fixed" msg="建议反馈" @hidePopup="togglePopup('')" />
+			<feed-popup :show="type" position="bottom" mode="fixed" msg="建议反馈" @hidePopup="togglePopup('')" />
 		</view>
 	</view>
 </template>
@@ -66,13 +66,13 @@ import { request, navigateTo, onShareAppMessage } from "@/common/utils/util";
 import { HelpContactListGet, HelpListGet } from "@/common/config/api";
 import uniCollapse from "@/components/uni-collapse/uni-collapse.vue";
 import uniCollapseItem from "@/components/uni-collapse-item/uni-collapse-item.vue";
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import feedPopup from "@/components/feed-popup/feed-popup.vue";
 
 export default Vue.extend({
 	components: {
 		uniCollapse,
 		uniCollapseItem,
-		uniPopup
+		feedPopup
 	},
 	data() {
 		return {

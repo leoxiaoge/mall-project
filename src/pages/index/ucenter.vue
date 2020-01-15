@@ -31,7 +31,16 @@
 				<text>欢迎来到腾拍商城</text>
 			</view>
 			<view class="i-login">
+				<!-- #ifdef MP-WEIXIN -->
+				<button
+					class="btn i-login-button"
+					open-type="getPhoneNumber"
+					@getphonenumber="getPhoneNumber"
+				>马上登录</button>
+				<!-- #endif -->
+				<!-- #ifndef MP-WEIXIN -->
 				<button class="btn i-login-button" @click="loginPath">马上登录</button>
+				<!-- #endif -->
 			</view>
 		</view>
 
@@ -222,7 +231,7 @@ export default Vue.extend({
 			let list: any = JSON.parse(JSON.stringify(this.lists));
 			list.map((item: any) => {
 				item.totals = 0;
-			})
+			});
 			list.map((item: any) => {
 				SummaryList.map((i: any) => {
 					if (item.status === i.OrderStatus) {
@@ -296,6 +305,19 @@ export default Vue.extend({
 				} else if (res.cancel) {
 					console.log("用户点击取消");
 				}
+			});
+		},
+		getPhoneNumber(e: any) {
+			console.log(e);
+			console.log(e.detail.errMsg);
+			console.log(e.detail.iv);
+			console.log(e.detail.encryptedData);
+			uni.login({
+				success: (e: any) => {
+					let JSCode = e.code;
+					console.log(e);
+				},
+				fail: () => {}
 			});
 		},
 		// 初始化数据
