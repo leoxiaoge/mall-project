@@ -3,7 +3,7 @@
 		<view
 			v-show="show"
 			:style="{ top: offsetTop + 'px' }"
-			class="uni-masks"
+			class="uni-mask"
 			@click="hide"
 			@touchmove.stop.prevent="moveHandle"
 		/>

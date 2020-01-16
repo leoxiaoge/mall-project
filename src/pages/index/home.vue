@@ -4,7 +4,7 @@
 		<show-tips />
 		<!-- #endif -->
 		<mescroll-uni @down="downCallback" @up="upCallback">
-			<i-registered />
+			<registered-modal />
 			<view class="content">
 				<view class="search-swiper">
 					<view class="search" @click="search">
@@ -104,7 +104,7 @@ import {
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import showTips from "@/components/redflower-showTips/redflower-showTips.vue";
 import uniGrid from "@/components/uni-grid/uni-grid.vue";
-import iRegistered from "@/components/i-registered/i-registered.vue";
+import registeredModal from "@/components/registered-modal/registered-modal.vue";
 import productListBeing from "@/components/product-list-being/product-list-being.vue";
 import productList from "@/components/product-list/product-list.vue";
 let socketOpen: boolean = false;
@@ -114,7 +114,7 @@ export default Vue.extend({
 		MescrollUni,
 		showTips,
 		uniGrid,
-		iRegistered,
+		registeredModal,
 		productListBeing,
 		productList
 	},
