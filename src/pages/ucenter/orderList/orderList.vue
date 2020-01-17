@@ -168,7 +168,7 @@ export default Vue.extend({
 			}
 		},
 		getOrderList(pageNum: any, pageSize: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let OrderStatus = this.current;
 				if (OrderStatus == "-1") {
 					let data = {
@@ -177,7 +177,7 @@ export default Vue.extend({
 					};
 					request(OrderListGet, data)
 						.then((res: any) => {
-							sesolve(res.OrderList);
+							resolve(res.OrderList);
 						})
 						.catch((err: any) => {
 							let mescroll: any = this.mescroll;
@@ -191,7 +191,7 @@ export default Vue.extend({
 					};
 					request(OrderListGet, data)
 						.then((res: any) => {
-							sesolve(res.OrderList);
+							resolve(res.OrderList);
 						})
 						.catch((err: any) => {
 							let mescroll: any = this.mescroll;
@@ -270,13 +270,13 @@ export default Vue.extend({
 		},
 		// 订单确认收货
 		orderConfirmReceiving() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let OrderID = this.orderID;
 				let data = {
 					OrderID: OrderID
 				};
 				request(OrderConfirmReceiving, data).then((res: any) => {
-					sesolve(res);
+					resolve(res);
 					console.log(res);
 				});
 			});
@@ -395,7 +395,7 @@ export default Vue.extend({
 			let OpenID = this.$store.state.openid;
 			let OrderID = this.orderID;
 			let PayTypeID = this.PayTypeID;
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					OrderID: OrderID,
 					PayTypeID: PayTypeID,
@@ -403,7 +403,7 @@ export default Vue.extend({
 				};
 				request(OrderPay, data).then((res: any) => {
 					console.log(res);
-					sesolve(res.PayParam);
+					resolve(res.PayParam);
 				});
 			});
 		}

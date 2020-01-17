@@ -134,11 +134,11 @@ export default Vue.extend({
 		},
 		// 获取当前登录用户的信息
 		getLoginUser() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {};
 				request(GetLoginUser, data).then((res: any) => {
 					uni.setStorageSync("UserInfo", res.UserInfo);
-					sesolve(res.UserInfo);
+					resolve(res.UserInfo);
 				});
 			});
 		},

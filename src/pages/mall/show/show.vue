@@ -102,7 +102,7 @@ export default Vue.extend({
 			}
 		},
 		getOrderDryingList(pageNum: any, pageSize: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize
@@ -116,7 +116,7 @@ export default Vue.extend({
 							item.CreatedTime = formatTime(new Date(item.Created));
 							item.UserNick = decodeURIComponent(item.UserNick);
 						});
-						sesolve(orderList);
+						resolve(orderList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;

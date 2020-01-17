@@ -40,14 +40,35 @@ const store = new Vuex.Store({
 		}
 	},
 	actions: {
-		asyncInrement(context) {
-			console.log(context)
-			return new Promise(resolve => {
-				setTimeout(() => {
-					context.commit('setOpenid', '');
-					resolve();
-				}, 100)
-			});
+		scopeUserInfo: async function ({
+			commit,
+			state
+		}) {
+			return await new Promise((resolve, reject) => {
+				if (state.openid) {
+					resolve(state.openid)
+				} else {
+					uni.authorize({
+						scope: "scope.userInfo",
+						success() {
+							uni.getSetting();
+						}
+					});
+					uni.login({
+						provider: 'weixin',
+						success(loginRes) {
+							console.log(loginRes.authResult);
+							// 获取用户信息
+							uni.getUserInfo({
+								provider: 'weixin',
+								success(infoRes: any) {
+									console.log('用户昵称为：' + infoRes.userInfo.nickName);
+								}
+							});
+						}
+					});
+				}
+			})
 		},
 		// #ifdef MP-WEIXIN
 		getUserOpenId: async function ({

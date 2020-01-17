@@ -32,11 +32,7 @@
 			</view>
 			<view class="i-login">
 				<!-- #ifdef MP-WEIXIN -->
-				<button
-					class="btn i-login-button"
-					open-type="getPhoneNumber"
-					@getphonenumber="getPhoneNumber"
-				>马上登录</button>
+				<button class="btn i-login-button" open-type="getUserInfo" @getuserinfo="getUserInfo">马上登录</button>
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
 				<button class="btn i-login-button" @click="loginPath">马上登录</button>
@@ -243,10 +239,10 @@ export default Vue.extend({
 			this.lists = lists;
 		},
 		orderSummary() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {};
 				request(OrderSummary, data).then((res: any) => {
-					sesolve(res.SummaryList);
+					resolve(res.SummaryList);
 				});
 			});
 		},
@@ -268,11 +264,11 @@ export default Vue.extend({
 		},
 		// 获取当前登录用户的信息
 		getLoginUser() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {};
 				request(GetLoginUser, data).then((res: any) => {
 					uni.setStorageSync("UserInfo", res.UserInfo);
-					sesolve(res.UserInfo);
+					resolve(res.UserInfo);
 				});
 			});
 		},
@@ -307,18 +303,9 @@ export default Vue.extend({
 				}
 			});
 		},
-		getPhoneNumber(e: any) {
+		getUserInfo(e: any) {
 			console.log(e);
-			console.log(e.detail.errMsg);
-			console.log(e.detail.iv);
-			console.log(e.detail.encryptedData);
-			uni.login({
-				success: (e: any) => {
-					let JSCode = e.code;
-					console.log(e);
-				},
-				fail: () => {}
-			});
+			this.loginPath();
 		},
 		// 初始化数据
 		userInfoEmpty() {

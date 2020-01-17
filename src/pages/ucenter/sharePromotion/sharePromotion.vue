@@ -93,10 +93,10 @@ export default Vue.extend({
 			});
 		},
 		getWxacode() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {};
 				request(GetWxacode, data).then((res: any) => {
-					sesolve(res);
+					resolve(res);
 				});
 			});
 		},

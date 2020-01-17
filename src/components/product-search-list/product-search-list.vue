@@ -111,13 +111,13 @@ export default Vue.extend({
 		},
 		// 获取下一期活动
 		getNextActive(activeID: string) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let ActiveID = activeID;
 				let data = {
 					ActiveID: ActiveID
 				};
 				request(NextActiveGet, data).then((res: any) => {
-					sesolve(res.NexActive);
+					resolve(res.NexActive);
 				});
 			});
 		}

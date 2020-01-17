@@ -123,7 +123,7 @@ export default Vue.extend({
 		},
 		// 获取
 		getActiveList(pageNum: string, pageSize: string) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let ListType = this.ListType;
 				let data = {
 					ListType: ListType,
@@ -132,7 +132,7 @@ export default Vue.extend({
 				};
 				request(MyActiveList, data)
 					.then((res: any) => {
-						sesolve(res.ActiveList);
+						resolve(res.ActiveList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;

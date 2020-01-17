@@ -111,7 +111,7 @@ export default Vue.extend({
 		},
 		// 商品列表
 		categoryClickMain(index: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let item: any = this.categoryList[index];
 				this.categoryActive = index;
 				this.categoryID = item.ID;
@@ -120,7 +120,7 @@ export default Vue.extend({
 			});
 		},
 		getProductPaiList() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let CategoryID = this.categoryID;
 				let pageNum = this.pageNum;
 				let pageSize = this.pageSize;
@@ -137,7 +137,7 @@ export default Vue.extend({
 							item.Active.ActiveStatus === (4 || 5) ? "参加下一期" : "参加竞拍";
 					});
 					this.pageCount = res.PageCount;
-					sesolve(subCategoryList);
+					resolve(subCategoryList);
 				});
 			});
 		},

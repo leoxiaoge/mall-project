@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<model-popup
-			:show="type === 'middle-img'"
+			:show="type === 'middle-img' && show"
 			position="middle"
 			mode="insert"
 			@hidePopup="togglePopup('')"
@@ -15,7 +15,8 @@
 						:loading="loading"
 						open-type="getUserInfo"
 						@getuserinfo="getUserInfo"
-					>授权登录</button>
+						v-if="!scopeUserInfo"
+					>微信授权</button>
 				</view>
 				<view>
 					<button
@@ -23,12 +24,13 @@
 						:loading="loading"
 						open-type="getPhoneNumber"
 						@getphonenumber="getPhoneNumber"
+						v-if="scopeUserInfo"
 					>授权手机号</button>
 				</view>
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
 				<view>
-					<button class="registered-button" @click="loginPath">授权登录</button>
+					<button class="registered-button" @click="loginPath">立即注册</button>
 				</view>
 				<!-- #endif -->
 			</view>
@@ -38,8 +40,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo } from "@/common/utils/util";
-import { UserLogin, GetLoginCode, GetWXOpenID } from "@/common/config/api";
 import modelPopup from "@/components/model-popup/model-popup.vue";
 export default Vue.extend({
 	name: "iRegistered",
@@ -52,63 +52,36 @@ export default Vue.extend({
 			default() {
 				return [];
 			}
+		},
+		show: {
+			type: Boolean,
+			default: false
+		},
+		scopeUserInfo: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data() {
 		return {
-      type: "middle-img",
-      loading: false
+			type: "middle-img"
 		};
 	},
 	methods: {
 		togglePopup(type: string) {
 			this.type = type;
-    },
-    getProvider() {
-			return new Promise((sesolve, reject) => {
-				uni.getProvider({
-					service: "oauth",
-					success: (res: any) => {
-						sesolve(res.provider);
-					}
-				});
-			});
 		},
-		async login() {
-			let provider: any = await this.getProvider();
-			return new Promise((sesolve, reject) => {
-				if (~provider.indexOf("weixin")) {
-					uni.login({
-						provider: "weixin",
-						success: (loginRes: any) => {
-							let JSCode = loginRes.code;
-							console.log(JSCode);
-							let data = {
-								JSCode: JSCode
-							};
-							request(GetWXOpenID, data).then((res: any) => {
-								sesolve(res.OpenID);
-							});
-						}
-					});
-				}
-			});
-		},
-    async getUserInfo(e: any) {
+		getUserInfo(e: any) {
 			console.log(e);
-      let userInfo = e.detail.userInfo;
-      let OpenID: any = await this.login();
-    },
-    async getPhoneNumber (e: any) {
-			console.log(e)
-			console.log(e.detail.errMsg)
-			console.log(e.detail.iv)
-      console.log(e.detail.encryptedData)
-      let OpenID: any = await this.login();
-    },
-    // 登录页
+			this.$emit("getUserInfo", e);
+		},
+		getPhoneNumber(e: any) {
+			console.log(e);
+			this.$emit("getPhoneNumber", e);
+		},
+		// 登录页
 		loginPath() {
-			navigateTo("pages/ucenter/login/login");
+			this.$emit("loginPath");
 		}
 	}
 });
@@ -123,7 +96,7 @@ export default Vue.extend({
 
 .image {
 	width: 600upx;
-	height: 600upx;
+	height: 800upx;
 }
 
 .registered-button {
@@ -132,6 +105,11 @@ export default Vue.extend({
 	bottom: 10%;
 	transform: translate(-50%, 0);
 	width: 60%;
+	font-size: 32upx;
+	line-height: 80upx;
+	color: #fff;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 100upx;
+	border: 2upx solid #fff;
 }
 </style>

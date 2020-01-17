@@ -467,14 +467,14 @@ export default Vue.extend({
 		},
 		// 获取下一期活动
 		getNextActive() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let ActiveID = this.activeID;
 				let data = {
 					ActiveID: ActiveID
 				};
 				request(NextActiveGet, data).then((res: any) => {
 					console.log(res);
-					sesolve(res.NexActive);
+					resolve(res.NexActive);
 				});
 			});
 		},
@@ -1197,14 +1197,14 @@ export default Vue.extend({
 		},
 		// 下面是生成随机GUID的函数
 		GUID() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let guid = "";
 				for (let i = 1; i <= 32; i++) {
 					let n = Math.floor(Math.random() * 16.0).toString(16);
 					guid += n;
 					if (i == 8 || i == 12 || i == 16 || i == 20) guid += "-";
 				}
-				sesolve(guid);
+				resolve(guid);
 			});
 		}
 	}

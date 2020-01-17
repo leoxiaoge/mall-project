@@ -223,12 +223,12 @@ export default Vue.extend({
 			}
 		},
 		onSocketMessage() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				uni.onSocketMessage((res: any) => {
 					console.log("收到服务器内容：" + res.data);
 					let msg = JSON.parse(res.data);
 					console.log(msg);
-					sesolve(msg);
+					resolve(msg);
 				});
 			});
 		},
@@ -325,7 +325,7 @@ export default Vue.extend({
 		// 首页获取正在竞拍与即将开拍的商品列表
 		// 查询类型 : home1=首页的正在竞拍列表, home2=首页的即将开拍列表
 		getHomeProductListIng(pageNum: number, pageSize: number) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize,
@@ -333,7 +333,7 @@ export default Vue.extend({
 				};
 				request(HomeProductListGet, data)
 					.then((res: any) => {
-						sesolve(res.ProductList);
+						resolve(res.ProductList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;

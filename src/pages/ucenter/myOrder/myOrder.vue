@@ -82,7 +82,7 @@ export default Vue.extend({
 				navigateTo("../../ucenter/login/login");
 				return;
 			}
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize,
@@ -97,7 +97,7 @@ export default Vue.extend({
 								new Date(item.OrderComment.CreatedDate)
 							);
 						});
-						sesolve(res.OrderList);
+						resolve(res.OrderList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;

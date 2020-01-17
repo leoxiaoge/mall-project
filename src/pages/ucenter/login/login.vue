@@ -79,8 +79,8 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			wxFace: "",
-			wxNick: "",
+			avatarUrl: "",
+			nickName: "",
 			refUserID: "",
 			logo: "/static/icon/icon_login.png",
 			checked: true,
@@ -106,18 +106,18 @@ export default Vue.extend({
 	methods: {
 		...mapMutations(["login"]),
 		getProvider() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				uni.getProvider({
 					service: "oauth",
 					success: (res: any) => {
-						sesolve(res.provider);
+						resolve(res.provider);
 					}
 				});
 			});
 		},
 		async login() {
 			let provider: any = await this.getProvider();
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				if (~provider.indexOf("weixin")) {
 					uni.login({
 						provider: "weixin",
@@ -128,10 +128,33 @@ export default Vue.extend({
 								JSCode: JSCode
 							};
 							request(GetWXOpenID, data).then((res: any) => {
-								sesolve(res.OpenID);
+								resolve(res.OpenID);
 							});
 						}
 					});
+				}
+			});
+		},
+		authorize() {
+			let that = this;
+			uni.login({
+				provider: "weixin",
+				success(loginRes) {
+					console.log("loginRes.authResult", loginRes);
+					if (loginRes) {
+						// 获取用户信息
+						uni.getUserInfo({
+							provider: "weixin",
+							success(e: any) {
+								console.log("getUserInfo", e);
+								if (e.errMsg === "getUserInfo:ok") {
+									console.log("用户昵称为：" + e.userInfo.nickName);
+									that.nickName = e.userInfo.nickName;
+									that.avatarUrl = e.userInfo.avatarUrl;
+								}
+							}
+						});
+					}
 				}
 			});
 		},
@@ -179,8 +202,8 @@ export default Vue.extend({
 		async wxLogin(e: any) {
 			console.log(e);
 			let userInfo = e.detail.userInfo;
-			this.wxFace = userInfo.avatarUrl;
-			this.wxNick = userInfo.nickName;
+			this.avatarUrl = userInfo.avatarUrl;
+			this.nickName = userInfo.nickName;
 			let OpenID: any = await this.login();
 			uni.setStorageSync("OpenID", OpenID);
 			this.userLogin();
@@ -188,8 +211,8 @@ export default Vue.extend({
 		async userLogin() {
 			let Mobile = this.Mobile;
 			let LoginCode = this.LoginCode;
-			let wxFace = this.wxFace;
-			let wxNick = encodeURIComponent(this.wxNick);
+			let wxFace = this.avatarUrl;
+			let wxNick = encodeURIComponent(this.nickName);
 			let refUserID = this.refUserID;
 			if (uni.getStorageSync("scene")) {
 				refUserID = uni.getStorageSync("scene");

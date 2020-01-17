@@ -15,7 +15,7 @@
 			{{ msg }}
 			<slot />
 			<view class="close">
-				<uni-icon type="clear" color="#eba866" size="30" @click="closeMask" />
+				<uni-icon type="clear" color="#fff" size="30" @click="closeMask" />
 			</view>
 		</view>
 	</view>

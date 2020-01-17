@@ -198,7 +198,7 @@ export default Vue.extend({
 			}
 		},
 		getProductSearchList(pageNum: number, pageSize: number) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let Keyword = this.keyword;
 				if (!Keyword) {
 					showToast("请输入搜索词！");
@@ -213,7 +213,7 @@ export default Vue.extend({
 					.then((res: any) => {
 						console.log(res);
 						this.pageCount = res.PageCount;
-						sesolve(res.ProductList);
+						resolve(res.ProductList);
 					})
 					.catch((err: any) => {
 						console.log(err);

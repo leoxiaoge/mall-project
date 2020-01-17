@@ -104,7 +104,7 @@ export default Vue.extend({
 			}
 		},
 		getUserCommissionList(pageNum: any, pageSize: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize
@@ -120,7 +120,7 @@ export default Vue.extend({
 						});
 						this.noMentionMoney = `¥${res.NoMentionMoney}`;
 						this.mentionMoney = `¥${res.MentionMoney}`;
-						sesolve(commissionList);
+						resolve(commissionList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;

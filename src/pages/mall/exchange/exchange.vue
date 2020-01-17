@@ -97,11 +97,11 @@ export default Vue.extend({
 		},
 		// 获取当前登录用户的信息
 		getLoginUser() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {};
 				request(GetLoginUser, data).then((res: any) => {
 					uni.setStorageSync("UserInfo", res.UserInfo);
-					sesolve(res.UserInfo);
+					resolve(res.UserInfo);
 				});
 			});
 		},
@@ -117,7 +117,7 @@ export default Vue.extend({
 		},
 		// 商品列表
 		categoryClickMain(index: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let item: any = this.categoryList[index];
 				this.categoryActive = index;
 				this.categoryID = item.ID;
@@ -126,7 +126,7 @@ export default Vue.extend({
 			});
 		},
 		getProductPaiList() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let CategoryID = this.categoryID;
 				let pageNum = this.pageNum;
 				let pageSize = this.pageSize;
@@ -140,7 +140,7 @@ export default Vue.extend({
 					this.pageCount = res.PageCount;
 					let subCategoryList = res.ProductList;
 					this.pageCount = res.PageCount;
-					sesolve(subCategoryList);
+					resolve(subCategoryList);
 				});
 			});
 		},

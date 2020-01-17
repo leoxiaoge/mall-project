@@ -4,7 +4,13 @@
 		<show-tips />
 		<!-- #endif -->
 		<mescroll-uni @down="downCallback" @up="upCallback">
-			<registered-modal />
+			<registered-modal
+				:show="show"
+				:scopeUserInfo="scopeUserInfo"
+				@getUserInfo="getUserInfo"
+				@getPhoneNumber="getPhoneNumber"
+				@loginPath="loginPath"
+			/>
 			<view class="content">
 				<view class="search-swiper">
 					<view class="search" @click="search">
@@ -92,6 +98,7 @@ import Vue from "vue";
 import {
 	request,
 	navigateTo,
+	showToast,
 	showErrorToast,
 	formatTime,
 	onShareAppMessage
@@ -99,7 +106,8 @@ import {
 import {
 	AdsListGet,
 	LastTransactionListGet,
-	HomeProductListGet
+	HomeProductListGet,
+	GetWXPhone
 } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import showTips from "@/components/redflower-showTips/redflower-showTips.vue";
@@ -139,7 +147,13 @@ export default Vue.extend({
 			LastTranActiveList: [], // 最新成交列表
 			activeids: [], // 发送订阅消息活动列表ID
 			isReseMode: false, // 订阅消息是否清空
-			isRefresh: false, // 是否22刷新
+			isRefresh: false, // 是否刷新
+			show: false, // 是否显示弹窗
+			scopeUserInfo: false, // 是否授权用户信息
+			nickName: "", // 用户信息名称
+			avatarUrl: "", // 用户信息头像
+			iv: "", // 加密算法的初始向量
+			encryptedData: "", // 手机号码的加密信息
 			PageCount: 1,
 			pageNum: 1,
 			pageSize: 10,
@@ -187,6 +201,7 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.websocket();
+		this.authorize();
 	},
 	onHide() {
 		uni.closeSocket();
@@ -477,10 +492,120 @@ export default Vue.extend({
 				navigateTo(`${adLinkUrl}?${adParaments}`);
 			}
 		},
+		// 商品详情页
 		productDetailsTo(activeID: string) {
 			navigateTo(
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
+		},
+		authorize() {
+			let that = this;
+			let sessionKey: string = uni.getStorageSync("SessionKey");
+			if (sessionKey) {
+				this.show = false;
+			} else {
+				this.show = true;
+			}
+			uni.login({
+				provider: "weixin",
+				success(loginRes) {
+					console.log("loginRes.authResult", loginRes);
+					if (loginRes) {
+						// 获取用户信息
+						uni.getUserInfo({
+							provider: "weixin",
+							success(e: any) {
+								console.log("getUserInfo", e);
+								if (e.errMsg === "getUserInfo:ok") {
+									that.scopeUserInfo = true;
+									console.log("用户昵称为：" + e.userInfo.nickName);
+									that.nickName = e.userInfo.nickName;
+									that.avatarUrl = e.userInfo.avatarUrl;
+								}
+							}
+						});
+					}
+				}
+			});
+		},
+		// 类型
+		getProvider() {
+			return new Promise((resolve, reject) => {
+				uni.getProvider({
+					service: "oauth",
+					success: (res: any) => {
+						resolve(res.provider);
+					}
+				});
+			});
+		},
+		// 获取code
+		async JSCode() {
+			let provider: any = await this.getProvider();
+			return new Promise((resolve, reject) => {
+				if (~provider.indexOf("weixin")) {
+					uni.login({
+						provider: "weixin",
+						success: (loginRes: any) => {
+							let JSCode: string = loginRes.code;
+							console.log(JSCode);
+							resolve(JSCode);
+						}
+					});
+				}
+			});
+		},
+		async getUserInfo(e: any) {
+			console.log(e);
+			if (e.detail.userInfo) {
+				let avatarUrl: string = e.detail.userInfo.avatarUrl;
+				let nickName: string = e.detail.userInfo.nickName;
+				this.avatarUrl = avatarUrl;
+				this.nickName = nickName;
+				this.scopeUserInfo = true;
+			} else {
+				showToast("更好体验，请进行授权！");
+			}
+		},
+		async getPhoneNumber(e: any) {
+			console.log(e);
+			if (e.detail.iv && e.detail.encryptedData) {
+				this.iv = e.detail.iv;
+				this.encryptedData = e.detail.encryptedData;
+				let data: any = await this.GetWXPhone();
+				let SessionKey = data.SessionKey;
+				let UserInfo = data.UserInfo;
+				uni.setStorageSync("SessionKey", SessionKey);
+				uni.setStorageSync("UserInfo", UserInfo);
+			} else {
+				showToast("更好体验，请进行授权！");
+			}
+		},
+		async GetWXPhone() {
+			let Code: any = await this.JSCode();
+			let iv: string = this.iv;
+			let encryptedData: string = this.encryptedData;
+			let WxFace: string = this.avatarUrl;
+			let WxNick: string = this.nickName;
+			return new Promise((resolve, reject) => {
+				let data = {
+					Code: Code,
+					iv: iv,
+					encryptedData: encryptedData,
+					WxFace: WxFace,
+					WxNick: WxNick
+				};
+				request(GetWXPhone, data).then((res: any) => {
+					console.log(res);
+					this.show = false;
+					showToast("登录成功！");
+					resolve(res);
+				});
+			});
+		},
+		// 登录页
+		loginPath() {
+			navigateTo("/pages/ucenter/login/login");
 		}
 	}
 });

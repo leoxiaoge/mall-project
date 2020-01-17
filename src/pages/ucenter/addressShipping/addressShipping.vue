@@ -187,7 +187,7 @@ export default Vue.extend({
 			}
 		},
 		orderAddressSubmit() {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let OrderID = this.orderID;
 				let AddressID = this.addressID;
 				let data = {
@@ -196,7 +196,7 @@ export default Vue.extend({
 				};
 				request(OrderAddressSubmit, data).then((res: any) => {
 					showToast("订单提交收货地址成功！");
-					sesolve(res);
+					resolve(res);
 				});
 			});
 		}

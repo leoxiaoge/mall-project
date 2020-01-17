@@ -94,7 +94,7 @@ export default Vue.extend({
 		getActiveBillList(pageNum: any, pageSize: any) {
 			let ActiveID = this.activeID;
 			let UserID = this.userID;
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				if (UserID) {
 					let data = {
 						ActiveID: ActiveID,
@@ -105,7 +105,7 @@ export default Vue.extend({
 					request(ActiveBillListGet, data)
 						.then((res: any) => {
 							console.log(res);
-							sesolve(res.BillList);
+							resolve(res.BillList);
 						})
 						.catch((err: any) => {
 							let mescroll: any = this.mescroll;
@@ -120,7 +120,7 @@ export default Vue.extend({
 					request(ActiveBillListGet, data)
 						.then((res: any) => {
 							console.log(res);
-							sesolve(res.BillList);
+							resolve(res.BillList);
 						})
 						.catch((err: any) => {
 							let mescroll: any = this.mescroll;

@@ -101,7 +101,7 @@ export default Vue.extend({
 			}
 		},
 		getLastTransactionList(pageNum: any, pageSize: any) {
-			return new Promise((sesolve, reject) => {
+			return new Promise((resolve, reject) => {
 				let data = {
 					PageID: pageNum,
 					PageSize: pageSize
@@ -114,7 +114,7 @@ export default Vue.extend({
 							item.time = formatTime(new Date(item.ActiveEndTime));
 							item.OrderUserNick = decodeURIComponent(item.OrderUserNick);
 						});
-						sesolve(lastTranActiveList);
+						resolve(lastTranActiveList);
 					})
 					.catch((err: any) => {
 						let mescroll: any = this.mescroll;
