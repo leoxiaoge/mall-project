@@ -14,9 +14,16 @@
 		>
 			{{ msg }}
 			<slot />
-			<view class="close">
-				<uni-icon type="clear" color="#fff" size="30" @click="closeMask" />
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="clear">
+				<uni-icon type="clear" color="#fff" size="32" @click="closeMask" />
 			</view>
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN -->
+			<view class="close">
+				<uni-icon type="close" color="#fff" size="32" @click="closeMask" />
+			</view>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -77,7 +84,8 @@ export default {
 	},
 	watch: {
 		h5Top(newVal) {
-			if (newVal) {ƒ
+			if (newVal) {
+				ƒ;
 				this.offsetTop = 44;
 			} else {
 				this.offsetTop = 0;
@@ -211,8 +219,14 @@ export default {
 	text-align: center;
 }
 
-.close {
+.clear {
 	position: relative;
 	top: 30upx;
+}
+
+.close {
+	position: absolute;
+	top: 30upx;
+	right: 20upx;
 }
 </style>

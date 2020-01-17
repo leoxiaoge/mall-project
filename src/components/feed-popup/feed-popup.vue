@@ -299,7 +299,7 @@ export default Vue.extend({
 	border-radius: 60upx;
 	border: none;
 	color: #fff;
-	background: linear-gradient(45deg, #eba866, #fe7f00);
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	margin: 20upx 0 40upx 0;
 }
 </style>

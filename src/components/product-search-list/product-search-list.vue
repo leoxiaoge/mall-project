@@ -166,7 +166,7 @@ export default Vue.extend({
 	font-size: 28upx;
 	line-height: 1.4;
 	color: #fff;
-	background-color: #fe7f00;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 40upx;
 }
 </style>

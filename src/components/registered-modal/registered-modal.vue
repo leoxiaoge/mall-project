@@ -90,13 +90,18 @@ export default Vue.extend({
 <style>
 @charset "UTF-8";
 
+.content {
+	position: fixed;
+	z-index: 999;
+}
+
 .center-box {
 	position: relative;
 }
 
 .image {
 	width: 600upx;
-	height: 800upx;
+	height: 700upx;
 }
 
 .registered-button {

@@ -200,7 +200,7 @@ export default Vue.extend({
 
 .teng-commission-button {
 	color: #fff;
-	background-color: #fe7f00;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 100upx;
 }
 </style>

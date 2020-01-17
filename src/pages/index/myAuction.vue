@@ -234,11 +234,12 @@ export default Vue.extend({
 }
 
 .i-login-button {
-	width: 200upx;
+	width: 320upx;
+	height: 72upx;
 	font-size: 28upx;
-	line-height: 2.4;
-	color: #fe7f00;
-	background-color: #fff;
+	line-height: 72upx;
+	color: #fff;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 100upx;
 	border: none;
 }

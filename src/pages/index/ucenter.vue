@@ -533,7 +533,7 @@ export default Vue.extend({
 
 .teng-recharge button {
 	font-size: 36upx;
-	background-color: #fe7f00;
+	background: linear-gradient(45deg, #f98b1b, #f76102);
 	color: #fff;
 	line-height: 2;
 	border-radius: 8upx;

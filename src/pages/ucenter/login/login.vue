@@ -368,7 +368,7 @@ button[disabled][type="default"] {
 	line-height: 80upx;
 	width: 80%;
 	color: #fff;
-	background: linear-gradient(45deg, #eba866, #fe7f00);
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 100upx;
 	margin-top: 40upx;
 }

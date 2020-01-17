@@ -419,7 +419,7 @@ page {
 
 .teng-recharge-item-active {
 	color: #fff;
-	background-color: #ff8300;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 }
 
 .teng-recharge-item-active .teng-recharge-price {

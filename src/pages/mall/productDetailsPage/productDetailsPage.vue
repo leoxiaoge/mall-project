@@ -1482,7 +1482,7 @@ export default Vue.extend({
 .join-btn {
 	width: 100%;
 	color: #fff;
-	background-color: #fe7f00;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 }
 
 .i-placard-remaining-num {
