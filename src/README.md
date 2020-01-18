@@ -116,9 +116,11 @@ npm run build:%PLATFORM%
 |mp-weixin|微信小程序|
 |mp-toutiao|头条小程序|
 
-例如： H5运行并发布： npm run dev:h5      npm run build:h5
+例如： 
 
-      微信小程序运行并发布： npm run build:mp-weixin
+H5运行并发布： npm run dev:h5    npm run build:h5
+
+微信小程序运行并发布： npm run build:mp-weixin
       
 **备注：**
 
