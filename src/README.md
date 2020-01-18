@@ -118,10 +118,12 @@ npm run build:%PLATFORM%
 
 例如： 
 
+```
 H5运行并发布： npm run dev:h5    npm run build:h5
 
 微信小程序运行并发布： npm run build:mp-weixin
-      
+```
+
 **备注：**
 
 dev 模式编译出的各平台代码存放于根目录下的 /dist/dev/目录，打开各平台开发工具选择对应平台目录即可进行预览（h5 平台不会在此目录，存在于缓存中）；
