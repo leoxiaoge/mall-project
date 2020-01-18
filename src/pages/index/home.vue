@@ -563,8 +563,9 @@ export default Vue.extend({
 				this.avatarUrl = avatarUrl;
 				this.nickName = nickName;
 				this.scopeUserInfo = true;
+				showToast("授权成功，请点击授权手机号，即注册成功！");
 			} else {
-				showToast("更好体验，请进行授权！");
+				showToast("更好的体验，请进行授权！");
 			}
 		},
 		async getPhoneNumber(e: any) {
@@ -578,7 +579,7 @@ export default Vue.extend({
 				uni.setStorageSync("SessionKey", SessionKey);
 				uni.setStorageSync("UserInfo", UserInfo);
 			} else {
-				showToast("更好体验，请进行授权！");
+				showToast("更好的体验，请进行授权！");
 			}
 		},
 		async GetWXPhone() {
