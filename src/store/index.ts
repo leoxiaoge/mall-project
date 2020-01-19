@@ -12,7 +12,8 @@ const store = new Vuex.Store({
 		hasData: "",
 		loginProvider: "",
 		code: null,
-		openid: null
+		openid: null,
+		sessionKey: null
 	},
 	mutations: {
 		login(state, provider) {
@@ -37,6 +38,9 @@ const store = new Vuex.Store({
 		},
 		setOpenid(state, openid) {
 			state.openid = openid;
+		},
+		SessionKey(state, sessionKey) {
+			state.sessionKey = sessionKey;
 		}
 	},
 	actions: {
@@ -45,58 +49,72 @@ const store = new Vuex.Store({
 			state
 		}) {
 			return await new Promise((resolve, reject) => {
-				if (state.openid) {
-					resolve(state.openid)
-				} else {
-					uni.authorize({
-						scope: "scope.userInfo",
-						success() {
-							uni.getSetting();
-						}
-					});
-					uni.login({
-						provider: 'weixin',
-						success(loginRes) {
-							console.log(loginRes.authResult);
-							// 获取用户信息
-							uni.getUserInfo({
-								provider: 'weixin',
-								success(infoRes: any) {
-									console.log('用户昵称为：' + infoRes.userInfo.nickName);
-								}
-							});
-						}
-					});
-				}
+				uni.authorize({
+					scope: "scope.userInfo",
+					success() {
+						uni.getSetting();
+					}
+				});
+				uni.login({
+					provider: 'weixin',
+					success(loginRes) {
+						console.log(loginRes.authResult);
+						// 获取用户信息
+						uni.getUserInfo({
+							provider: 'weixin',
+							success(infoRes: any) {
+								console.log('用户昵称为：' + infoRes.userInfo.nickName);
+							}
+						});
+					}
+				});
 			})
 		},
+		// #ifdef MP-WEIXIN
+		checkSession: async function ({
+			commit,
+			state,
+			dispatch
+		}) {
+			return await new Promise((resolve, reject) => {
+				wx.checkSession({
+					success() {
+						resolve();
+						console.log("session_key 未过期，并且在本生命周期一直有效");
+					},
+					fail() {
+						dispatch('getUserOpenId');
+						resolve();
+						console.log("session_key 已经失效，需要重新执行登录流程");
+					}
+				})
+			})
+		},
+		// #endif
 		// #ifdef MP-WEIXIN
 		getUserOpenId: async function ({
 			commit,
 			state
 		}) {
 			return await new Promise((resolve, reject) => {
-				if (state.openid) {
-					resolve(state.openid)
-				} else {
-					uni.login({
-						success: (e: any) => {
-							commit('login')
-							let JSCode = e.code;
-							let data = {
-								JSCode: JSCode
-							};
-							request(GetWXOpenID, data).then((res: any) => {
-								commit('setOpenid', res.OpenID)
-								resolve(res.OpenID);
-							});
-						},
-						fail: () => {
-							let err = "接口调用失败，将无法正常使用开放接口等服务";
-							reject(err)
-						}
-					})
-				}
+				uni.login({
+					success: (e: any) => {
+						commit('login')
+						let JSCode = e.code;
+						let data = {
+							JSCode: JSCode
+						};
+						request(GetWXOpenID, data).then((res: any) => {
+							commit('setOpenid', res.OpenID);
+							commit('SessionKey', res.WXSessionKey);
+							resolve(res);
+						});
+					},
+					fail: () => {
+						let err = "接口调用失败，将无法正常使用开放接口等服务";
+						reject(err)
+					}
+				})
 			})
 		},
 		// #endif
@@ -130,7 +148,8 @@ const store = new Vuex.Store({
 						};
 						request(GetWXOpenID, data).then((res: any) => {
 							commit('setOpenid', res.OpenID);
-							resolve(res.OpenID);
+							commit('SessionKey', res.WXSessionKey);
+							resolve(res);
 						});
 					}
 				}

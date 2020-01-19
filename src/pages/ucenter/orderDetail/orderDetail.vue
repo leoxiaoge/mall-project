@@ -342,6 +342,9 @@ export default Vue.extend({
 			let ua: any = window.navigator.userAgent.toLowerCase();
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				// #ifdef MP-WEIXIN
+				await this.$store.dispatch("getUserOpenId");
+				// #endif
 				let OpenID = this.$store.state.openid;
 				let OrderID = this.orderID;
 				let PayTypeID = this.PayTypeID;

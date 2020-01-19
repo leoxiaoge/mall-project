@@ -183,6 +183,9 @@ export default Vue.extend({
 		};
 	},
 	onLoad(options: any) {
+		// #ifdef MP-WEIXIN
+		this.$store.dispatch("checkSession");
+			// #endif
 		let sessionKey: any = uni.getStorageSync("SessionKey");
 		let userInfo: any = uni.getStorageSync("UserInfo");
 		if (options.id) {
@@ -528,33 +531,6 @@ export default Vue.extend({
 				}
 			});
 		},
-		// 类型
-		getProvider() {
-			return new Promise((resolve, reject) => {
-				uni.getProvider({
-					service: "oauth",
-					success: (res: any) => {
-						resolve(res.provider);
-					}
-				});
-			});
-		},
-		// 获取code
-		async JSCode() {
-			let provider: any = await this.getProvider();
-			return new Promise((resolve, reject) => {
-				if (~provider.indexOf("weixin")) {
-					uni.login({
-						provider: "weixin",
-						success: (loginRes: any) => {
-							let JSCode: string = loginRes.code;
-							console.log(JSCode);
-							resolve(JSCode);
-						}
-					});
-				}
-			});
-		},
 		async getUserInfo(e: any) {
 			console.log(e);
 			if (e.detail.userInfo) {
@@ -582,14 +558,19 @@ export default Vue.extend({
 			}
 		},
 		async GetWXPhone() {
-			let Code: any = await this.JSCode();
+			// #ifdef MP-WEIXIN
+			await this.$store.dispatch("getUserOpenId");
+			// #endif
+			let OpenID: string = this.$store.state.openid;
+			let WXSessionKey: string = this.$store.state.sessionKey;
 			let iv: string = this.iv;
 			let encryptedData: string = this.encryptedData;
 			let WxFace: string = this.avatarUrl;
 			let WxNick: string = this.nickName;
 			return new Promise((resolve, reject) => {
 				let data = {
-					Code: Code,
+					OpenID: OpenID,
+					WXSessionKey: WXSessionKey,
 					iv: iv,
 					encryptedData: encryptedData,
 					WxFace: WxFace,

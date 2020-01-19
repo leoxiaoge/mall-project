@@ -24,7 +24,12 @@
 			</block>
 		</mescroll-uni>
 		<view class="i-login" v-if="!sessionkey">
+			<!-- #ifdef MP-WEIXIN -->
+			<button class="btn i-login-button" open-type="getUserInfo" @getuserinfo="getUserInfo">马上登录</button>
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN -->
 			<button class="btn i-login-button" @click="loginPath">马上登录</button>
+			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -157,6 +162,11 @@ export default Vue.extend({
 			let mescroll: any = this.mescroll;
 			this.ListType = type;
 			this.downCallback(mescroll);
+		},
+		// 获取用户信息
+		getUserInfo(e: any) {
+			console.log(e);
+			this.loginPath();
 		},
 		// 马上登录
 		loginPath() {

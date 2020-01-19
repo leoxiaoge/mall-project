@@ -121,7 +121,10 @@ export default Vue.extend({
 		// this.inputValue = +this.value;
 	},
 	methods: {
-		formSubmit(e: any) {
+		async formSubmit(e: any) {
+			// #ifdef MP-WEIXIN
+			await this.$store.dispatch("getUserOpenId");
+			// #endif
 			console.log("formId", e);
 			let formId = e.detail.formId;
 			let OpenID = this.$store.state.openid;

@@ -257,6 +257,9 @@ export default {
 			let ua = window.navigator.userAgent.toLowerCase();
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
+				// #ifdef MP-WEIXIN
+				await this.$store.dispatch("getUserOpenId");
+				// #endif
 				let OpenID = this.$store.state.openid;
 				console.log(OpenID);
 				return new Promise((resolve, reject) => {
@@ -311,7 +314,10 @@ export default {
 			});
 		},
 		// 小程序消息模版FormID
-		formSubmit(e) {
+		async formSubmit(e) {
+			// #ifdef MP-WEIXIN
+			await this.$store.dispatch("getUserOpenId");
+			// #endif
 			let formId = e.detail.formId;
 			let OpenID = this.$store.state.openid;
 			let data = {
