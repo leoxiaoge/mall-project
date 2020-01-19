@@ -185,7 +185,7 @@ export default Vue.extend({
 	onLoad(options: any) {
 		// #ifdef MP-WEIXIN
 		this.$store.dispatch("checkSession");
-			// #endif
+		// #endif
 		let sessionKey: any = uni.getStorageSync("SessionKey");
 		let userInfo: any = uni.getStorageSync("UserInfo");
 		if (options.id) {
