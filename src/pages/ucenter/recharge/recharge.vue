@@ -258,7 +258,7 @@ export default {
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
 				// #ifdef MP-WEIXIN
-				await this.$store.dispatch("getUserOpenId");
+				await this.$store.dispatch("checkSession");
 				// #endif
 				let OpenID = this.$store.state.openid;
 				console.log(OpenID);
@@ -316,7 +316,7 @@ export default {
 		// 小程序消息模版FormID
 		async formSubmit(e) {
 			// #ifdef MP-WEIXIN
-			await this.$store.dispatch("getUserOpenId");
+			await this.$store.dispatch("checkSession");
 			// #endif
 			let formId = e.detail.formId;
 			let OpenID = this.$store.state.openid;

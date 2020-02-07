@@ -123,7 +123,7 @@ export default Vue.extend({
 	methods: {
 		async formSubmit(e: any) {
 			// #ifdef MP-WEIXIN
-			await this.$store.dispatch("getUserOpenId");
+			await this.$store.dispatch("checkSession");
 			// #endif
 			console.log("formId", e);
 			let formId = e.detail.formId;

@@ -184,6 +184,7 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {
 		// #ifdef MP-WEIXIN
+		this.$store.dispatch("getUserOpenId");
 		this.$store.dispatch("checkSession");
 		// #endif
 		let sessionKey: any = uni.getStorageSync("SessionKey");
@@ -560,7 +561,7 @@ export default Vue.extend({
 		},
 		async GetWXPhone() {
 			// #ifdef MP-WEIXIN
-			await this.$store.dispatch("getUserOpenId");
+			await this.$store.dispatch("checkSession");
 			// #endif
 			let OpenID: string = this.$store.state.openid;
 			let WXSessionKey: string = this.$store.state.sessionKey;

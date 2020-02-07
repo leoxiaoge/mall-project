@@ -99,7 +99,7 @@ export default Vue.extend({
 		this.current = status;
 		this.OrderStatus = status;
 		// #ifdef MP-WEIXIN
-		this.$store.dispatch("getUserOpenId");
+		this.$store.dispatch("checkSession");
 		// #endif
 		// #ifdef H5
 		document.body.addEventListener("touchmove", (e: any) => {
@@ -362,7 +362,7 @@ export default Vue.extend({
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
 				// #ifdef MP-WEIXIN
-				await this.$store.dispatch("getUserOpenId");
+				await this.$store.dispatch("checkSession");
 				// #endif
 				let OpenID = this.$store.state.openid;
 				let OrderID = this.orderID;
@@ -396,7 +396,7 @@ export default Vue.extend({
 		// 微信小程序支付API
 		async payMoneySubmit() {
 			// #ifdef MP-WEIXIN
-			await this.$store.dispatch("getUserOpenId");
+			await this.$store.dispatch("checkSession");
 			// #endif
 			let OpenID = this.$store.state.openid;
 			let OrderID = this.orderID;

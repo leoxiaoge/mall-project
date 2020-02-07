@@ -244,7 +244,7 @@ export default Vue.extend({
 }
 
 .i-login-button {
-	width: 320upx;
+	width: 200upx;
 	height: 72upx;
 	font-size: 28upx;
 	line-height: 72upx;

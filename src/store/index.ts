@@ -77,14 +77,13 @@ const store = new Vuex.Store({
 			dispatch
 		}) {
 			return await new Promise((resolve, reject) => {
+				dispatch('getUserOpenId');
 				wx.checkSession({
 					success() {
 						resolve();
 						console.log("session_key 未过期，并且在本生命周期一直有效");
 					},
 					fail() {
-						dispatch('getUserOpenId');
-						resolve();
 						console.log("session_key 已经失效，需要重新执行登录流程");
 					}
 				})

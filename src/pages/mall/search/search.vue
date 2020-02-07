@@ -13,6 +13,9 @@
 		<view class="product-list">
 			<product-list :options="productList" />
 		</view>
+		<view>
+			<uni-load-more :status="status" color="#fe7f00" />
+		</view>
 		<view class="no" v-if="noShow">
 			<i-no :thumb="thumb" :title="title"></i-no>
 		</view>
@@ -33,13 +36,15 @@ import { ProductSearchListGet } from "@/common/config/api";
 import iSearch from "@/components/i-search/i-search.vue";
 import iNo from "@/components/u-no/u-no.vue";
 import productList from "@/components/product-search-list/product-search-list.vue";
+import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue";
 let socketOpen: boolean = false;
 let socketMsgQueue: any = [];
 export default Vue.extend({
 	components: {
 		iSearch,
 		iNo,
-		productList
+		productList,
+		uniLoadMore
 	},
 	data() {
 		return {
@@ -58,7 +63,9 @@ export default Vue.extend({
 				voice: "/static/img/icon_voice.png",
 				scan: "/static/img/icon_scan.png",
 				clear: "/static/img/icon_clear.png"
-			}
+			},
+			status: "",
+			totals: 0
 		};
 	},
 	onLoad(options) {
@@ -191,8 +198,14 @@ export default Vue.extend({
 			this.msgSubscribe(data);
 			if (this.pageNum == 1) this.productList = [];
 			this.productList = this.productList.concat(productList);
+			if (this.totals === this.productList.length) {
+				this.status = "nomore";
+			} else {
+				this.status = "more";
+			}
 			if (this.productList.length <= 0) {
 				this.noShow = true;
+				this.status = "";
 			} else {
 				this.noShow = false;
 			}
@@ -200,6 +213,7 @@ export default Vue.extend({
 		getProductSearchList(pageNum: number, pageSize: number) {
 			return new Promise((resolve, reject) => {
 				let Keyword = this.keyword;
+				this.status = "loading";
 				if (!Keyword) {
 					showToast("请输入搜索词！");
 					return;
@@ -213,6 +227,7 @@ export default Vue.extend({
 					.then((res: any) => {
 						console.log(res);
 						this.pageCount = res.PageCount;
+						this.totals = res.Totals;
 						resolve(res.ProductList);
 					})
 					.catch((err: any) => {

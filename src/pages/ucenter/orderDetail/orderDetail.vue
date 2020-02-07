@@ -173,7 +173,7 @@ export default Vue.extend({
 	onShow() {
 		this.getOrderList();
 		// #ifdef MP-WEIXIN
-		this.$store.dispatch("getUserOpenId");
+		this.$store.dispatch("checkSession");
 		// #endif
 	},
 	onPullDownRefresh() {
@@ -343,7 +343,7 @@ export default Vue.extend({
 			console.log(ua.match(/MicroMessenger/i) == "micromessenger");
 			if (ua.match(/MicroMessenger/i) == "micromessenger") {
 				// #ifdef MP-WEIXIN
-				await this.$store.dispatch("getUserOpenId");
+				await this.$store.dispatch("checkSession");
 				// #endif
 				let OpenID = this.$store.state.openid;
 				let OrderID = this.orderID;
