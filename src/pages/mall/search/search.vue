@@ -13,7 +13,7 @@
 		<view class="product-list">
 			<product-list :options="productList" />
 		</view>
-		<view>
+		<view v-if="!noShow">
 			<uni-load-more :status="status" color="#fe7f00" />
 		</view>
 		<view class="no" v-if="noShow">
@@ -205,7 +205,6 @@ export default Vue.extend({
 			}
 			if (this.productList.length <= 0) {
 				this.noShow = true;
-				this.status = "";
 			} else {
 				this.noShow = false;
 			}
