@@ -550,6 +550,12 @@ export default {
 		padding: 10upx;
 	}
 
+	.icon-search {
+		width: 40upx;
+		height: 40upx;
+		padding: 20upx;
+	}
+
 	.btn {
 		flex: 0 0 auto;
 		min-width: 60upx;
@@ -626,11 +632,6 @@ export default {
 			}
 		}
 	}
-}
-
-.icon-search {
-	width: 20upx;
-	height: 20upx;
 }
 
 .recond-btn {

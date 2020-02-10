@@ -138,7 +138,6 @@ export default Vue.extend({
 	computed: {
 		product() {
 			let list: any = this.options;
-			console.log(list);
 			list.map((item: any) => {
 				if (item.Status == 0 || item.Status == 1) {
 					item.countdownText = "距离开拍";

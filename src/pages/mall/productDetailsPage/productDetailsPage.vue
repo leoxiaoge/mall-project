@@ -1252,12 +1252,17 @@ export default Vue.extend({
 }
 
 .i-product-head {
-	padding: 20upx 30upx 4upx 30upx;
+	padding: 20upx 30upx 0 30upx;
 }
 
 .i-product-title {
 	font-size: 32upx;
 	color: #4d4d4d;
+	line-height: 1.2;
+}
+
+.i-product-name {
+	font-size: 28upx;
 	line-height: 1.2;
 }
 

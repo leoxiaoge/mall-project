@@ -27,7 +27,7 @@
 						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.Active.ID, item.Status)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsTo(item.Active.ID, activeStatus)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -111,8 +111,8 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		async productDetailsTo(activeID: string, Status: number) {
-			if (Status === 4) {
+		async productDetailsTo(activeID: string, activeStatus: string) {
+			if (activeStatus === "参与下一期") {
 				let nexActive: any = await this.getNextActive(activeID);
 				activeID = nexActive.Active.ID;
 			}

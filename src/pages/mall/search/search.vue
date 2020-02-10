@@ -14,7 +14,7 @@
 			<product-list :options="productList" />
 		</view>
 		<view v-if="!noShow">
-			<uni-load-more :status="status" color="#fe7f00" />
+			<load-more :status="status" color="#fe7f00" />
 		</view>
 		<view class="no" v-if="noShow">
 			<i-no :thumb="thumb" :title="title"></i-no>
@@ -36,7 +36,7 @@ import { ProductSearchListGet } from "@/common/config/api";
 import iSearch from "@/components/i-search/i-search.vue";
 import iNo from "@/components/u-no/u-no.vue";
 import productList from "@/components/product-search-list/product-search-list.vue";
-import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue";
+import loadMore from "@/components/load-more/load-more.vue";
 let socketOpen: boolean = false;
 let socketMsgQueue: any = [];
 export default Vue.extend({
@@ -44,7 +44,7 @@ export default Vue.extend({
 		iSearch,
 		iNo,
 		productList,
-		uniLoadMore
+		loadMore
 	},
 	data() {
 		return {
@@ -196,12 +196,14 @@ export default Vue.extend({
 			let productList: any = await this.getProductSearchList(pageNum, pageSize);
 			let data: any = productList.map((item: any) => item.Active.ID);
 			this.msgSubscribe(data);
-			if (this.pageNum == 1) this.productList = [];
+			if (this.pageNum == 1) {
+				this.productList = [];
+			} else {
+				this.status = "more";
+			}
 			this.productList = this.productList.concat(productList);
 			if (this.totals === this.productList.length) {
 				this.status = "nomore";
-			} else {
-				this.status = "more";
 			}
 			if (this.productList.length <= 0) {
 				this.noShow = true;
@@ -212,10 +214,12 @@ export default Vue.extend({
 		getProductSearchList(pageNum: number, pageSize: number) {
 			return new Promise((resolve, reject) => {
 				let Keyword = this.keyword;
-				this.status = "loading";
 				if (!Keyword) {
 					showToast("请输入搜索词！");
 					return;
+				}
+				if (!this.noShow) {
+					this.status = "loading";
 				}
 				let data = {
 					PageID: pageNum,
@@ -227,6 +231,7 @@ export default Vue.extend({
 						console.log(res);
 						this.pageCount = res.PageCount;
 						this.totals = res.Totals;
+						this.status = "";
 						resolve(res.ProductList);
 					})
 					.catch((err: any) => {
