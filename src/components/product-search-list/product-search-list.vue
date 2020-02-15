@@ -24,7 +24,7 @@
 						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.Active.ID, activeStatus)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsNextTo(item.Active.ID)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -55,7 +55,7 @@ export default Vue.extend({
 	computed: {
 		product() {
 			let list: any = this.options;
-			console.log(list)
+			console.log(list);
 			list.map((item: any) => {
 				try {
 					// 0，1，都是可报名状态，2表示正在倒计时准备，3表示正在竟拍（不能报名），4表示活动结束
@@ -101,11 +101,14 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		async productDetailsTo(activeID: string, activeStatus: string) {
-			if (activeStatus === "参与下一期") {
-				let nexActive: any = await this.getNextActive(activeID);
-				activeID = nexActive.Active.ID;
-			}
+		productDetailsTo(activeID: string) {
+			navigateTo(
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
+			);
+		},
+		async productDetailsNextTo(activeID: string) {
+			let nexActive: any = await this.getNextActive(activeID);
+			activeID = nexActive.Active.ID;
 			navigateTo(
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);

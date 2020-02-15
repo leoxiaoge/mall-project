@@ -72,6 +72,7 @@ export default Vue.extend({
 @import "./common/uni.css";
 @import "./common/main.css";
 @import "./common/icon.css";
+@import "./common/animation.css";
 
 page {
 	background-color: #f4f4f4;

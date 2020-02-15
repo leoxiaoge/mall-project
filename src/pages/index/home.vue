@@ -5,7 +5,7 @@
 		<!-- #endif -->
 		<mescroll-uni @down="downCallback" @up="upCallback">
 			<registered-modal
-				:show="show"
+				:showTrans="showTrans"
 				:scopeUserInfo="scopeUserInfo"
 				@getUserInfo="getUserInfo"
 				@getPhoneNumber="getPhoneNumber"
@@ -148,7 +148,7 @@ export default Vue.extend({
 			activeids: [], // 发送订阅消息活动列表ID
 			isReseMode: false, // 订阅消息是否清空
 			isRefresh: false, // 是否刷新
-			show: false, // 是否显示弹窗
+			showTrans: false, // 是否显示弹窗
 			scopeUserInfo: false, // 是否授权用户信息
 			nickName: "", // 用户信息名称
 			avatarUrl: "", // 用户信息头像
@@ -156,7 +156,7 @@ export default Vue.extend({
 			encryptedData: "", // 手机号码的加密信息
 			PageCount: 1,
 			pageNum: 1,
-			pageSize: 10,
+			pageSize: 20,
 			list: [
 				{
 					image: "/static/icon_experience.png",
@@ -360,6 +360,7 @@ export default Vue.extend({
 			// 下拉刷新的回调,默认重置上拉加载列表为第一页 (自动执行 mescroll.num=1, 再触发upCallback方法 )
 			this.getAdsList();
 			this.pageNum = 1;
+			mescroll.optUp.page.size = 20;
 			this.getHomeProductList();
 			this.getLastTransactionList();
 			this.isReseMode = true;
@@ -506,9 +507,9 @@ export default Vue.extend({
 			let that = this;
 			let sessionKey: string = uni.getStorageSync("SessionKey");
 			if (sessionKey) {
-				this.show = false;
+				this.showTrans = false;
 			} else {
-				this.show = true;
+				this.showTrans = true;
 			}
 			uni.login({
 				provider: "weixin",
@@ -580,7 +581,7 @@ export default Vue.extend({
 				};
 				request(GetWXPhone, data).then((res: any) => {
 					console.log(res);
-					this.show = false;
+					this.showTrans = false;
 					showToast("登录成功！");
 					resolve(res);
 				});

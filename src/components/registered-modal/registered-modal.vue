@@ -1,10 +1,11 @@
 <template>
 	<view class="content">
 		<model-popup
-			:show="type === 'middle-img' && show"
+			v-if="showTrans"
+			:show="showTrans"
 			position="middle"
 			mode="insert"
-			@hidePopup="togglePopup('')"
+			@hidePopup="togglePopup"
 		>
 			<view class="uni-center center-box">
 				<image class="image" src="/static/registered.png" mode="aspectFit" />
@@ -53,7 +54,7 @@ export default Vue.extend({
 				return [];
 			}
 		},
-		show: {
+		showTrans: {
 			type: Boolean,
 			default: false
 		},
@@ -64,13 +65,11 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			type: "middle-img"
+			type: "middle-img",
+			timer: 0
 		};
 	},
 	methods: {
-		togglePopup(type: string) {
-			this.type = type;
-		},
 		getUserInfo(e: any) {
 			console.log(e);
 			this.$emit("getUserInfo", e);

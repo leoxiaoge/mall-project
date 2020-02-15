@@ -14,7 +14,11 @@
 						:class="(item.IsWin === 0?'i-default':'i-active')"
 					>{{item.UserMobile}}</view>
 				</view>
-				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-if="item.IsWin === 0">出局</view>
+				<view
+					class="i-bill-IsWin"
+					:class="(item.IsWin === 0?'i-default':'i-active')"
+					v-if="item.IsWin === 0"
+				>出局</view>
 				<view class="i-bill-IsWin" :class="(item.IsWin === 0?'i-default':'i-active')" v-else>预选</view>
 				<view
 					class="i-bill-province uni-ellipsis"
@@ -28,7 +32,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { request, navigateTo, defaultShowModal, onShareAppMessage } from "@/common/utils/util";
+import {
+	request,
+	navigateTo,
+	defaultShowModal,
+	onShareAppMessage
+} from "@/common/utils/util";
 import { ActiveBillListGet } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 export default Vue.extend({
@@ -68,8 +77,11 @@ export default Vue.extend({
 					if (mescroll.num == 1) this.billList = [];
 					this.billList = this.billList.concat(curPageData);
 					this.billList.map((item: any) => {
-						item.UserMobile = item.UserMobile.substring(0, 3) + '****' + item.UserMobile.substring(7);
-					})
+						item.UserMobile =
+							item.UserMobile.substring(0, 3) +
+							"****" +
+							item.UserMobile.substring(7);
+					});
 				},
 				() => {
 					mescroll.endErr();

@@ -6,8 +6,18 @@
 				<view class="i-product-content" @click="productDetailsTo(item.Active.ID)">
 					<view class="i-image-view">
 						<image class="i-product-image" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
-						<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
-						<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
+						<image
+							class="teng-order-show-status"
+							:src="statusIconDone"
+							v-if="item.Status === 4"
+							lazy-load
+						/>
+						<image
+							class="teng-order-show-status"
+							:src="statusIconFlow"
+							v-if="item.Status === 5"
+							lazy-load
+						/>
 					</view>
 					<view class="uni-product-title product-title">
 						<text class="active-no">[{{item.Active.ActiveNo}}期]</text>
@@ -27,7 +37,7 @@
 						<uni-countdown :seconds="item.seconds" />
 					</view>
 					<view class="uni-product-button">
-						<button class="btn" @click="productDetailsTo(item.Active.ID, activeStatus)">{{activeStatus}}</button>
+						<button class="btn" @click="productDetailsNextTo(item.Active.ID)">{{activeStatus}}</button>
 					</view>
 				</view>
 			</view>
@@ -111,11 +121,14 @@ export default Vue.extend({
 		}
 	},
 	methods: {
-		async productDetailsTo(activeID: string, activeStatus: string) {
-			if (activeStatus === "参与下一期") {
-				let nexActive: any = await this.getNextActive(activeID);
-				activeID = nexActive.Active.ID;
-			}
+		productDetailsTo(activeID: string) {
+			navigateTo(
+				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
+			);
+		},
+		async productDetailsNextTo(activeID: string) {
+			let nexActive: any = await this.getNextActive(activeID);
+			activeID = nexActive.Active.ID;
 			navigateTo(
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);

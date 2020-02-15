@@ -1,29 +1,31 @@
 <template>
 	<view>
 		<view
-			v-show="show"
+			v-show="!showTrans"
 			:style="{ top: offsetTop + 'px' }"
 			class="uni-mask"
 			@click="hide"
 			@touchmove.stop.prevent="moveHandle"
 		/>
-		<view
-			v-show="show"
-			:class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode"
-			class="uni-popup"
-		>
-			{{ msg }}
-			<slot />
-			<!-- #ifdef MP-WEIXIN -->
-			<view class="clear">
-				<uni-icon type="clear" color="#fff" size="32" @click="closeMask" />
+		<view :class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode" class="show-popup">
+			<view class="animated" :class="showTrans?'bounceOut':'bounceIn'">
+				{{ msg }}
+				<slot />
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="clear">
+					<view class="animated pulse">
+						<uni-icon type="clear" color="#fff" size="32" @click="closeMask" />
+					</view>
+				</view>
+				<!-- #endif -->
+				<!-- #ifndef MP-WEIXIN -->
+				<view class="close">
+					<view class="animated pulse">
+						<uni-icon type="close" color="#fff" size="32" @click="closeMask" />
+					</view>
+				</view>
+				<!-- #endif -->
 			</view>
-			<!-- #endif -->
-			<!-- #ifndef MP-WEIXIN -->
-			<view class="close">
-				<uni-icon type="close" color="#fff" size="32" @click="closeMask" />
-			</view>
-			<!-- #endif -->
 		</view>
 	</view>
 </template>
@@ -39,7 +41,7 @@ export default {
 		/**
 		 * 页面显示
 		 */
-		show: {
+		showTrans: {
 			type: Boolean,
 			default: false
 		},
@@ -79,7 +81,8 @@ export default {
 	},
 	data() {
 		return {
-			offsetTop: 0
+			offsetTop: 0,
+			timer: null
 		};
 	},
 	watch: {
@@ -109,6 +112,7 @@ export default {
 			this.$emit("hidePopup");
 		},
 		closeMask() {
+			this.showTrans = true;
 			if (this.mode === "insert") {
 				this.$emit("hidePopup");
 			}
@@ -128,7 +132,7 @@ export default {
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
-.uni-popup {
+.show-popup {
 	position: fixed;
 	z-index: 999;
 	background-color: #ffffff;
@@ -222,11 +226,16 @@ export default {
 .clear {
 	position: relative;
 	top: 30upx;
+	text-align: center;
 }
 
 .close {
 	position: absolute;
 	top: 30upx;
 	right: 20upx;
+}
+.image {
+	width: 600upx;
+	height: 700upx;
 }
 </style>
