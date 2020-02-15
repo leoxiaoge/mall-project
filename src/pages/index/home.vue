@@ -5,8 +5,10 @@
 		<!-- #endif -->
 		<mescroll-uni @down="downCallback" @up="upCallback">
 			<registered-modal
+				v-if="showTrans && showHave"
 				:showTrans="showTrans"
 				:scopeUserInfo="scopeUserInfo"
+				@hidePopup="togglePopup"
 				@getUserInfo="getUserInfo"
 				@getPhoneNumber="getPhoneNumber"
 				@loginPath="loginPath"
@@ -148,7 +150,8 @@ export default Vue.extend({
 			activeids: [], // 发送订阅消息活动列表ID
 			isReseMode: false, // 订阅消息是否清空
 			isRefresh: false, // 是否刷新
-			showTrans: false, // 是否显示弹窗
+			showHave: true, // 是否显示弹窗
+			showTrans: true, // 是否显示弹窗
 			scopeUserInfo: false, // 是否授权用户信息
 			nickName: "", // 用户信息名称
 			avatarUrl: "", // 用户信息头像
@@ -503,13 +506,18 @@ export default Vue.extend({
 				"/pages/mall/productDetailsPage/productDetailsPage?activeID=" + activeID
 			);
 		},
+		togglePopup() {
+			setTimeout(() => {
+				this.showTrans = false;
+			}, 800);
+		},
 		authorize() {
 			let that = this;
 			let sessionKey: string = uni.getStorageSync("SessionKey");
 			if (sessionKey) {
-				this.showTrans = false;
+				this.showHave = true;
 			} else {
-				this.showTrans = true;
+				this.showHave = false;
 			}
 			uni.login({
 				provider: "weixin",
@@ -541,7 +549,7 @@ export default Vue.extend({
 				this.avatarUrl = avatarUrl;
 				this.nickName = nickName;
 				this.scopeUserInfo = true;
-				showToast("授权成功，请点击授权手机号，即注册成功！");
+				showToast("授权成功，请点击授权手机号!");
 			} else {
 				showToast("更好的体验，请进行授权！");
 			}
@@ -581,7 +589,7 @@ export default Vue.extend({
 				};
 				request(GetWXPhone, data).then((res: any) => {
 					console.log(res);
-					this.showTrans = false;
+					this.togglePopup();
 					showToast("登录成功！");
 					resolve(res);
 				});

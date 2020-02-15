@@ -1,7 +1,6 @@
 <template>
 	<view class="content">
 		<model-popup
-			v-if="showTrans"
 			:show="showTrans"
 			position="middle"
 			mode="insert"
@@ -70,6 +69,9 @@ export default Vue.extend({
 		};
 	},
 	methods: {
+		togglePopup() {
+			this.$emit("hidePopup");
+		},
 		getUserInfo(e: any) {
 			console.log(e);
 			this.$emit("getUserInfo", e);

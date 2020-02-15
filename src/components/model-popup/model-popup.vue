@@ -8,7 +8,7 @@
 			@touchmove.stop.prevent="moveHandle"
 		/>
 		<view :class="'uni-popup-' + position + ' ' + 'uni-popup-' + mode" class="show-popup">
-			<view class="animated" :class="showTrans?'bounceOut':'bounceIn'">
+			<view class="animated" :class="showClass?'bounceOut':'bounceIn'">
 				{{ msg }}
 				<slot />
 				<!-- #ifdef MP-WEIXIN -->
@@ -82,7 +82,8 @@ export default {
 	data() {
 		return {
 			offsetTop: 0,
-			timer: null
+			timer: null,
+			showClass: false
 		};
 	},
 	watch: {
@@ -112,7 +113,7 @@ export default {
 			this.$emit("hidePopup");
 		},
 		closeMask() {
-			this.showTrans = true;
+			this.showClass = true;
 			if (this.mode === "insert") {
 				this.$emit("hidePopup");
 			}
