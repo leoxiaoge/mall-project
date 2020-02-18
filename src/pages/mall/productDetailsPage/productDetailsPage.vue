@@ -1258,7 +1258,7 @@ export default Vue.extend({
 .i-product-title {
 	font-size: 32upx;
 	color: #4d4d4d;
-	line-height: 1.2;
+	line-height: 1.4;
 }
 
 .i-product-name {

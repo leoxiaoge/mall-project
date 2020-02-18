@@ -191,6 +191,7 @@ export default Vue.extend({
 .teng-show-order-content-title {
 	font-size: 32upx;
 	color: #4d4d4d;
+	line-height: 1.4;
 }
 
 .teng-show-order-content-date {

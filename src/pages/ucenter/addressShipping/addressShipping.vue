@@ -14,11 +14,7 @@
 				<view class="i-address-bottom i-flex-between">
 					<view class="i-address-default i-flex" @click="setDefaultAddress(item.ID)">
 						<view class="i-address-icon">
-							<uni-icon
-								:type="type"
-								:color="item.IsDefault === 1?'#fe7f00':'#8f8f94'"
-								size="28"
-							/>
+							<uni-icon :type="type" :color="item.IsDefault === 1?'#fe7f00':'#8f8f94'" size="28" />
 						</view>
 						<view class="i-address-default-text">设为默认</view>
 					</view>
@@ -38,10 +34,23 @@
 		<view class="i-uno" v-if="isData">
 			<u-no :title="noTitle" :thumb="noIcon"></u-no>
 		</view>
+		<!-- #ifdef MP-WEIXIN -->
 		<view class="i-add-button i-button">
 			<view class="i-height"></view>
-			<button class="btn" @click="addAddress">添加地址</button>
+			<view class="choose-address-button choose-flex">
+				<button class="btn addAddress manual-address" @click="addAddress">手工添加地址</button>
+				<button class="btn chooseAddress automatic-address" @click="chooseAddress">微信自动添加</button>
+			</view>
 		</view>
+		<!-- #endif -->
+		<!-- #ifndef MP-WEIXIN -->
+		<view class="i-add-button i-button">
+			<view class="i-height"></view>
+			<view class="choose-address-button">
+				<button class="btn choose-address-btn" @click="addAddress">添加地址</button>
+			</view>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -59,7 +68,8 @@ import {
 	UserAddressListGet,
 	UserAddressDelete,
 	UserAddressSetDefault,
-	OrderAddressSubmit
+	OrderAddressSubmit,
+	UserAddressUpdate
 } from "@/common/config/api";
 import uNo from "@/components/u-no/u-no.vue";
 import uniIcon from "@/components/uni-icon/uni-icon.vue";
@@ -79,7 +89,7 @@ export default Vue.extend({
 			disabled: false,
 			noTitle: "您还没有可以用收货地址喔~",
 			noIcon: "/static/icon/icon_no_address.png",
-			isData: false, // 是否有数据
+			isData: false // 是否有数据
 		};
 	},
 	onLoad(options: any) {
@@ -134,7 +144,7 @@ export default Vue.extend({
 			let AddressID = id;
 			uni.showModal({
 				title: "温馨提示",
-				content: "是否删除收货地址！",
+				content: "您是否确认删除该地址？",
 				confirmColor: "#fe7f00",
 				success: res => {
 					if (res.confirm) {
@@ -171,6 +181,46 @@ export default Vue.extend({
 					"&productID=" +
 					productID
 			);
+		},
+		chooseAddress() {
+			// #ifdef MP-WEIXIN
+			uni.chooseAddress({
+				success: (res: any) => {
+					console.log(res.userName);
+					console.log(res.postalCode);
+					console.log(res.provinceName);
+					console.log(res.cityName);
+					console.log(res.countyName);
+					console.log(res.detailInfo);
+					console.log(res.nationalCode);
+					console.log(res.telNumber);
+					let AddressID = 0; // 收货地址ID，新增的话则传0
+					let realName = res.userName;
+					let Mobile = res.telNumber;
+					let Province = res.provinceName;
+					let City = res.cityName;
+					let Area = res.countyName;
+					let Address = res.detailInfo;
+					let ZipCode = res.postalCode;
+					let IsDefault = 0; // 是否默认地址，1=是，0=否
+					let data = {
+						AddressID: AddressID,
+						realName: realName,
+						Mobile: Mobile,
+						Province: Province,
+						City: City,
+						Area: Area,
+						Address: Address,
+						ZipCode: ZipCode,
+						IsDefault: IsDefault
+					};
+					request(UserAddressUpdate, data).then((res: any) => {
+						this.getUserAddressList();
+						showToast("添加成功！");
+					});
+				}
+			});
+			// #endif
 		},
 		// 设置存储地址
 		async setAddress(id: string) {
@@ -281,16 +331,40 @@ page {
 	padding: 10upx 30upx;
 }
 
-.i-add-button button {
+.choose-address-button {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	height: 98upx;
 	line-height: 98upx;
 	font-size: 32upx;
-	color: #fff;
-	background-color: #fe7f00;
 	border: none;
 	border-radius: 0;
+}
+
+.choose-address-btn {
+	color: #fff;
+	background-color: #fe7f00;
+}
+
+.choose-flex {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.manual-address {
+	width: 50%;
+	color: #fe7f00;
+	background-color: #fff;
+	border-top: 2upx solid #fe7f00;
+	margin: 0;
+}
+
+.automatic-address {
+	width: 50%;
+	color: #fff;
+	background: linear-gradient(45deg, #f98b1b, #f76102);
+	margin: 0;
 }
 </style>

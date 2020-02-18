@@ -5,7 +5,7 @@
 		<!-- #endif -->
 		<mescroll-uni @down="downCallback" @up="upCallback">
 			<registered-modal
-				v-if="showTrans && showHave"
+				v-if="showTrans && !showHave"
 				:showTrans="showTrans"
 				:scopeUserInfo="scopeUserInfo"
 				@hidePopup="togglePopup"
@@ -208,7 +208,9 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.websocket();
+		// #ifdef MP-WEIXIN
 		this.authorize();
+		// #endif
 	},
 	onHide() {
 		uni.closeSocket();
@@ -512,34 +514,35 @@ export default Vue.extend({
 			}, 800);
 		},
 		authorize() {
-			let that = this;
 			let sessionKey: string = uni.getStorageSync("SessionKey");
 			if (sessionKey) {
 				this.showHave = true;
 			} else {
 				this.showHave = false;
 			}
-			uni.login({
-				provider: "weixin",
-				success(loginRes) {
-					console.log("loginRes.authResult", loginRes);
-					if (loginRes) {
-						// 获取用户信息
-						uni.getUserInfo({
-							provider: "weixin",
-							success(e: any) {
-								console.log("getUserInfo", e);
-								if (e.errMsg === "getUserInfo:ok") {
-									that.scopeUserInfo = true;
-									console.log("用户昵称为：" + e.userInfo.nickName);
-									that.nickName = e.userInfo.nickName;
-									that.avatarUrl = e.userInfo.avatarUrl;
+			if (!this.scopeUserInfo) {
+				uni.login({
+					provider: "weixin",
+					success: loginRes => {
+						console.log("loginRes.authResult", loginRes);
+						if (loginRes) {
+							// 获取用户信息
+							uni.getUserInfo({
+								provider: "weixin",
+								success: (e: any) => {
+									console.log("getUserInfo", e);
+									if (e.errMsg === "getUserInfo:ok") {
+										this.scopeUserInfo = true;
+										console.log("用户昵称为：" + e.userInfo.nickName);
+										this.nickName = e.userInfo.nickName;
+										this.avatarUrl = e.userInfo.avatarUrl;
+									}
 								}
-							}
-						});
+							});
+						}
 					}
-				}
-			});
+				});
+			}
 		},
 		async getUserInfo(e: any) {
 			console.log(e);
@@ -589,7 +592,7 @@ export default Vue.extend({
 				};
 				request(GetWXPhone, data).then((res: any) => {
 					console.log(res);
-					this.togglePopup();
+					this.showTrans = false;
 					showToast("登录成功！");
 					resolve(res);
 				});

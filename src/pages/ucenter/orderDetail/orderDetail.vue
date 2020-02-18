@@ -333,7 +333,7 @@ export default Vue.extend({
 					complete: () => {}
 				});
 			} else {
-				let redirect_url = `https://m.tengpaisc.com/pages/ucenter/rechargeSuccessful/rechargeSuccessful`;
+				let redirect_url = `${window.location.host}/pages/ucenter/rechargeSuccessful/rechargeSuccessful`;
 				let url = `${mweb_url}&redirect_url=${redirect_url}`;
 				window.location.href = url;
 			}

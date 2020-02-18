@@ -190,6 +190,7 @@ export default Vue.extend({
 .icon {
 	width: 32upx;
 	height: 32upx;
+	margin-right: 12upx;
 }
 
 .mention-msg-text {

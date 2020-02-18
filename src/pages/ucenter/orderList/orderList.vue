@@ -352,7 +352,7 @@ export default Vue.extend({
 			} else {
 				let productID = this.productID;
 				let OrderID = this.orderID;
-				let redirect_url = `https://m.tengpaisc.com/pages/ucenter/orderDetail/orderDetail?productID=${productID}&OrderID=${OrderID}`;
+				let redirect_url = `${window.location.host}/pages/ucenter/orderDetail/orderDetail?productID=${productID}&OrderID=${OrderID}`;
 				let url = `${mweb_url}&redirect_url=${redirect_url}`;
 				window.location.href = url;
 			}

@@ -260,14 +260,16 @@ page {
 }
 
 .i-address {
-	padding: 20upx 30upx;
+	padding: 24upx 30upx;
 }
 
 .i-address-left {
+	width: 20%;
 	min-width: 110upx;
 }
 
 .i-address-right {
+	width: 80%;
 	margin-left: 40upx;
 }
 

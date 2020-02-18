@@ -25,7 +25,19 @@
 		</mescroll-uni>
 		<view class="i-login" v-if="!sessionkey">
 			<!-- #ifdef MP-WEIXIN -->
-			<button class="btn i-login-button" open-type="getUserInfo" @getuserinfo="getUserInfo">马上登录</button>
+			<button
+				class="btn i-login-button"
+				open-type="getUserInfo"
+				@getuserinfo="getUserInfo"
+				v-if="!scopeUserInfo"
+			>授权登录</button>
+			<button
+				class="btn i-login-button"
+				:loading="loading"
+				open-type="getPhoneNumber"
+				@getphonenumber="getPhoneNumber"
+				v-if="scopeUserInfo"
+			>马上登录</button>
 			<!-- #endif -->
 			<!-- #ifndef MP-WEIXIN -->
 			<button class="btn i-login-button" @click="loginPath">马上登录</button>
@@ -38,11 +50,12 @@
 import Vue from "vue";
 import {
 	request,
+	showToast,
 	navigateTo,
 	formatTime,
 	onShareAppMessage
 } from "@/common/utils/util";
-import { MyActiveList } from "@/common/config/api";
+import { MyActiveList, GetWXPhone } from "@/common/config/api";
 import MescrollUni from "@/components/mescroll-diy/mescroll-beibei.vue";
 import mediaList from "@/components/media-list/media-list.vue";
 export default Vue.extend({
@@ -52,10 +65,15 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			sessionkey: "",
+			scopeUserInfo: false,
 			mescroll: [],
 			ListType: 1,
 			activeList: [],
+			sessionkey: "",
+			iv: "",
+			encryptedData: "",
+			avatarUrl: "",
+			nickName: "",
 			tabBars: [
 				{
 					id: "0",
@@ -77,7 +95,10 @@ export default Vue.extend({
 	},
 	onLoad(options: any) {},
 	onShow() {
-		this.sessionkey = uni.getStorageSync("SessionKey");
+		this.useInfo();
+		// #ifdef MP-WEIXIN
+		this.authorize();
+		// #endif
 	},
 	onShareAppMessage(e: any) {
 		return onShareAppMessage(e);
@@ -163,10 +184,83 @@ export default Vue.extend({
 			this.ListType = type;
 			this.downCallback(mescroll);
 		},
+		useInfo() {
+			this.sessionkey = uni.getStorageSync("SessionKey");
+		},
 		// 获取用户信息
-		getUserInfo(e: any) {
-			console.log(e);
-			this.loginPath();
+		authorize() {
+			if (!this.scopeUserInfo) {
+				uni.login({
+					provider: "weixin",
+					success: loginRes => {
+						if (loginRes) {
+							// 获取用户信息
+							uni.getUserInfo({
+								provider: "weixin",
+								success: (e: any) => {
+									if (e.errMsg === "getUserInfo:ok") {
+										this.scopeUserInfo = true;
+										this.nickName = e.userInfo.nickName;
+										this.avatarUrl = e.userInfo.avatarUrl;
+									}
+								}
+							});
+						}
+					}
+				});
+			}
+		},
+		async getUserInfo(e: any) {
+			if (e.detail.userInfo) {
+				let avatarUrl: string = e.detail.userInfo.avatarUrl;
+				let nickName: string = e.detail.userInfo.nickName;
+				this.avatarUrl = avatarUrl;
+				this.nickName = nickName;
+				this.scopeUserInfo = true;
+				showToast("授权成功，请点击授权手机号!");
+			} else {
+				showToast("更好的体验，请进行授权！");
+			}
+		},
+		async getPhoneNumber(e: any) {
+			if (e.detail.iv && e.detail.encryptedData) {
+				this.iv = e.detail.iv;
+				this.encryptedData = e.detail.encryptedData;
+				let data: any = await this.GetWXPhone();
+				let SessionKey = data.SessionKey;
+				let UserInfo = data.UserInfo;
+				uni.setStorageSync("SessionKey", SessionKey);
+				uni.setStorageSync("UserInfo", UserInfo);
+				this.useInfo();
+				this.tapTab(this.ListType);
+			} else {
+				showToast("更好的体验，请进行授权！");
+			}
+		},
+		async GetWXPhone() {
+			// #ifdef MP-WEIXIN
+			await this.$store.dispatch("checkSession");
+			// #endif
+			let OpenID: string = this.$store.state.openid;
+			let WXSessionKey: string = this.$store.state.sessionKey;
+			let iv: string = this.iv;
+			let encryptedData: string = this.encryptedData;
+			let WxFace: string = this.avatarUrl;
+			let WxNick: string = this.nickName;
+			return new Promise((resolve, reject) => {
+				let data = {
+					OpenID: OpenID,
+					WXSessionKey: WXSessionKey,
+					iv: iv,
+					encryptedData: encryptedData,
+					WxFace: WxFace,
+					WxNick: WxNick
+				};
+				request(GetWXPhone, data).then((res: any) => {
+					showToast("登录成功！");
+					resolve(res);
+				});
+			});
 		},
 		// 马上登录
 		loginPath() {
@@ -244,7 +338,7 @@ export default Vue.extend({
 }
 
 .i-login-button {
-	width: 200upx;
+	width: 220upx;
 	height: 72upx;
 	font-size: 28upx;
 	line-height: 72upx;
