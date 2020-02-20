@@ -72,7 +72,7 @@ export default Vue.extend({
 		},
 		max: {
 			type: Number,
-			default: 100
+			default: 1000
 		},
 		disabled: {
 			type: Boolean,

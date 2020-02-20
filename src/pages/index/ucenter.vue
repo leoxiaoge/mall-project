@@ -37,7 +37,7 @@
 					open-type="getUserInfo"
 					@getuserinfo="getUserInfo"
 					v-if="!scopeUserInfo"
-				>授权登录</button>
+				>微信授权</button>
 				<button
 					class="btn i-login-button"
 					:loading="loading"

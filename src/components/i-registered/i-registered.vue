@@ -14,7 +14,7 @@
 						:loading="loading"
 						open-type="getUserInfo"
 						@getuserinfo="getUserInfo"
-					>授权登录</button>
+					>微信授权</button>
 				</view>
 				<view>
 					<button

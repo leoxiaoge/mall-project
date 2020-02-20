@@ -1,5 +1,10 @@
 <template>
+  <!-- #ifdef MP-WEIXIN -->
+	<view class="mask-show show" v-show="show">
+	<!-- #endif -->
+	<!-- #ifndef MP-WEIXIN -->
 	<view class="mask-show" :class="(show?'show':'hide')">
+	<!-- #endif -->
 		<view
 			:style="{ top: offsetTop + 'px' }"
 			class="uni-mask mask"
