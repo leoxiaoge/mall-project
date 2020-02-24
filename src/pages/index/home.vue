@@ -285,7 +285,7 @@ export default Vue.extend({
 								}
 								item.Price = msg.Price;
 								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-								item.Status = msg.Status;
+								item.Active.ActiveStatus = msg.Status;
 							}
 						});
 						this.productList.map((item: any) => {
@@ -298,7 +298,7 @@ export default Vue.extend({
 								}
 								item.Price = msg.Price;
 								item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-								item.Status = msg.Status;
+								item.Active.ActiveStatus = msg.Status;
 							}
 						});
 						let productListIngs = JSON.parse(

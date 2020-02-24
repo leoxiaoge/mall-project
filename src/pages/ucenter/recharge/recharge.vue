@@ -175,7 +175,6 @@ export default {
 			let payList = this.payList;
 			let intemIndex = payList[index].ID;
 			this.moneyID = intemIndex;
-			console.log(intemIndex);
 			this.payMoney = payList[index].PayMoney;
 		},
 		async payment() {

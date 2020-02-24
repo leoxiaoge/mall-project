@@ -68,37 +68,27 @@ export default Vue.extend({
 	},
 	data() {
 		return {
-			activeStatus: "马上参与",
+			activeStatus: "",
+			activeGoto: "马上参与",
+			activeNext: "参与下一期",
 			statusIconDone: "/static/icon/icon_done.png",
 			statusIconFlow: "/static/icon/icon_flow.png"
 		};
 	},
 	computed: {
 		product() {
-			let list: any = this.options;
+			let list: any = JSON.parse(JSON.stringify(this.options));
 			list.map((item: any) => {
-				try {
-					// 0，1，都是可报名状态，2表示正在倒计时准备，3表示正在竟拍（不能报名），4表示活动结束
-					switch (item.Status) {
-						case 0:
-							this.activeStatus = this.activeStatus;
-							break;
-						case 1:
-							this.activeStatus = this.activeStatus;
-							break;
-						case 2:
-							this.activeStatus = this.activeStatus;
-							break;
-						case 3:
-							this.activeStatus = this.activeStatus;
-							break;
-						case 4:
-							let text: any = "参与下一期";
-							this.activeStatus = text;
-							break;
-					}
-				} catch (e) {
-					console.error("处理消息出错：" + e);
+				// 0，1，都是可报名状态，2表示正在倒计时准备，3表示正在竟拍（不能报名），4表示活动结束，5表示流拍
+				if (
+					item.Active.ActiveStatus === 0 ||
+					item.Active.ActiveStatus === 1 ||
+					item.Active.ActiveStatus === 2 ||
+					item.Active.ActiveStatus === 3
+				) {
+					this.activeStatus = this.activeGoto;
+				} else {
+					this.activeStatus = this.activeNext;
 				}
 				let date: number = item.Active.SeqMiniSeconds;
 				let day: any = date / (1000 * 60 * 60 * 24);

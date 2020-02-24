@@ -7,8 +7,8 @@
 					<view class="product-item-flex" @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-one">
 							<image class="product-image-one img" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Active.ActiveStatus === 4" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Active.ActiveStatus === 5" lazy-load />
 						</view>
 						<view class="product-content">
 							<view class="product-price-title">
@@ -16,18 +16,18 @@
 									<text>{{item.ProductTitle}}</text>
 								</view>
 							</view>
-							<view class="product-prices" v-if="item.Status === 4">
+							<view class="product-prices" v-if="item.Active.ActiveStatus === 4">
 								<view class="product-current-bid">恭喜</view>
 								<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
 								<view class="product-current-bid">已</view>
 								<view class="product-prices-text">{{item.Price}}</view>
 								<view class="product-current-bid">拍得</view>
 							</view>
-							<view class="product-prices" v-if="item.Status !== 4">
+							<view class="product-prices" v-if="item.Active.ActiveStatus !== 4">
 								<view class="product-current-bid">当前出价</view>
 								<view class="product-prices-text" v-if="item.Price != undefined">￥{{item.Price}}</view>
 							</view>
-							<view class="product-prices" v-if="item.Active.LastBillUserName && item.Status !== 4">
+							<view class="product-prices" v-if="item.Active.LastBillUserName && item.Active.ActiveStatus !== 4">
 								<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 							</view>
 							<view class="product-times">
@@ -45,23 +45,23 @@
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view teng-image-two">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Active.ActiveStatus === 4" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Active.ActiveStatus === 5" lazy-load />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-prices" v-if="item.Status === 4">
+						<view class="product-prices" v-if="item.Active.ActiveStatus === 4">
 							<view class="product-current-bid">恭喜</view>
 							<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
 							<view class="product-current-bid">已</view>
 							<view class="product-prices-text">{{item.Price}}</view>
 							<view class="product-current-bid">拍得</view>
 						</view>
-						<view class="product-price" v-if="item.Status !== 4">
+						<view class="product-price" v-if="item.Active.ActiveStatus !== 4">
 							<view class="product-price-text" v-if="item.Price != undefined">出价：￥{{item.Price}}</view>
 						</view>
-						<view class="product-price" v-if="item.Active.LastBillUserName && item.Status !== 4">
+						<view class="product-price" v-if="item.Active.LastBillUserName && item.Active.ActiveStatus !== 4">
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 						</view>
 					</view>
@@ -78,23 +78,23 @@
 					<view class @click="productDetailsTo(item.Active.ID)">
 						<view class="teng-image-view">
 							<image class="product-image img" :src="item.ProductPicList[0]" mode="aspectFit" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Status === 4" lazy-load />
-							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Status === 5" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconDone" v-if="item.Active.ActiveStatus === 4" lazy-load />
+							<image class="teng-order-show-status" :src="statusIconFlow" v-if="item.Active.ActiveStatus === 5" lazy-load />
 						</view>
 						<view class="product-price-title">
 							<view class="product-active-text">{{item.ProductTitle}}</view>
 						</view>
-						<view class="product-prices" v-if="item.Status === 4">
+						<view class="product-prices" v-if="item.Active.ActiveStatus === 4">
 							<view class="product-current-bid">恭喜</view>
 							<view class="product-prices-text">{{item.Active.LastBillUserName}}</view>
 							<view class="product-current-bid">已</view>
 							<view class="product-prices-text">{{item.Price}}</view>
 							<view class="product-current-bid">拍得</view>
 						</view>
-						<view class="product-price" v-if="item.Status !== 4">
+						<view class="product-price" v-if="item.Active.ActiveStatus !== 4">
 							<view class="product-price-text" v-if="item.Price != undefined">出价：￥{{item.Price}}</view>
 						</view>
-						<view class="product-price" v-if="item.Active.LastBillUserName && item.Status !== 4">
+						<view class="product-price" v-if="item.Active.LastBillUserName && item.Active.ActiveStatus !== 4">
 							<view class="product-user-text">{{item.Active.LastBillUserName}}</view>
 						</view>
 					</view>
@@ -137,13 +137,14 @@ export default Vue.extend({
 	},
 	computed: {
 		product() {
-			let list: any = this.options;
+			let list: any = JSON.parse(JSON.stringify(this.options));
+			// 0，1，都是可报名状态，2表示正在倒计时准备，3表示正在竟拍（不能报名），4表示活动结束，5表示流拍
 			list.map((item: any) => {
-				if (item.Status == 0 || item.Status == 1) {
+				if (item.Active.ActiveStatus == 0 || item.Active.ActiveStatus == 1) {
 					item.countdownText = "距离开拍";
-				} else if (item.Status == 2) {
+				} else if (item.Active.ActiveStatus == 2) {
 					item.countdownText = "准备倒计时";
-				} else if (item.Status == 3) {
+				} else if (item.Active.ActiveStatus == 3) {
 					item.countdownText = "落拍倒计时";
 				}
 				let date: number = item.Active.SeqMiniSeconds;

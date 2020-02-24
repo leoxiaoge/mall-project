@@ -143,7 +143,7 @@ export default Vue.extend({
 									}
 									item.Price = msg.Price;
 									item.Active.SeqMiniSeconds = msg.SeqMiniSeconds;
-									item.Status = msg.Status;
+									item.Active.ActiveStatus = msg.Status;
 								}
 							});
 							let productLists = JSON.parse(JSON.stringify(this.productList));
