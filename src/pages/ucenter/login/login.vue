@@ -307,7 +307,7 @@ page {
 }
 
 .i-login-content {
-	width: 65%;
+	width: 60%;
 }
 
 .i-login-mobile-input {
@@ -357,19 +357,19 @@ button:after {
 	border-radius: 10px;
 }
 
-button[disabled]:not([type]),
-button[disabled][type="default"] {
+.i-login-button-view button[disabled]:not([type]),
+.i-login-button-view button[disabled][type="default"] {
 	color: rgba(0, 0, 0, 0.3);
-	background-color: #f4f4f4;
+	background: #f4f4f4;
 }
 
-.i-login-button {
+.i-login-button-view button {
 	font-size: 32upx;
 	line-height: 80upx;
 	width: 80%;
 	color: #fff;
-	background: linear-gradient(180deg, #f98b1b, #f76102);
 	border-radius: 100upx;
 	margin-top: 40upx;
+	background: linear-gradient(180deg, #f98b1b, #f76102);
 }
 </style>

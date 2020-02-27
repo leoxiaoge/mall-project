@@ -44,6 +44,15 @@
 					/>
 				</view>
 			</view>
+			<view class="i-address i-flex i-default" v-if="!disabled">
+				<view class="uni-list-cell-db">设为默认地址</view>
+				<switch
+					:checked="IsDefault === 1"
+					@change="switch1Change"
+					color="#fe7f00"
+					style="transform:scale(0.8)"
+				/>
+			</view>
 		</view>
 		<view class="i-add-button i-button">
 			<button class="btn" @click="updateAddress">{{saveButton}}</button>
@@ -71,6 +80,7 @@ import {
 import {
 	UserAddressListGet,
 	UserAddressUpdate,
+	UserAddressSetDefault,
 	OrderAddressSubmit
 } from "@/common/config/api";
 import mpvueCityPicker from "@/components/mpvue-citypicker/mpvueCityPicker.vue";
@@ -166,72 +176,112 @@ export default Vue.extend({
 		onZipCodeInput(e: any) {
 			this.ZipCode = e.target.value;
 		},
-		// 新增或修改收货地址
-		updateAddress() {
-			let AddressID = this.addressID;
-			let realName = this.realName;
-			let Mobile = this.Mobile;
-			let Province = this.Province;
-			let City = this.City;
-			let Area = this.Area;
-			let Address = this.Address;
-			let ZipCode = this.ZipCode;
-			let IsDefault = this.IsDefault;
-			if (!AddressID) {
-				AddressID = 0;
-			}
-			if (!realName) {
-				showToast("请填写收货人!");
-				return;
-			}
-			if (!Mobile) {
-				showToast("请填写收货人!");
-				return;
-			}
-			if (!Province && !City && !Area) {
-				showToast("请填写收货人!");
-				return;
-			}
-			if (!Address) {
-				showToast("请填写收货人!");
-				return;
-			}
-			if (!IsDefault) {
-				IsDefault = 0;
-			}
-			if (this.disabled) {
-				let data = {
-					AddressID: AddressID,
-					realName: realName,
-					Mobile: Mobile,
-					Province: Province,
-					City: City,
-					Area: Area,
-					Address: Address,
-					ZipCode: ZipCode,
-					IsDefault: IsDefault
-				};
-				request(UserAddressUpdate, data).then((res: any) => {
-					console.log(res);
-					this.orderAddressSubmit();
-				});
+		switch1Change(e: any) {
+			if (e.target.value) {
+				this.IsDefault = 1;
 			} else {
-				let data = {
-					AddressID: AddressID,
-					realName: realName,
-					Mobile: Mobile,
-					Province: Province,
-					City: City,
-					Area: Area,
-					Address: Address,
-					ZipCode: ZipCode,
-					IsDefault: IsDefault
-				};
-				request(UserAddressUpdate, data).then((res: any) => {
-					showToast("保存成功！");
-					navigateBack(1);
-				});
+				this.IsDefault = 0;
 			}
+			console.log("switch1 发生 change 事件，携带值为", e.target.value);
+		},
+		async updateAddress() {
+			await this.userAddressUpdate();
+			if (this.IsDefault === 1) {
+				await this.setDefaultAddress();
+			}
+			showToast("保存成功！");
+			navigateBack(1);
+		},
+		// 设置当前收货地址为默认的
+		async setDefaultAddress() {
+			let AddressList: any = await this.getUserAddress();
+			return new Promise((resolve, reject) => {
+				let AddressID = this.addressID;
+				if (AddressID == 0 || !AddressID) {
+					AddressID = AddressList.pop().ID;
+				}
+				let data = {
+					AddressID: AddressID
+				};
+				request(UserAddressSetDefault, data).then((res: any) => {
+					resolve(res);
+					uni.setStorageSync("addressID", AddressID);
+				});
+			});
+		},
+		// 获取全部地址
+		getUserAddress() {
+			return new Promise((resolve, reject) => {
+				let data = {};
+				request(UserAddressListGet, data).then((res: any) => {
+					resolve(res.AddressList);
+				});
+			});
+		},
+		// 新增或修改收货地址
+		userAddressUpdate() {
+			return new Promise((resolve, reject) => {
+				let AddressID = this.addressID;
+				let realName = this.realName;
+				let Mobile = this.Mobile;
+				let Province = this.Province;
+				let City = this.City;
+				let Area = this.Area;
+				let Address = this.Address;
+				let ZipCode = this.ZipCode;
+				let IsDefault = this.IsDefault;
+				if (!AddressID) {
+					AddressID = 0;
+				}
+				if (!realName) {
+					showToast("请填写收货人!");
+					return;
+				}
+				if (!Mobile) {
+					showToast("请填写收货人!");
+					return;
+				}
+				if (!Province && !City && !Area) {
+					showToast("请填写收货人!");
+					return;
+				}
+				if (!Address) {
+					showToast("请填写收货人!");
+					return;
+				}
+				if (this.disabled) {
+					let data = {
+						AddressID: AddressID,
+						realName: realName,
+						Mobile: Mobile,
+						Province: Province,
+						City: City,
+						Area: Area,
+						Address: Address,
+						ZipCode: ZipCode,
+						IsDefault: IsDefault
+					};
+					request(UserAddressUpdate, data).then((res: any) => {
+						console.log(res);
+						this.orderAddressSubmit();
+					});
+				} else {
+					let data = {
+						AddressID: AddressID,
+						realName: realName,
+						Mobile: Mobile,
+						Province: Province,
+						City: City,
+						Area: Area,
+						Address: Address,
+						ZipCode: ZipCode,
+						IsDefault: IsDefault
+					};
+					request(UserAddressUpdate, data).then((res: any) => {
+						resolve(res);
+					});
+				}
+			});
 		},
 		orderAddressSubmit() {
 			let OrderID = this.orderID;
@@ -255,10 +305,6 @@ export default Vue.extend({
 </script>
 
 <style>
-page {
-	background-color: #fff;
-}
-
 .i-address {
 	padding: 24upx 30upx;
 }
@@ -275,6 +321,10 @@ page {
 
 .i-line {
 	border-bottom: 2upx solid #f4f4f4;
+}
+
+.i-default {
+	border-top: 20upx solid #f4f4f4;
 }
 
 .i-address-bottom {
