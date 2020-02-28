@@ -238,15 +238,15 @@ export default Vue.extend({
 					return;
 				}
 				if (!Mobile) {
-					showToast("请填写收货人!");
+					showToast("请填写手机号码!");
 					return;
 				}
 				if (!Province && !City && !Area) {
-					showToast("请填写收货人!");
+					showToast("请选择所在区域!");
 					return;
 				}
 				if (!Address) {
-					showToast("请填写收货人!");
+					showToast("请填写详细地址!");
 					return;
 				}
 				if (this.disabled) {
