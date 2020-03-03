@@ -118,7 +118,11 @@ export const request = async (api: any, data: any) => {
             if (res.data.ErrCode == "Missing_Session") {
               redirectTo("../../ucenter/login/login")
             } else {
-              showToast(res.data.ErrMsg)
+              if (res.data.ErrCode === "-2000") {
+                uni.clearStorageSync()
+              } else {
+                showToast(res.data.ErrMsg)
+              }
             }
           } else {
             resolve(res.data)
@@ -316,13 +320,13 @@ export const previewImage = (current: any, urls: any) => {
 
 export const vibrateLong = () => {
   uni.vibrateLong({
-    success: () => {}
+    success: () => { }
   });
 }
 
 export const vibrateShort = () => {
   uni.vibrateShort({
-    success: () => {}
+    success: () => { }
   });
 }
 
