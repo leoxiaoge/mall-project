@@ -70,6 +70,7 @@ export default Vue.extend({
 <style>
 /*每个页面公共css */
 @import "./common/main.css";
+@import "./common/animation.css";
 @import "./common/uni.css";
 @import "./common/icon.css";
 

@@ -208,9 +208,7 @@ export default Vue.extend({
 	},
 	onShow() {
 		this.websocket();
-		// #ifdef MP-WEIXIN
 		this.authorize();
-		// #endif
 	},
 	onHide() {
 		uni.closeSocket();
@@ -520,6 +518,7 @@ export default Vue.extend({
 			} else {
 				this.showHave = false;
 			}
+			// #ifdef MP-WEIXIN
 			if (!this.scopeUserInfo) {
 				uni.login({
 					provider: "weixin",
@@ -543,6 +542,7 @@ export default Vue.extend({
 					}
 				});
 			}
+			// #endif
 		},
 		async getUserInfo(e: any) {
 			console.log(e);
