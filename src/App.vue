@@ -1,4 +1,8 @@
 <script lang="ts">
+// #ifdef MP-WEIXIN
+import '@/sdk/ald-stat/ald-stat.js'
+import '@/sdk/ald-stat/ald-stat-conf.js'
+// #endif
 import Vue from "vue";
 export default Vue.extend({
 	mpType: "app",

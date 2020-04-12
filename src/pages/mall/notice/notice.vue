@@ -16,7 +16,7 @@
 				</view>
 				<view class="i-notice">
 					<text class="i-notice-title">{{item.ProductName}}</text>
-					<text class="i-notice-status" v-if="item.ActiveTypeName">({{item.ActiveTypeName}})</text>
+					<!-- <text class="i-notice-status" v-if="item.ActiveTypeName">({{item.ActiveTypeName}})</text> -->
 				</view>
 			</view>
 		</mescroll-uni>
