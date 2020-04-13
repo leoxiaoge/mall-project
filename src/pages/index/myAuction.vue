@@ -74,6 +74,7 @@ export default Vue.extend({
 			encryptedData: "",
 			avatarUrl: "",
 			nickName: "",
+			refUserID: "",
 			tabBars: [
 				{
 					id: "0",
@@ -247,6 +248,10 @@ export default Vue.extend({
 			let encryptedData: string = this.encryptedData;
 			let WxFace: string = this.avatarUrl;
 			let WxNick: string = this.nickName;
+			let refUserID: string = this.refUserID;
+			if (uni.getStorageSync("scene")) {
+				refUserID = uni.getStorageSync("scene");
+			}
 			return new Promise((resolve, reject) => {
 				let data = {
 					OpenID: OpenID,
@@ -254,7 +259,8 @@ export default Vue.extend({
 					iv: iv,
 					encryptedData: encryptedData,
 					WxFace: WxFace,
-					WxNick: WxNick
+					WxNick: WxNick,
+					RefUserID: refUserID
 				};
 				request(GetWXPhone, data).then((res: any) => {
 					showToast("登录成功！");

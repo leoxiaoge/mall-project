@@ -157,6 +157,7 @@ export default Vue.extend({
 			avatarUrl: "", // 用户信息头像
 			iv: "", // 加密算法的初始向量
 			encryptedData: "", // 手机号码的加密信息
+			refUserID: "",
 			PageCount: 1,
 			pageNum: 1,
 			pageSize: 20,
@@ -581,6 +582,10 @@ export default Vue.extend({
 			let encryptedData: string = this.encryptedData;
 			let WxFace: string = this.avatarUrl;
 			let WxNick: string = this.nickName;
+			let refUserID: string = this.refUserID;
+			if (uni.getStorageSync("scene")) {
+				refUserID = uni.getStorageSync("scene");
+			}
 			return new Promise((resolve, reject) => {
 				let data = {
 					OpenID: OpenID,
@@ -588,7 +593,8 @@ export default Vue.extend({
 					iv: iv,
 					encryptedData: encryptedData,
 					WxFace: WxFace,
-					WxNick: WxNick
+					WxNick: WxNick,
+					RefUserID: refUserID
 				};
 				request(GetWXPhone, data).then((res: any) => {
 					console.log(res);

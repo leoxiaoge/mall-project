@@ -331,6 +331,22 @@ export default Vue.extend({
 		this.activeID = options.activeID;
 		let windowWidth: any = uni.getSystemInfoSync().windowWidth;
 		this.width = windowWidth;
+		// 分享推广
+		let sessionKey: any = uni.getStorageSync("SessionKey");
+		let userInfo: any = uni.getStorageSync("UserInfo");
+		if (options.id) {
+			let scene = options.id;
+			if (!sessionKey && !userInfo) {
+				uni.setStorageSync("scene", scene);
+			}
+		}
+		if (options.scene) {
+			let scene = decodeURIComponent(options.scene);
+			if (!sessionKey && !userInfo) {
+				// 如果用户未登录，则保存scene
+				uni.setStorageSync("scene", scene);
+			}
+		}
 	},
 	onShow() {
 		this.UserID = uni.getStorageSync("UserInfo").ID;
@@ -371,7 +387,19 @@ export default Vue.extend({
 		}
 	},
 	onShareAppMessage(e: any) {
-		return onShareAppMessage(e);
+		let activeID = this.activeID;
+		let userInfo: any = uni.getStorageSync("UserInfo");
+		let id: string = "";
+		if (userInfo.ID) {
+			id = userInfo.ID;
+		}
+		let activeDetail: any = this.activeDetail;
+		let title: string = activeDetail.ProductTitle;
+		let path: string = "pages/mall/productDetailsPage/productDetailsPage?id=" + id + "&activeID=" + activeID
+		return {
+			title: title,
+			path: path
+		};
 	},
 	methods: {
 		// 获取活动详情
